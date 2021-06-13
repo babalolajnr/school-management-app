@@ -44,7 +44,7 @@ trait ValidationTrait
                 //ignore given record by returning true if it overlaps itself
                 if ($ignore != null) {
                     if ($record->id == $ignore->id) {
-                        return true;
+                        continue;
                     }
                 }
 
