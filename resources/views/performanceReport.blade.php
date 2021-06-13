@@ -4,7 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report</title>
+    <title>Performance Report</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('images/radiant_logo-removebg-preview.png') }}" type="image/x-icon">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('TAssets/plugins/fontawesome-free/css/all.min.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -21,8 +25,7 @@
         <!--Logo and details of the company-->
         <div class="head p-3">
             <div class="image">
-                <img class="img" src="{{ asset('images/radiant_logo-removebg-preview.png') }}"
-                    alt="Radiant minds logo">
+                <img class="img" src="{{ asset('images/radiant_logo.jpeg') }}" alt="Radiant minds logo">
             </div>
             <div class="content text-center">
                 <h1 class="fam">
