@@ -56,39 +56,39 @@
                     <div class="stu-name mb-2">
                         <label for="name">NAME:</label>
                         <div class="name border-bottom"><span
-                                class="px-3 fw-bold">{{ $student->first_name . ' ' . $student->last_name }}</span>
+                                class="px-3 fs-6"><span class="fw-bold">{{ Str::upper($student->last_name) }}</span>, {{Str::ucfirst($student->first_name) }}</span>
                         </div>
                     </div>
                     <div class="sec mb-2">
                         <div class="stu-class">
                             <label for="class">CLASS:</label>
                             <div class="class border-bottom"><span
-                                    class="px-3 fw-bold">{{ $student->classroom->name }}</span></div>
+                                    class="px-3 fs-6">{{ $student->classroom->name }}</span></div>
                         </div>
                         <div class="stu-sess">
                             <label for="session">SESSION:</label>
                             <div class="session border-bottom"><span
-                                    class="px-3 fw-bold">{{ $period->academicSession->name }}</span></div>
+                                    class="px-3 fs-6">{{ $period->academicSession->name }}</span></div>
                         </div>
                         <div class="stu-add">
                             <label for="admission">ADMISSION:</label>
                             <div class="admission border-bottom "><span
-                                    class="px-3 fw-bold">{{ $student->admission_no }}</span></div>
+                                    class="px-3 fs-6">{{ $student->admission_no }}</span></div>
                         </div>
                     </div>
                     <div class="thrd">
                         <div class="stu-dob">
                             <label for="dob">DOB:</label>
-                            <div class="dob border-bottom "><span
-                                    class="px-3 fw-bold">{{ $student->date_of_birth }}</span></div>
+                            <div class="dob border-bottom"><span
+                                    class="px-3 fs-6">{{ $student->date_of_birth }}</span></div>
                         </div>
                         <div class="stu-age">
                             <label for="age">AGE:</label>
-                            <div class="age border-bottom "><span class="px-3 fw-bold">{{ $age }}</span></div>
+                            <div class="age border-bottom"><span class="px-3 fs-6">{{ $age }}</span></div>
                         </div>
                         <div class="stu-gender">
                             <label for="gender">GENDER:</label>
-                            <div class="gender border-bottom "><span class="px-3 fw-bold">{{ $student->sex }}</span>
+                            <div class="gender border-bottom"><span class="px-3 fs-6">{{ $student->sex }}</span>
                             </div>
                         </div>
                     </div>
