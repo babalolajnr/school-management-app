@@ -46,6 +46,9 @@
                                 <a href="{{ route('teacher.create') }}">
                                     <button class="btn btn-primary">New Teacher</button>
                                 </a>
+                                <a href="{{ route('teacher.show.trashed') }}">
+                                    <button class="btn btn-warning">Trash</button>
+                                </a>
                             </div>
                         </div>
                         <div class="card">
