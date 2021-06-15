@@ -7,6 +7,7 @@ use App\Http\Requests\UserTeacherUpdateRequest;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
@@ -234,5 +235,55 @@ class TeacherController extends Controller
         $teacher->save();
 
         return redirect()->back()->with('success', 'Password updated!');
+    }
+    
+    /**
+     * Show deleted teachers
+     *
+     * @return void
+     */
+    public function showTrashed()
+    {
+        $teachers = Teacher::onlyTrashed()->get();
+        return view('teacherTrash', compact('teachers'));
+    }
+    
+    /**
+     * restore deleted teacher
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function restore($id)
+    {
+        $teacher = Teacher::withTrashed()->findOrFail($id);
+        $teacher->restore();
+
+        return back()->with('success', 'Teacher restored!');
+    }
+    
+    /**
+     * force delete teacher from database
+     *
+     * @param  mixed $id
+     * @param  mixed $teacher
+     * @return void
+     */
+    public function forceDelete($id, Teacher $teacher)
+    {
+        $teacher = Teacher::withTrashed()->findOrFail($id);
+
+        //delete teacher signature if it exists
+        if (!is_null($teacher->signature)) {
+            $deletePath = $teacher->signature;
+            $deletePath = str_replace('storage/', '', $deletePath);
+            $deletePath = 'public/' . $deletePath;
+
+            Storage::delete($deletePath);
+        }
+
+        $teacher->forceDelete();
+
+        return back()->with('success', 'Teacher deleted permanently');
     }
 }
