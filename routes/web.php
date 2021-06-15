@@ -121,11 +121,14 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             //Teacher routes
             Route::get('/', [TeacherController::class, 'index'])->name('index');
             Route::get('/create', [TeacherController::class, 'create'])->name('create');
+            Route::get('/trashed', [TeacherController::class, 'showTrashed'])->name('show.trashed');
             Route::patch('user/update/{teacher}', [TeacherController::class, 'userTeacherUpdate'])->name('user.update');
             Route::post('/store', [TeacherController::class, 'store'])->name('store');
             Route::patch('/activate/{teacher}', [TeacherController::class, 'activate'])->name('activate');
+            Route::patch('/restore/{id}', [TeacherController::class, 'restore'])->name('restore');
             Route::patch('/deactivate/{teacher}', [TeacherController::class, 'deactivate'])->name('deactivate');
             Route::delete('/delete/{teacher}', [TeacherController::class, 'destroy'])->name('destroy');
+            Route::delete('/force-delete/{id}', [TeacherController::class, 'forceDelete'])->name('force.delete');
         });
 
         Route::prefix('hos-remarks')->name('remark.hos.')->group(function () {
