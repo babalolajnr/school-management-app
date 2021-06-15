@@ -40,7 +40,11 @@
                                     </a>
                                 </h3>
                             </div>
-                            <form method="POST" action="{{ route('teacher.update', ['teacher' => $teacher]) }}">
+                            <form method="POST" action="@auth('web')
+                                            {{ route('teacher.user.update', ['teacher' => $teacher]) }}
+                                    @else
+                                            {{ route('teacher.update', ['teacher' => $teacher]) }}
+                            @endauth">
                                 @csrf
                                 @method('PATCH')
                                 <div class="card-body">
@@ -72,46 +76,44 @@
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
-
-                                    <div class="form-group">
-                                        <label>Date of birth</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text"><i
-                                                        class="far fa-calendar-alt"></i></span>
+                                    @auth('web')
+                                        <div class="form-group">
+                                            <label>Date of birth</label>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"><i
+                                                            class="far fa-calendar-alt"></i></span>
+                                                </div>
+                                                <input type="text"
+                                                    class="form-control @error('date_of_birth') is-invalid @enderror"
+                                                    data-inputmask-alias="datetime" name="date_of_birth"
+                                                    data-inputmask-inputformat="yyyy-mm-dd" data-mask
+                                                    value="{{ old('date_of_birth', $teacher->date_of_birth) }}">
+                                                @error('date_of_birth')
+                                                    <div class="text-danger">{{ $message }}</div>
+                                                @enderror
                                             </div>
-                                            <input type="text"
-                                                class="form-control @error('date_of_birth') is-invalid @enderror"
-                                                data-inputmask-alias="datetime" name="date_of_birth"
-                                                data-inputmask-inputformat="yyyy-mm-dd" data-mask
-                                                value="{{ old('date_of_birth', $teacher->date_of_birth) }}"
-                                                @auth('teacher') disabled @endauth>
-                                            @error('date_of_birth')
+                                            <!-- /.input group -->
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Email address</label>
+                                            <input type="email" name="email"
+                                                class="form-control @error('email') is-invalid @enderror"
+                                                value="{{ old('email', $teacher->email) }}">
+                                            @error('email')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <!-- /.input group -->
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Email address</label>
-                                        <input type="email" name="email"
-                                            class="form-control @error('email') is-invalid @enderror"
-                                            value="{{ old('email', $teacher->email) }}" @auth('teacher') disabled
-                                            @endauth>
-                                        @error('email')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Phone number</label>
-                                        <input type="tel" name="phone"
-                                            class="form-control @error('phone') is-invalid @enderror"
-                                            value="{{ old('phone', $teacher->phone) }}" @auth('teacher') disabled
-                                            @endauth>
-                                        @error('phone')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+                                        <div class="form-group">
+                                            <label>Phone number</label>
+                                            <input type="tel" name="phone"
+                                                class="form-control @error('phone') is-invalid @enderror"
+                                                value="{{ old('phone', $teacher->phone) }}">
+                                            @error('phone')
+                                                <div class="text-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    @endauth
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer">
@@ -143,6 +145,29 @@
                 $('[data-mask]').inputmask()
 
             })
+
+            $(function() {
+                let Success = document.getElementById('success')
+                let Error = document.getElementById('error')
+
+                // if data-success = 'true' display alert
+                if (Success.dataset.success == 'true')
+                    $(document).Toasts('create', {
+                        class: 'bg-success',
+                        title: 'Success',
+                        subtitle: 'Close',
+                        body: JSON.parse(Success.dataset.successMessage)
+                    })
+
+                if (Error.dataset.error == 'true')
+                    $(document).Toasts('create', {
+                        class: 'bg-danger',
+                        title: 'Error',
+                        subtitle: 'Close',
+                        body: JSON.parse(Error.dataset.errorMessage)
+                    })
+
+            });
 
         </script>
     </x-slot>
