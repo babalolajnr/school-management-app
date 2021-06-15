@@ -11,8 +11,12 @@ class DeactivatedController extends Controller
      *
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function __invoke()
+    public function index(Request $request)
     {
-        return view('deactivated');
+        if ($request->user()->isVerified() && $request->user()->isActive()) {
+            return redirect(route('dashboard'));
+        } else {
+            return view('deactivated');
+        }
     }
 }

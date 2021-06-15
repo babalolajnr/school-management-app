@@ -39,8 +39,9 @@ Route::get('/', function () {
 
 
 Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerified'])->group(function () {
+    
+    Route::get('/deactivated', [DeactivatedController::class, 'index'])->name('deactivated');
 
-    Route::get('/deactivated', [DeactivatedController::class])->name('deactivated');
 
     Route::get('/classrooms/view/{classroom:slug}', [ClassroomController::class, 'show'])->name('classroom.show')->middleware('classTeacherOrUser');
 
@@ -68,7 +69,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
     Route::prefix('teacher-remarks')->name('remark.teacher.')->middleware('studentClassTeacher')->group(function () {
 
         //Only Student's current classroom teacher can access this routes
-        Route::get('/create/{student:admission_no}', [TeacherRemarkController::class, 'create'])->name('create');
+        Route::get('/create/{student:admission_no}', [TeacherRemarkController::class, 'create'])->name('create')->where('student', '.*');
         Route::post('/store/{student}', [TeacherRemarkController::class, 'storeOrUpdate'])->name('storeOrUpdate');
     });
 
@@ -79,22 +80,22 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
         Route::prefix('students')->name('student.')->group(function () {
 
             // student routes
-            Route::get('/results/term/{student:admission_no}/{termSlug}/{academicSessionName}', [StudentController::class, 'getTermResults'])->name('get.term.results')->where('academicSessionName', '.*');
-            Route::get('/view/{student:admission_no}', [StudentController::class, 'show'])->name('show');
-            Route::get('/results/sessional/{student:admission_no}/{academicSessionName}', [StudentController::class, 'getSessionalResults'])->name('get.sessional.results')->where('academicSessionName', '.*');
-            Route::get('/student-settings/{student:admission_no}', [StudentController::class, 'showStudentSettingsView'])->name('show.student.settingsView');
+            Route::get('/results/term/{student:admission_no}/{termSlug}/{academicSessionName}', [StudentController::class, 'getTermResults'])->name('get.term.results')->where('academicSessionName', '.*')->where('student', '.*');
+            Route::get('/view/{student:admission_no}', [StudentController::class, 'show'])->name('show')->where('student', '.*');
+            Route::get('/results/sessional/{student:admission_no}/{academicSessionName}', [StudentController::class, 'getSessionalResults'])->name('get.sessional.results')->where('academicSessionName', '.*')->where('student', '.*');
+            Route::get('/student-settings/{student:admission_no}', [StudentController::class, 'showStudentSettingsView'])->name('show.student.settingsView')->where('student', '.*');
         });
 
         Route::prefix('results')->name('result.')->group(function () {
             //Results Routes
-            Route::get('/create/{student:admission_no}', [ResultController::class, 'create'])->name('create');
+            Route::get('/create/{student:admission_no}', [ResultController::class, 'create'])->name('create')->where('student', '.*');
             Route::post('/store/{student}', [ResultController::class, 'store'])->name('store');
-            Route::get('/performance-report/{student:admission_no}/{periodSlug}', [ResultController::class, 'showPerformanceReport'])->name('show.performance');
+            Route::get('/performance-report/{student:admission_no}/{periodSlug}', [ResultController::class, 'showPerformanceReport'])->name('show.performance')->where('student', '.*');
         });
 
         Route::prefix('attendance')->name('attendance.')->group(function () {
             //Attendance Domain Routes
-            Route::get('/create/{student:admission_no}/{periodSlug?}', [AttendanceController::class, 'create'])->name('create');
+            Route::get('/create/{student:admission_no}/{periodSlug?}', [AttendanceController::class, 'create'])->name('create')->where('student', '.*');
             Route::post('/store/{student}/{periodSlug?}', [AttendanceController::class, 'storeOrUpdate'])->name('store');
         });
     });
@@ -129,7 +130,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
         Route::prefix('hos-remarks')->name('remark.hos.')->group(function () {
 
             //HOS remark routes
-            Route::get('/create/{student:admission_no}', [HosRemarkController::class, 'create'])->name('create');
+            Route::get('/create/{student:admission_no}', [HosRemarkController::class, 'create'])->name('create')->where('student', '.*');
             Route::post('/store/{student}', [HosRemarkController::class, 'storeOrUpdate'])->name('storeOrUpdate');
         });
 
@@ -137,7 +138,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             //Student Routes
             Route::get('/', [StudentController::class, 'index'])->name('index');
             Route::get('/create', [StudentController::class, 'create'])->name('create');
-            Route::get('/edit/{student:admission_no}', [StudentController::class, 'edit'])->name('edit');
+            Route::get('/edit/{student:admission_no}', [StudentController::class, 'edit'])->name('edit')->where('student', '.*');
             Route::get('/trashed', [StudentController::class, 'showTrashed'])->name('show.trashed');
             Route::get('/alumni', [StudentController::class, 'getAlumni'])->name('get.alumni');
             Route::post('/store/image/{student}', [StudentController::class, 'uploadImage'])->name('upload.image');
@@ -203,7 +204,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
 
         Route::prefix('pds')->name('pd.')->group(function () {
             //Pychomotor Domain Routes
-            Route::get('/create/{student:admission_no}/{periodSlug?}', [PDController::class, 'create'])->name('create');
+            Route::get('/create/{student:admission_no}/{periodSlug?}', [PDController::class, 'create'])->name('create')->where('student', '.*');
             Route::post('/store/{student}/{periodSlug?}', [PDController::class, 'storeOrUpdate'])->name('storeOrUpdate');
         });
 
@@ -218,7 +219,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
 
         Route::prefix('ads')->name('ad.')->group(function () {
             //Affective Domain Routes
-            Route::get('/create/{student:admission_no}/{periodSlug?}', [ADController::class, 'create'])->name('create');
+            Route::get('/create/{student:admission_no}/{periodSlug?}', [ADController::class, 'create'])->name('create')->where('student', '.*');
             Route::post('/store/{student}/{periodSlug?}', [ADController::class, 'storeOrUpdate'])->name('storeOrUpdate');
         });
 

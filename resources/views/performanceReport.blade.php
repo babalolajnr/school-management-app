@@ -4,7 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report</title>
+    <title>Performance Report</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('images/radiant_logo-removebg-preview.png') }}" type="image/x-icon">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('TAssets/plugins/fontawesome-free/css/all.min.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -21,8 +25,7 @@
         <!--Logo and details of the company-->
         <div class="head p-3">
             <div class="image">
-                <img class="img" src="{{ asset('images/radiant_logo-removebg-preview.png') }}"
-                    alt="Radiant minds logo">
+                <img class="img" src="{{ asset('images/radiant_logo.jpeg') }}" alt="Radiant minds logo">
             </div>
             <div class="content text-center">
                 <h1 class="fam">
@@ -53,39 +56,39 @@
                     <div class="stu-name mb-2">
                         <label for="name">NAME:</label>
                         <div class="name border-bottom"><span
-                                class="px-3 fw-bold">{{ $student->first_name . ' ' . $student->last_name }}</span>
+                                class="px-3 fs-6"><span class="fw-bold">{{ Str::upper($student->last_name) }}</span>, {{Str::ucfirst($student->first_name) }}</span>
                         </div>
                     </div>
                     <div class="sec mb-2">
                         <div class="stu-class">
                             <label for="class">CLASS:</label>
                             <div class="class border-bottom"><span
-                                    class="px-3 fw-bold">{{ $student->classroom->name }}</span></div>
+                                    class="px-3 fs-6">{{ $student->classroom->name }}</span></div>
                         </div>
                         <div class="stu-sess">
                             <label for="session">SESSION:</label>
                             <div class="session border-bottom"><span
-                                    class="px-3 fw-bold">{{ $period->academicSession->name }}</span></div>
+                                    class="px-3 fs-6">{{ $period->academicSession->name }}</span></div>
                         </div>
                         <div class="stu-add">
                             <label for="admission">ADMISSION:</label>
                             <div class="admission border-bottom "><span
-                                    class="px-3 fw-bold">{{ $student->admission_no }}</span></div>
+                                    class="px-3 fs-6">{{ $student->admission_no }}</span></div>
                         </div>
                     </div>
                     <div class="thrd">
                         <div class="stu-dob">
                             <label for="dob">DOB:</label>
-                            <div class="dob border-bottom "><span
-                                    class="px-3 fw-bold">{{ $student->date_of_birth }}</span></div>
+                            <div class="dob border-bottom"><span
+                                    class="px-3 fs-6">{{ $student->date_of_birth }}</span></div>
                         </div>
                         <div class="stu-age">
                             <label for="age">AGE:</label>
-                            <div class="age border-bottom "><span class="px-3 fw-bold">{{ $age }}</span></div>
+                            <div class="age border-bottom"><span class="px-3 fs-6">{{ $age }}</span></div>
                         </div>
                         <div class="stu-gender">
                             <label for="gender">GENDER:</label>
-                            <div class="gender border-bottom "><span class="px-3 fw-bold">{{ $student->sex }}</span>
+                            <div class="gender border-bottom"><span class="px-3 fs-6">{{ $student->sex }}</span>
                             </div>
                         </div>
                     </div>

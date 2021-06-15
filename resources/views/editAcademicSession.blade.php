@@ -8,6 +8,8 @@
         <!-- Content Header (Page header) -->
         <span id="success" {{ session('success') ? 'data-success = true' : false }}
             data-success-message='{{ json_encode(session('success')) }}'></span>
+        <span id="error" {{ session('error') ? 'data-error = true' : false }}
+            data-error-message='{{ json_encode(session('error')) }}'></span>
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -17,7 +19,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
-                                <li class="breadcrumb-item"><a href="{{ url()->previous() }}">Back</a></li>
+                            <li class="breadcrumb-item"><a href="{{ url()->previous() }}">Back</a></li>
                         </ol>
                     </div>
                 </div>
@@ -41,11 +43,12 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="Academic Session">Academic Session</label>
-                                        <input type="text" name="name" value="{{ old('name', $academicSession->name) }}"
+                                        <input type="text" name="name"
+                                            value="{{ old('name', $academicSession->name) }}"
                                             class="form-control @error('name') is-invalid @enderror"
                                             id="academicSession" placeholder="Enter Academic Session">
                                         @error('name')
-                                        <div class="text-danger">{{ $message }}</div>
+                                            <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
@@ -53,7 +56,8 @@
                                         <div class="input-group date" id="startDate" data-target-input="nearest">
                                             <input type="text"
                                                 class="form-control @error('start_date') is-invalid @enderror datetimepicker-input"
-                                                data-target="#startDate" value="{{ old('start_date', $academicSession->start_date) }}"
+                                                data-target="#startDate"
+                                                value="{{ old('start_date', $academicSession->start_date) }}"
                                                 name="start_date" />
                                             <div class="input-group-append" data-target="#startDate"
                                                 data-toggle="datetimepicker">
@@ -61,7 +65,7 @@
                                             </div>
                                         </div>
                                         @error('start_date')
-                                        <div class="text-danger">{{ $message }}</div>
+                                            <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
@@ -69,14 +73,16 @@
                                         <div class="input-group date" id="endDate" data-target-input="nearest">
                                             <input type="text"
                                                 class="form-control @error('end_date') is-invalid @enderror datetimepicker-input"
-                                                data-target="#endDate" value="{{ old('end_date', $academicSession->end_date) }}" name="end_date" />
+                                                data-target="#endDate"
+                                                value="{{ old('end_date', $academicSession->end_date) }}"
+                                                name="end_date" />
                                             <div class="input-group-append" data-target="#endDate"
                                                 data-toggle="datetimepicker">
                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                             </div>
                                         </div>
                                         @error('end_date')
-                                        <div class="text-danger">{{ $message }}</div>
+                                            <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
@@ -109,6 +115,30 @@
             $('#endDate').datetimepicker({
                 format: 'YYYY-MM-DD'
             })
+
+            //Status alert
+            $(function() {
+                let Success = document.getElementById('success')
+                let Error = document.getElementById('error')
+
+                // if data-success = 'true' display alert
+                if (Success.dataset.success == 'true')
+                    $(document).Toasts('create', {
+                        class: 'bg-success',
+                        title: 'Success',
+                        subtitle: 'Close',
+                        body: JSON.parse(Success.dataset.successMessage)
+                    })
+                if (Error.dataset.error == 'true')
+                    $(document).Toasts('create', {
+                        class: 'bg-danger',
+                        title: 'Error',
+                        subtitle: 'Close',
+                        body: JSON.parse(Error.dataset.errorMessage)
+                    })
+
+
+            });
 
         </script>
     </x-slot>
