@@ -39,8 +39,9 @@ Route::get('/', function () {
 
 
 Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerified'])->group(function () {
+    
+    Route::get('/deactivated', [DeactivatedController::class, 'index'])->name('deactivated');
 
-    Route::get('/deactivated', [DeactivatedController::class])->name('deactivated');
 
     Route::get('/classrooms/view/{classroom:slug}', [ClassroomController::class, 'show'])->name('classroom.show')->middleware('classTeacherOrUser');
 
