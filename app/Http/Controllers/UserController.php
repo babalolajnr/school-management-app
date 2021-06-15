@@ -32,7 +32,7 @@ class UserController extends Controller
         $this->authorize('verify', $user);
 
         $user->is_verified = true;
-        $user->status = 'active';
+        $user->is_active = true;
 
         $user->save();
 
