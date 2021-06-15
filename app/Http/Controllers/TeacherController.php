@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTeacherRequest;
+use App\Http\Requests\UserTeacherUpdateRequest;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -13,23 +14,6 @@ use  Intervention\Image\Facades\Image;
 
 class TeacherController extends Controller
 {
-    /**
-     * get validation fiels
-     *
-     * @param  mixed $teacher
-     * @return array
-     */
-    private function validationFields($teacher = null)
-    {
-        $validationFields  = [
-            'first_name' => ['required', 'string', 'max:30'],
-            'last_name' => ['required', 'string', 'max:30'],
-            'email' => ['required', 'string', Rule::unique('teachers')->ignore($teacher), 'email:rfc,dns'],
-            'phone' => ['required', 'string', Rule::unique('teachers')->ignore($teacher), 'max:15', 'min:10'],
-            'date_of_birth' => ['required', 'date', 'before:' . now()],
-        ];
-        return $validationFields;
-    }
 
     /**
      * Generate full name slug
@@ -111,16 +95,17 @@ class TeacherController extends Controller
     }
 
     /**
-     * update
+     * User teacher update`
+     * 
+     * Only users authenticated with the web guard can use this method
      *
      * @param  mixed $teacher
      * @param  mixed $request
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function update(Teacher $teacher, Request $request)
+    public function userTeacherUpdate(Teacher $teacher, UserTeacherUpdateRequest $request)
     {
-        $validationFields = $this->validationFields($teacher);
-        $validatedData = $request->validate($validationFields);
+        $validatedData = $request->validated();
 
         //check if either the first or last name has changed to generate a new slug
         if ($teacher->first_name != $validatedData['first_name'] || $teacher->last_name != $validatedData['last_name']) {
@@ -133,6 +118,27 @@ class TeacherController extends Controller
         $teacher->update($data);
 
         return redirect()->route('teacher.edit', ['teacher' => $teacher])->with('success', 'Teacher Updated!');
+    }
+
+    public function update(Teacher $teacher, Request $request)
+    {
+        $validatedData =  $request->validate([
+            'first_name' => ['required', 'string', 'max:30'],
+            'last_name' => ['required', 'string', 'max:30'],
+            'sex' => ['required', 'string']
+        ]);
+
+        if ($teacher->first_name != $validatedData['first_name'] || $teacher->last_name != $validatedData['last_name']) {
+            $slug = $this->generateFullNameSlug($validatedData['first_name'], $validatedData['last_name']);
+            $data = array_merge($validatedData, ['slug' => $slug]);
+        } else {
+            $data = $validatedData;
+        }
+
+        $teacher->update($data);
+
+        return redirect()->route('teacher.edit', ['teacher' => $teacher])->with('success', 'Teacher Updated!');
+
     }
 
     /**
@@ -203,7 +209,7 @@ class TeacherController extends Controller
         return back()->with('success', 'Signature uploaded successfully');
     }
 
-     /**
+    /**
      * Update password.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -229,5 +235,4 @@ class TeacherController extends Controller
 
         return redirect()->back()->with('success', 'Password updated!');
     }
-
 }

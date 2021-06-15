@@ -39,11 +39,10 @@ Route::get('/', function () {
 
 
 Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerified'])->group(function () {
-    
+
     Route::get('/deactivated', [DeactivatedController::class, 'index'])->name('deactivated');
 
     Route::get('teachers/edit/{teacher:slug}', [TeacherController::class, 'edit'])->name('teacher.edit');
-
 
     Route::get('/classrooms/view/{classroom:slug}', [ClassroomController::class, 'show'])->name('classroom.show')->middleware('classTeacherOrUser');
 
@@ -52,7 +51,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
     Route::prefix('teachers')->name('teacher.')->middleware('auth:teacher')->group(function () {
 
         //Teacher routes
-        Route::patch('/update/{teacher:slug}', [TeacherController::class, 'update'])->name('update');
+        Route::patch('update/{teacher}', [TeacherController::class, 'update'])->name('update');
         Route::patch('/store-signature/{teacher:slug}', [TeacherController::class, 'storeSignature'])->name('store.signature');
         Route::patch('/update-password/{teacher}', [TeacherController::class, 'updatePassword'])->name('update.password');
     });
@@ -122,6 +121,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             //Teacher routes
             Route::get('/', [TeacherController::class, 'index'])->name('index');
             Route::get('/create', [TeacherController::class, 'create'])->name('create');
+            Route::patch('user/update/{teacher}', [TeacherController::class, 'userTeacherUpdate'])->name('user.update');
             Route::post('/store', [TeacherController::class, 'store'])->name('store');
             Route::patch('/activate/{teacher}', [TeacherController::class, 'activate'])->name('activate');
             Route::patch('/deactivate/{teacher}', [TeacherController::class, 'deactivate'])->name('deactivate');
