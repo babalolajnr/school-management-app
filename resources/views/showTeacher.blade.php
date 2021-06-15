@@ -64,7 +64,7 @@
                                     @if ($teacher->signature != null)
                                         <div class="d-flex justify-content-center pt-4">
                                             <img src="{{ asset($teacher->signature) }}" class="img-responsive"
-                                                height="30" width="50" alt="teacher' signature">
+                                                height="30" width="50" alt="teacher'signature">
                                         </div>
                                     @endif
 
