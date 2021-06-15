@@ -20,7 +20,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Teachers</h1>
+                        <h1>Teacher Trash</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -40,17 +40,6 @@
                     <div class="col-12">
 
                         <!-- Default box -->
-                        <div class="pb-2 d-flex justify-content-between">
-                            <div></div>
-                            <div>
-                                <a href="{{ route('teacher.create') }}">
-                                    <button class="btn btn-primary">New Teacher</button>
-                                </a>
-                                <a href="{{ route('teacher.show.trashed') }}">
-                                    <button class="btn btn-warning">Trash</button>
-                                </a>
-                            </div>
-                        </div>
                         <div class="card">
                             <div class="card-header">
                                 <h5 class="card-title">Teachers</h5>
@@ -64,8 +53,6 @@
                                                 <th>S/N</th>
                                                 <th>First name</th>
                                                 <th>Last name</th>
-                                                <th>Sex</th>
-                                                <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -86,29 +73,21 @@
                                                         {{ $teacher->last_name }}
                                                     </td>
                                                     <td>
-                                                        {{ $teacher->sex }}
-                                                    </td>
-                                                    <td>
-                                                        @if ($teacher->isActive())
-                                                            active
-                                                        @else
-                                                            inactive
-                                                        @endif
-                                                    </td>
-                                                    <td>
                                                         <div class="btn-group">
-                                                            <a
-                                                                href="{{ route('teacher.show', ['teacher' => $teacher]) }}">
-                                                                <button type="button" id=""
-                                                                    class="btn btn-default btn-flat"
-                                                                    title="Student detailed view">
-                                                                    <i class="fas fa-eye"></i>
+                                                            <form
+                                                                action="{{ route('teacher.restore', ['id' => $teacher->id]) }}"
+                                                                method="POST">
+                                                                @csrf
+                                                                @method('PATCH')
+                                                                <button type="submit" class="btn btn-default btn-flat"
+                                                                    title="Restore">
+                                                                    <i class="fas fa-trash-restore"></i>
                                                                 </button>
-                                                            </a>
+                                                            </form>
 
                                                             <button type="submit" class="btn btn-default btn-flat"
                                                                 title="Delete"
-                                                                onclick="deleteConfirmationModal('{{ route('teacher.destroy', ['teacher' => $teacher]) }}', {{ $teacher }})">
+                                                                onclick="deleteConfirmationModal('{{ route('teacher.force.delete', ['id' => $teacher->id]) }}', {{ $teacher }})">
                                                                 <i class="fas fa-trash"></i>
                                                             </button>
 
@@ -122,8 +101,6 @@
                                                 <th>S/N</th>
                                                 <th>First name</th>
                                                 <th>Last name</th>
-                                                <th>Sex</th>
-                                                <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </tfoot>
@@ -148,7 +125,9 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        Are you sure you want to delete <span id="deleteItemName" class="font-bold"></span>?
+                        This teacher <span id="deleteItemName" class="font-bold"></span>'s record will be gone forever
+                        and
+                        cannot be recovered. Are you sure you want to proceed?
                     </div>
                     <div class="modal-footer justify-content-between">
                         <form action="" method="POST" id="yesDeleteConfirmation">
