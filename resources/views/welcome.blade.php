@@ -61,7 +61,7 @@
                 @else
                     <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-white underline">Login</a>
                     <a href="{{ route('teacher.login') }}"
-                        class="ml-4 text-sm text-gray-700 dark:text-white underline">Teacher Login</a>
+                        class="ml-4 text-sm text-gray-700 dark:text-white underline">Teacher's Login</a>
 
                     @if (Route::has('register'))
                         <a href="{{ route('register') }}"
