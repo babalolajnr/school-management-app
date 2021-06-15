@@ -34,7 +34,8 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Edit
-                                    <a href="{{ route('teacher.show', ['teacher' => $teacher]) }}" class="text-blue-500">
+                                    <a href="{{ route('teacher.show', ['teacher' => $teacher]) }}"
+                                        class="text-blue-500">
                                         {{ $teacher->first_name . ' ' . $teacher->last_name }}
                                     </a>
                                 </h3>
@@ -83,7 +84,8 @@
                                                 class="form-control @error('date_of_birth') is-invalid @enderror"
                                                 data-inputmask-alias="datetime" name="date_of_birth"
                                                 data-inputmask-inputformat="yyyy-mm-dd" data-mask
-                                                value="{{ old('date_of_birth', $teacher->date_of_birth) }}">
+                                                value="{{ old('date_of_birth', $teacher->date_of_birth) }}"
+                                                @auth('teacher') disabled @endauth>
                                             @error('date_of_birth')
                                                 <div class="text-danger">{{ $message }}</div>
                                             @enderror
@@ -94,7 +96,8 @@
                                         <label>Email address</label>
                                         <input type="email" name="email"
                                             class="form-control @error('email') is-invalid @enderror"
-                                            value="{{ old('email', $teacher->email) }}">
+                                            value="{{ old('email', $teacher->email) }}" @auth('teacher') disabled
+                                            @endauth>
                                         @error('email')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -103,7 +106,8 @@
                                         <label>Phone number</label>
                                         <input type="tel" name="phone"
                                             class="form-control @error('phone') is-invalid @enderror"
-                                            value="{{ old('phone', $teacher->phone) }}">
+                                            value="{{ old('phone', $teacher->phone) }}" @auth('teacher') disabled
+                                            @endauth>
                                         @error('phone')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
