@@ -23,34 +23,6 @@
     </style>
 </head>
 
-{{-- <body class="antialiased">
-    <div
-        class="lg:relative lg:flex lg:items-top lg:justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
-        @if (Route::has('login'))
-            <div class="lg:fixed lg:top-0 lg:right-0 lg:px-6 lg:py-4 sm:block">
-                @auth
-                    <a href="{{ url('/dashboard') }}"
-                        class="text-sm dark:text-white text-gray-700 underline">Dashboard</a>
-                @else
-                    <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-white underline">Login</a>
-                    <a href="{{ route('teacher.login') }}"
-                        class="ml-4 text-sm text-gray-700 dark:text-white underline">Teacher Login</a>
-
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}"
-                            class="ml-4 text-sm text-gray-700 dark:text-white underline">Register</a>
-                    @endif
-                @endauth
-            </div>
-        @endif
-        <div class="sm:flex sm:justify-center sm:items-center sm:h-2/4">
-            <div class="sm:h-2/4">
-                <h1 class="text-center lg:text-5xl dark:text-white text-gray-900 font-bold">RADIANT MINDS SCHOOL</h1>
-            </div>
-        </div>
-    </div>
-</body> --}}
-
 <body class="antialiased">
     <div class="pt-60 lg:relative lg:flex lg:items-top lg:justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
         <div class="hidden lg:block">

@@ -54,14 +54,12 @@
 
                                     <p class="text-muted text-center" id="admissionNo">{{ $teacher->admission_no }}
                                     </p>
-                                    @auth('teacher')
-                                        <div class="d-flex justify-content-center">
-                                            <a href="{{ route('teacher.edit', ['teacher' => $teacher]) }}">
-                                                <button class="btn btn-primary" data-toggle="modal"
-                                                    data-target="#editModal">Edit</button>
-                                            </a>
-                                        </div>
-                                    @endauth
+                                    <div class="d-flex justify-content-center">
+                                        <a href="{{ route('teacher.edit', ['teacher' => $teacher]) }}">
+                                            <button class="btn btn-primary" data-toggle="modal"
+                                                data-target="#editModal">Edit</button>
+                                        </a>
+                                    </div>
 
                                     @if ($teacher->signature != null)
                                         <div class="d-flex justify-content-center pt-4">
@@ -223,15 +221,16 @@
                                                 </form>
                                             </div>
                                             <div class="tab-pane" id="changePassword">
-                                                <form action="{{ route('teacher.update.password', ['teacher' => $teacher]) }}"
+                                                <form
+                                                    action="{{ route('teacher.update.password', ['teacher' => $teacher]) }}"
                                                     method="POST">
                                                     @csrf
                                                     @method('PATCH')
                                                     <div class="form-group">
                                                         <label for="old_password">Current password</label>
                                                         <input type="password" class="form-control @error('current_password')
-                                                                                                    is-invalid
-                                                            @enderror" placeholder="Enter current password"
+                                                                                                            is-invalid
+                                                                @enderror" placeholder="Enter current password"
                                                             name="current_password" required>
                                                         @error('current_password')
                                                             <div class="text-danger">
@@ -242,9 +241,9 @@
                                                     <div class="form-group">
                                                         <label for="new_password">New password</label>
                                                         <input type="password" class="form-control @error('new_password')
-                                                                                                    is-invalid
-                                                            @enderror" placeholder="Enter new password" name="new_password"
-                                                            required>
+                                                                                                            is-invalid
+                                                                @enderror" placeholder="Enter new password"
+                                                            name="new_password" required>
                                                         @error('new_password')
                                                             <div class="text-danger">
                                                                 {{ $message }}
@@ -254,7 +253,7 @@
                                                     <div class="form-group">
                                                         <label for="confirm_password">Cofirm password</label>
                                                         <input type="password" class="form-control @error('new_password_confirmation') is-invalid
-                                                            @enderror" placeholder="Confirm new password"
+                                                                @enderror" placeholder="Confirm new password"
                                                             name="new_password_confirmation" required>
                                                         @error('new_password_confirmation')
                                                             <div class="text-danger">
