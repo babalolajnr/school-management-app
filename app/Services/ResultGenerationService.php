@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\ADType;
+use App\Models\Classroom;
 use App\Models\Fee;
 use App\Models\HosRemark;
 use App\Models\PDType;
@@ -10,8 +11,10 @@ use App\Models\Period;
 use App\Models\TeacherRemark;
 use App\Models\Result;
 use App\Models\Student;
+use App\Models\Subject;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Service class for result generation
@@ -40,9 +43,22 @@ class ResultGenerationService
 
         $adTypes = ADType::all();
         $ads = $this->getAds($period);
-
         //Get the subjects for the student's class in the selected period Academic Session
-        $subjects = $this->student->classroom->subjects()->where('academic_session_id',  $period->academicSession->id)->get();
+        // $subjects = $this->student->classroom->subjects()->where('academic_session_id',  $period->academicSession->id)->get();
+
+        //Get Classroom
+        $classroomId = $this->student->results()->where('period_id', $period->id)->first()->classroom_id;
+        $classroom = Classroom::find($classroomId)->name;
+
+        //Get the subjects for the student's class in the selected period's Academic Session
+        $classroom_subjects = DB::table('classroom_subject')
+            ->where('academic_session_id',  $period->academicSession->id)
+            ->where('classroom_id',  $classroomId)
+            ->get();
+
+        $subjects = $classroom_subjects->map(function ($subject) {
+            return Subject::find($subject->subject_id);
+        });
 
         /**
          * Check if the class has subjects
@@ -135,7 +151,8 @@ class ResultGenerationService
             'nextTermBegins' => $nextTermDetails['nextTermBegins'],
             'nextTermFee' => $nextTermDetails['nextTermFee'],
             'teacherRemark' => $teacherRemark,
-            'hosRemark' => $hosRemark
+            'hosRemark' => $hosRemark,
+            'classroom' => $classroom
         ];
     }
     /**
