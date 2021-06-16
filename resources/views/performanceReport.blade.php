@@ -63,7 +63,7 @@
                         <div class="stu-class">
                             <label for="class">CLASS:</label>
                             <div class="class border-bottom"><span
-                                    class="px-3 fs-6">{{ $student->classroom->name }}</span></div>
+                                    class="px-3 fs-6">{{ $classroom }}</span></div>
                         </div>
                         <div class="stu-sess">
                             <label for="session">SESSION:</label>

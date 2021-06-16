@@ -79,7 +79,8 @@ class ResultController extends Controller
             'period_id' => $activePeriod->id,
             'subject_id' => $subject->id,
             'student_id' => $student->id,
-            'total' => $exam + $ca
+            'total' => $exam + $ca,
+            'classroom_id' => $student->classroom->id
         ]);
 
         return back()->with('success', 'Record created! 👍');
@@ -102,6 +103,7 @@ class ResultController extends Controller
             if ($e->getMessage() == "Student's class does not have subjects") {
                 return redirect()->route('classroom.show', ['classroom' => $student->classroom])->with('error', 'The student\'s class does not have subjects set for the selected academic session');
             }
+
         }
         return view('performanceReport', $data);
     }
