@@ -14,7 +14,7 @@ class Result extends Model
      *
      * @var array
      */
-    protected $fillable = ['total', 'subject_id', 'student_id', 'period_id', 'ca', 'exam'];
+    protected $fillable = ['total', 'subject_id', 'student_id', 'period_id', 'ca', 'exam', 'classroom_id'];
     
     /**
      * period
