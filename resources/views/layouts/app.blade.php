@@ -16,6 +16,8 @@
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('TAssets/plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{ asset('TAssets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="{{ asset('TAssets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     {{ $styles }}
@@ -54,6 +56,8 @@
     <script src="{{ asset('TAssets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- overlayScrollbars -->
     <script src="{{ asset('TAssets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+    <!-- SweetAlert2 -->
+    <script src="{{ asset('TAssets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('TAssets/dist/js/adminlte.min.js') }}"></script>
     {{ $scripts }}
@@ -62,24 +66,28 @@
         const date = new Date().getFullYear();
         document.getElementById('footerDate').innerHTML = date;
 
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
+
         $(function() {
             let Success = document.getElementById('success')
             let Error = document.getElementById('error')
 
             // if data-success = 'true' display alert
             if (Success.dataset.success == 'true')
-                $(document).Toasts('create', {
-                    class: 'bg-success',
-                    title: 'Success',
-                    subtitle: 'Close',
-                    body: JSON.parse(Success.dataset.successMessage)
+                Toast.fire({
+                    icon: 'success',
+                    title: JSON.parse(Success.dataset.successMessage)
                 })
+
             if (Error.dataset.error == 'true')
-                $(document).Toasts('create', {
-                    class: 'bg-danger',
-                    title: 'Error',
-                    subtitle: 'Close',
-                    body: JSON.parse(Error.dataset.errorMessage)
+                Toast.fire({
+                    icon: 'error',
+                    title: JSON.parse(Error.dataset.errorMessage)
                 })
         });
 
