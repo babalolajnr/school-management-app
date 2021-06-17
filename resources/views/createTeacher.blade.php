@@ -7,8 +7,7 @@
     </x-slot>
     <div class=" content-wrapper">
         <!-- Content Header (Page header) -->
-        <span id="success" {{ session('success') ? 'data-success = true' : false }}
-            data-success-message='{{ json_encode(session('success')) }}'></span>
+         
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
