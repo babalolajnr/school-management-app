@@ -34,7 +34,11 @@
 
         <!-- Main Sidebar Container -->
         <x-sidebar />
-
+        {{-- Alerts --}}
+        <span id="success" {{ session('success') ? 'data-success = true' : false }}
+            data-success-message='{{ json_encode(session('success')) }}'></span>
+        <span id="error" {{ session('error') ? 'data-error = true' : false }}
+            data-error-message='{{ json_encode(session('error')) }}'></span>
         <!-- Content Wrapper. Contains page content -->
         {{ $slot }}
         <!-- /.content-wrapper -->
@@ -53,6 +57,33 @@
     <!-- AdminLTE App -->
     <script src="{{ asset('TAssets/dist/js/adminlte.min.js') }}"></script>
     {{ $scripts }}
+
+    <script>
+        const date = new Date().getFullYear();
+        document.getElementById('footerDate').innerHTML = date;
+
+        $(function() {
+            let Success = document.getElementById('success')
+            let Error = document.getElementById('error')
+
+            // if data-success = 'true' display alert
+            if (Success.dataset.success == 'true')
+                $(document).Toasts('create', {
+                    class: 'bg-success',
+                    title: 'Success',
+                    subtitle: 'Close',
+                    body: JSON.parse(Success.dataset.successMessage)
+                })
+            if (Error.dataset.error == 'true')
+                $(document).Toasts('create', {
+                    class: 'bg-danger',
+                    title: 'Error',
+                    subtitle: 'Close',
+                    body: JSON.parse(Error.dataset.errorMessage)
+                })
+        });
+
+    </script>
 </body>
 
 </html>

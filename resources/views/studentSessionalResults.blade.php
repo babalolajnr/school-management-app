@@ -12,8 +12,7 @@
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <span id="success" {{ session('success') ? 'data-success = true' : false }}
-            data-success-message='{{ json_encode(session('success')) }}'></span>
+         
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -191,20 +190,6 @@
                 $('#deleteItemName').html(name)
                 $('#deleteConfirmationModal').modal('show')
             }
-
-            //launch toastr 
-            $(function() {
-                let Success = document.getElementById('success')
-                // if data-success = 'true' display alert
-                if (Success.dataset.success == 'true')
-                    $(document).Toasts('create', {
-                        class: 'bg-success',
-                        title: 'Success',
-                        subtitle: 'Close',
-                        body: JSON.parse(Success.dataset.successMessage)
-                    })
-
-            });
 
             //datatables
             $(function() {
