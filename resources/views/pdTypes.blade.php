@@ -1,7 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-        <!-- Toastr -->
-        <link rel="stylesheet" href="{{ asset('TAssets/plugins/toastr/toastr.min.css') }}">
+         
         <!-- DataTables -->
         <link rel="stylesheet"
             href="{{ asset('TAssets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -142,8 +141,7 @@
     </div>
 
     <x-slot name="scripts">
-        <!-- Toastr -->
-        <script src="{{ asset('TAssets/plugins/toastr/toastr.min.js') }}"></script>
+         
         <!-- DataTables  & Plugins -->
         <script src="{{ asset('TAssets/plugins/datatables/jquery.dataTables.min.js') }}">
         </script>
