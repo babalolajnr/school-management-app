@@ -1,7 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-        <!-- Toastr -->
-        <link rel="stylesheet" href="{{ asset('TAssets/plugins/toastr/toastr.min.css') }}">
+         
         <link rel="stylesheet" href="{{ asset('css/range-slider.min.css') }}">
     </x-slot>
 
@@ -85,8 +84,7 @@
     </div>
 
     <x-slot name="scripts">
-        <!-- Toastr -->
-        <script src="{{ asset('TAssets/plugins/toastr/toastr.min.js') }}"></script>
+         
         <script src="{{ asset('js/range-slider.min.js') }}">
         </script>
         <!-- AdminLTE App -->

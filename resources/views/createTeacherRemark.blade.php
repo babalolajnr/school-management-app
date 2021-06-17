@@ -1,7 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-        <!-- Toastr -->
-        <link rel="stylesheet" href="{{ asset('TAssets/plugins/toastr/toastr.min.css') }}">
+         
         <!-- Select2 -->
         <link rel="stylesheet" href="{{ asset('TAssets/plugins/select2/css/select2.min.css') }}">
         <link rel="stylesheet"
@@ -71,8 +70,7 @@
         <!-- /.content -->
     </div>
     <x-slot name="scripts">
-        <!-- Toastr -->
-        <script src="{{ asset('TAssets/plugins/toastr/toastr.min.js') }}"></script>
+         
         <!-- Select2 -->
         <script src="{{ asset('TAssets/plugins/select2/js/select2.full.min.js') }}"></script>
         <!-- AdminLTE App -->

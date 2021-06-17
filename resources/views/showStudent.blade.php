@@ -1,7 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-        <!-- Toastr -->
-        <link rel="stylesheet" href="{{ asset('TAssets/plugins/toastr/toastr.min.css') }}">
+         
         <!-- DataTables -->
         <link rel="stylesheet"
             href="{{ asset('TAssets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
@@ -341,8 +340,7 @@
         {{-- /edit student modal --}}
     @endauth
     <x-slot name="scripts">
-        <!-- Toastr -->
-        <script src="{{ asset('TAssets/plugins/toastr/toastr.min.js') }}"></script>
+         
         <!-- AdminLTE App -->
         <script>
             

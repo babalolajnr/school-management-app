@@ -1,7 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-        <!-- Toastr -->
-        <link rel="stylesheet" href="{{ asset('TAssets/plugins/toastr/toastr.min.css') }}">
+         
 
         <!-- Tempusdominus Bootstrap 4 -->
         <link rel="stylesheet"
@@ -110,8 +109,7 @@
     </div>
 
     <x-slot name="scripts">
-        <!-- Toastr -->
-        <script src="{{ asset('TAssets/plugins/toastr/toastr.min.js') }}"></script>
+         
 
         <script src="{{ asset('TAssets/plugins/moment/moment.min.js') }}"></script>
         <!-- Tempusdominus Bootstrap 4 -->
