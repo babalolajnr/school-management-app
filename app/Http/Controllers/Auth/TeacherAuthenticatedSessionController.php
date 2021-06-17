@@ -38,7 +38,7 @@ class TeacherAuthenticatedSessionController extends Controller
             return back()->with('error', 'You are not a class-teacher!');
         }
 
-        return redirect(route('classroom.show', ['classroom' => $teachersClassroom]))->with('success', "Welcome {$request->user()->first_name} {$request->user()->last_name}");
+        return redirect(route('classroom.show', ['classroom' => $teachersClassroom]))->with('success', "Welcome {$request->user('teacher')->first_name} {$request->user('teacher')->last_name}");
     }
 
     /**
