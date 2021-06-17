@@ -78,7 +78,7 @@
                                     <div class="form-group">
                                         <label>State</label>
                                         <select class="form-control select2 @error('state') is-invalid @enderror"
-                                            name="state" id="state" style="width: 100%;">
+                                            name="state" id="state" style="width: 100%;" required>
                                         </select>
                                         @error('state')
                                             <div class="text-danger">{{ $message }}</div>
@@ -87,7 +87,7 @@
                                     <div class="form-group">
                                         <label>Local government</label>
                                         <select class="form-control select2 @error('lg') is-invalid @enderror" name="lg"
-                                            id="lg" style="width: 100%;">
+                                            id="lg" style="width: 100%;" required>
                                         </select>
                                         @error('lg')
                                             <div class="text-danger">{{ $message }}</div>
