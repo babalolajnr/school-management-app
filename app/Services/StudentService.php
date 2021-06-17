@@ -68,7 +68,7 @@ class StudentService
             'admission_no' => $validatedData['admission_no'],
             'lg' => $validatedData['lg'],
             'state' => $validatedData['state'],
-            'country' => $validatedData['country'],
+            'country' => 'Nigeria',
             'blood_group' => $validatedData['blood_group'],
             'date_of_birth' => $validatedData['date_of_birth'],
             'place_of_birth' => $validatedData['place_of_birth'],
