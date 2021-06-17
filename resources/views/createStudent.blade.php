@@ -7,7 +7,7 @@
     </x-slot>
     <div class=" content-wrapper">
         <!-- Content Header (Page header) -->
-         
+
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -17,7 +17,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
-                                <li class="breadcrumb-item"><a href="{{ url()->previous() }}">Back</a></li>
+                            <li class="breadcrumb-item"><a href="{{ url()->previous() }}">Back</a></li>
                         </ol>
                     </div>
                 </div>
@@ -40,59 +40,57 @@
                                     <div class="form-group">
                                         <label>First name</label>
                                         <input type=" text" name="first_name"
-                                            class="form-control @error('first_name') is-invalid @enderror" value="{{ old('first_name') }}">
+                                            class="form-control @error('first_name') is-invalid @enderror"
+                                            value="{{ old('first_name') }}">
                                         @error('first_name')
-                                        <div class="text-danger">{{ $message }}</div>
+                                            <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Last name</label>
                                         <input type="text" name="last_name"
-                                            class="form-control @error('last_name') is-invalid @enderror" value="{{ old('last_name') }}">
+                                            class="form-control @error('last_name') is-invalid @enderror"
+                                            value="{{ old('last_name') }}">
                                         @error('last_name')
-                                        <div class="text-danger">{{ $message }}</div>
+                                            <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Sex</label>
                                         <select class="custom-select @error('sex') is-invalid @enderror" name="sex">
-                                            <option @if (old('sex') == "M") SELECTED @endif>M</option>
-                                            <option @if (old('sex') == "F") SELECTED @endif>F</option>
+                                            <option @if (old('sex') == 'M') SELECTED @endif>M</option>
+                                            <option @if (old('sex') == 'F') SELECTED @endif>F</option>
                                         </select>
                                         @error('sex')
-                                        <div class="text-danger">{{ $message }}</div>
+                                            <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Admission Number</label>
                                         <input type=" text" name="admission_no"
-                                            class="form-control @error('admission_no') is-invalid @enderror" value="{{ old('admission_no') }}">
+                                            class="form-control @error('admission_no') is-invalid @enderror"
+                                            value="{{ old('admission_no') }}">
                                         @error('admission_no')
-                                        <div class="text-danger">{{ $message }}</div>
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>State</label>
+                                        <select class="form-control select2 @error('state') is-invalid @enderror"
+                                            name="state" id="state" style="width: 100%;">
+                                        </select>
+                                        @error('state')
+                                            <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Local government</label>
-                                        <input type=" text" name="lg"
-                                            class="form-control @error('lg') is-invalid @enderror" value="{{ old('lg') }}">
+                                        <select class="form-control select2 @error('lg') is-invalid @enderror" name="lg"
+                                            id="lg" style="width: 100%;">
+                                        </select>
                                         @error('lg')
-                                        <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label>State</label>
-                                        <input type=" text" name="state"
-                                            class="form-control @error('state') is-invalid @enderror" value="{{ old('state') }}">
-                                        @error('state')
-                                        <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Country</label>
-                                        <input type=" text" name="country"
-                                            class="form-control @error('country') is-invalid @enderror" value="{{ old('country') }}">
-                                        @error('country')
-                                        <div class="text-danger">{{ $message }}</div>
+                                            <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
@@ -118,9 +116,10 @@
                                             <input type="text"
                                                 class="form-control @error('date_of_birth') is-invalid @enderror"
                                                 data-inputmask-alias="datetime" name="date_of_birth"
-                                                data-inputmask-inputformat="yyyy-mm-dd" data-mask value="{{ old('date_of_birth') }}">
+                                                data-inputmask-inputformat="yyyy-mm-dd" data-mask
+                                                value="{{ old('date_of_birth') }}">
                                             @error('date_of_birth')
-                                            <div class="text-danger">{{ $message }}</div>
+                                                <div class="text-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <!-- /.input group -->
@@ -128,16 +127,17 @@
                                     <div class="form-group">
                                         <label>Place of birth</label>
                                         <input type="text" name="place_of_birth"
-                                            class="form-control @error('place_of_birth') is-invalid @enderror" value="{{ old('place_of_birth') }}">
+                                            class="form-control @error('place_of_birth') is-invalid @enderror"
+                                            value="{{ old('place_of_birth') }}">
                                         @error('place_of_birth')
-                                        <div class="text-danger">{{ $message }}</div>
+                                            <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Class</label>
                                         <select class="form-control select2" name="classroom" style="width: 100%;">
                                             @foreach ($classrooms as $classroom)
-                                            <option @if (old('classroom') == $classroom) SELECTED @endif>{{ $classroom }}</option>
+                                                <option @if (old('classroom') == $classroom) SELECTED @endif>{{ $classroom }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -149,60 +149,67 @@
                                     <div class="form-group">
                                         <label>Title</label>
                                         <input type="text" name="guardian_title"
-                                            class="form-control @error('guardian_title') is-invalid @enderror" value="{{ old('guardian_title') }}">
+                                            class="form-control @error('guardian_title') is-invalid @enderror"
+                                            value="{{ old('guardian_title') }}">
                                         @error('guardian_title')
-                                        <div class="text-danger">{{ $message }}</div>
+                                            <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>First name</label>
                                         <input type=" text" name="guardian_first_name"
-                                            class="form-control @error('guardian_first_name') is-invalid @enderror" value="{{ old('guardian_first_name') }}">
+                                            class="form-control @error('guardian_first_name') is-invalid @enderror"
+                                            value="{{ old('guardian_first_name') }}">
                                         @error('guardian_first_name')
-                                        <div class="text-danger">{{ $message }}</div>
+                                            <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Last name</label>
                                         <input type=" text" name="guardian_last_name"
-                                            class="form-control @error('guardian_last_name') is-invalid @enderror" value="{{ old('guardian_last_name') }}">
+                                            class="form-control @error('guardian_last_name') is-invalid @enderror"
+                                            value="{{ old('guardian_last_name') }}">
                                         @error('guardian_last_name')
-                                        <div class="text-danger">{{ $message }}</div>
+                                            <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label>Email address</label>
                                         <input type="email" name="guardian_email"
-                                            class="form-control @error('guardian_email') is-invalid @enderror" value="{{ old('guardian_email') }}">
+                                            class="form-control @error('guardian_email') is-invalid @enderror"
+                                            value="{{ old('guardian_email') }}">
                                         @error('guardian_email')
-                                        <div class="text-danger">{{ $message }}</div>
+                                            <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
 
                                     <div class="form-group">
                                         <label>Phone number</label>
                                         <input type=" text" name="guardian_phone"
-                                            class="form-control @error('guardian_phone') is-invalid @enderror" value="{{ old('guardian_phone') }}">
+                                            class="form-control @error('guardian_phone') is-invalid @enderror"
+                                            value="{{ old('guardian_phone') }}">
                                         @error('guardian_phone')
-                                        <div class="text-danger">{{ $message }}</div>
+                                            <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
 
                                     <div class="form-group">
                                         <label>Occupation</label>
                                         <input type=" text" name="guardian_occupation"
-                                            class="form-control @error('guardian_occupation') is-invalid @enderror" value="{{ old('guardian_occupation') }}">
+                                            class="form-control @error('guardian_occupation') is-invalid @enderror"
+                                            value="{{ old('guardian_occupation') }}">
                                         @error('guardian_occupation')
-                                        <div class="text-danger">{{ $message }}</div>
+                                            <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
 
                                     <div class="form-group">
                                         <label>Address</label>
                                         <input type=" text" name="guardian_address"
-                                            class="form-control @error('guardian_address') is-invalid @enderror" value="{{ old('guardian_address') }}">
+                                            class="form-control @error('guardian_address') is-invalid @enderror"
+                                            value="{{ old('guardian_address') }}">
                                         @error('guardian_address')
-                                        <div class="text-danger">{{ $message }}</div>
+                                            <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
@@ -226,7 +233,7 @@
         <script src="{{ asset('TAssets/plugins/moment/moment.min.js') }}"></script>
         <script src="{{ asset('TAssets/plugins/inputmask/jquery.inputmask.min.js') }}"></script>
         <script>
-            $(function () {
+            $(function() {
                 //Initialize Select2 Elements
                 $('.select2').select2()
                 $('#datemask').inputmask('yyyy-mm-dd', {
@@ -234,6 +241,34 @@
                 })
                 //Money Euro
                 $('[data-mask]').inputmask()
+
+                $.getJSON("{{ asset('js/nigerian-states.json') }}", function(json) {
+
+                    let data = json
+                    let states = data[0]
+
+                    for (const [state, lgs] of Object.entries(states)) {
+                        $('#state').append($(document.createElement('option')).prop({
+                            value: state,
+                            text: state
+                        }))
+                    }
+
+                    $('#state').change(function() {
+
+                        let selectedState = $(this).val();
+                        $('#lg').children().remove()
+
+                        for (const lg of states[selectedState]) {
+                            $('#lg').append($(document.createElement('option')).prop({
+                                value: lg,
+                                text: lg
+                            }))
+                        }
+
+                    });
+
+                });
 
             })
 
