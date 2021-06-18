@@ -23,13 +23,13 @@ class ADController extends Controller
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      * 
      */
-    public function create(Student $student, $periodSlug = null)
+    public function create(Student $student)
     {
-        $adTypes = ADType::all();
+        if (!Period::activePeriodIsSet()) return redirect()->back()->with('error', 'Active period is not set!');
+        
+        $period = Period::activePeriod();
 
-        $period = is_null($periodSlug)
-            ? Period::activePeriod()
-            : Period::where('slug', $periodSlug)->firstOrFail();
+        $adTypes = ADType::all();
 
         //get student ads for period and term passed into the controller
         $studentADs = $student->ads()->where('period_id', $period->id);
@@ -71,7 +71,7 @@ class ADController extends Controller
         ]);
 
         $period = is_null($periodSlug) ?
-            period::activePeriod() : Period::where('slug', $periodSlug)->firstOrFail();
+            Period::activePeriod() : Period::where('slug', $periodSlug)->firstOrFail();
 
         foreach ($validatedData['adTypes'] as $adType => $value) {
             $adType = ADType::where('slug', $adType)->first();
@@ -85,6 +85,6 @@ class ADController extends Controller
             );
         }
 
-        return back()->with('success', 'Record Added');
+        return redirect(route('result.show.performance', ['student' => $student, 'periodSlug' =>  Period::activePeriod()->slug]));
     }
 }
