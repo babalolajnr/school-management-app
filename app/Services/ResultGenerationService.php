@@ -38,13 +38,15 @@ class ResultGenerationService
     public function generateReport($periodSlug)
     {
         $period = Period::where('slug', $periodSlug)->firstOrFail();
+        $attendance = $this->student->attendances()->where('period_id', $period->id)->first();
+
         $pdTypes = PDType::all();
         $pds = $this->getPds($period);
 
         $adTypes = ADType::all();
         $ads = $this->getAds($period);
+
         //Get the subjects for the student's class in the selected period Academic Session
-        // $subjects = $this->student->classroom->subjects()->where('academic_session_id',  $period->academicSession->id)->get();
 
         //Get Classroom
         $classroomId = $this->student->results()->where('period_id', $period->id)->first()->classroom_id;
@@ -152,7 +154,8 @@ class ResultGenerationService
             'nextTermFee' => $nextTermDetails['nextTermFee'],
             'teacherRemark' => $teacherRemark,
             'hosRemark' => $hosRemark,
-            'classroom' => $classroom
+            'classroom' => $classroom, 
+            'no_of_times_present' => $attendance
         ];
     }
     /**
