@@ -177,9 +177,11 @@
 
                     let data = json
                     let states = data[0]
-                    let currentState = @json($student->state).toString()
-                    let currentLg = @json($student->lg).toString()
 
+                    let currentState = @json($student->state).toString().toLowerCase()
+                    currentState = currentState.charAt(0).toUpperCase() + currentState.slice(1)
+
+                    let currentLg = @json($student->lg).toString()
                     for (const [state, lgs] of Object.entries(states)) {
 
                         let stateOption = $(document.createElement('option')).prop({
