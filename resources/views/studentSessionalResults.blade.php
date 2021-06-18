@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-         
+
         <!-- DataTables -->
         <link rel="stylesheet" href="{{ asset('TAssets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
         <link rel="stylesheet"
@@ -11,7 +11,7 @@
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-         
+
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -56,7 +56,6 @@
                                                     <th>Lowest Score</th>
                                                     <th>Class Average</th>
                                                     <th>Grade</th>
-                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -84,23 +83,6 @@
                                                                         @else
                                                                             <td></td>
                                                         @endif
-                                                        <td>
-                                                            <div class="btn-group">
-                                                                <a
-                                                                    href="{{ route('result.edit', ['result' => $item->id]) }}">
-                                                                    <button type="button" id=""
-                                                                        class="btn btn-default btn-flat" title="Edit">
-                                                                        <i class="fas fa-edit"></i>
-                                                                    </button>
-                                                                </a>
-                                                                <button type="submit" class="btn btn-default btn-flat"
-                                                                    title="Delete"
-                                                                    onclick="deleteConfirmationModal('{{ route('result.destroy', ['result' => $item->id]) }}', '{{ $item->subject->name }}')">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-
-                                                            </div>
-                                                        </td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -114,7 +96,6 @@
                                                     <th>Lowest Score</th>
                                                     <th>Class Average</th>
                                                     <th>Grade</th>
-                                                    <th>Action</th>
                                                 </tr>
                                             </tfoot>
                                         </table>
@@ -131,34 +112,8 @@
         </section>
         <!-- /.content -->
     </div>
-    {{-- Delete confirmation modal --}}
-    <div class="modal fade" id="deleteConfirmationModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Confirmation</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to delete <span id="deleteItemName" class="font-bold"></span> result?
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <form action="" method="POST" id="yesDeleteConfirmation">
-                        @method('DELETE')
-                        @csrf
-                        <button type="submit" class="btn btn-danger">Yes</button>
-                    </form>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
     <x-slot name="scripts">
-         
+
         <!-- DataTables  & Plugins -->
         <script src="{{ asset('TAssets/plugins/datatables/jquery.dataTables.min.js') }}">
         </script>
@@ -183,19 +138,13 @@
         </script>
         <!-- AdminLTE App -->
         <script>
-            function deleteConfirmationModal(url, name) {
-                $('#yesDeleteConfirmation').attr("action", url)
-                $('#deleteItemName').html(name)
-                $('#deleteConfirmationModal').modal('show')
-            }
-
             //datatables
             $(function() {
                 // looping through all the tables to assign dynamic numeric id to the datatables initialization
                 $('table').each(function() {
 
                     const tableID = $(this).attr('id')
-                    
+
                     $("#" + tableID).DataTable({
                         "responsive": true,
                         "lengthChange": false,
