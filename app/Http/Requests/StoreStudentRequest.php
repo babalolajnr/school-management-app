@@ -29,7 +29,6 @@ class StoreStudentRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
             'first_name' => ['required', 'string', 'max:30'],
             'last_name' => ['required', 'string', 'max:30'],
@@ -44,8 +43,8 @@ class StoreStudentRequest extends FormRequest
             'guardian_title' => ['required', 'max:30', 'string'],
             'guardian_first_name' => ['required', 'max:30', 'string'],
             'guardian_last_name' => ['required', 'max:30', 'string'],
-            'guardian_email' => ['required', 'string', 'email:rfc,dns'],
-            'guardian_phone' => ['required', 'string', 'between:10,15'],
+            'guardian_email' => ['required', 'string', 'email:rfc,dns', 'unique:guardians'],
+            'guardian_phone' => ['required', 'string', 'between:10,15', 'unique:guardians'],
             'guardian_occupation' => ['required', 'string'],
             'guardian_address' => ['required']
         ];
