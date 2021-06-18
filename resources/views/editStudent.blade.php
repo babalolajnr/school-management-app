@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-         
+
         <!-- Select2 -->
         <link rel="stylesheet" href="{{ asset('TAssets/plugins/select2/css/select2.min.css') }}">
         <link rel="stylesheet"
@@ -8,7 +8,7 @@
     </x-slot>
     <div class=" content-wrapper">
         <!-- Content Header (Page header) -->
-         
+
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -78,29 +78,20 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label>Local government</label>
-                                        <input type="text" name="lg"
-                                            class="form-control @error('lg') is-invalid @enderror"
-                                            value="{{ old('lg', $student->lg) }}">
-                                        @error('lg')
-                                            <div class="text-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
                                         <label>State</label>
-                                        <input type="text" name="state"
-                                            class="form-control @error('state') is-invalid @enderror"
-                                            value="{{ old('state', $student->state) }}">
+                                        <select class="form-control select2 @error('state') is-invalid @enderror"
+                                            name="state" id="state" style="width: 100%;" required>
+                                        </select>
                                         @error('state')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label>Country</label>
-                                        <input type="text" name="country"
-                                            class="form-control @error('country') is-invalid @enderror"
-                                            value="{{ old('country', $student->country) }}">
-                                        @error('country')
+                                        <label>Local government</label>
+                                        <select class="form-control select2 @error('lg') is-invalid @enderror" name="lg"
+                                            id="lg" style="width: 100%;" required>
+                                        </select>
+                                        @error('lg')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -181,6 +172,57 @@
                 })
                 //Money Euro
                 $('[data-mask]').inputmask()
+
+                $.getJSON("{{ asset('js/nigerian-states.json') }}", function(json) {
+
+                    let data = json
+                    let states = data[0]
+                    let currentState = @json($student->state).toString()
+                    let currentLg = @json($student->lg).toString()
+
+                    for (const [state, lgs] of Object.entries(states)) {
+
+                        let stateOption = $(document.createElement('option')).prop({
+                            value: state,
+                            text: state
+                        })
+
+                        $('#state').append(stateOption)
+
+                        if (state == currentState) {
+                            stateOption.attr("selected", "selected")
+                        }
+                    }
+
+                    for (const lg of states[currentState]) {
+
+                        let lgOption = $(document.createElement('option')).prop({
+                            value: lg,
+                            text: lg
+                        })
+
+                        $('#lg').append(lgOption)
+
+                        if (lg == currentLg) {
+                            lgOption.attr("selected", "selected")
+                        }
+                    }
+
+                    $('#state').change(function() {
+
+                        let selectedState = $(this).val();
+                        $('#lg').children().remove()
+
+                        for (const lg of states[selectedState]) {
+                            $('#lg').append($(document.createElement('option')).prop({
+                                value: lg,
+                                text: lg
+                            }))
+                        }
+
+                    });
+
+                });
 
             })
 
