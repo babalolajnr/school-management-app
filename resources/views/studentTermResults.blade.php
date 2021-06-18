@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-         
+
         <!-- DataTables -->
         <link rel="stylesheet" href="{{ asset('TAssets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
         <link rel="stylesheet"
@@ -11,7 +11,7 @@
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        
+
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -96,7 +96,9 @@
                                             <th>Lowest Score</th>
                                             <th>Class Average</th>
                                             <th>Grade</th>
-                                            <th>Action</th>
+                                            @if ($period->isActive())
+                                                <th>Action</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -124,23 +126,27 @@
                                                                     @else
                                                                         <td></td>
                                                     @endif
-                                                    <td>
-                                                        <div class="btn-group">
-                                                            <a
-                                                                href="{{ route('result.edit', ['result' => $result]) }}">
-                                                                <button type="button" id=""
-                                                                    class="btn btn-default btn-flat" title="Edit">
-                                                                    <i class="fas fa-edit"></i>
-                                                                </button>
-                                                            </a>
-                                                            <button type="submit" class="btn btn-default btn-flat"
-                                                                title="Delete"
-                                                                onclick="deleteConfirmationModal('{{ route('result.destroy', ['result' => $result]) }}', '{{ $result->subject->name }}')">
-                                                                <i class="fas fa-trash"></i>
-                                                            </button>
+                                                    @if ($period->isActive())
 
-                                                        </div>
-                                                    </td>
+                                                        <td>
+
+                                                            <div class="btn-group">
+                                                                <a
+                                                                    href="{{ route('result.edit', ['result' => $result]) }}">
+                                                                    <button type="button" id=""
+                                                                        class="btn btn-default btn-flat" title="Edit">
+                                                                        <i class="fas fa-edit"></i>
+                                                                    </button>
+                                                                </a>
+                                                                <button type="submit" class="btn btn-default btn-flat"
+                                                                    title="Delete"
+                                                                    onclick="deleteConfirmationModal('{{ route('result.destroy', ['result' => $result]) }}', '{{ $result->subject->name }}')">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+
+                                                            </div>
+                                                        </td>
+                                                    @endif
                                                 </tr>
                                             @endforeach
                                         @else
@@ -157,7 +163,9 @@
                                             <th>Lowest Score</th>
                                             <th>Class Average</th>
                                             <th>Grade</th>
-                                            <th>Action</th>
+                                            @if ($period->isActive())
+                                                <th>Action</th>
+                                            @endif
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -195,7 +203,7 @@
         <!-- /.modal-dialog -->
     </div>
     <x-slot name="scripts">
-         
+
         <!-- DataTables  & Plugins -->
         <script src="{{ asset('TAssets/plugins/datatables/jquery.dataTables.min.js') }}">
         </script>
@@ -225,7 +233,7 @@
                 $('#deleteItemName').html(name)
                 $('#deleteConfirmationModal').modal('show')
             }
-            
+
 
             //datatables
             $(function() {
