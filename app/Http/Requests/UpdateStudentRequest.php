@@ -38,7 +38,6 @@ class UpdateStudentRequest extends FormRequest
             'admission_no' => ['required', 'string', Rule::unique('students')->ignore($student)],
             'lg' => ['required', 'string'],
             'state' => ['required', 'string'],
-            'country' => ['required', 'string'],
             'blood_group' => ['required', 'string'],
             'date_of_birth' => ['required', 'date', 'before:' . now()],
             'place_of_birth' => ['required'],
