@@ -29,7 +29,7 @@ class StudentService
         //merge guardian and student validation rules
         $validatedData = $storeStudentRequest->validated();
 
-        $guardian = Guardian::where('phone', $validatedData['guardian_phone'])->first();
+        $guardian = Guardian::where('phone', $validatedData['guardian_phone'])->orWhere('email', $validatedData['guardian_email'])->first();
 
         //if guardian does not exist create new guardian
         if (is_null($guardian)) {
