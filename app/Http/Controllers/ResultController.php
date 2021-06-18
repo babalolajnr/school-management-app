@@ -83,7 +83,8 @@ class ResultController extends Controller
             'classroom_id' => $student->classroom->id
         ]);
 
-        return back()->with('success', 'Record created! 👍');
+        return redirect(route('result.show.performance', ['student' => $student, 'periodSlug' => $activePeriod->slug]));
+
     }
 
     /**
