@@ -16,15 +16,12 @@ class AttendanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Student $student, $periodSlug = null)
+    public function create(Student $student)
     {
-        /**
-         * if period is not recieved i.e it's null.
-         * The active period should be used 
-         */
-        $period = is_null($periodSlug)
-            ? Period::activePeriod()
-            : Period::where('slug', $periodSlug)->firstOrFail();
+        
+        if (!Period::activePeriodIsSet()) return redirect()->back()->with('error', 'Active period is not set!');
+        
+        $period = Period::activePeriod();
 
         $attendance = $student->attendances()->where('period_id', $period->id);
 
@@ -63,7 +60,7 @@ class AttendanceController extends Controller
             'period_id' => $period->id,
         ], ['value' => $data['value']]);
 
-        return back()->with('success', 'Record Added!');
+        return redirect(route('result.show.performance', ['student' => $student, 'periodSlug' =>  Period::activePeriod()->slug]));
     }
 
     /**
