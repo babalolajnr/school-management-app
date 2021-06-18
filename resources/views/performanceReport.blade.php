@@ -55,15 +55,15 @@
                 <form action="" class="p-3">
                     <div class="stu-name mb-2">
                         <label for="name">NAME:</label>
-                        <div class="name border-bottom"><span
-                                class="px-3 fs-6"><span class="fw-bold">{{ Str::upper($student->last_name) }}</span>, {{Str::ucfirst($student->first_name) }}</span>
+                        <div class="name border-bottom"><span class="px-3 fs-6"><span
+                                    class="fw-bold">{{ Str::upper($student->last_name) }}</span>,
+                                {{ Str::ucfirst($student->first_name) }}</span>
                         </div>
                     </div>
                     <div class="sec mb-2">
                         <div class="stu-class">
                             <label for="class">CLASS:</label>
-                            <div class="class border-bottom"><span
-                                    class="px-3 fs-6">{{ $classroom }}</span></div>
+                            <div class="class border-bottom"><span class="px-3 fs-6">{{ $classroom }}</span></div>
                         </div>
                         <div class="stu-sess">
                             <label for="session">SESSION:</label>
@@ -256,10 +256,10 @@
                         <tr>
                             <td>No of times present</td>
                             <td>
-                                @if (!is_null($period->attendance))
-                                    {{ $period->attendance->value }}
-                                @else
+                                @if (is_null($no_of_times_present))
                                     null
+                                @else
+                                    {{ $no_of_times_present->value }}
                                 @endif
                             </td>
 
@@ -267,10 +267,10 @@
                         <tr>
                             <td> No of times Absent</td>
                             <td>
-                                @if (!is_null($period->attendance))
-                                    {{ $period->no_times_school_opened - $period->attendance->value }}
-                                @else
+                                @if (is_null($no_of_times_present))
                                     null
+                                @else
+                                    {{ $period->no_times_school_opened - $no_of_times_present->value }}
                                 @endif
                             </td>
                         </tr>
@@ -447,7 +447,7 @@
                             @if ($hosRemark)
                                 <span class="ps-4">
                                     <img src="{{ asset($hosRemark->user->signature) }}" height=40 width="60"
-                                        alt="teacher's signature">
+                                        alt="Hos's signature">
                                 </span>
                             @endif
                         </div>

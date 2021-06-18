@@ -9,15 +9,6 @@ use Illuminate\Http\Request;
 
 class HosRemarkController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -27,11 +18,9 @@ class HosRemarkController extends Controller
      */
     public function create(Student $student)
     {
-        $period = Period::activePeriod();
+        if (!Period::activePeriodIsSet()) return back()->with('error', 'Active Period is not set');
 
-        if (!Period::activePeriodIsSet()) {
-            return back()->with('error', 'Active Period is not set');
-        };
+        $period = Period::activePeriod();
 
         $remark = $student->hosRemarks()->where('period_id', $period->id);
 
@@ -52,18 +41,18 @@ class HosRemarkController extends Controller
      */
     public function storeOrUpdate(Student $student, Request $request)
     {
+        if (!Period::activePeriodIsSet()) return back()->with('error', 'Active Period is not set');
+
         $validated = $request->validate([
             'remark' => ['string', 'required']
         ]);
 
-        if (!Period::activePeriodIsSet()) {
-            return back()->with('error', 'Active Period is not set');
-        };
 
+        $activePeriod = Period::activePeriod();
         HosRemark::updateOrCreate(
             [
                 'student_id' => $student->id,
-                'period_id' => Period::activePeriod()->id,
+                'period_id' => $activePeriod->id,
             ],
             [
                 'user_id' => $request->user()->id,
@@ -71,51 +60,6 @@ class HosRemarkController extends Controller
             ]
         );
 
-        return back()->with('success', 'HOS Remark recorded!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\HosRemark  $hosRemark
-     * @return \Illuminate\Http\Response
-     */
-    public function show(HosRemark $hosRemark)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\HosRemark  $hosRemark
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(HosRemark $hosRemark)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\HosRemark  $hosRemark
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, HosRemark $hosRemark)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\HosRemark  $hosRemark
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(HosRemark $hosRemark)
-    {
-        //
+        return redirect(route('result.show.performance', ['student' => $student, 'periodSlug' => $activePeriod->slug]))->with('success', 'HOS Remark recorded!');
     }
 }

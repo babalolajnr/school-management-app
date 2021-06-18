@@ -95,8 +95,20 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
 
         Route::prefix('attendance')->name('attendance.')->group(function () {
             //Attendance Domain Routes
-            Route::get('/create/{student:admission_no}/{periodSlug?}', [AttendanceController::class, 'create'])->name('create')->where('student', '.*');
+            Route::get('/create/{student:admission_no}', [AttendanceController::class, 'create'])->name('create')->where('student', '.*');
             Route::post('/store/{student}/{periodSlug?}', [AttendanceController::class, 'storeOrUpdate'])->name('store');
+        });
+
+        Route::prefix('pds')->name('pd.')->group(function () {
+            //Pychomotor Domain Routes
+            Route::get('/create/{student:admission_no}', [PDController::class, 'create'])->name('create')->where('student', '.*');
+            Route::post('/store/{student}/{periodSlug?}', [PDController::class, 'storeOrUpdate'])->name('storeOrUpdate');
+        });
+
+        Route::prefix('ads')->name('ad.')->group(function () {
+            //Affective Domain Routes
+            Route::get('/create/{student:admission_no}', [ADController::class, 'create'])->name('create')->where('student', '.*');
+            Route::post('/store/{student}/{periodSlug?}', [ADController::class, 'storeOrUpdate'])->name('storeOrUpdate');
         });
     });
 
@@ -205,13 +217,6 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::patch('/update/{guardian:phone}', [GuardianController::class, 'update'])->name('update');
         });
 
-
-        Route::prefix('pds')->name('pd.')->group(function () {
-            //Pychomotor Domain Routes
-            Route::get('/create/{student:admission_no}/{periodSlug?}', [PDController::class, 'create'])->name('create')->where('student', '.*');
-            Route::post('/store/{student}/{periodSlug?}', [PDController::class, 'storeOrUpdate'])->name('storeOrUpdate');
-        });
-
         Route::prefix('pd-types')->name('pd-type.')->group(function () {
             //Pychomotor domain type routes
             Route::get('/', [PDTypeController::class, 'index'])->name('index');
@@ -221,11 +226,6 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::delete('/delete/{pdType}', [PDTypeController::class, 'destroy'])->name('destroy');
         });
 
-        Route::prefix('ads')->name('ad.')->group(function () {
-            //Affective Domain Routes
-            Route::get('/create/{student:admission_no}/{periodSlug?}', [ADController::class, 'create'])->name('create')->where('student', '.*');
-            Route::post('/store/{student}/{periodSlug?}', [ADController::class, 'storeOrUpdate'])->name('storeOrUpdate');
-        });
 
         Route::prefix('ad-types')->name('ad-type.')->group(function () {
             //Affective domain type routes

@@ -85,6 +85,6 @@ class PDController extends Controller
             );
         }
 
-        return back()->with('success', 'Record Added');
+        return redirect(route('result.show.performance', ['student' => $student, 'periodSlug' =>  Period::activePeriod()->slug]));
     }
 }
