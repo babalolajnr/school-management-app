@@ -98,6 +98,7 @@
                                     <div class="form-group">
                                         <label>Blood group</label>
                                         <select class="form-control select2" name="blood_group" style="width: 100%;">
+                                            <option>-</option>
                                             <option @if (old('blood_group', $student->blood_group) == 'A+') SELECTED @endif>A+</option>
                                             <option @if (old('blood_group', $student->blood_group) == 'A-') SELECTED @endif>A-</option>
                                             <option @if (old('blood_group', $student->blood_group) == 'B+') SELECTED @endif>B+</option>
