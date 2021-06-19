@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-         
+
         <!-- DataTables -->
         <link rel="stylesheet"
             href="{{ asset('TAssets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
@@ -10,7 +10,7 @@
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        
+
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -148,7 +148,13 @@
 
                                             <hr>
                                             <strong></i>Email</strong>
-                                            <p class="text-muted" id="gEmail">{{ $student->guardian->email }}</p>
+                                            <p class="text-muted" id="gEmail">
+                                                @if (is_null($student->guardian->email))
+                                                    No email address provided
+                                                @else
+                                                    {{ $student->guardian->email }}
+                                                @endif
+                                            </p>
 
                                             <hr>
                                             <strong></i>Phone</strong>
@@ -239,7 +245,8 @@
                                         <option
                                             value="{{ route('student.get.sessional.results', ['student' => $student, 'academicSessionName' => $academicSession->name]) }}"
                                             @if (old('academicSession') == $academicSession) SELECTED @endif>
-                                            {{ $academicSession->name }} @if ($activePeriod->academicSession->id == $academicSession->id) * @endif
+                                            {{ $academicSession->name }} @if ($activePeriod->academicSession->id == $academicSession->id)
+                                                * @endif
                                         </option>
                                     @endforeach
                                 </select>
@@ -282,7 +289,8 @@
                                         @foreach ($terms as $term)
                                             <option
                                                 value="{{ route('student.get.term.results', ['student' => $student, 'academicSessionName' => $academicSession->name, 'termSlug' => $term->slug]) }}">
-                                                {{ $academicSession->name }} {{ $term->name }} @if ($activePeriod->academicSession->id == $academicSession->id && $activePeriod->term->id == $term->id) * @endif
+                                                {{ $academicSession->name }} {{ $term->name }} @if ($activePeriod->academicSession->id == $academicSession->id && $activePeriod->term->id == $term->id)
+                                                    * @endif
                                             </option>
                                         @endforeach
                                     @endforeach
@@ -340,11 +348,9 @@
         {{-- /edit student modal --}}
     @endauth
     <x-slot name="scripts">
-         
+
         <!-- AdminLTE App -->
         <script>
-            
-
             function getSessionalResult() {
                 let selected = $('#sessionalResultModal #academicSession').val()
                 window.location.href = selected
