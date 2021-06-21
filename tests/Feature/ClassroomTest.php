@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\AcademicSession;
 use App\Models\Classroom;
 use App\Models\Period;
 use App\Models\Student;
@@ -38,6 +37,7 @@ class ClassroomTest extends TestCase
 
     public function test_classroom_edit_method()
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $classroom = Classroom::factory()->create();
         $response = $this->actingAs($user)->get(route('classroom.edit', ['classroom' => $classroom]));

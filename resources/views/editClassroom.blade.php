@@ -66,5 +66,5 @@
         </section>
         <!-- /.content -->
     </div>
-    
+    <x-slot name="scripts"></script>
 </x-app-layout>

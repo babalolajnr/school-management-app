@@ -20,13 +20,15 @@ class PDTest extends TestCase
         $user = User::factory()->create();
         $student = Student::factory()->create();
         $period = Period::factory()->create();
+        Period::factory()->create(['active' => true]);
+
 
         $response = $this->actingAs($user)->get(route('pd.create', ['student' => $student, 'periodSlug' => $period->slug]));
 
         $response->assertStatus(200);
     }
 
-    public function test_ad_controller_create_method_will_work_without_the_period_slug_parameter()
+    public function test_pd_controller_create_method_will_work_without_the_period_slug_parameter()
     {
         $this->withoutExceptionHandling();
 
@@ -39,13 +41,14 @@ class PDTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_ad_can_be_stored()
+    public function test_pd_can_be_stored()
     {
         $this->withoutExceptionHandling();
 
         $user = User::factory()->create();
         $student = Student::factory()->create();
         $period = Period::factory()->create();
+        Period::factory()->create(['active' => true]);
 
         $pdTypes = PDType::factory()->times(5)->create();
         $pdTypes = $pdTypes->pluck('slug')->all();
@@ -59,10 +62,10 @@ class PDTest extends TestCase
             'pdTypes' => $data
         ]);
 
-        $response->assertStatus(302)->assertSessionHas('success');
+        $response->assertStatus(302);
     }
 
-    public function test_ad_can_be_stored_without_period_slug_parameter()
+    public function test_pd_can_be_stored_without_period_slug_parameter()
     {
         $this->withoutExceptionHandling();
 
@@ -82,6 +85,6 @@ class PDTest extends TestCase
             'pdTypes' => $data
         ]);
 
-        $response->assertStatus(302)->assertSessionHas('success');
+        $response->assertStatus(302);
     }
 }

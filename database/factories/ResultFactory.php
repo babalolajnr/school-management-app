@@ -27,13 +27,15 @@ class ResultFactory extends Factory
         
         $ca = mt_rand(0, 40);
         $exam = mt_rand(0, 60);
+        $student = Student::factory()->create();
         return [
             'subject_id' => Subject::factory()->create()->id,
-            'student_id' => Student::factory()->create()->id,
+            'student_id' => $student->id,
             'ca' => $ca,
             'exam' => $exam,
             'total' => $exam + $ca,
             'period_id' => Period::factory()->create()->id,
+            'classroom_id' => $student->classroom->id
         ];
     }
 
