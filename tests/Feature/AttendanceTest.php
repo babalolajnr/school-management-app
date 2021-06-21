@@ -17,16 +17,17 @@ class AttendanceTest extends TestCase
         $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $student = Student::factory()->create();
-        $period = Period::factory()->create();
-        $response = $this->actingAs($user)->get(route('attendance.create', ['student' => $student, 'periodSlug' => $period->slug]));
+        Period::factory()->create(['active' => true]);
+        $response = $this->actingAs($user)->get(route('attendance.create', ['student' => $student]));
         $response->assertStatus(200)->assertViewIs('createAttendance');
     }
 
     public function test_attendance_store_or_update_method()
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $student = Student::factory()->create();
-        $period = Period::factory()->create();
+        $period = Period::factory()->create(['active' => true]);
         $response = $this->actingAs($user)->post(
             route(
                 'attendance.store',
@@ -37,6 +38,6 @@ class AttendanceTest extends TestCase
             ]
         );
 
-        $response->assertStatus(302)->assertSessionHas('success');
+        $response->assertStatus(302);
     }
 }
