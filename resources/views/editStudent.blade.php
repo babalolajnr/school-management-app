@@ -179,6 +179,7 @@
                     let data = json
                     let states = data[0]
 
+                    //get student's current state and change the first letter to uppercase
                     let currentState = @json($student->state).toString().toLowerCase()
                     currentState = currentState.charAt(0).toUpperCase() + currentState.slice(1)
 
@@ -197,17 +198,38 @@
                         }
                     }
 
-                    for (const lg of states[currentState]) {
+                    //if current state is not present in states
+                    if (states.hasOwnProperty(currentState)) {
 
-                        let lgOption = $(document.createElement('option')).prop({
-                            value: lg,
-                            text: lg
-                        })
+                        for (const lg of states[currentState]) {
 
-                        $('#lg').append(lgOption)
+                            let lgOption = $(document.createElement('option')).prop({
+                                value: lg,
+                                text: lg
+                            })
 
-                        if (lg == currentLg) {
-                            lgOption.attr("selected", "selected")
+                            $('#lg').append(lgOption)
+
+                            if (lg == currentLg) {
+                                lgOption.attr("selected", "selected")
+                            }
+                        }
+                    } else {
+
+                        let selectedState = $('#state').find(":selected").text();
+
+                        for (const lg of states[selectedState]) {
+
+                            let lgOption = $(document.createElement('option')).prop({
+                                value: lg,
+                                text: lg
+                            })
+
+                            $('#lg').append(lgOption)
+
+                            if (lg == currentLg) {
+                                lgOption.attr("selected", "selected")
+                            }
                         }
                     }
 
@@ -228,7 +250,6 @@
                 });
 
             })
-
         </script>
     </x-slot>
 </x-app-layout>
