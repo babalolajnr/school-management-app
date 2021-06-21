@@ -111,7 +111,8 @@ class StudentController extends Controller
 
     public function update(Student $student, UpdateStudentRequest $request)
     {
-        $student->update($request->validated());
+        $classroom_id = Classroom::where('name', $request->validated()['classroom'])->first()->id;
+        $student->update($request->validated() + ['classroom_id' => $classroom_id]);
         return redirect(route('student.edit', ['student' => $student]))->with('success', 'Student Updated!');
     }
 
@@ -244,7 +245,7 @@ class StudentController extends Controller
 
         return back()->with('success', 'Student restored!');
     }
-    
+
     /**
      * Store student gradation date
      *
