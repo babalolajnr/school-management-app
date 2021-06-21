@@ -32,7 +32,7 @@ class ResultTest extends TestCase
             'subject' => $subject->name
         ]);
 
-        $response->assertStatus(302)->assertSessionHas('success');
+        $response->assertStatus(302);
     }
 
     public function test_user_can_store_results_with_one_assessment()
@@ -49,7 +49,7 @@ class ResultTest extends TestCase
             'subject' => $subject->name
         ]);
 
-        $response->assertStatus(302)->assertSessionHas('success');
+        $response->assertStatus(302);
     }
 
     public function test_result_create_method()
