@@ -41,7 +41,7 @@ class UpdateStudentRequest extends FormRequest
             'blood_group' => ['required', 'string'],
             'date_of_birth' => ['required', 'date', 'before:' . now()],
             'place_of_birth' => ['required'],
-            'classroom' => ['required', 'string'],
+            'classroom' => ['required', 'string', 'exists:classrooms,name'],
         ];
     }
 }
