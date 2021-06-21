@@ -4,10 +4,8 @@ namespace Tests\Feature;
 
 use App\Models\Period;
 use App\Models\Student;
-use App\Models\Term;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class AttendanceTest extends TestCase
