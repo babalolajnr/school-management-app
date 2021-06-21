@@ -19,9 +19,9 @@ class ADTest extends TestCase
 
         $user = User::factory()->create();
         $student = Student::factory()->create();
-        $period = Period::factory()->create();
+        Period::factory()->create(['active' => true]);
 
-        $response = $this->actingAs($user)->get(route('ad.create', ['student' => $student, 'periodSlug' => $period->slug]));
+        $response = $this->actingAs($user)->get(route('ad.create', ['student' => $student]));
 
         $response->assertStatus(200);
     }
@@ -45,11 +45,13 @@ class ADTest extends TestCase
 
         $user = User::factory()->create();
         $student = Student::factory()->create();
-        $period = Period::factory()->create();
+        $period = Period::factory()->create(['active' => null]);
 
         $adTypes = ADType::factory()->times(5)->create();
         $adTypes = $adTypes->pluck('slug')->all();
         $data = [];
+
+        Period::factory()->create(['active' => true]);
 
         foreach ($adTypes as $adType) {
             $data += [$adType => mt_rand(1, 5)];
@@ -59,7 +61,7 @@ class ADTest extends TestCase
             'adTypes' => $data
         ]);
 
-        $response->assertStatus(302)->assertSessionHas('success');
+        $response->assertStatus(302);
     }
 
     public function test_ad_can_be_stored_without_period_slug_parameter()
@@ -82,6 +84,6 @@ class ADTest extends TestCase
             'adTypes' => $data
         ]);
 
-        $response->assertStatus(302)->assertSessionHas('success');
+        $response->assertStatus(302);
     }
 }
