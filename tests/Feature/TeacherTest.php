@@ -53,12 +53,25 @@ class TeacherTest extends TestCase
         $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $teacher = Teacher::factory()->create();
-        $response = $this->actingAs($user)->patch(route('teacher.update', ['teacher' => $teacher]), [
+        $response = $this->actingAs($user)->patch(route('teacher.user.update', ['teacher' => $teacher]), [
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
             'email' => $this->faker->email,
             'phone' => $this->faker->e164PhoneNumber,
             'date_of_birth' => $this->faker->dateTimeThisCentury(),
+            'sex' => 'F'
+        ]);
+        $response->assertStatus(302)->assertSessionHas('success');
+    }
+
+    public function test_teacher_can_update_self()
+    {
+        $this->withoutExceptionHandling();
+        $teacher = Teacher::factory()->create();
+        $response = $this->actingAs($teacher, 'teacher')->patch(route('teacher.update', ['teacher' => $teacher]), [
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'sex' => 'F'
         ]);
         $response->assertStatus(302)->assertSessionHas('success');
     }
