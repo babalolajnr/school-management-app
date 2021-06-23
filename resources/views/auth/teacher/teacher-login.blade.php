@@ -22,7 +22,7 @@
             @csrf
 
             <div class="pb-4">
-                <h3 class="text-center font-bold">Teacher Login</h3>
+                <h3 class="text-center font-bold text-xl">Teacher Login</h3>
             </div>
             <!-- Email Address -->
             <div>
@@ -52,13 +52,13 @@
 
             <div class="flex items-center justify-between">
                 <div class="mt-4">
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
+                    <a class="text-sm text-green-600 hover:text-gray-900" href="{{ route('login') }}">
                         User Login
                     </a>
                 </div>
                 <div class="flex justify-end">
                     @if (Route::has('password.request'))
-                        <a class="underline text-sm text-gray-600 hover:text-gray-900 mt-4"
+                        <a class="text-sm text-green-600 hover:text-gray-900 mt-4"
                             href="{{ route('teacher.password.request') }}">
                             {{ __('Forgot your password?') }}
                         </a>
