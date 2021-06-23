@@ -27,18 +27,24 @@
     <div class="pt-60 lg:relative lg:flex lg:items-top lg:justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
         <div class="hidden lg:block">
             <div class="lg:fixed lg:top-0 lg:right-0 lg:px-6 lg:py-4">
-                @auth
+                @auth('web')
                     <a href="{{ url('/dashboard') }}"
                         class="text-sm dark:text-white text-gray-700 underline">Dashboard</a>
                 @else
                     <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-white underline">Login</a>
-                    <a href="{{ route('teacher.login') }}"
-                        class="ml-4 text-sm text-gray-700 dark:text-white underline">Teacher's Login</a>
 
                     @if (Route::has('register'))
                         <a href="{{ route('register') }}"
                             class="ml-4 text-sm text-gray-700 dark:text-white underline">Register</a>
                     @endif
+                @endauth
+
+                @auth('teacher')
+                    <a href="{{ route('classroom.show', ['classroom' => auth('teacher')->user()->classroom]) }}"
+                        class="text-sm dark:text-white text-gray-700 ml-4 underline">Classroom</a>
+                @else
+                    <a href="{{ route('teacher.login') }}"
+                        class="ml-4 text-sm text-gray-700 dark:text-white underline">Teacher's Login</a>
                 @endauth
             </div>
         </div>
@@ -49,17 +55,23 @@
         <div class="lg:hidden font-thin text-sm flex">
             <div class="mx-auto">
                 <div class="py-3">
-                    @auth
+                    @auth('web')
                         <a href="{{ url('/dashboard') }}" class="text-sm dark:text-white text-gray-700 underline"><button
                                 class="btn-blue">Dashboard</button></a>
                     @else
                         <a href="{{ route('login') }}"><button class="btn-blue">Login</button></a>
-                        <a href=""><button class="btn-blue">Register</button></a>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}"><button class="btn-blue">Register</button></a>
+                        @endif
                     </div>
-                    @if (Route::has('register'))
-                        <a href="{{ route('teacher.login') }}" class="block"><button class="btn-blue">Teacher's
-                                Login</button></a>
-                    @endif
+                @endauth
+                @auth('teacher')
+                    <a href="{{ route('classroom.show', ['classroom' => auth('teacher')->user()->classroom]) }}"
+                        class="text-sm dark:text-white text-gray-700 underline"><button
+                            class="btn-blue">Classroom</button></a>
+                @else
+                    <a href="{{ route('teacher.login') }}" class="block"><button class="btn-blue">Teacher's
+                            Login</button></a>
                 @endauth
 
             </div>
