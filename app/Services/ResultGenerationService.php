@@ -106,7 +106,7 @@ class ResultGenerationService
                 $averageScore = [$key => null];
                 $averageScores = array_merge($averageScores, $averageScore);
             } else {
-                $scoresQuery = Result::where('period_id', $period->id)->where('subject_id', $result->subject->id);
+                $scoresQuery = Result::where('period_id', $period->id)->where('subject_id', $result->subject->id)->where('classroom_id', $classroomId);
 
                 //highest scores
                 $maxScore = $scoresQuery->max('total');
