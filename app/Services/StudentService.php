@@ -93,6 +93,8 @@ class StudentService
         $term = Term::where('slug', $termSlug)->firstOrFail();
         $period = Period::where('academic_session_id', $academicSession->id)->where('term_id', $term->id)->first();
 
+        //Get Classroom
+        $classroomId = $student->results()->where('period_id', $period->id)->first()->classroom_id;
 
         $results = Result::where('student_id', $student->id)->where('period_id', $period->id)->get();
 
@@ -104,7 +106,7 @@ class StudentService
         foreach ($results as $result) {
 
             $scoresQuery = Result::where('period_id', $period->id)
-                ->where('subject_id', $result->subject->id);
+                ->where('subject_id', $result->subject->id)->where('classroom_id', $classroomId);
 
             //highest scores
             $maxScore = $scoresQuery->max('total');
@@ -174,15 +176,20 @@ class StudentService
         $minScores = [];
         $averageScores = [];
 
+
+
         //loop through all the terms and create an associative array based on terms and results
         foreach ($periods as $period) {
             $resultItem = Result::where('student_id', $student->id)
                 ->where('period_id', $period->id)->get();
 
+            //Get Classroom
+            $classroomId = $student->results()->where('period_id', $period->id)->first()->classroom_id;
+
             //Get each subject highest and lowest scores    
             foreach ($resultItem as $item) {
 
-                $scoresQuery = Result::where('period_id', $period->id)->where('subject_id', $item->subject->id);
+                $scoresQuery = Result::where('period_id', $period->id)->where('subject_id', $item->subject->id)->where('classroom_id', $classroomId);
 
                 //highest scores
                 $maxScore = $scoresQuery->max('total');
