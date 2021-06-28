@@ -27,7 +27,8 @@ class DashboardController extends Controller
 
         $dashboardData = FacadesCache::remember('dashboardData', 60, function () {
 
-            $students = count(Student::getAllStudents());
+            $students = Student::getAllStudents();
+            $studentsNo = count($students);
             $alumni = count(Student::getAlumni());
             $teachers = count(Teacher::all());
             $users = count(User::all());
@@ -35,16 +36,18 @@ class DashboardController extends Controller
             $period = Period::activePeriod();
             $subjects = count(Subject::all());
             $classroomPopulationChartData = $this->generateClassroomsPopulationChart();
+            $genderDistributionChartData = $this->generateGenderDistributionChart($students);
 
             $dashboardData = [
-                'students' => $students,
+                'students' => $studentsNo,
                 'alumni' => $alumni,
                 'teachers' => $teachers,
                 'users' => $users,
                 'classrooms' => $classrooms,
                 'period' => $period,
                 'subjects' => $subjects,
-                'classroomPopulationChartData' => $classroomPopulationChartData
+                'classroomPopulationChartData' => $classroomPopulationChartData,
+                'genderDistributionChartData' => $genderDistributionChartData
             ];
 
             return $dashboardData;
@@ -83,6 +86,28 @@ class DashboardController extends Controller
             'classroomNames' => $classroomNames,
             'populations' => $populations,
             'colors' => $colors
+        ];
+    }
+
+    /**
+     * Generates gender distribution chart data
+     *
+     * @param  mixed $students
+     * @return array
+     */
+    private function generateGenderDistributionChart($students)
+    {
+        $male = $students->filter(function ($student) {
+            return $student->sex == 'M';
+        });
+
+        $female = $students->filter(function ($student) {
+            return $student->sex == 'F';
+        });
+
+        return [
+            'male' => count($male),
+            'female' => count($female)
         ];
     }
 }
