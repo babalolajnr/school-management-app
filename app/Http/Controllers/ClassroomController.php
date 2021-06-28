@@ -165,16 +165,20 @@ class ClassroomController extends Controller
      */
     public function updateSubjects(Classroom $classroom, Request $request)
     {
-        $this->validate($request, [
-            'subjects' => ['required']
-        ]);
+        if (!Period::activePeriodIsSet()) {
+            return back()->with('error', 'Active Period is not set!');
+        }
+        
+        //detach all subjects from classroom when no subject is provided
+        if (!$request->has('subjects')) {
+            $classroom->subjects()->sync([]);
+            return back()->with('success', 'Subjects set successfully');
+        }
 
         $subjects = $request->subjects;
         $subjectIds = [];
 
-        if (!Period::activePeriodIsSet()) {
-            return back()->with('error', 'Active Period is not set!');
-        }
+        
 
         $currentAcademicSession = Period::activePeriod()->academicSession;
 
@@ -182,7 +186,7 @@ class ClassroomController extends Controller
             $subjectId = Subject::where('name', $subject)->first()->id;
             array_push($subjectIds, $subjectId);
         }
-        
+
         //insert all subjectIds to the related class on the pivot table
         $classroom->subjects()->syncWithPivotValues($subjectIds, ['academic_session_id' => $currentAcademicSession->id]);
 
