@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-         
+
         <!-- Select2 -->
         <link rel="stylesheet" href="{{ asset('TAssets/plugins/select2/css/select2.min.css') }}">
         <link rel="stylesheet"
@@ -9,7 +9,7 @@
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        
+
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -47,8 +47,10 @@
                                         <label for="Subject">Subject</label>
                                         <select class="form-control select2" name="subject" style="width: 100%;">
                                             @foreach ($subjects as $subject)
-                                                <option @if (old('subject') == $subject) SELECTED @endif>{{ $subject->name }}
-                                                </option>
+                                                @if (!is_null($subject))
+                                                    <option @if (old('subject') == $subject) SELECTED @endif>{{ $subject->name }}
+                                                    </option>
+                                                @endif
                                             @endforeach
                                         </select>
                                         @error('subject')
@@ -86,18 +88,16 @@
         <!-- /.content -->
     </div>
     <x-slot name="scripts">
-         
+
         <!-- Select2 -->
         <script src="{{ asset('TAssets/plugins/select2/js/select2.full.min.js') }}"></script>
         <!-- AdminLTE App -->
         <script>
-            
             $(function() {
 
                 //Initialize Select2 Elements
                 $('.select2').select2()
             })
-
         </script>
     </x-slot>
 </x-app-layout>
