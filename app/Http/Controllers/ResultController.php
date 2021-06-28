@@ -27,7 +27,18 @@ class ResultController extends Controller
             return back()->with('error', 'Active period is not set');
         }
 
-        $subjects = $student->classroom->subjects()->where('academic_session_id',  $activePeriod->academicSession->id)->get();
+        $classroomSubjects = $student->classroom->subjects()->where('academic_session_id',  $activePeriod->academicSession->id)->get();
+
+        $recordedSubjects = Result::where('student_id', $student->id)
+            ->where('period_id', $activePeriod->id)
+            ->where('classroom_id', $student->classroom->id)->pluck('subject_id');
+
+        //filter subjects that have a result out
+        $subjects = $classroomSubjects->map(function ($subject) use ($recordedSubjects) {
+            if (!$recordedSubjects->contains($subject->id)) {
+                return $subject;
+            }
+        });
 
         return view('createResults', compact('subjects', 'student', 'activePeriod'));
     }
@@ -83,8 +94,7 @@ class ResultController extends Controller
             'classroom_id' => $student->classroom->id
         ]);
 
-        return redirect(route('result.show.performance', ['student' => $student, 'periodSlug' => $activePeriod->slug]));
-
+        return back()->with('success', 'Result added!');
     }
 
     /**
@@ -104,7 +114,6 @@ class ResultController extends Controller
             if ($e->getMessage() == "Student's class does not have subjects") {
                 return redirect()->route('classroom.show', ['classroom' => $student->classroom])->with('error', 'The student\'s class does not have subjects set for the selected academic session');
             }
-
         }
         return view('performanceReport', $data);
     }
