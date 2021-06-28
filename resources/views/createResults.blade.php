@@ -59,16 +59,16 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="C.A">C.A</label>
-                                        <input type="number" name="ca"
+                                        <input type="number" step="any" name="ca"
                                             class="form-control @error('ca') is-invalid @enderror"
-                                            value="{{ old('ca') }}">
+                                            value="{{ old('ca') }}" required>
                                         @error('ca')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="Exam">Exam</label>
-                                        <input type="number" name="exam"
+                                        <input type="number" name="exam" step="any"
                                             class="form-control @error('exam') is-invalid @enderror"
                                             value="{{ old('exam') }}">
                                         @error('exam')
