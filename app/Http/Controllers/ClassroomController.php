@@ -134,7 +134,7 @@ class ClassroomController extends Controller
     }
 
     /**
-     * This method return the setSubjects view
+     * This method return the set subjects view
      */
     public function setSubjects(Classroom $classroom)
     {
@@ -145,7 +145,7 @@ class ClassroomController extends Controller
         if (!Period::activePeriodIsSet()) {
             return back()->with('error', 'Academic Session is not set');
         }
-        
+
         $currentAcademicSession = Period::activePeriod()->academicSession;
 
         //loop subjects and get the ones that are related to the classroom
@@ -177,19 +177,14 @@ class ClassroomController extends Controller
         }
 
         $currentAcademicSession = Period::activePeriod()->academicSession;
-        $academicSessions = [];
 
         foreach ($subjects as $subject) {
             $subjectId = Subject::where('name', $subject)->first()->id;
             array_push($subjectIds, $subjectId);
-            array_push($academicSessions, ['academic_session_id' => $currentAcademicSession->id]);
         }
-
-        //combine the two arrays to form an associative array in order to sync the subjects and academic session
-        $data = array_combine($subjectIds, $academicSessions);
+        
         //insert all subjectIds to the related class on the pivot table
-        $classroom->subjects()->sync($data);
-
+        $classroom->subjects()->syncWithPivotValues($subjectIds, ['academic_session_id' => $currentAcademicSession->id]);
 
         return back()->with('success', 'Subjects set successfully');
     }
