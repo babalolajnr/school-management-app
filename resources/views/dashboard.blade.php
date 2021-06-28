@@ -166,22 +166,14 @@
                     <!-- ./col -->
                 </div>
                 <div class="row">
-                    <section class="col-lg-7 connectedSortable ui-sortable">
+                    <section class="col-lg-6">
                         <!-- Custom tabs (Charts with tabs)-->
                         <div class="card">
-                            <div class="card-header ui-sortable-handle" style="cursor: move;">
+                            <div class="card-header">
                                 <h3 class="card-title">
                                     <i class="fas fa-chart-pie mr-1"></i>
                                     Classrooms Population
                                 </h3>
-                                <div class="card-tools">
-                                    <ul class="nav nav-pills ml-auto">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" href="#class-population-chart"
-                                                data-toggle="tab">Donut</a>
-                                        </li>
-                                    </ul>
-                                </div>
                             </div><!-- /.card-header -->
                             <div class="card-body">
                                 <div class="tab-content p-0">
@@ -207,6 +199,39 @@
                         <!-- /.card -->
                         <!-- /.card -->
                     </section>
+                    <section class="col-lg-6">
+                        <!-- Custom tabs (Charts with tabs)-->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-chart-pie mr-1"></i>
+                                    Gender Distribution
+                                </h3>
+                            </div><!-- /.card-header -->
+                            <div class="card-body">
+                                <div class="tab-content p-0">
+                                    {{-- gender distribution chart --}}
+                                    <div class="chart tab-pane active" id="gender-distribution-chart"
+                                        style="position: relative; height: 300px;">
+                                        <div class="chartjs-size-monitor">
+                                            <div class="chartjs-size-monitor-expand">
+                                                <div class=""></div>
+                                            </div>
+                                            <div class="chartjs-size-monitor-shrink">
+                                                <div class=""></div>
+                                            </div>
+                                        </div>
+                                        <canvas id="gender-distribution" height="300"
+                                            style="height: 300px; display: block; width: 578px;" width="578"
+                                            class="chartjs-render-monitor"></canvas>
+
+                                    </div>
+                                </div>
+                            </div><!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                        <!-- /.card -->
+                    </section>
                 </div>
                 <!-- /.row -->
                 <!-- Main row -->
@@ -220,21 +245,45 @@
         <!-- ChartJS -->
         <script src="{{ asset('TAssets/plugins/chart.js/Chart.bundle.min.js') }}"></script>
         <script>
-            const ctx = document.getElementById('class-population').getContext('2d');
-            const data = {
-                labels: @json($dashboardData['classroomPopulationChartData']['classroomNames']),
-                datasets: [{
-                    label: 'Classroom Population',
-                    data: @json($dashboardData['classroomPopulationChartData']['populations']),
-                    backgroundColor: @json($dashboardData['classroomPopulationChartData']['colors']),
-                    hoverOffset: 4
-                }]
-            };
-            const myChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: data,
+            $(function() {
+                generateClassroomPopulationChart()
+                generateGenderDistributionChart()
             });
 
+            function generateClassroomPopulationChart() {
+                const ctx = document.getElementById('class-population').getContext('2d');
+                const data = {
+                    labels: @json($dashboardData['classroomPopulationChartData']['classroomNames']),
+                    datasets: [{
+                        label: 'Classroom Population',
+                        data: @json($dashboardData['classroomPopulationChartData']['populations']),
+                        backgroundColor: @json($dashboardData['classroomPopulationChartData']['colors']),
+                        hoverOffset: 4
+                    }]
+                };
+                const classPopulation = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: data,
+                });
+            }
+
+            function generateGenderDistributionChart() {
+                const ctx = document.getElementById('gender-distribution').getContext('2d');
+                const data = {
+                    labels: ['Male', 'Female'],
+                    datasets: [{
+                        label: 'Gender Distribution',
+                        data: [@json($dashboardData['genderDistributionChartData']['male']), @json($dashboardData['genderDistributionChartData']['female'])],
+                        backgroundColor: ['Blue', 'Pink'],
+                        hoverOffset: 4
+                    }]
+                };
+
+                const genderDistribution = new Chart(ctx, {
+                    type: 'pie',
+                    data: data,
+                });
+            }
         </script>
     </x-slot>
 </x-app-layout>
