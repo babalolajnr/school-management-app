@@ -1,7 +1,5 @@
 <x-app-layout>
     <x-slot name="styles">
-         
-        <link rel="stylesheet" href="{{ asset('css/range-slider.min.css') }}">
     </x-slot>
 
     <div class="content-wrapper">
@@ -84,9 +82,5 @@
     </div>
 
     <x-slot name="scripts">
-         
-        <script src="{{ asset('js/range-slider.min.js') }}">
-        </script>
-        <!-- AdminLTE App -->
     </x-slot>
 </x-app-layout>
