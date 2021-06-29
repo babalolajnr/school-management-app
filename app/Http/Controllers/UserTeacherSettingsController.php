@@ -25,6 +25,16 @@ class UserTeacherSettingsController extends Controller
             );
 
             return response()->json(['status' => 'success', 'darkmode' => $darkmode]);
+        } else {
+            UserTeacherSettings::updateOrCreate(
+                ['teacher_id' => auth('teacher')->user()->id],
+                [
+                    'dark_mode' => $darkmode,
+                    'user_id' => null
+                ]
+            );
+
+            return response()->json(['status' => 'success', 'darkmode' => $darkmode]);
         };
     }
 }
