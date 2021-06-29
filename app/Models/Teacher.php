@@ -95,4 +95,20 @@ class Teacher extends Authenticatable implements CanResetPassword
 
         $this->notify($notification);
     }
+
+    /**
+     * Get Teacher dark mode status
+     *
+     * @return void
+     */
+    public function darkMode()
+    {
+        if (!is_null($this->settings)) {
+            if ($this->settings->dark_mode == 1) {
+                return "true";
+            }
+        }
+
+        return "false";
+    }
 }
