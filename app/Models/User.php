@@ -111,10 +111,12 @@ class User extends Authenticatable implements CanResetPassword
      */
     public function darkMode()
     {
-        if ($this->settings->dark_mode == 1) {
-            return "true";
+        if (!is_null($this->settings)) {
+            if ($this->settings->dark_mode == 1) {
+                return "true";
+            }
         }
-        
+
         return "false";
     }
 }
