@@ -17,5 +17,10 @@
                 <i class="fas fa-expand-arrows-alt"></i>
             </a>
         </li>
+        <li class="nav-item mt-1">
+            <form action="{{ route('toggle-dark-mode') }}" id="dark-mode-form">
+                <input type="checkbox" name="dark-mode" id="dark-mode">
+            </form>
+        </li>
     </ul>
 </nav>

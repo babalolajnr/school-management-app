@@ -64,6 +64,16 @@ class Teacher extends Authenticatable implements CanResetPassword
     }
 
     /**
+     * Teacher settings relationship
+     *
+     * @return void
+     */
+    public function settings()
+    {
+        return $this->hasOne(UserTeacherSettings::class);
+    }
+
+    /**
      * Check if teacher is active
      *
      * @return bool
@@ -72,7 +82,7 @@ class Teacher extends Authenticatable implements CanResetPassword
     {
         return $this->is_active == true;
     }
-    
+
     /**
      * Send Password reset notification
      *
@@ -82,7 +92,23 @@ class Teacher extends Authenticatable implements CanResetPassword
     public function sendPasswordResetNotification($token)
     {
         $notification = new TeacherResetPassword($token);
-        
+
         $this->notify($notification);
+    }
+
+    /**
+     * Get Teacher dark mode status
+     *
+     * @return void
+     */
+    public function darkMode()
+    {
+        if (!is_null($this->settings)) {
+            if ($this->settings->dark_mode == 1) {
+                return "true";
+            }
+        }
+
+        return "false";
     }
 }

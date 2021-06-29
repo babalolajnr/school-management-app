@@ -43,7 +43,7 @@ class User extends Authenticatable implements CanResetPassword
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-        
+
     /**
      * Hos remark relationship
      *
@@ -53,6 +53,17 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->hasMany(HosRemark::class);
     }
+
+    /**
+     * User settings relationship
+     *
+     * @return void
+     */
+    public function settings()
+    {
+        return $this->hasOne(UserTeacherSettings::class);
+    }
+
     /**
      * Check if user is an admin
      *
@@ -62,7 +73,7 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->user_type == 'admin';
     }
-    
+
     /**
      * Check if user is a master
      *
@@ -72,7 +83,7 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->user_type == 'master';
     }
-    
+
     /**
      * Check if user is active
      *
@@ -82,7 +93,7 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->is_active == true;
     }
-    
+
     /**
      * Check if user is verified
      *
@@ -91,5 +102,21 @@ class User extends Authenticatable implements CanResetPassword
     public function isVerified()
     {
         return $this->is_verified == true;
+    }
+
+    /**
+     * Get user dark mode status
+     *
+     * @return void
+     */
+    public function darkMode()
+    {
+        if (!is_null($this->settings)) {
+            if ($this->settings->dark_mode == 1) {
+                return "true";
+            }
+        }
+
+        return "false";
     }
 }

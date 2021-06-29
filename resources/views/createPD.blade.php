@@ -1,12 +1,10 @@
 <x-app-layout>
     <x-slot name="styles">
-         
-        <link rel="stylesheet" href="{{ asset('css/range-slider.min.css') }}">
     </x-slot>
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        
+
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -51,8 +49,7 @@
                                                 <label for="customRange1">{{ $pdType->name }}<span
                                                         class="font-light pl-4">range(1-5)</span></label>
                                                 <input type="range" class="custom-range" min="1" max="5"
-                                                    name="pdTypes[{{ $pdType->slug }}]" id="{{ $pdType->slug }}"
-                                                    @if (array_key_exists($pdType->id, $pdTypesValues)) value="{{ $pdTypesValues[$pdType->id] }}" @endif>
+                                                    name="pdTypes[{{ $pdType->slug }}]" id="{{ $pdType->slug }}" @if (array_key_exists($pdType->id, $pdTypesValues)) value="{{ $pdTypesValues[$pdType->id] }}" @endif>
                                             </div>
                                         @endforeach
                                     @else
@@ -84,10 +81,5 @@
     </div>
 
     <x-slot name="scripts">
-         
-        <script src="{{ asset('js/range-slider.min.js') }}">
-        </script>
-        <!-- AdminLTE App -->
-        
     </x-slot>
 </x-app-layout>
