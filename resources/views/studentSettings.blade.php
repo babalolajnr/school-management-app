@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-         
+
         <!-- DataTables -->
         <link rel="stylesheet" href="{{ asset('TAssets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
         <link rel="stylesheet"
@@ -15,7 +15,7 @@
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        
+
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -142,45 +142,6 @@
                                         @endif
 
                                         {{-- /Set graduation date --}}
-
-                                        {{-- PD --}}
-                                        <div class="form-group row">
-                                            <label for="class" class="col-sm-2 col-form-label">Psychomotor
-                                                Domain({{ $currentAcademicSession->name }})</label>
-                                            <div class="col-sm-6">
-                                                <button type="button" onclick="showChooseTermModalPD()"
-                                                    class="btn btn-default btn-flat">
-                                                    Create/Update Psychomotor domains
-                                                </button>
-                                            </div>
-                                        </div>
-                                        {{-- /PD --}}
-
-                                        {{-- AD --}}
-                                        <div class="form-group row">
-                                            <label for="class" class="col-sm-2 col-form-label">Affective
-                                                Domain({{ $currentAcademicSession->name }})</label>
-                                            <div class="col-sm-6">
-                                                <button type="button" onclick="showChooseTermModalAD()"
-                                                    class="btn btn-default btn-flat">
-                                                    Create/Update Affective domains
-                                                </button>
-                                            </div>
-                                        </div>
-                                        {{-- /AD --}}
-
-                                        {{-- Attendance --}}
-                                        <div class="form-group row">
-                                            <label for="class" class="col-sm-2 col-form-label">Attendance
-                                                ({{ $currentAcademicSession->name }})</label>
-                                            <div class="col-sm-6">
-                                                <button type="button" onclick="showChooseTermModalAttendance()"
-                                                    class="btn btn-default btn-flat">
-                                                    Create/Update Attendance
-                                                </button>
-                                            </div>
-                                        </div>
-                                        {{-- /Attendance --}}
                                     @endif
 
                                 </div>
@@ -192,85 +153,6 @@
         </section>
         <!-- /.content -->
 
-    </div>
-
-    {{-- choose term modal for PD --}}
-    <div class="modal fade" id="chooseTermPD">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Choose Term</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    @foreach ($terms as $term)
-                        <a href="{{ route('pd.create', ['student' => $student, 'termSlug' => $term->slug]) }}">
-                            <button type="button" class="btn btn-default">{{ $term->name }}</button>
-                        </a>
-                    @endforeach
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-
-    {{-- choose term modal for AD --}}
-    <div class="modal fade" id="chooseTermAD">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Choose Term</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    @foreach ($terms as $term)
-                        <a href="{{ route('ad.create', ['student' => $student, 'termSlug' => $term->slug]) }}">
-                            <button type="button" class="btn btn-default">{{ $term->name }}</button>
-                        </a>
-                    @endforeach
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-
-    {{-- choose term modal for Attendance --}}
-    <div class="modal fade" id="chooseTermAttendance">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Choose Term</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    @foreach ($terms as $term)
-                        <a
-                            href="{{ route('attendance.create', ['student' => $student, 'termSlug' => $term->slug]) }}">
-                            <button type="button" class="btn btn-default">{{ $term->name }}</button>
-                        </a>
-                    @endforeach
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
     </div>
 
     {{-- change class confirmation modal --}}
@@ -300,7 +182,7 @@
         <!-- /.modal-dialog -->
     </div>
     <x-slot name="scripts">
-         
+
         <!-- DataTables  & Plugins -->
         <script src="{{ asset('TAssets/plugins/datatables/jquery.dataTables.min.js') }}">
         </script>
@@ -350,24 +232,6 @@
 
                 $('#changeClassConfirmationModal').modal('show')
             }
-
-            
-
-            // displays term modal for PD
-            function showChooseTermModalPD() {
-                $('#chooseTermPD').modal('show')
-            }
-
-            // displays term modal for AD
-            function showChooseTermModalAD() {
-                $('#chooseTermAD').modal('show')
-            }
-
-            // displays term modal for Attendance
-            function showChooseTermModalAttendance() {
-                $('#chooseTermAttendance').modal('show')
-            }
-
         </script>
     </x-slot>
 </x-app-layout>
