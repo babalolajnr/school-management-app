@@ -27,7 +27,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<body class="hold-transition sidebar-mini layout-navbar-fixed layout-fixed layout-footer-fixed">
     <!-- Site wrapper -->
     <div class="wrapper">
         <!-- Navbar -->
@@ -41,6 +41,7 @@
             data-success-message='{{ json_encode(session('success')) }}'></span>
         <span id="error" {{ session('error') ? 'data-error = true' : false }}
             data-error-message='{{ json_encode(session('error')) }}'></span>
+        <span id="darkmode-status" data-darkmode-status="{{ auth('web')->user()->darkMode() }}"></span>
         <!-- Content Wrapper. Contains page content -->
         {{ $slot }}
         <!-- /.content-wrapper -->
@@ -58,6 +59,8 @@
     <script src="{{ asset('TAssets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
     <!-- SweetAlert2 -->
     <script src="{{ asset('TAssets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    <!-- Bootstrap Switch -->
+    <script src="{{ asset('TAssets/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('TAssets/dist/js/adminlte.min.js') }}"></script>
     {{ $scripts }}
@@ -70,10 +73,16 @@
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
-            timer: 3000
+            timer: 5000
         });
 
+
         $(function() {
+            toastrAlert()
+            darkMode()
+        });
+
+        function toastrAlert() {
             let Success = document.getElementById('success')
             let Error = document.getElementById('error')
 
@@ -89,8 +98,68 @@
                     icon: 'error',
                     title: JSON.parse(Error.dataset.errorMessage)
                 })
-        });
+        }
 
+        function darkMode() {
+            //get darkmode status
+            let darkmodeStatus = $("#darkmode-status").attr('data-darkmode-status')
+
+            if (darkmodeStatus == 'true') {
+                darkmodeStatus = true
+                $('body').addClass('dark-mode')
+            } else {
+                darkmodeStatus = false
+            }
+
+            //set dark mode button toggle
+            $("#dark-mode").bootstrapSwitch({
+                size: "mini",
+                state: darkmodeStatus,
+                onText: '🌆',
+                offText: '☀',
+                onColor: 'dark'
+            })
+
+            //on dark mode switch click
+            $("#dark-mode").bootstrapSwitch('onSwitchChange', function(e, state) {
+                e.preventDefault();
+                $(this).bootstrapSwitch('state', !state, true)
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: $("#dark-mode-form").attr('action'),
+                    data: {
+                        darkmode: state
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status == 'success') {
+                            //toggle switch
+                            if (response.darkmode == true) {
+                                $("#dark-mode").bootstrapSwitch('toggleState', true, true)
+                                $('body').addClass('dark-mode')
+                            } else {
+                                $("#dark-mode").bootstrapSwitch('toggleState', true, false)
+                                $('body').removeClass('dark-mode')
+                            }
+                        }
+                    },
+                    error: function(data) {
+                        Toast.fire({
+                            icon: 'error',
+                            title: "Unable to toggle dark mode. Try again!"
+                        })
+                    }
+
+                })
+            });
+        }
     </script>
 </body>
 
