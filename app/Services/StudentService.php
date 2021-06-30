@@ -10,6 +10,7 @@ use App\Models\Period;
 use App\Models\Result;
 use App\Models\Student;
 use App\Models\Term;
+use Exception;
 use  Intervention\Image\Facades\Image;
 
 class StudentService
@@ -94,7 +95,13 @@ class StudentService
         $period = Period::where('academic_session_id', $academicSession->id)->where('term_id', $term->id)->first();
 
         //Get Classroom
-        $classroomId = $student->results()->where('period_id', $period->id)->first()->classroom_id;
+        $result = $student->results()->where('period_id', $period->id)->first();
+
+        if (is_null($result)) {
+            throw new Exception('No results found for selected term');
+        }
+
+        $classroomId = $result->classroom_id;
 
         $results = Result::where('student_id', $student->id)->where('period_id', $period->id)->get();
 
@@ -170,6 +177,11 @@ class StudentService
 
         $academicSession = AcademicSession::where('name', $academicSessionName)->firstOrFail();
         $periods = Period::where('academic_session_id', $academicSession->id)->get();
+
+        $periods = $periods->filter(function ($period) use ($student) {
+            $result = $student->results->where('period_id', $period->id)->first();
+            if(!is_null($result)) return $period;
+        });
 
         $results = [];
         $maxScores = [];
