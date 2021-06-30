@@ -11,6 +11,7 @@ use App\Models\Period;
 use App\Models\Student;
 use App\Models\Term;
 use App\Services\StudentService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -124,7 +125,11 @@ class StudentController extends Controller
 
     public function getTermResults(Student $student, $termSlug, $academicSessionName, StudentService $studentService)
     {
-        $termResults = $studentService->getTermResults($student, $termSlug, $academicSessionName);
+        try {
+            $termResults = $studentService->getTermResults($student, $termSlug, $academicSessionName);
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
+        }
 
         return view('studentTermResults', $termResults);
     }
