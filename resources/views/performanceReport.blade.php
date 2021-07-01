@@ -48,7 +48,7 @@
             </div>
             <div class="passport">
                 <img src="@if ($student->image) {{ asset($student->image) }} @else
-                {{ asset('images/user1.svg') }} @endif" height="160" width="50" alt="Passport Photograph">
+                {{ asset('images/user1.svg') }} @endif" height="160" width="100" alt="Passport Photograph">
             </div>
         </div>
 
