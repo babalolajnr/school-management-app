@@ -46,6 +46,10 @@
                 <p class="h5"><strong class="text-uppercase"><u>{{ $period->term->name }} STUDENT'S PERFORMANCE
                             REPORT</u></strong></p>
             </div>
+            <div class="passport">
+                <img src="@if ($student->image) {{ asset($student->image) }} @else
+                {{ asset('images/user1.svg') }} @endif" alt="Passport Photograph">
+            </div>
         </div>
 
         <!--Student details-->
