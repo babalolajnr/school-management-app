@@ -38,6 +38,8 @@ Route::get('/', function () {
     return view('welcome');
 })->middleware('guest:teacher,web');
 
+Route::get('guardian/performance-report/{student:admission_no}/{periodSlug}', [ResultController::class, 'showPerformanceReport'])->middleware('valid.signature')->name('result.guardian.show.performance')->where('student', '.*');
+
 Route::get('/deactivated', [DeactivatedController::class, 'index'])->middleware(['auth:teacher,web'])->name('deactivated');
 
 Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerified'])->group(function () {
@@ -91,7 +93,6 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             //Results Routes
             Route::get('/create/{student:admission_no}', [ResultController::class, 'create'])->name('create')->where('student', '.*');
             Route::get('/performance-report/{student:admission_no}/{periodSlug}', [ResultController::class, 'showPerformanceReport'])->name('show.performance')->where('student', '.*');
-            Route::get('guardian/performance-report/{student:admission_no}/{periodSlug}', [ResultController::class, 'showPerformanceReport'])->middleware('valid.signature')->name('guardian.show.performance')->where('student', '.*');
             Route::get('mail/performance-report/{student:admission_no}/{periodSlug}', [ResultController::class, 'mailStudentPerformanceReport'])->name('mail.performance')->where('student', '.*');
             Route::post('/store/{student}', [ResultController::class, 'store'])->name('store');
         });
