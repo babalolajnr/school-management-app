@@ -47,21 +47,24 @@
                                                 class="btn btn-outline-secondary btn-sm btn-flat">Performance
                                                 Report</button>
                                         </a>
+                                        @auth('web')
+                                            <button type="button"
+                                                onclick="emailConfirmation('{{ route('result.mail.performance', ['student' => $student, 'periodSlug' => $period->slug]) }}')"
+                                                class="btn btn-outline-secondary btn-sm btn-flat"
+                                                title="Email Performance Report">Email to Guardian</button>
+                                        @endauth
                                         @if ($period->isActive())
-                                            <a
-                                                href="{{ route('pd.create', ['student' => $student]) }}">
+                                            <a href="{{ route('pd.create', ['student' => $student]) }}">
                                                 <button type="button" class="btn btn-outline-secondary btn-sm btn-flat"
                                                     title="Create or update Pychomotor domain for the result's academic session and term">Create/Update
                                                     PD</button>
                                             </a>
-                                            <a
-                                                href="{{ route('ad.create', ['student' => $student]) }}">
+                                            <a href="{{ route('ad.create', ['student' => $student]) }}">
                                                 <button type="button" class="btn btn-outline-secondary btn-sm btn-flat"
                                                     title="Create or update Affective domain for the result's academic session and term">Create/Update
                                                     AD</button>
                                             </a>
-                                            <a
-                                                href="{{ route('attendance.create', ['student' => $student]) }}">
+                                            <a href="{{ route('attendance.create', ['student' => $student]) }}">
                                                 <button type="button" class="btn btn-outline-secondary btn-sm btn-flat"
                                                     title="Create or update attendance record">Create/Update
                                                     Attendance</button>
@@ -202,6 +205,30 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+    {{-- Email confirmation modal --}}
+    <div class="modal fade" id="emailConfirmation">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirmation</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to send performance report to the guardian
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <a href="" id="confirmed">
+                        <button type="button" class="btn btn-success">Yes</button>
+                    </a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
     <x-slot name="scripts">
 
         <!-- DataTables  & Plugins -->
@@ -234,6 +261,11 @@
                 $('#deleteConfirmationModal').modal('show')
             }
 
+            function emailConfirmation(url) {
+                $('#confirmed').attr("href", url)
+                $('#emailConfirmation').modal('show')
+            }
+
 
             //datatables
             $(function() {
@@ -244,7 +276,6 @@
                     "buttons": ["copy", "csv", "excel", "pdf", "print"]
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
             });
-
         </script>
     </x-slot>
 </x-app-layout>

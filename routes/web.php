@@ -90,8 +90,10 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
         Route::prefix('results')->name('result.')->group(function () {
             //Results Routes
             Route::get('/create/{student:admission_no}', [ResultController::class, 'create'])->name('create')->where('student', '.*');
-            Route::post('/store/{student}', [ResultController::class, 'store'])->name('store');
             Route::get('/performance-report/{student:admission_no}/{periodSlug}', [ResultController::class, 'showPerformanceReport'])->name('show.performance')->where('student', '.*');
+            Route::get('guardian/performance-report/{student:admission_no}/{periodSlug}', [ResultController::class, 'showPerformanceReport'])->middleware('valid.signature')->name('guardian.show.performance')->where('student', '.*');
+            Route::get('mail/performance-report/{student:admission_no}/{periodSlug}', [ResultController::class, 'mailStudentPerformanceReport'])->name('mail.performance')->where('student', '.*');
+            Route::post('/store/{student}', [ResultController::class, 'store'])->name('store');
         });
 
         Route::prefix('attendance')->name('attendance.')->group(function () {
