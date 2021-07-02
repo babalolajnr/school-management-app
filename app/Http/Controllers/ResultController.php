@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\StudentPerformanceReport;
 use App\Models\Period;
 use App\Models\Result;
 use App\Models\Student;
@@ -9,6 +10,7 @@ use App\Models\Subject;
 use App\Services\ResultGenerationService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ResultController extends Controller
 {
@@ -164,5 +166,11 @@ class ResultController extends Controller
     {
         $result->delete();
         return back()->with('success', 'Result Deleted');
+    }
+
+    public function mailStudentPerformanceReport(Student $student, $periodSlug)
+    {
+        Mail::to($student->guardian->email)->send(new StudentPerformanceReport($student, $periodSlug));
+        return back()->with('success', 'Email sent successfully');
     }
 }
