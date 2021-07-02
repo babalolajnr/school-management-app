@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'activeAndVerified' => \App\Http\Middleware\CheckUserIsActiveAndVerified::class,
         'classTeacherOrUser' => \App\Http\Middleware\CheckUserIsClassroomTeacher::class,
         'studentClassTeacherOrUser' => \App\Http\Middleware\CheckUserIsStudentClassroomTeacherOrUser::class,
-        'studentClassTeacher' => \App\Http\Middleware\CheckUserIsStudentClassroomTeacher::class
+        'studentClassTeacher' => \App\Http\Middleware\CheckUserIsStudentClassroomTeacher::class,
+        'valid.signature' => \App\Http\Middleware\EnsureValidSignature::class
     ];
 }
