@@ -167,7 +167,14 @@ class ResultController extends Controller
         $result->delete();
         return back()->with('success', 'Result Deleted');
     }
-
+    
+    /**
+     * Mail StudentPerformanceReport to guardian
+     *
+     * @param  mixed $student
+     * @param  mixed $periodSlug
+     * @return void
+     */
     public function mailStudentPerformanceReport(Student $student, $periodSlug)
     {
         Mail::to($student->guardian->email)->send(new StudentPerformanceReport($student, $periodSlug));
