@@ -18,6 +18,10 @@
     width: 170px;
 }
 
+.name-font{
+    font-family: Segoe Script;
+}
+
 .content {
     margin-left: 20px;
 }
@@ -203,6 +207,10 @@ form .name {
 
     .name {
         width: 1200px;
+    }
+
+    .name-font{
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     .sec {
