@@ -1,4 +1,8 @@
 /* logo and adress details */
+@font-face {
+    font-family: 'Segoe Script';
+    src: url('../fonts/segoesc.ttf')
+}
 .head {
     background-color: #FFFCC7;
     display: flex;
@@ -19,7 +23,7 @@
 }
 
 .name-font{
-    font-family: Segoe Script;
+    font-family: 'Segoe Script', arial, helvetica;
 }
 
 .content {
