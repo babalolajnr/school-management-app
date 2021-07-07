@@ -59,7 +59,7 @@
                 <form action="" class="p-3">
                     <div class="stu-name mb-2">
                         <label for="name">NAME:</label>
-                        <div class="name border-bottom"><span class="px-3 fs-6"><span
+                        <div class="name name-font border-bottom"><span class="px-3 fs-6"><span
                                     class="fw-bold">{{ Str::upper($student->last_name) }}</span>,
                                 {{ Str::ucfirst($student->first_name) }}</span>
                         </div>
