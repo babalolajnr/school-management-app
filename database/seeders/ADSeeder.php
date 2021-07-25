@@ -72,7 +72,7 @@ class ADSeeder extends Seeder
         }
 
         $periods = Period::all();
-        $students = Student::all();
+        $students = Student::where('is_active', true)->get();
         $adTypes = ADType::all();
 
         return [
