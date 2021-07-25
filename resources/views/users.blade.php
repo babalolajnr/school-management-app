@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-         
+
         <!-- DataTables -->
         <link rel="stylesheet" href="{{ asset('TAssets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
         <link rel="stylesheet"
@@ -11,7 +11,7 @@
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        
+
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -100,6 +100,27 @@
                                                                         class="fas fa-check"></i>
                                                                 </button>
                                                             </form>
+                                                            @if ($user->isVerified())
+                                                                @if ($user->isHos())
+                                                                    <button type="button"
+                                                                        class="btn btn-success btn-flat"
+                                                                        title="Current HOS"> <i
+                                                                            class="fas fa-crown"></i>
+                                                                    </button>
+                                                                @else
+                                                                    <form
+                                                                        action="{{ route('user.set-hos', ['user' => $user]) }}"
+                                                                        method="post">
+                                                                        @csrf
+                                                                        @method('PATCH')
+                                                                        <button type="submit"
+                                                                            class="btn btn-default btn-flat"
+                                                                            title="Set HOS"> <i
+                                                                                class="fas fa-crown"></i>
+                                                                        </button>
+                                                                    </form>
+                                                                @endif
+                                                            @endif
                                                             @if ($user->isAdmin())
                                                                 <form
                                                                     action="{{ route('user.toggle-status', ['user' => $user]) }}"
@@ -108,7 +129,8 @@
                                                                     @method('PATCH')
                                                                     <button type="submit"
                                                                         class="btn btn-default btn-flat"
-                                                                        title="@if ($user->isActive()) Deactivate User
+                                                                        title="@if ($user->isActive()) Deactivate
+                                                                        User
                                                                     @else
                                                                         Activate User @endif" >
                                                                         @if ($user->isActive()) <i
@@ -182,7 +204,7 @@
     </div>
 
     <x-slot name="scripts">
-         
+
         <!-- DataTables  & Plugins -->
         <script src="{{ asset('TAssets/plugins/datatables/jquery.dataTables.min.js') }}">
         </script>
@@ -225,7 +247,6 @@
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
             });
-
         </script>
     </x-slot>
 </x-app-layout>
