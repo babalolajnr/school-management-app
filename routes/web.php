@@ -129,6 +129,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::patch('/store-signature/{user}', [UserController::class, 'storeSignature'])->name('store.signature');
             Route::patch('/update-password/{user}', [UserController::class, 'updatePassword'])->name('update.password');
             Route::patch('/verify/{user:email}', [UserController::class, 'verify'])->name('verify');
+            Route::patch('/set-hos/{user}', [UserController::class, 'setHos'])->name('set-hos');
             Route::patch('/toggle-status/{user:email}', [UserController::class, 'toggleStatus'])->name('toggle-status');
             Route::delete('/delete/{user:email}', [UserController::class, 'destroy'])->name('destroy');
         });
