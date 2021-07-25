@@ -71,7 +71,7 @@ class PDSeeder extends Seeder
         }
 
         $periods = Period::all();
-        $students = Student::all();
+        $students = Student::where('is_active', true)->get();
         $pdTypes = PDType::all();
 
         return [
