@@ -91,7 +91,7 @@ class ResultSeeder extends Seeder
 
 
         $classrooms = Classroom::all();
-        $students = Student::all();
+        $students = Student::where('is_active', true)->get();
         $subjects = Subject::all();
         $academicSessions = AcademicSession::all();
         $periods = Period::all();
