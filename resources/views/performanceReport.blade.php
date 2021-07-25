@@ -425,7 +425,7 @@
                         <div class="sign border-bottom">
                             @if ($teacherRemark)
                                 <span class="ps-4">
-                                    <img src="{{ asset($teacherRemark->teacher->signature) }}" height=40 width="60"
+                                    <img src="{{ asset($teacherRemark->teacher->signature) }}" height=20 width=60
                                         alt="teacher's signature">
                                 </span>
                             @endif
@@ -449,7 +449,7 @@
                         <div class="sign border-bottom">
                             @if ($hosRemark)
                                 <span class="ps-4">
-                                    <img src="{{ asset($hosRemark->user->signature) }}" height=40 width="60"
+                                    <img src="{{ asset($hosRemark->user->signature) }}" height=20 width=60
                                         alt="Hos's signature">
                                 </span>
                             @endif
