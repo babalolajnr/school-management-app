@@ -38,15 +38,7 @@ class StudentFactory extends Factory
         $guardian = Guardian::factory()->create();
         $sex = $this->faker->randomElement(['M', 'F']);
         $firstName = $sex == 'M' ? $this->faker->firstNameMale : $this->faker->firstNameFemale;
-        $graduated = $this->faker->randomElement([true, false]);
-
-        if ($graduated) {
-            $graduated_at = $this->faker->dateTimeBetween('-3 years');
-            $is_active = false;
-        } else {
-            $graduated_at = null;
-            $is_active = true;
-        }
+       
         return [
             'first_name' => $firstName,
             'last_name' => $guardian->last_name,
@@ -60,8 +52,8 @@ class StudentFactory extends Factory
             'blood_group' => $this->faker->randomElement(['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']),
             'place_of_birth' => $this->faker->address,
             'guardian_id' => $guardian->id,
-            'is_active' => $is_active,
-            'graduated_at' => $graduated_at
+            'is_active' => true,
+            'graduated_at' => null
         ];
     }
 }
