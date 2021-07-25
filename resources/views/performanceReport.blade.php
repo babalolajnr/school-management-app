@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=1024"> 
+    <meta name="viewport" content="width=1024">
     <title>Performance Report</title>
 
     <!-- Favicon -->
@@ -11,19 +11,16 @@
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('TAssets/plugins/fontawesome-free/css/all.min.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
-    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
 </head>
 
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <!--Logo and details of the company-->
-        <div class="head p-3">
+        <div class="head d-flex justify-content-center p-3">
             <div class="image">
                 <img class="img" src="{{ asset('images/radiant_logo.jpeg') }}" alt="Radiant minds logo">
             </div>
@@ -47,61 +44,63 @@
                             REPORT</u></strong></p>
             </div>
             <div class="passport">
-                <img src="@if ($student->image) {{ asset($student->image) }} @else
-                {{ asset('images/user1.svg') }} @endif" height="170" width="140" alt="Passport Photograph">
+            <img src="@if ($student->image) {{ asset($student->image) }} @else
+                {{ asset('images/user1.svg') }} @endif" height="170" width="140" alt="Passport
+                Photograph">
             </div>
         </div>
 
         <!--Student details-->
-
-        <div class="some">
-            <div class="one">
-                <form action="" class="p-3">
-                    <div class="stu-name mb-2">
-                        <label for="name">NAME:</label>
-                        <div class="name name-font border-bottom"><span class="px-3 fs-6"><span
-                                    class="fw-bold">{{ Str::upper($student->last_name) }}</span>,
-                                {{ Str::ucfirst($student->first_name) }}</span>
-                        </div>
-                    </div>
-                    <div class="sec mb-2">
-                        <div class="stu-class">
-                            <label for="class">CLASS:</label>
-                            <div class="class border-bottom"><span class="px-3 fs-6">{{ $classroom }}</span></div>
-                        </div>
-                        <div class="stu-sess">
-                            <label for="session">SESSION:</label>
-                            <div class="session border-bottom"><span
-                                    class="px-3 fs-6">{{ $period->academicSession->name }}</span></div>
-                        </div>
-                        <div class="stu-add">
-                            <label for="admission">ADMISSION:</label>
-                            <div class="admission border-bottom "><span
-                                    class="px-3 fs-6">{{ $student->admission_no }}</span></div>
-                        </div>
-                    </div>
-                    <div class="thrd">
-                        <div class="stu-dob">
-                            <label for="dob">DOB:</label>
-                            <div class="dob border-bottom"><span
-                                    class="px-3 fs-6">{{ $student->date_of_birth }}</span></div>
-                        </div>
-                        <div class="stu-age">
-                            <label for="age">AGE:</label>
-                            <div class="age border-bottom"><span class="px-3 fs-6">{{ $age }}</span></div>
-                        </div>
-                        <div class="stu-gender">
-                            <label for="gender">GENDER:</label>
-                            <div class="gender border-bottom"><span class="px-3 fs-6">{{ $student->sex }}</span>
+        <div class="sub-container">
+            <div class="some">
+                <div class="one">
+                    <form action="" class="p-3">
+                        <div class="stu-name mb-2">
+                            <label for="name">NAME:</label>
+                            <div class="name name-font border-bottom px-2"><span class="px-3 fs-6"><span
+                                        class="fw-bold">{{ Str::upper($student->last_name) }}</span>,
+                                    {{ Str::ucfirst($student->first_name) }}</span>
                             </div>
                         </div>
-                    </div>
-                </form>
+                        <div class="sec mb-2 d-flex">
+                            <div class="stu-class">
+                                <label for="class">CLASS:</label>
+                                <div class="class border-bottom px-2"><span class="px-3 fs-6">{{ $classroom }}</span>
+                                </div>
+                            </div>
+                            <div class="stu-sess">
+                                <label for="session">SESSION:</label>
+                                <div class="session border-bottom px-2"><span
+                                        class="px-3 fs-6">{{ $period->academicSession->name }}</span></div>
+                            </div>
+                            <div class="stu-add">
+                                <label for="admission">ADMISSION:</label>
+                                <div class="admission border-bottom px-2 "><span
+                                        class="px-3 fs-6">{{ $student->admission_no }}</span></div>
+                            </div>
+                        </div>
+                        <div class="thrd d-flex">
+                            <div class="stu-dob">
+                                <label for="dob">DOB:</label>
+                                <div class="dob border-bottom px-2"><span
+                                        class="px-3 fs-6">{{ $student->date_of_birth }}</span></div>
+                            </div>
+                            <div class="stu-age">
+                                <label for="age">AGE:</label>
+                                <div class="age border-bottom px-2"><span class="px-3 fs-6">{{ $age }}</span></div>
+                            </div>
+                            <div class="stu-gender">
+                                <label for="gender">GENDER:</label>
+                                <div class="gender border-bottom px-2"><span class="px-3 fs-6">{{ $student->sex }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-
-        <div class="two ">
-            <div class="sub1">
+        <div class="two row">
+            <div class="sub1 col-sm-9">
                 <table class="table table-sm table-bordered">
                     <thead>
                         <tr>
@@ -159,7 +158,7 @@
 
                 </table>
             </div>
-            <div class="sub2">
+            <div class="sub2 col-sm-3">
                 <table class="table caption-top table-sm table-bordered">
                     <thead>
                         <tr>
@@ -314,8 +313,8 @@
         </div>
 
 
-        <div class="three mt-5">
-            <div class="sub3">
+        <div class="three mt-5 row">
+            <div class="sub3 col-lg-6">
                 <table class="table table-sm table-bordered">
                     <thead>
                         <tr class="heading">
@@ -362,7 +361,7 @@
                 </table>
             </div>
 
-            <div class="sub4">
+            <div class="sub4 col-lg-6">
                 <table class="table table-sm table-bordered">
                     <thead>
                         <tr class="heading">
