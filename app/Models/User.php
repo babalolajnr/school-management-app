@@ -105,6 +105,16 @@ class User extends Authenticatable implements CanResetPassword
     }
 
     /**
+     * Check if user is the HOS
+     *
+     * @return boolean
+     */
+    public function isHos()
+    {
+        return $this->is_hos == true;
+    }
+
+    /**
      * Get user dark mode status
      *
      * @return void
