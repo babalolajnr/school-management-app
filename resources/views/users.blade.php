@@ -134,8 +134,8 @@
                                                                     @else
                                                                         Activate User @endif" >
                                                                         @if ($user->isActive()) <i
-                                                                            class="far fa-lightbulb"></i> @else <i
                                                                                 class="fas fa-lightbulb text-yellow-400"></i>
+                                                                        @else <i class="far fa-lightbulb"></i>
                                                                         @endif
                                                                     </button>
                                                                 </form>
