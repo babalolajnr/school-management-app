@@ -3,257 +3,196 @@
     font-family: 'Segoe Script';
     src: url('../fonts/segoesc.ttf')
 }
-.head {
-    background-color: #FFFCC7;
-    display: flex;
-    justify-content: center;
+.name-font{
+    font-family: 'Segoe Script', arial, helvetica;
 }
-
-.head .img {
+/* logo and adress details */
+.head{
+    background-color: #FFFCC7;
+}
+.head .img{
+    width: 170px;  
     border-radius: 50%;
 }
 
+/*.head .passport and .head .passport img are what I added */
 .head .passport{
     width: 170px;
     height: 170px;
-    margin: 0 0 0 3rem;
+    margin: 0 0 0 1rem;
 }
 .head .passport img{
     width: 170px;
 }
-
-.name-font{
-    font-family: 'Segoe Script', arial, helvetica;
+.content{
+    margin-left: 2rem;
 }
-
-.content {
-    margin-left: 20px;
-}
-
-.content h1 {
+.content h1{
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     color: #052F57;
     letter-spacing: -2px;
 }
-
-.content img {
+.content img{
     margin-top: -13px;
 }
-
-.content .icon {
+.content .icon{
     width: 15px;
     margin-top: 0.1mm;
     margin-bottom: 1mm;
 }
-
-.head .space {
+.head .space{
     letter-spacing: 1px;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-.head .image .img {
-    width: 170px;
-}
-
-.head .content .arabic {
-    width: 410px;
+.head .content .arabic{
+     width: 410px;
 }
 
 /* student details */
 
-form .name {
-    width: 1030px;
+form{
+    overflow: hidden;
 }
 
-.class,
-.session {
-    width: 293px;
-}
-
-.dob,
-.age {
-    width: 315px;
-}
-
-.admission {
-    width: 290px;
-}
-
-.gender {
-    width: 308px;
-}
-
-.stu-name,
-.stu-class,
-.stu-sess,
-.stu-add,
-.stu-dob,
-.stu-age,
-.stu-gender {
+.stu-name,.stu-class,.stu-sess,.stu-add,.stu-dob,.stu-age,.stu-gender{
     display: flex;
+    width: 100%;
 }
+/* from here */
+.stu-name > div{
+    position: relative;
+    left: .2rem;
+    bottom: .35rem;
+    width: 100%;
+}
+.stu-class > div{
+    position: relative;
+    left: .2rem;
+    bottom: .35rem;
+    width: 86%;
+} 
 
-.sec,
-.thrd {
-    display: flex;
+.stu-sess > div{
+    position: relative;
+    left: .2rem;
+    bottom: .35rem;
+    width: 82%;
 }
+.stu-add > div{
+    position: relative;
+    left: .2rem;
+    bottom: .35rem;
+    width: 90%;
+}
+.stu-dob > div{
+    position: relative;
+    left: .2rem;
+    bottom: .35rem;
+    width: 89%;
+}
+.stu-age > div{
+    position: relative;
+    left: .2rem;
+    bottom: .35rem;
+    width: 90%;
+}
+.stu-gender > div{
+    position: relative;
+    left: .2rem;
+    bottom: .35rem;
+    width: 95%;
+}
+/* to here is completely new*/
 
 /* result layout */
-.two .sub1 {
-    width: 700px;
-}
 
-.two .sub2 {
-    width: 370px;
-}
-
-.two,
-.three {
-    display: flex;
-    justify-content: space-between;
-}
-
-.sub3,
-.sub4 {
-    width: 530px;
-}
-
-.color {
+.color{
     color: #052F57;
 }
 
-.heading {
+.heading{
     background-color: #052F57 !important;
     color: #F8EA0C;
 }
 
-.t-wrapper {
-    display: flex;
+/* these last two before the print media query has been altered */
+.class-teacher-remark, .class-teacher-sign{
+    width: 100%;
+    display: grid;
+    grid-template-columns: .8fr 3fr;
+}
+.t-wrapper,.hod-wrapper{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
 }
 
-.hod-wrapper {
-    display: flex;
-}
 
-.class-teacher-remark,
-.class-teacher-sign {
-    display: flex;
-}
-
-.remark-ct {
-    margin-left: 2px;
-    width: 35em;
-}
-
-.remark-hd {
-    margin-left: 2px;
-    width: 35em;
-}
-
-.sign {
-    margin-left: 2px;
-    width: 300px;
-}
-
-@media print {
-
+@media print{
     /* head */
-    * {
+     *{
         margin: 0;
         padding: 0;
+        border: 0;
+        font-size: 10px;
     }
-
-    .some {
-        font-size: 13px;
+    
+    .head .passport img,.head .image .img{
+        width: 100px;
     }
-
-    .head {
+       
+    .head{
         background-color: #FFFCC7;
+        padding: 0;
+        width: 100%;
     }
+    
+  
 
-    .head .image .img {
-        width: 115px;
+    .head .content .arabic{
+        width: 20rem;
     }
-
-    .head .content .arabic {
-        width: 250px;
+   /*
+    .head .content .fam{
+        font-size: 27px; 
     }
-
-    .head .content {
-        margin-left: 20px;
+    .head .content .space{
+        font-size: 18px; 
     }
-
-    .head .content .fam {
-        font-size: 30px;
+    .head .content p{
+        font-size: 14px; 
     }
-
-    .head .content .space {
-        font-size: 18px;
-    }
-
-    .head .content p {
-        font-size: 14px;
-    }
-
-    .head .content .icon {
+   
+    .head .content .icon{
         width: 15px;
         margin-top: 0.1mm;
         margin-bottom: 1mm;
     }
-
-    .one {
-        font-size: 7px;
+    
+    form label{
+        font-size: 12px;
     }
+     
+    .two .sub2{
+        max-width: 30%;
 
-    form label {
-        font-size: 15px;
     }
-
-    .name {
-        width: 1200px;
+    .three .sub3{
+        max-width: 50%;
     }
-
-    .name-font{
-        font-family: Segoe Script;
+    .three .sub4{
+        max-width: 50%;
+    }  */
+    /* .remark-ct{
+        width: 30px;
     }
-
-    .sec {
-        width: 400px;
+    .remark-hd{
+        width: 30px;
     }
-
-    .thrd {
-        width: 400px;
+    .remark2 .sign{
+        width: 15px;
     }
-
-    .two .sub1 {
-        width: 60%;
-    }
-
-    .two .sub2 {
-        width: 37%;
-    }
-
-    .three .sub3 {
-        width: 47%;
-    }
-
-    .three .sub4 {
-        width: 47%;
-    }
-
-    .remark-ct {
-        width: 50em;
-    }
-
-    .remark-hd {
-        width: 50em;
-    }
-
-    .remark2 .sign {
-        width: 15em;
-    }
-
-    .remark .sign {
-        width: 15em;
-    }
-}
+    .remark .sign{
+        width: 15px; */
+    /* } */
+}   
