@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <div class="container-fluid">
+    <div class="container">
         <!--Logo and details of the company-->
         <div class="head d-flex justify-content-center p-3">
             <div class="image">
@@ -56,7 +56,7 @@
                 <div class="one">
                     <form action="" class="p-3">
                         <div class="stu-name mb-2">
-                            <label for="name">NAME:</label>
+                            <label for="name" class="fw-bold">NAME:</label>
                             <div class="name name-font border-bottom px-2"><span class="px-3 fs-6"><span
                                         class="fw-bold">{{ Str::upper($student->last_name) }}</span>,
                                     {{ Str::ucfirst($student->first_name) }}</span>
@@ -64,33 +64,33 @@
                         </div>
                         <div class="sec mb-2 d-flex">
                             <div class="stu-class">
-                                <label for="class">CLASS:</label>
+                                <label class="fw-bold" for="class">CLASS:</label>
                                 <div class="class border-bottom px-2"><span class="px-3 fs-6">{{ $classroom }}</span>
                                 </div>
                             </div>
                             <div class="stu-sess">
-                                <label for="session">SESSION:</label>
+                                <label class="fw-bold" for="session">SESSION:</label>
                                 <div class="session border-bottom px-2"><span
                                         class="px-3 fs-6">{{ $period->academicSession->name }}</span></div>
                             </div>
                             <div class="stu-add">
-                                <label for="admission">ADMISSION:</label>
+                                <label class="fw-bold" for="admission">ADMISSION:</label>
                                 <div class="admission border-bottom px-2 "><span
                                         class="px-3 fs-6">{{ $student->admission_no }}</span></div>
                             </div>
                         </div>
                         <div class="thrd d-flex">
                             <div class="stu-dob">
-                                <label for="dob">DOB:</label>
+                                <label class="fw-bold" for="dob">DOB:</label>
                                 <div class="dob border-bottom px-2"><span
                                         class="px-3 fs-6">{{ $student->date_of_birth }}</span></div>
                             </div>
                             <div class="stu-age">
-                                <label for="age">AGE:</label>
+                                <label class="fw-bold" for="age">AGE:</label>
                                 <div class="age border-bottom px-2"><span class="px-3 fs-6">{{ $age }}</span></div>
                             </div>
                             <div class="stu-gender">
-                                <label for="gender">GENDER:</label>
+                                <label class="fw-bold" for="gender">GENDER:</label>
                                 <div class="gender border-bottom px-2"><span class="px-3 fs-6">{{ $student->sex }}</span>
                                 </div>
                             </div>
@@ -100,18 +100,18 @@
             </div>
         </div>
         <div class="two row">
-            <div class="sub1 col-sm-9">
+            <div class="sub1 col-sm-8">
                 <table class="table table-sm table-bordered">
                     <thead>
                         <tr>
-                            <th class="heading" scope="col"> SUBJECTS</th>
-                            <th scope="col">C.A.<br>(40)</th>
-                            <th scope="col">Exam<br>(60)</th>
-                            <th scope="col">Total<br>(100)</th>
-                            <th scope="col">Highest score</th>
-                            <th scope="col">Lowest score</th>
-                            <th scope="col">Class Average</th>
-                            <th scope="col">Grade</th>
+                            <th class="heading stats" scope="col">SUBJECTS</th>
+                            <th scope="col" class="stats"><span>C.A.(40)</span></th>
+                            <th scope="col" class="stats"><span>Exam(60)</span></th>
+                            <th scope="col" class="stats"><span>Total(100)</span></th>
+                            <th scope="col" class="stats"><span>Highest<br>score</span></th>
+                            <th scope="col" class="stats"><span>Lowest<br>score</span></th>
+                            <th scope="col" class="stats"><span>Class<br>Average</span></th>
+                            <th scope="col" class="stats"><span>Grade</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -128,25 +128,25 @@
                                 <td></td>
                                 <td></td>
                             @else
-                                <td>{{ $result->ca }}</td>
-                                <td>{{ $result->exam }}</td>
-                                <td>{{ $result->total }}</td>
-                                <td>{{ $maxScores[$result->subject->name] }}
-                                <td>{{ $minScores[$result->subject->name] }}
+                                <td class="text-center">{{ $result->ca }}</td>
+                                <td class="text-center">{{ $result->exam }}</td>
+                                <td class="text-center">{{ $result->total }}</td>
+                                <td class="text-center">{{ $maxScores[$result->subject->name] }}
+                                <td class="text-center">{{ $minScores[$result->subject->name] }}
                                 </td>
-                                <td>{{ round($averageScores[$result->subject->name], 2) }}
+                                <td class="text-center">{{ round($averageScores[$result->subject->name], 2) }}
                                 </td>
                                 @if ($result->total <= 39)
-                                    <td class="text-red-700">F</td>
-                                @elseif($result->total >= 40 && $result->total <= 49) <td class="text-yellow-500">D
+                                    <td class="text-red-700 text-center">F</td>
+                                @elseif($result->total >= 40 && $result->total <= 49) <td class="text-yellow-500 text-center">D
                                         </td>
                                     @elseif($result->total >= 50 && $result->total <= 59) <td
-                                            class="text-green-300">C
+                                            class="text-green-300 text-center">C
                                             </td>
                                         @elseif($result->total >= 60 && $result->total <= 69) <td
-                                                class="text-green-600">B</td>
+                                                class="text-green-600 text-center">B</td>
                                             @elseif($result->total >= 70 && $result->total <= 100) <td
-                                                    class="text-green-900">A</td>
+                                                    class="text-green-900 text-center">A</td>
                                                 @else
                                                     <td></td>
                                 @endif
@@ -158,7 +158,7 @@
 
                 </table>
             </div>
-            <div class="sub2 col-sm-3">
+            <div class="sub2 col-sm-4">
                 <table class="table caption-top table-sm table-bordered">
                     <thead>
                         <tr>
@@ -167,25 +167,23 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td colspan="2">Total Obtained:</td>
+                            <td colspan="2" class="fw-bold">Total Obtained:</td>
                             <td>{{ $totalObtained }}</td>
 
                         </tr>
                         <tr>
-                            <td colspan="2">Total Obtainable:</td>
+                            <td colspan="2" class="fw-bold">Total Obtainable:</td>
                             <td>{{ $totalObtainable }}</td>
 
                         </tr>
+                        
                         <tr>
-                            <td colspan="3" class='py-3'></td>
-                        </tr>
-                        <tr>
-                            <td>%TAGE</td>
+                            <td class="fw-bold">%TAGE</td>
                             <td colspan="2">{{ round($percentage, 2) }}</td>
 
                         </tr>
                         <tr>
-                            <td>GRADE</td>
+                            <td class="fw-bold">GRADE</td>
                             @if ($percentage <= 39)
                                 <td colspan='2' class="text-red-700">F</td>
                             @elseif($percentage > 39 && $percentage <= 49) <td colspan='2' class="text-yellow-500">
@@ -216,29 +214,29 @@
                     <tbody>
 
                         <tr>
-                            <td>A</td>
-                            <td>70-100%</td>
+                            <td class="fw-bold">A</td>
+                            <td class="fw-bold">70-100%</td>
                             <td>EXCELLENT</td>
                         </tr>
                         <tr>
-                            <td>B</td>
-                            <td>60-69%</td>
+                            <td class="fw-bold">B</td>
+                            <td class="fw-bold">60-69%</td>
                             <td>VERY GOOD</td>
                         </tr>
                         <tr>
-                            <td>C</td>
-                            <td>50-59%</td>
+                            <td class="fw-bold">C</td>
+                            <td class="fw-bold">50-59%</td>
                             <td>GOOD</td>
 
                         </tr>
                         <tr>
-                            <td>D</td>
-                            <td>40-49%</td>
+                            <td class="fw-bold">D</td>
+                            <td class="fw-bold">40-49%</td>
                             <td>AVERAGE</td>
                         </tr>
                         <tr>
-                            <td>F</td>
-                            <td>0-39%</td>
+                            <td class="fw-bold">F</td>
+                            <td class="fw-bold">0-39%</td>
                             <td>FAIL</td>
                         </tr>
                     </tbody>
@@ -252,12 +250,12 @@
                             <td class="text-center heading" colspan="2">ATTENDANCE SUMMARY</td>
                         </tr>
                         <tr>
-                            <td>No of Times School opened</td>
+                            <td class="fw-bold">No of Times School opened</td>
                             <td>{{ $period->no_times_school_opened }}</td>
 
                         </tr>
                         <tr>
-                            <td>No of times present</td>
+                            <td class="fw-bold">No of times present</td>
                             <td>
                                 @if (is_null($no_of_times_present))
                                     null
@@ -268,7 +266,7 @@
 
                         </tr>
                         <tr>
-                            <td> No of times Absent</td>
+                            <td class="fw-bold"> No of times Absent</td>
                             <td>
                                 @if (is_null($no_of_times_present))
                                     null
@@ -295,20 +293,6 @@
                     </tbody>
                 </table>
 
-                <table class="table caption-top table-sm table-bordered">
-                    <thead>
-                        <tr>
-                            <td class="text-center heading">NEXT TERM FEES</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="text-center fw-bold">₦ {{ $nextTermFee }}</td>
-                        </tr>
-
-                    </tbody>
-                </table>
-
             </div>
         </div>
 
@@ -329,7 +313,7 @@
                     <tbody>
                         @foreach ($pdTypes as $pdType)
                             <tr>
-                                <td>{{ $pdType->name }}</td>
+                                <td class="fw-bold">{{ $pdType->name }}</td>
                                 <td>
                                     @if (array_key_exists($pdType->name, $pds) && $pds[$pdType->name] == '5')
                                         <i class="fas fa-check"></i>
@@ -376,7 +360,7 @@
                     <tbody>
                         @foreach ($adTypes as $adType)
                             <tr>
-                                <td>{{ $adType->name }}</td>
+                                <td class="fw-bold">{{ $adType->name }}</td>
                                 <td>
                                     @if (array_key_exists($adType->name, $ads) && $ads[$adType->name] == '5')
                                         <i class="fas fa-check"></i>
@@ -413,7 +397,7 @@
             <div class="border p-3 remark mb-4">
                 <div class="t-wrapper">
                     <div class="class-teacher-remark">
-                        <label for="class-teachers-remark">Class Teacher's Remark</label>
+                        <label for="class-teachers-remark" class="fw-bold">Class Teacher's Remark</label>
                         <div class="remark-ct border-bottom fst-italic ps-2">
                             @if ($teacherRemark)
                                 {{ $teacherRemark->remark }}
@@ -421,11 +405,11 @@
                         </div>
                     </div>
                     <div class="class-teacher-sign">
-                        <label for="class-teachers-sign">Sign</label>
+                        <label for="class-teachers-sign" class="fw-bold">Sign</label>
                         <div class="sign border-bottom">
                             @if ($teacherRemark)
                                 <span class="ps-4">
-                                    <img src="{{ asset($teacherRemark->teacher->signature) }}" height=40 width="60"
+                                    <img src="{{ asset($teacherRemark->teacher->signature) }}" height=20 width=60
                                         alt="teacher's signature">
                                 </span>
                             @endif
@@ -437,7 +421,7 @@
             <div class="remark2 mb-4">
                 <div class="hod-wrapper border p-3">
                     <div class="class-teacher-remark">
-                        <label for="class-teachers-remark">HOS's Remark</label>
+                        <label for="class-teachers-remark" class="fw-bold">HOS's Remark</label>
                         <div class="remark-hd border-bottom fst-italic ps-2">
                             @if ($hosRemark)
                                 {{ $hosRemark->remark }}
@@ -445,11 +429,11 @@
                         </div>
                     </div>
                     <div class="class-teacher-sign ">
-                        <label for="class-teachers-sign">Sign</label>
+                        <label for="class-teachers-sign" class="fw-bold">Sign</label>
                         <div class="sign border-bottom">
                             @if ($hosRemark)
                                 <span class="ps-4">
-                                    <img src="{{ asset($hosRemark->user->signature) }}" height=40 width="60"
+                                    <img src="{{ asset($hosRemark->user->signature) }}" height=20 width=60
                                         alt="Hos's signature">
                                 </span>
                             @endif
@@ -459,16 +443,8 @@
                 </div>
             </div>
         </div>
+        <footer class="heading p-3"></footer>
     </div>
-
-    <footer class="heading p-3"></footer>
-    </div>
-
-
-
-
-
-
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
