@@ -49,6 +49,13 @@
 
                                     <p class="text-muted text-center" id="admissionNo">{{ $user->user_type }}
                                     </p>
+
+                                    @if ($user->signature != null)
+                                        <div class="d-flex justify-content-center pt-1">
+                                            <img src="{{ asset($user->signature) }}" class="img-responsive"
+                                                height="30" width="50" alt="user's signature">
+                                        </div>
+                                    @endif
                                 </div>
                                 <!-- /.card-body -->
                             </div>
