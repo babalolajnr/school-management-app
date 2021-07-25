@@ -12,7 +12,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 
-class ResultSeeder extends Seeder
+class AlumnusResultSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -91,7 +91,7 @@ class ResultSeeder extends Seeder
 
 
         $classrooms = Classroom::all();
-        $students = Student::where('is_active', true)->get();
+        $students = Student::where('graduated_at', '!=', null)->get();
         $subjects = Subject::all();
         $academicSessions = AcademicSession::all();
         $periods = Period::all();

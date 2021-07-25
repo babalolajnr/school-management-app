@@ -127,7 +127,7 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'Password updated!');
     }
 
-     /**
+    /**
      * store user Signature
      *
      * @param  User $user
@@ -167,5 +167,32 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->back()->with('success', 'User deleted!');
+    }
+    
+    /**
+     * Set HOS
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function setHos(User $user)
+    {
+        if (!$user->isActive()) {
+            return redirect()->back()->with('error', "User is not active");
+        }
+
+        $currentHOSs = User::where('is_hos', true)->get();
+
+        foreach ($currentHOSs as $currentHOS) {
+            if (!is_null($currentHOS)) {
+                $currentHOS->is_hos = false;
+                $currentHOS->save();
+            }
+        }
+
+        $user->is_hos = true;
+        $user->save();
+
+        return redirect()->back()->with('success', "{$user->first_name} {$user->last_name} is now the HOS");
     }
 }
