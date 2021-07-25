@@ -151,7 +151,7 @@ class ResultGenerationService
             'adTypes' => $adTypes,
             'period' => $period,
             'nextTermBegins' => $nextTermDetails['nextTermBegins'],
-            'nextTermFee' => $nextTermDetails['nextTermFee'],
+            // 'nextTermFee' => $nextTermDetails['nextTermFee'],
             'teacherRemark' => $teacherRemark,
             'hosRemark' => $hosRemark,
             'classroom' => $classroom, 
@@ -239,23 +239,23 @@ class ResultGenerationService
 
         if (is_null($nextPeriod)) {
             $nextTermBegins = null;
-            $nextTermFee = null;
+            // $nextTermFee = null;
         } else {
             $nextTermBegins = $nextPeriod->start_date;
-            $nextTermFee = Fee::where('classroom_id', $this->student->classroom->id)
-                ->where('period_id', $nextPeriod->id)->first();
+            // $nextTermFee = Fee::where('classroom_id', $this->student->classroom->id)
+            //     ->where('period_id', $nextPeriod->id)->first();
 
-            //check if next term fee is available
-            if (is_null($nextTermFee)) {
-                $nextTermFee = null;
-            } else {
-                $nextTermFee = number_format($nextTermFee->amount);
-            }
+            // //check if next term fee is available
+            // if (is_null($nextTermFee)) {
+            //     $nextTermFee = null;
+            // } else {
+            //     $nextTermFee = number_format($nextTermFee->amount);
+            // }
         }
 
         return [
             'nextTermBegins' => $nextTermBegins,
-            'nextTermFee' => $nextTermFee
+            // 'nextTermFee' => $nextTermFee
         ];
     }
 }
