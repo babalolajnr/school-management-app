@@ -70,19 +70,18 @@
                                                         </td>
                                                         <td>{{ round($averageScores[$item->subject->name . '-' . array_search($termResult, $results)], 2) }}
                                                         </td>
-
-                                                        @if ($item->total <= 39)
-                                                            <td>F</td>
-                                                        @elseif($item->total > 39 && $item->total <= 49) <td>D</td>
-                                                            @elseif($item->total > 49 && $item->total <= 59) <td>C
-                                                                    </td>
-                                                                @elseif($item->total > 59 && $item->total <= 69)
-                                                                        <td>B</td>
-                                                                    @elseif($item->total > 69 && $item->total <=
-                                                                            100) <td>A</td>
-                                                                        @else
-                                                                            <td></td>
-                                                        @endif
+                                                        <td>
+                                                            @if (round($item->total) <= 39)
+                                                                F
+                                                            @elseif(round($item->total) > 39 &&
+                                                                round($item->total)
+                                                            <= 49) D @elseif(round($item->total) > 49 &&
+                                                                round($item->total) <= 59) C @elseif(round($item->
+                                                                        total) > 59 && round($item->total) <= 69) B
+                                                                        @elseif(round($item->total) > 69 &&
+                                                                        round($item->total) <= 100) A @else
+                                                                                @endif
+                                                        </td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
@@ -153,7 +152,6 @@
                     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
                 })
             });
-
         </script>
     </x-slot>
 </x-app-layout>

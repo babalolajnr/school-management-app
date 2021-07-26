@@ -117,18 +117,17 @@
                                                     </td>
                                                     <td>{{ round($averageScores[$result->subject->name], 2) }}
                                                     </td>
-                                                    @if ($result->total <= 39)
-                                                        <td>F</td>
-                                                    @elseif($result->total >= 40 && $result->total <= 49) <td>D</td>
-                                                        @elseif($result->total >= 50 && $result->total <= 59) <td>C
-                                                                </td>
-                                                            @elseif($result->total >= 60 && $result->total <= 69)
-                                                                    <td>B</td>
-                                                                @elseif($result->total >= 70 && $result->total <=
-                                                                        100) <td>A</td>
-                                                                    @else
-                                                                        <td></td>
-                                                    @endif
+                                                    <td>
+                                                        @if (round($result->total) <= 39)
+                                                            F
+                                                        @elseif(round($result->total) > 39 && round($result->total)
+                                                        <= 49) D @elseif(round($result->total) > 49 &&
+                                                            round($result->total) <= 59) C @elseif(round($result->
+                                                                    total) > 59 && round($result->total) <= 69) B
+                                                                    @elseif(round($result->total) > 69 &&
+                                                                    round($result->total) <= 100) A @else
+                                                                            @endif
+                                                    </td>
                                                     @if ($period->isActive())
 
                                                         <td>
