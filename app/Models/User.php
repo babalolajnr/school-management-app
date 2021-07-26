@@ -119,4 +119,14 @@ class User extends Authenticatable implements CanResetPassword
 
         return "false";
     }
+    
+    /**
+     * Get HOS
+     *
+     * @return User
+     */
+    public static function getHos()
+    {
+        return User::where('is_hos', true)->first();
+    }
 }
