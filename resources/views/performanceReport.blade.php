@@ -20,7 +20,7 @@
 <body>
     <div class="container">
         <!--Logo and details of the company-->
-        <div class="head d-flex justify-content-center p-3">
+        <div class="head d-flex justify-content-center p-3 pb-0">
             <div class="image">
                 <img class="img" src="{{ asset('images/radiant_logo.jpeg') }}" alt="Radiant minds logo">
             </div>
@@ -57,7 +57,7 @@
                     <form action="" class="p-3">
                         <div class="stu-name mb-2">
                             <label for="name" class="fw-bold">NAME:</label>
-                            <div class="name name-font border-bottom px-2"><span class="px-3 fs-6"><span
+                            <div class="name name-font border-bottom px-2 border-2 border-dark"><span class="px-3 fs-6"><span
                                         class="fw-bold">{{ Str::upper($student->last_name) }}</span>,
                                     {{ Str::ucfirst($student->first_name) }}</span>
                             </div>
@@ -65,33 +65,33 @@
                         <div class="sec mb-2 d-flex">
                             <div class="stu-class">
                                 <label class="fw-bold" for="class">CLASS:</label>
-                                <div class="class border-bottom px-2"><span class="px-3 fs-6">{{ $classroom }}</span>
+                                <div class="class border-bottom px-2 border-2 border-dark"><span class="px-3 fs-6">{{ $classroom }}</span>
                                 </div>
                             </div>
                             <div class="stu-sess">
                                 <label class="fw-bold" for="session">SESSION:</label>
-                                <div class="session border-bottom px-2"><span
+                                <div class="session border-bottom px-2 border-2 border-dark"><span
                                         class="px-3 fs-6">{{ $period->academicSession->name }}</span></div>
                             </div>
                             <div class="stu-add">
                                 <label class="fw-bold" for="admission">ADMISSION:</label>
-                                <div class="admission border-bottom px-2 "><span
+                                <div class="admission border-bottom px-2 border-2 border-dark"><span
                                         class="px-3 fs-6">{{ $student->admission_no }}</span></div>
                             </div>
                         </div>
                         <div class="thrd d-flex">
                             <div class="stu-dob">
                                 <label class="fw-bold" for="dob">DOB:</label>
-                                <div class="dob border-bottom px-2"><span
+                                <div class="dob border-bottom px-2 border-2 border-dark"><span
                                         class="px-3 fs-6">{{ $student->date_of_birth }}</span></div>
                             </div>
                             <div class="stu-age">
                                 <label class="fw-bold" for="age">AGE:</label>
-                                <div class="age border-bottom px-2"><span class="px-3 fs-6">{{ $age }}</span></div>
+                                <div class="age border-bottom px-2 border-2 border-dark"><span class="px-3 fs-6">{{ $age }}</span></div>
                             </div>
                             <div class="stu-gender">
                                 <label class="fw-bold" for="gender">GENDER:</label>
-                                <div class="gender border-bottom px-2"><span class="px-3 fs-6">{{ $student->sex }}</span>
+                                <div class="gender border-bottom px-2 border-2 border-dark"><span class="px-3 fs-6">{{ $student->sex }}</span>
                                 </div>
                             </div>
                         </div>
@@ -101,7 +101,7 @@
         </div>
         <div class="two row">
             <div class="sub1 col-sm-8">
-                <table class="table table-sm table-bordered">
+                <table class="table table-sm">
                     <thead>
                         <tr>
                             <th class="heading stats" scope="col">SUBJECTS</th>
@@ -159,7 +159,7 @@
                 </table>
             </div>
             <div class="sub2 col-sm-4">
-                <table class="table caption-top table-sm table-bordered">
+                <table class="table caption-top table-sm">
                     <thead>
                         <tr>
                             <td class="text-center heading" colspan="3">PERFORMANCE SUMMARY</td>
@@ -205,7 +205,7 @@
                 </table>
 
 
-                <table class="table caption-top table-sm table-bordered">
+                <table class="table caption-top table-sm">
                     <thead>
                         <tr>
                             <td class="text-center heading" colspan="3">GRADE SCALE</td>
@@ -243,7 +243,7 @@
                 </table>
 
 
-                <table class="table caption-top table-sm table-bordered">
+                <table class="table caption-top table-sm">
 
                     <tbody>
                         <tr>
@@ -279,7 +279,7 @@
                 </table>
 
 
-                <table class="table caption-top table-sm table-bordered">
+                <table class="table caption-top table-sm">
                     <thead>
                         <tr>
                             <td class="text-center heading" colspan="1">NEXT TERM BEGINS</td>
@@ -299,7 +299,7 @@
 
         <div class="three mt-5 row">
             <div class="sub3 col-lg-6">
-                <table class="table table-sm table-bordered">
+                <table class="table table-sm">
                     <thead>
                         <tr class="heading">
                             <th scope="col">PSYCHOMOTOR DOMAIN </th>
@@ -346,7 +346,7 @@
             </div>
 
             <div class="sub4 col-lg-6">
-                <table class="table table-sm table-bordered">
+                <table class="table table-sm">
                     <thead>
                         <tr class="heading">
                             <th scope="col">AFFECTIVE DOMAIN </th>
@@ -394,11 +394,11 @@
         </div>
 
         <div class="remark-container">
-            <div class="border p-3 remark mb-4">
+            <div class="border border-2 border-dark pb-0 p-3 remark mb-4">
                 <div class="t-wrapper">
                     <div class="class-teacher-remark">
                         <label for="class-teachers-remark" class="fw-bold">Class Teacher's Remark</label>
-                        <div class="remark-ct border-bottom fst-italic ps-2">
+                        <div class="remark-ct fst-italic ps-2">
                             @if ($teacherRemark)
                                 {{ $teacherRemark->remark }}
                             @endif
@@ -406,7 +406,7 @@
                     </div>
                     <div class="class-teacher-sign">
                         <label for="class-teachers-sign" class="fw-bold">Sign</label>
-                        <div class="sign border-bottom">
+                        <div class="sign">
                             @if ($teacherRemark)
                                 <span class="ps-4">
                                     <img src="{{ asset($teacherRemark->teacher->signature) }}" height=20 width=60
@@ -419,10 +419,10 @@
                 </div>
             </div>
             <div class="remark2 mb-4">
-                <div class="hod-wrapper border p-3">
+                <div class="hod-wrapper border-dark pb-0 border border-2 p-3">
                     <div class="class-teacher-remark">
                         <label for="class-teachers-remark" class="fw-bold">HOS's Remark</label>
-                        <div class="remark-hd border-bottom fst-italic ps-2">
+                        <div class="remark-hd fst-italic ps-2">
                             @if ($hosRemark)
                                 {{ $hosRemark->remark }}
                             @endif
@@ -430,7 +430,7 @@
                     </div>
                     <div class="class-teacher-sign ">
                         <label for="class-teachers-sign" class="fw-bold">Sign</label>
-                        <div class="sign border-bottom">
+                        <div class="sign">
                             @if ($hosRemark)
                                 <span class="ps-4">
                                     <img src="{{ asset($hosRemark->user->signature) }}" height=20 width=60
