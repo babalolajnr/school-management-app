@@ -91,7 +91,6 @@ class ResultGenerationService
         $age = $currentDate - $yearOfBirth;
 
         $teacherRemark = TeacherRemark::where('student_id', $this->student->id)->where('period_id', $period->id)->first();
-        $hosRemark = HosRemark::where('student_id', $this->student->id)->where('period_id', $period->id)->first();
         //Get class score statistics
         foreach ($results as $key => $result) {
 
@@ -153,7 +152,6 @@ class ResultGenerationService
             'nextTermBegins' => $nextTermDetails['nextTermBegins'],
             // 'nextTermFee' => $nextTermDetails['nextTermFee'],
             'teacherRemark' => $teacherRemark,
-            'hosRemark' => $hosRemark,
             'classroom' => $classroom, 
             'no_of_times_present' => $attendance
         ];
