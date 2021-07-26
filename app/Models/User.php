@@ -45,16 +45,6 @@ class User extends Authenticatable implements CanResetPassword
     ];
 
     /**
-     * Hos remark relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function remarks()
-    {
-        return $this->hasMany(HosRemark::class);
-    }
-
-    /**
      * User settings relationship
      *
      * @return void
@@ -128,5 +118,15 @@ class User extends Authenticatable implements CanResetPassword
         }
 
         return "false";
+    }
+    
+    /**
+     * Get HOS
+     *
+     * @return User
+     */
+    public static function getHos()
+    {
+        return User::where('is_hos', true)->first();
     }
 }
