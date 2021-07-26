@@ -4,19 +4,17 @@
     src: url('../fonts/segoesc.ttf')
 }
 
-.stats 
-{
-  vertical-align: bottom;
-  text-align: center;
+.stats {
+    vertical-align: bottom;
+    text-align: center;
 }
 
-th span 
-{
-  -ms-writing-mode: tb-rl;
-  -webkit-writing-mode: vertical-rl;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  white-space: nowrap;
+th span {
+    -ms-writing-mode: tb-rl;
+    -webkit-writing-mode: vertical-rl;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
 }
 
 
@@ -24,25 +22,40 @@ th span
     font-family: 'Segoe Script', arial, helvetica;
 }
 
+/*These is the styling for the table*/
+table,
+th,
+td,
+tr {
+    border: 2px solid black;
+}
+
+/*This is the styling to increase the subject font-size*/
+.subject {
+    font-size: 20px;
+}
+
+
+
 /* logo and adress details */
 .head {
     background-color: #FFFCC7;
 }
 
 .head .img {
-    width: 170px;
+    width: 150px;
     border-radius: 50%;
 }
 
 /*.head .passport and .head .passport img are what I added */
 .head .passport {
-    width: 170px;
-    height: 170px;
+    width: 150px;
+    height: 150px;
     margin: 0 0 0 1rem;
 }
 
 .head .passport img {
-    width: 170px;
+    width: 150px;
 }
 
 .content {
