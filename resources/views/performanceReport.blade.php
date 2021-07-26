@@ -57,7 +57,8 @@
                     <form action="" class="p-3">
                         <div class="stu-name mb-2">
                             <label for="name" class="fw-bold">NAME:</label>
-                            <div class="name name-font border-bottom px-2 border-2 border-dark"><span class="px-3 fs-6"><span
+                            <div class="name name-font border-bottom px-2 border-2 border-dark"><span
+                                    class="px-3 fs-6"><span
                                         class="fw-bold">{{ Str::upper($student->last_name) }}</span>,
                                     {{ Str::ucfirst($student->first_name) }}</span>
                             </div>
@@ -65,7 +66,8 @@
                         <div class="sec mb-2 d-flex">
                             <div class="stu-class">
                                 <label class="fw-bold" for="class">CLASS:</label>
-                                <div class="class border-bottom px-2 border-2 border-dark"><span class="px-3 fs-6">{{ $classroom }}</span>
+                                <div class="class border-bottom px-2 border-2 border-dark"><span
+                                        class="px-3 fs-6">{{ $classroom }}</span>
                                 </div>
                             </div>
                             <div class="stu-sess">
@@ -87,11 +89,13 @@
                             </div>
                             <div class="stu-age">
                                 <label class="fw-bold" for="age">AGE:</label>
-                                <div class="age border-bottom px-2 border-2 border-dark"><span class="px-3 fs-6">{{ $age }}</span></div>
+                                <div class="age border-bottom px-2 border-2 border-dark"><span
+                                        class="px-3 fs-6">{{ $age }}</span></div>
                             </div>
                             <div class="stu-gender">
                                 <label class="fw-bold" for="gender">GENDER:</label>
-                                <div class="gender border-bottom px-2 border-2 border-dark"><span class="px-3 fs-6">{{ $student->sex }}</span>
+                                <div class="gender border-bottom px-2 border-2 border-dark"><span
+                                        class="px-3 fs-6">{{ $student->sex }}</span>
                                 </div>
                             </div>
                         </div>
@@ -138,7 +142,8 @@
                                 </td>
                                 @if ($result->total <= 39)
                                     <td class="text-red-700 text-center">F</td>
-                                @elseif($result->total >= 40 && $result->total <= 49) <td class="text-yellow-500 text-center">D
+                                @elseif($result->total >= 40 && $result->total <= 49) <td
+                                        class="text-yellow-500 text-center">D
                                         </td>
                                     @elseif($result->total >= 50 && $result->total <= 59) <td
                                             class="text-green-300 text-center">C
@@ -176,7 +181,7 @@
                             <td>{{ $totalObtainable }}</td>
 
                         </tr>
-                        
+
                         <tr>
                             <td class="fw-bold">%TAGE</td>
                             <td colspan="2">{{ round($percentage, 2) }}</td>
@@ -423,20 +428,34 @@
                     <div class="class-teacher-remark">
                         <label for="class-teachers-remark" class="fw-bold">HOS's Remark</label>
                         <div class="remark-hd fst-italic ps-2">
-                            @if ($hosRemark)
-                                {{ $hosRemark->remark }}
-                            @endif
+                            @if ($percentage <= 39)
+                                Sadly, this result cannot allow you progress to the next grade level. I'm positive that
+                                you will achieve greater performance if you settle through the class again in sha Allah.
+                            @elseif($percentage > 39 && $percentage <= 44) You have tried but this performance is
+                                    not so encouraging. Let us concentrate on achieving a greater performance next year
+                                in sha Allah. @elseif($percentage> 44 && $percentage <= 49) Good. However, you are
+                                        capable of achieving higher grades with more effort and support. Looking forward
+                                    to a better result next year. @elseif($percentage> 49 && $percentage <= 59) You
+                                            have done very well this session but this performance will be better with
+                                            greater effort. I look forward to better results next year.
+                                        @elseif($percentage> 59 && $percentage <= 69) You have worked very hard this
+                                                year and I'm proud of your accomplishment. Let's have an even better
+                                            result next year. You can do it. @elseif($percentage> 69 && $percentage
+                                                <= 79) This is an examplary result and I'm proud of you! Keep the
+                                                Radiant Minds flag flying @elseif($percentage> 79 && $percentage <=
+                                                        89) Wow! What an awesome performance! Continue to break barriers
+                                                    and soar high. @else Incredible! Your consistent effort and good
+                                                        study habits have paid off. Bravo! See you at the top again next
+                                                        year. @endif
                         </div>
                     </div>
                     <div class="class-teacher-sign ">
                         <label for="class-teachers-sign" class="fw-bold">Sign</label>
                         <div class="sign">
-                            @if ($hosRemark)
-                                <span class="ps-4">
-                                    <img src="{{ asset($hosRemark->user->signature) }}" height=20 width=60
-                                        alt="Hos's signature">
-                                </span>
-                            @endif
+                            <span class="ps-4">
+                                <img src="{{ asset(App\Models\User::getHOS()->signature) }}" height=20 width=60
+                                    alt="Hos's signature">
+                            </span>
                         </div>
                     </div>
 
