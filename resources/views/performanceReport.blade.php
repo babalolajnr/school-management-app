@@ -140,21 +140,15 @@
                                 </td>
                                 <td class="text-center">{{ round($averageScores[$result->subject->name], 2) }}
                                 </td>
-                                @if ($result->total <= 39)
-                                    <td class="text-red-700 text-center">F</td>
-                                @elseif($result->total >= 40 && $result->total <= 49) <td
-                                        class="text-yellow-500 text-center">D
-                                        </td>
-                                    @elseif($result->total >= 50 && $result->total <= 59) <td
-                                            class="text-green-300 text-center">C
-                                            </td>
-                                        @elseif($result->total >= 60 && $result->total <= 69) <td
-                                                class="text-green-600 text-center">B</td>
-                                            @elseif($result->total >= 70 && $result->total <= 100) <td
-                                                    class="text-green-900 text-center">A</td>
-                                                @else
-                                                    <td></td>
-                                @endif
+                                <td class="text-center">
+                                    @if (round($result->total) <= 39)
+                                        F
+                                    @elseif(round($result->total) > 39 && round($result->total) <= 49) D
+                                        @elseif(round($result->total) > 49 && round($result->total) <= 59) C
+                                            @elseif(round($result->total) > 59 && round($result->total) <= 69) B
+                                                @elseif(round($result->total) > 69 && round($result->total) <= 100) A
+                                                    @else @endif
+                                </td>
                         @endif
 
                         </tr>
@@ -189,289 +183,283 @@
                         </tr>
                         <tr>
                             <td class="fw-bold">GRADE</td>
-                            @if (round($percentage) <= 39)
-                                <td colspan='2' class="text-red-700">F</td>
-                            @elseif(round($percentage) > 39 && round($percentage) <= 49) <td colspan='2' class="text-yellow-500">
-                                    D</td>
-                                @elseif(round($percentage) > 49 && round($percentage) <= 59) <td colspan='2'
-                                        class="text-green-300">C
-                                        </td>
-                                    @elseif(round($percentage) > 59 && round($percentage) <= 69) <td colspan='2'
-                                            class="text-green-600">B
-                                            </td>
-                                        @elseif(round($percentage) > 69 && round($percentage) <= 100) <td colspan='2'
-                                                class="text-green-900">
-                                                A</td>
-                                            @else
-                                                <td colspan='2'></td>
+                            <td colspan='2'>
+                                @if (round($percentage) <= 39)
+                                    F
+                                @elseif(round($percentage) > 39 && round($percentage) <= 49) D
+                                    @elseif(round($percentage)> 49 && round($percentage) <= 59) C
+                                        @elseif(round($percentage)> 59 && round($percentage) <= 69) B
+                                        @elseif(round($percentage)> 69 && round($percentage) <= 100) A @else
+                                                @endif
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <table class="table caption-top table-sm">
+                <thead>
+                    <tr>
+                        <td class="text-center heading" colspan="3">GRADE SCALE</td>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td class="fw-bold">A</td>
+                        <td class="fw-bold">70-100%</td>
+                        <td>EXCELLENT</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">B</td>
+                        <td class="fw-bold">60-69%</td>
+                        <td>VERY GOOD</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">C</td>
+                        <td class="fw-bold">50-59%</td>
+                        <td>GOOD</td>
+
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">D</td>
+                        <td class="fw-bold">40-49%</td>
+                        <td>AVERAGE</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">F</td>
+                        <td class="fw-bold">0-39%</td>
+                        <td>FAIL</td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+            <table class="table caption-top table-sm">
+
+                <tbody>
+                    <tr>
+                        <td class="text-center heading" colspan="2">ATTENDANCE SUMMARY</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">No of Times School opened</td>
+                        <td>{{ $period->no_times_school_opened }}</td>
+
+                    </tr>
+                    <tr>
+                        <td class="fw-bold">No of times present</td>
+                        <td>
+                            @if (is_null($no_of_times_present))
+                                null
+                            @else
+                                {{ $no_of_times_present->value }}
                             @endif
-                        </tr>
-                    </tbody>
-                </table>
+                        </td>
 
-
-                <table class="table caption-top table-sm">
-                    <thead>
-                        <tr>
-                            <td class="text-center heading" colspan="3">GRADE SCALE</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <tr>
-                            <td class="fw-bold">A</td>
-                            <td class="fw-bold">70-100%</td>
-                            <td>EXCELLENT</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold">B</td>
-                            <td class="fw-bold">60-69%</td>
-                            <td>VERY GOOD</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold">C</td>
-                            <td class="fw-bold">50-59%</td>
-                            <td>GOOD</td>
-
-                        </tr>
-                        <tr>
-                            <td class="fw-bold">D</td>
-                            <td class="fw-bold">40-49%</td>
-                            <td>AVERAGE</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold">F</td>
-                            <td class="fw-bold">0-39%</td>
-                            <td>FAIL</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-
-                <table class="table caption-top table-sm">
-
-                    <tbody>
-                        <tr>
-                            <td class="text-center heading" colspan="2">ATTENDANCE SUMMARY</td>
-                        </tr>
-                        <tr>
-                            <td class="fw-bold">No of Times School opened</td>
-                            <td>{{ $period->no_times_school_opened }}</td>
-
-                        </tr>
-                        <tr>
-                            <td class="fw-bold">No of times present</td>
-                            <td>
-                                @if (is_null($no_of_times_present))
-                                    null
-                                @else
-                                    {{ $no_of_times_present->value }}
-                                @endif
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td class="fw-bold"> No of times Absent</td>
-                            <td>
-                                @if (is_null($no_of_times_present))
-                                    null
-                                @else
-                                    {{ $period->no_times_school_opened - $no_of_times_present->value }}
-                                @endif
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-
-
-                <table class="table caption-top table-sm">
-                    <thead>
-                        <tr>
-                            <td class="text-center heading" colspan="1">NEXT TERM BEGINS</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="text-center fw-bold">{{ $nextTermBegins }}</td>
-                        </tr>
-
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-
-
-        <div class="three mt-2 row">
-            <div class="sub3 col-lg-6">
-                <table class="table table-sm">
-                    <thead>
-                        <tr class="heading">
-                            <th scope="col">PSYCHOMOTOR DOMAIN </th>
-                            <th scope="col">5</th>
-                            <th scope="col">4</th>
-                            <th scope="col">3</th>
-                            <th scope="col">2</th>
-                            <th scope="col">1</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($pdTypes as $pdType)
-                            <tr>
-                                <td class="fw-bold">{{ $pdType->name }}</td>
-                                <td>
-                                    @if (array_key_exists($pdType->name, $pds) && $pds[$pdType->name] == '5')
-                                        <i class="fas fa-check"></i>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if (array_key_exists($pdType->name, $pds) && $pds[$pdType->name] == '4')
-                                        <i class="fas fa-check"></i>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if (array_key_exists($pdType->name, $pds) && $pds[$pdType->name] == '3')
-                                        <i class="fas fa-check"></i>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if (array_key_exists($pdType->name, $pds) && $pds[$pdType->name] == '2')
-                                        <i class="fas fa-check"></i>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if (array_key_exists($pdType->name, $pds) && $pds[$pdType->name] == '1')
-                                        <i class="fas fa-check"></i>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="sub4 col-lg-6">
-                <table class="table table-sm">
-                    <thead>
-                        <tr class="heading">
-                            <th scope="col">AFFECTIVE DOMAIN </th>
-                            <th scope="col">5</th>
-                            <th scope="col">4</th>
-                            <th scope="col">3</th>
-                            <th scope="col">2</th>
-                            <th scope="col">1</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($adTypes as $adType)
-                            <tr>
-                                <td class="fw-bold">{{ $adType->name }}</td>
-                                <td>
-                                    @if (array_key_exists($adType->name, $ads) && $ads[$adType->name] == '5')
-                                        <i class="fas fa-check"></i>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if (array_key_exists($adType->name, $ads) && $ads[$adType->name] == '4')
-                                        <i class="fas fa-check"></i>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if (array_key_exists($adType->name, $ads) && $ads[$adType->name] == '3')
-                                        <i class="fas fa-check"></i>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if (array_key_exists($adType->name, $ads) && $ads[$adType->name] == '2')
-                                        <i class="fas fa-check"></i>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if (array_key_exists($adType->name, $ads) && $ads[$adType->name] == '1')
-                                        <i class="fas fa-check"></i>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="remark-container">
-            <div class="border border-2 border-dark pb-0 p-3 remark mb-4">
-                <div class="t-wrapper">
-                    <div class="class-teacher-remark">
-                        <label for="class-teachers-remark" class="fw-bold">Class Teacher's Remark</label>
-                        <div class="remark-ct fst-italic ps-2">
-                            @if ($teacherRemark)
-                                {{ $teacherRemark->remark }}
+                    </tr>
+                    <tr>
+                        <td class="fw-bold"> No of times Absent</td>
+                        <td>
+                            @if (is_null($no_of_times_present))
+                                null
+                            @else
+                                {{ $period->no_times_school_opened - $no_of_times_present->value }}
                             @endif
-                        </div>
-                    </div>
-                    <div class="class-teacher-sign">
-                        <label for="class-teachers-sign" class="fw-bold">Sign</label>
-                        <div class="sign">
-                            @if ($teacherRemark)
-                                <span class="ps-4">
-                                    <img src="{{ asset($teacherRemark->teacher->signature) }}" height=20 width=60
-                                        alt="teacher's signature">
-                                </span>
-                            @endif
-                        </div>
-                    </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-                </div>
-            </div>
-            <div class="remark2 mb-4">
-                <div class="hod-wrapper border-dark pb-0 border border-2 p-3">
-                    <div class="class-teacher-remark">
-                        <label for="class-teachers-remark" class="fw-bold">HOS's Remark</label>
-                        <div class="remark-hd fst-italic ps-2">
-                            @if (round($percentage) <= 39)
-                                Sadly, this result cannot allow you progress to the next grade level. I'm positive that
-                                you will achieve greater performance if you settle through the class again in sha Allah.
-                            @elseif(round($percentage) > 39 && round($percentage) <= 44) You have tried but this performance is
-                                    not so encouraging. Let us concentrate on achieving a greater performance next year
-                                in sha Allah. @elseif(round($percentage)> 44 && round($percentage) <= 49) Good. However, you are
-                                        capable of achieving higher grades with more effort and support. Looking forward
-                                    to a better result next year. @elseif(round($percentage)> 49 && round($percentage) <= 59) You
-                                            have done very well this session but this performance will be better with
-                                            greater effort. I look forward to better results next year.
-                                        @elseif(round($percentage)> 59 && round($percentage) <= 69) You have worked very hard this
-                                                year and I'm proud of your accomplishment. Let's have an even better
-                                            result next year. You can do it. @elseif(round($percentage)> 69 && round($percentage)
-                                                <= 79) This is an examplary result and I'm proud of you! Keep the
-                                                Radiant Minds flag flying @elseif(round($percentage)> 79 && round($percentage) <=
-                                                        89) Wow! What an awesome performance! Continue to break barriers
-                                                    and soar high. @else Incredible! Your consistent effort and good
-                                                        study habits have paid off. Bravo! See you at the top again next
-                                                        year. @endif
-                        </div>
-                    </div>
-                    <div class="class-teacher-sign ">
-                        <label for="class-teachers-sign" class="fw-bold">Sign</label>
-                        <div class="sign">
-                            <span class="ps-4">
-                                <img src="{{ asset(App\Models\User::getHOS()->signature) }}" height=20 width=60
-                                    alt="Hos's signature">
-                            </span>
-                        </div>
-                    </div>
 
-                </div>
-            </div>
+            <table class="table caption-top table-sm">
+                <thead>
+                    <tr>
+                        <td class="text-center heading" colspan="1">NEXT TERM BEGINS</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="text-center fw-bold">{{ $nextTermBegins }}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+
         </div>
-        <footer class="heading p-3"></footer>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <div class="three mt-2 row">
+        <div class="sub3 col-lg-6">
+            <table class="table table-sm">
+                <thead>
+                    <tr class="heading">
+                        <th scope="col">PSYCHOMOTOR DOMAIN </th>
+                        <th scope="col">5</th>
+                        <th scope="col">4</th>
+                        <th scope="col">3</th>
+                        <th scope="col">2</th>
+                        <th scope="col">1</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($pdTypes as $pdType)
+                        <tr>
+                            <td class="fw-bold">{{ $pdType->name }}</td>
+                            <td>
+                                @if (array_key_exists($pdType->name, $pds) && $pds[$pdType->name] == '5')
+                                    <i class="fas fa-check"></i>
+                                @endif
+                            </td>
+                            <td>
+                                @if (array_key_exists($pdType->name, $pds) && $pds[$pdType->name] == '4')
+                                    <i class="fas fa-check"></i>
+                                @endif
+                            </td>
+                            <td>
+                                @if (array_key_exists($pdType->name, $pds) && $pds[$pdType->name] == '3')
+                                    <i class="fas fa-check"></i>
+                                @endif
+                            </td>
+                            <td>
+                                @if (array_key_exists($pdType->name, $pds) && $pds[$pdType->name] == '2')
+                                    <i class="fas fa-check"></i>
+                                @endif
+                            </td>
+                            <td>
+                                @if (array_key_exists($pdType->name, $pds) && $pds[$pdType->name] == '1')
+                                    <i class="fas fa-check"></i>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <div class="sub4 col-lg-6">
+            <table class="table table-sm">
+                <thead>
+                    <tr class="heading">
+                        <th scope="col">AFFECTIVE DOMAIN </th>
+                        <th scope="col">5</th>
+                        <th scope="col">4</th>
+                        <th scope="col">3</th>
+                        <th scope="col">2</th>
+                        <th scope="col">1</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($adTypes as $adType)
+                        <tr>
+                            <td class="fw-bold">{{ $adType->name }}</td>
+                            <td>
+                                @if (array_key_exists($adType->name, $ads) && $ads[$adType->name] == '5')
+                                    <i class="fas fa-check"></i>
+                                @endif
+                            </td>
+                            <td>
+                                @if (array_key_exists($adType->name, $ads) && $ads[$adType->name] == '4')
+                                    <i class="fas fa-check"></i>
+                                @endif
+                            </td>
+                            <td>
+                                @if (array_key_exists($adType->name, $ads) && $ads[$adType->name] == '3')
+                                    <i class="fas fa-check"></i>
+                                @endif
+                            </td>
+                            <td>
+                                @if (array_key_exists($adType->name, $ads) && $ads[$adType->name] == '2')
+                                    <i class="fas fa-check"></i>
+                                @endif
+                            </td>
+                            <td>
+                                @if (array_key_exists($adType->name, $ads) && $ads[$adType->name] == '1')
+                                    <i class="fas fa-check"></i>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="remark-container">
+        <div class="border border-2 border-dark pb-0 p-3 remark mb-4">
+            <div class="t-wrapper">
+                <div class="class-teacher-remark">
+                    <label for="class-teachers-remark" class="fw-bold">Class Teacher's Remark</label>
+                    <div class="remark-ct fst-italic ps-2">
+                        @if ($teacherRemark)
+                            {{ $teacherRemark->remark }}
+                        @endif
+                    </div>
+                </div>
+                <div class="class-teacher-sign">
+                    <label for="class-teachers-sign" class="fw-bold">Sign</label>
+                    <div class="sign">
+                        @if ($teacherRemark)
+                            <span class="ps-4">
+                                <img src="{{ asset($teacherRemark->teacher->signature) }}" height=20 width=60
+                                    alt="teacher's signature">
+                            </span>
+                        @endif
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="remark2 mb-4">
+            <div class="hod-wrapper border-dark pb-0 border border-2 p-3">
+                <div class="class-teacher-remark">
+                    <label for="class-teachers-remark" class="fw-bold">HOS's Remark</label>
+                    <div class="remark-hd fst-italic ps-2">
+                        @if (round($percentage) <= 39)
+                            Sadly, this result cannot allow you progress to the next grade level. I'm positive that
+                            you will achieve greater performance if you settle through the class again in sha Allah.
+                        @elseif(round($percentage) > 39 && round($percentage) <= 44) You have tried but this
+                                performance is not so encouraging. Let us concentrate on achieving a greater
+                            performance next year in sha Allah. @elseif(round($percentage)> 44 &&
+                                round($percentage) <= 49) Good. However, you are capable of achieving higher grades
+                                    with more effort and support. Looking forward to a better result next year.
+                                @elseif(round($percentage)> 49 && round($percentage) <= 59) You have done very
+                                        well this session but this performance will be better with greater effort. I
+                                    look forward to better results next year. @elseif(round($percentage)> 59 &&
+                                        round($percentage) <= 69) You have worked very hard this year and I'm proud
+                                            of your accomplishment. Let's have an even better result next year. You
+                                        can do it. @elseif(round($percentage)> 69 && round($percentage)
+                                            <= 79) This is an examplary result and I'm proud of you! Keep the
+                                            Radiant Minds flag flying @elseif(round($percentage)> 79 &&
+                                                round($percentage) <= 89) Wow! What an awesome performance! Continue
+                                                to break barriers and soar high. @else Incredible! Your
+                                                    consistent effort and good study habits have paid off. Bravo!
+                                                    See you at the top again next year. @endif
+                    </div>
+                </div>
+                <div class="class-teacher-sign ">
+                    <label for="class-teachers-sign" class="fw-bold">Sign</label>
+                    <div class="sign">
+                        <span class="ps-4">
+                            <img src="{{ asset(App\Models\User::getHOS()->signature) }}" height=20 width=60
+                                alt="Hos's signature">
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <footer class="heading p-3"></footer>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
