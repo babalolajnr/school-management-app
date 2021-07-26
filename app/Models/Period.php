@@ -110,16 +110,6 @@ class Period extends Model
     }
 
     /**
-     * Hos Remarks relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function hosRemarks()
-    {
-        return $this->hasMany(HosRemark::class);
-    }
-
-    /**
      * Checks if period is active
      * 
      * @return boolean
