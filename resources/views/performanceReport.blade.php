@@ -189,17 +189,17 @@
                         </tr>
                         <tr>
                             <td class="fw-bold">GRADE</td>
-                            @if ($percentage <= 39)
+                            @if (round($percentage) <= 39)
                                 <td colspan='2' class="text-red-700">F</td>
-                            @elseif($percentage > 39 && $percentage <= 49) <td colspan='2' class="text-yellow-500">
+                            @elseif(round($percentage) > 39 && round($percentage) <= 49) <td colspan='2' class="text-yellow-500">
                                     D</td>
-                                @elseif($percentage > 49 && $percentage <= 59) <td colspan='2'
+                                @elseif(round($percentage) > 49 && round($percentage) <= 59) <td colspan='2'
                                         class="text-green-300">C
                                         </td>
-                                    @elseif($percentage > 59 && $percentage <= 69) <td colspan='2'
+                                    @elseif(round($percentage) > 59 && round($percentage) <= 69) <td colspan='2'
                                             class="text-green-600">B
                                             </td>
-                                        @elseif($percentage > 69 && $percentage <= 100) <td colspan='2'
+                                        @elseif(round($percentage) > 69 && round($percentage) <= 100) <td colspan='2'
                                                 class="text-green-900">
                                                 A</td>
                                             @else
@@ -428,21 +428,21 @@
                     <div class="class-teacher-remark">
                         <label for="class-teachers-remark" class="fw-bold">HOS's Remark</label>
                         <div class="remark-hd fst-italic ps-2">
-                            @if ($percentage <= 39)
+                            @if (round($percentage) <= 39)
                                 Sadly, this result cannot allow you progress to the next grade level. I'm positive that
                                 you will achieve greater performance if you settle through the class again in sha Allah.
-                            @elseif($percentage > 39 && $percentage <= 44) You have tried but this performance is
+                            @elseif(round($percentage) > 39 && round($percentage) <= 44) You have tried but this performance is
                                     not so encouraging. Let us concentrate on achieving a greater performance next year
-                                in sha Allah. @elseif($percentage> 44 && $percentage <= 49) Good. However, you are
+                                in sha Allah. @elseif(round($percentage)> 44 && round($percentage) <= 49) Good. However, you are
                                         capable of achieving higher grades with more effort and support. Looking forward
-                                    to a better result next year. @elseif($percentage> 49 && $percentage <= 59) You
+                                    to a better result next year. @elseif(round($percentage)> 49 && round($percentage) <= 59) You
                                             have done very well this session but this performance will be better with
                                             greater effort. I look forward to better results next year.
-                                        @elseif($percentage> 59 && $percentage <= 69) You have worked very hard this
+                                        @elseif(round($percentage)> 59 && round($percentage) <= 69) You have worked very hard this
                                                 year and I'm proud of your accomplishment. Let's have an even better
-                                            result next year. You can do it. @elseif($percentage> 69 && $percentage
+                                            result next year. You can do it. @elseif(round($percentage)> 69 && round($percentage)
                                                 <= 79) This is an examplary result and I'm proud of you! Keep the
-                                                Radiant Minds flag flying @elseif($percentage> 79 && $percentage <=
+                                                Radiant Minds flag flying @elseif(round($percentage)> 79 && round($percentage) <=
                                                         89) Wow! What an awesome performance! Continue to break barriers
                                                     and soar high. @else Incredible! Your consistent effort and good
                                                         study habits have paid off. Bravo! See you at the top again next
