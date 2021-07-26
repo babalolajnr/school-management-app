@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="p-3">
         <!--Logo and details of the company-->
         <div class="head d-flex justify-content-center p-3 pb-0">
             <div class="image">
