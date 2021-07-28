@@ -401,7 +401,7 @@
                     <div class="sign">
                         @if ($teacherRemark)
                             <span class="ps-4">
-                                <img src="{{ asset($teacherRemark->teacher->signature) }}" height=20 width=60
+                                <img src="{{ asset($teacherRemark->teacher->signature) }}" height=40 width=60
                                     alt="teacher's signature">
                             </span>
                         @endif
@@ -441,7 +441,7 @@
                     <label for="class-teachers-sign" class="fw-bold">Sign</label>
                     <div class="sign">
                         <span class="ps-4">
-                            <img src="{{ asset(App\Models\User::getHOS()->signature) }}" height=20 width=60
+                            <img src="{{ asset(App\Models\User::getHOS()->signature) }}" height=40 width=60
                                 alt="Hos's signature">
                         </span>
                     </div>
