@@ -1,4 +1,3 @@
-/* logo and adress details */
 @font-face {
     font-family: 'Segoe Script';
     src: url('../fonts/segoesc.ttf')
@@ -17,166 +16,226 @@ th span {
     white-space: nowrap;
 }
 
-
 .name-font {
     font-family: 'Segoe Script', arial, helvetica;
 }
 
-/*These is the styling for the table*/
-table,
-th,
-td,
-tr {
-    border: 2px solid black;
-}
-
-/*This is the styling to increase the subject font-size*/
-.subject {
-    font-size: 20px;
-}
-
-
-
 /* logo and adress details */
-.head {
+.head{
     background-color: #FFFCC7;
 }
-
-.head .img {
-    width: 150px;
+.head .img{
+    width: 150px;  
     border-radius: 50%;
 }
 
 /*.head .passport and .head .passport img are what I added */
-.head .passport {
+.head .passport{
     width: 150px;
     height: 150px;
     margin: 0 0 0 1rem;
 }
-
-.head .passport img {
+.head .passport img{
     width: 150px;
 }
-
-.content {
+.content{
     margin-left: 2rem;
 }
-
-.content h1 {
+.content h1{
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     color: #052F57;
     letter-spacing: -2px;
 }
-
-.content img {
+.content img{
     margin-top: -13px;
 }
-
-.content .icon {
+.content .icon{
     width: 15px;
     margin-top: 0.1mm;
     margin-bottom: 1mm;
 }
-
-.head .space {
+.head .space{
     letter-spacing: 1px;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-.head .content .arabic {
-    width: 410px;
+.head .content .arabic{
+     width: 410px;
 }
 
 /* student details */
 
-form {
+form{
     overflow: hidden;
 }
 
-.stu-name,
-.stu-class,
-.stu-sess,
-.stu-add,
-.stu-dob,
-.stu-age,
-.stu-gender {
+.stu-name,.stu-class,.stu-sess,.stu-add,.stu-dob,.stu-age,.stu-gender{
     display: flex;
     width: 100%;
 }
-
-/* from here */
-.stu-name>div {
+.stu-name > div{
     position: relative;
     left: .2rem;
     bottom: .35rem;
     width: 100%;
 }
-
-.stu-class>div {
+.stu-class > div{
     position: relative;
     left: .2rem;
     bottom: .35rem;
     width: 86%;
-}
+} 
 
-.stu-sess>div {
+.stu-sess > div{
     position: relative;
     left: .2rem;
     bottom: .35rem;
-    width: 82%;
+    width: 81%;
 }
-
-.stu-add>div {
+.stu-add > div{
     position: relative;
     left: .2rem;
     bottom: .35rem;
     width: 90%;
 }
-
-.stu-dob>div {
+.stu-dob > div{
     position: relative;
     left: .2rem;
     bottom: .35rem;
     width: 89%;
 }
-
-.stu-age>div {
+.stu-age > div{
     position: relative;
     left: .2rem;
     bottom: .35rem;
     width: 90%;
 }
-
-.stu-gender>div {
+.stu-gender > div{
     position: relative;
     left: .2rem;
     bottom: .35rem;
     width: 95%;
 }
 
-/* to here is completely new*/
 
 /* result layout */
 
-.color {
+.color{
     color: #052F57;
 }
 
-.heading {
+.heading{
     background-color: #052F57 !important;
     color: #F8EA0C;
 }
 
-/* these last two before the print media query has been altered */
-.class-teacher-remark,
-.class-teacher-sign {
+/*These is the styling for the table*/
+table, th, td,tr{
+    border: 2px solid black;
+}
+/*This is the styling to increase the subject font-size*/
+.subject{
+    font-size: 20px;
+}
+
+.class-teacher-remark, .class-teacher-sign{
     width: 100%;
     display: grid;
     grid-template-columns: .8fr 3fr;
 }
-
-.t-wrapper,
-.hod-wrapper {
+.t-wrapper,.hod-wrapper{
     display: grid;
     grid-template-columns: 2fr 1fr;
 }
+
+
+@media print{
+    /* head */
+     *{
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
+    .head{
+       font-size: 82%;
+    }
+    .head h1{
+       font-size: 1.7rem;
+    } 
+    .head .content .arabic{
+        width: 17rem;
+    }
+    .head .content .space{
+        font-size: 1rem;
+    }
+    /* Added a print class in the head content paragraph */
+    .head .content .print{
+        font-size: 80%;
+    }
+    .head .content .h5{
+        font-size: 92%;
+    }
+    .sub-container{
+        font-size: 50%;
+    }
+    .sub-container .sub1{
+        width: 70%;
+    }
+    .sub-container .sub2{
+        width: 30%;
+    }
+    .head .passport img,.head .image .img{
+        width: 80px;
+    }
+    .stu-name > div{
+        width: 100%;
+        position: relative;
+        left: .2rem;
+        bottom: .2rem;
+    }
+    .stu-class > div{
+        width: 84%;
+        position: relative;
+        left: .2rem;
+        bottom: .2rem;
+    }
+    .stu-sess > div{
+        width: 81%;
+        position: relative;
+        left: .2rem;
+        bottom: .2rem;
+    }
+    .stu-add > div{
+        width: 85%;
+        position: relative;
+        left: .2rem;
+        bottom: .2rem;
+    }
+    .stu-dob > div{
+        width: 87%;
+        position: relative;
+        left: .2rem;
+        bottom: .2rem;
+    }
+    .stu-age > div{
+        width: 88%;
+        position: relative;
+        left: .2rem;
+        bottom: .2rem;
+    }
+    .stu-gender > div{
+        width: 84%;
+        position: relative;
+        left: .2rem;
+        bottom: .2rem;
+    }
+    .sub-container .sub3{
+        width: 50%;
+    }
+    .sub-container .sub4{
+        width: 50%;
+    }
+    .remark-hd,.remark-ct{
+        font-size: 75%;
+    }
+}   
