@@ -11,11 +11,7 @@
                         <h1>Subjects</h1>
                     </div>
                     <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
-                            <li class="breadcrumb-item"><a href="/subjects">Subjects</a></li>
-                            <li class="breadcrumb-item active">Edit Subject</li>
-                        </ol>
+                       
                     </div>
                 </div>
             </div><!-- /.container-fluid -->

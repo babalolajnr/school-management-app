@@ -19,11 +19,7 @@
                         <h1>{{ $academicSession->name . ' ' . $term->name }} Results</h1>
                     </div>
                     <div class="col-sm-6">
-                        {{-- <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-result"><a href="#">Home</a></li>
-                            <li class="breadcrumb-result"><a href="#">Layout</a></li>
-                            <li class="breadcrumb-result active">Fixed Layout</li>
-                        </ol> --}}
+                        
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
