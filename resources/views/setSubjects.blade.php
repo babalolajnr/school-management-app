@@ -12,10 +12,7 @@
                         <h1>Set Subjects for {{ $classroom->name }}</h1>
                     </div>
                     <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{{ url()->previous() }}">Back</a></li>
-                        </ol>
+                        
                     </div>
                 </div>
             </div><!-- /.container-fluid -->

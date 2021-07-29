@@ -17,11 +17,7 @@
                         <h1>Attendance</h1>
                     </div>
                     <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-                            <li class="breadcrumb-item"><a href="{{ url()->previous() }}">Back</a></li>
-                            <li class="breadcrumb-item active">Attendance</li>
-                        </ol>
+                        
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
