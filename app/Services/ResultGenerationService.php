@@ -49,7 +49,13 @@ class ResultGenerationService
         //Get the subjects for the student's class in the selected period Academic Session
 
         //Get Classroom
-        $classroomId = $this->student->results()->where('period_id', $period->id)->first()->classroom_id;
+        $singleResult = $this->student->results()->where('period_id', $period->id)->first();
+
+        if ($singleResult == null) {
+            throw new Exception("No results found");
+        }
+        
+        $classroomId = $singleResult->classroom_id;
         $classroom = Classroom::find($classroomId)->name;
 
         //Get the subjects for the student's class in the selected period's Academic Session
@@ -152,7 +158,7 @@ class ResultGenerationService
             'nextTermBegins' => $nextTermDetails['nextTermBegins'],
             // 'nextTermFee' => $nextTermDetails['nextTermFee'],
             'teacherRemark' => $teacherRemark,
-            'classroom' => $classroom, 
+            'classroom' => $classroom,
             'no_of_times_present' => $attendance
         ];
     }

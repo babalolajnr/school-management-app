@@ -117,7 +117,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
     });
 
 
-    //Routes accessible to both master-user and admins only
+    //Routes accessible to both master-users and admins only
     Route::middleware(['auth:web'])->group(function () {
 
         Route::get('/dashboard', DashboardController::class)->name('dashboard');
@@ -258,6 +258,8 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::patch('/update/{fee}', [FeeController::class, 'update'])->name('update');
             Route::delete('/delete/{fee}', [FeeController::class, 'destroy'])->name('destroy');
         });
+
+        Route::get('email-class-performace-report/{classroom}', [ResultController::class, 'sendClassroomPerformanceReportEmail'])->name('email.class.performace.report');
     });
 });
 

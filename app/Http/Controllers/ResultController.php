@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendClassroomPerformanceReportEmail;
 use App\Mail\StudentPerformanceReport;
+use App\Models\Classroom;
 use App\Models\Period;
 use App\Models\Result;
 use App\Models\Student;
@@ -115,6 +117,8 @@ class ResultController extends Controller
         } catch (Exception $e) {
             if ($e->getMessage() == "Student's class does not have subjects") {
                 return redirect()->route('classroom.show', ['classroom' => $student->classroom])->with('error', 'The student\'s class does not have subjects set for the selected academic session');
+            } elseif ($e->getMessage() == "No results found") {
+                abort(404);
             }
         }
         return view('performanceReport', $data);
@@ -167,17 +171,35 @@ class ResultController extends Controller
         $result->delete();
         return back()->with('success', 'Result Deleted');
     }
-    
+
     /**
      * Mail StudentPerformanceReport to guardian
      *
      * @param  mixed $student
      * @param  mixed $periodSlug
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function mailStudentPerformanceReport(Student $student, $periodSlug)
     {
+        if ($student->guardian->email == null) {
+            return back()->with('error', 'Guardian does not have an email address.');
+        }
+
         Mail::to($student->guardian->email)->send(new StudentPerformanceReport($student, $periodSlug));
         return back()->with('success', 'Email sent successfully');
+    }
+
+    
+    /**
+     * Email the entire classroom performance reports
+     *
+     * @param  mixed $classroom
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function sendClassroomPerformanceReportEmail(Classroom $classroom)
+    {
+        SendClassroomPerformanceReportEmail::dispatch($classroom);
+        return back()->with('success', 'Emails sent successfully');
+
     }
 }

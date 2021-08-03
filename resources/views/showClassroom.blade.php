@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-         
+
         <!-- DataTables -->
         <link rel="stylesheet" href="{{ asset('TAssets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
         <link rel="stylesheet"
@@ -11,7 +11,7 @@
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        
+
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -19,7 +19,7 @@
                         <h1>{{ $classroom->name }}</h1>
                     </div>
                     <div class="col-sm-6">
-                        
+
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -33,8 +33,14 @@
                     <div class="col-12">
                         <!-- Default box -->
                         <div class="card">
-                            <div class="card-header">
-                                <span class="font-semibold">Students</span>
+                            <div class="card-header row">
+                                <span class="col-6 d-flex justify-content-start font-semibold">Students</span>
+                                @auth('web')
+                                    <span class="col-6 d-flex justify-content-end"><a
+                                            href="{{ route('email.class.performace.report', ['classroom' => $classroom]) }}"><button
+                                                class="btn btn-sm btn-flat btn-outline-secondary">Email Class Performance
+                                                Report</button></a></span>
+                                @endauth
                             </div>
                             <div class="card-body">
                                 <x-students-table :students="$students" />
@@ -55,8 +61,7 @@
                                         </div>
                                         <div class="card-body">
                                             @if ($classroom->teacher)
-                                                <a
-                                                    href="{{ route('teacher.show', ['teacher' => $classroom->teacher]) }}">
+                                                <a href="{{ route('teacher.show', ['teacher' => $classroom->teacher]) }}">
                                                     {{ $classroom->teacher->first_name . ' ' . $classroom->teacher->last_name }}
                                                 </a>
                                             @endif
@@ -157,7 +162,7 @@
     </div>
 
     <x-slot name="scripts">
-         
+
         <!-- DataTables  & Plugins -->
         <script src="{{ asset('TAssets/plugins/datatables/jquery.dataTables.min.js') }}">
         </script>
@@ -210,7 +215,6 @@
                 $("#assignTeacherForm").attr('action', selected)
                 $("#assignTeacherForm").submit()
             }
-
         </script>
     </x-slot>
 </x-app-layout>
