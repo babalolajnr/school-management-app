@@ -35,10 +35,12 @@
                         <div class="card">
                             <div class="card-header row">
                                 <span class="col-6 d-flex justify-content-start font-semibold">Students</span>
-                                <span class="col-6 d-flex justify-content-end"><a
-                                        href="{{ route('email.class.performace.report', ['classroom' => $classroom]) }}"><button
-                                            class="btn btn-sm btn-flat btn-outline-secondary">Email Class Performance
-                                            Report</button></a></span>
+                                @auth('web')
+                                    <span class="col-6 d-flex justify-content-end"><a
+                                            href="{{ route('email.class.performace.report', ['classroom' => $classroom]) }}"><button
+                                                class="btn btn-sm btn-flat btn-outline-secondary">Email Class Performance
+                                                Report</button></a></span>
+                                @endauth
                             </div>
                             <div class="card-body">
                                 <x-students-table :students="$students" />
