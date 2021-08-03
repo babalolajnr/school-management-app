@@ -91,7 +91,7 @@ class ResultTest extends TestCase
     public function test_show_performance_report_method()
     {
         $this->withoutExceptionHandling();
-        $user = User::factory()->create();
+        $user = User::factory()->create(['is_hos' => true]);
         $result = Result::factory()->create();
 
         //seed a subject to the classroom
