@@ -189,4 +189,17 @@ class ResultController extends Controller
         return back()->with('success', 'Email sent successfully');
     }
 
+    
+    /**
+     * Email the entire classroom performance reports
+     *
+     * @param  mixed $classroom
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function sendClassroomPerformanceReportEmail(Classroom $classroom)
+    {
+        SendClassroomPerformanceReportEmail::dispatch($classroom);
+        return back()->with('success', 'Emails sent successfully');
+
+    }
 }
