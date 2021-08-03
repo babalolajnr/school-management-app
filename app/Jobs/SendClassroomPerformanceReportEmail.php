@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Mail\PerformanceReportExceptionMail;
 use App\Mail\StudentPerformanceReport;
 use App\Models\Classroom;
 use App\Models\Period;
@@ -48,7 +49,20 @@ class SendClassroomPerformanceReportEmail implements ShouldQueue
                 continue;
             }
 
-            Mail::to($student->guardian->email)->send(new StudentPerformanceReport($student, Period::activePeriod()->slug));
+            try {
+                Mail::to($student->guardian->email)->send(new StudentPerformanceReport($student, Period::activePeriod()->slug));
+            } catch (\Throwable $th) {
+                foreach ($this->exceptionRecipients as $recipient) {
+                    Mail::to($recipient)->send(new PerformanceReportExceptionMail($th));
+                }
+            }
         }
     }
+
+    /**
+     * Email addressess to send exception emails to
+     *
+     * @var array
+     */
+    private $exceptionRecipients = ['babalolajnr@gmail.com', 'radiantmindsschool@gmail.com'];
 }
