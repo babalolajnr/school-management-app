@@ -14,7 +14,7 @@ class AttendanceController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function create(Student $student)
     {
@@ -37,7 +37,7 @@ class AttendanceController extends Controller
      * Store or update attendance.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function storeOrUpdate(Request $request, Student $student, $periodSlug = null)
     {
@@ -63,14 +63,4 @@ class AttendanceController extends Controller
         return redirect(route('result.show.performance', ['student' => $student, 'periodSlug' =>  Period::activePeriod()->slug]));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Attendance  $attendance
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Attendance $attendance)
-    {
-        //
-    }
 }

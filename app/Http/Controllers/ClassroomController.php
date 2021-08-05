@@ -13,7 +13,13 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 
 class ClassroomController extends Controller
-{
+{    
+    /**
+     * Validate request
+     *
+     * @param  mixed $request
+     * @return array
+     */
     private function classroomValidation($request)
     {
 
@@ -27,13 +33,24 @@ class ClassroomController extends Controller
 
         return $validatedData;
     }
-
+    
+    /**
+     * Show classrooms page
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function index()
     {
         $classrooms = Classroom::all()->sortBy('rank');
         return view('classrooms', compact('classrooms'));
     }
-
+    
+    /**
+     * Store classroom
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $maxRank = Classroom::max('rank');
@@ -44,12 +61,25 @@ class ClassroomController extends Controller
         Classroom::create($data);
         return back()->with('success', 'Classroom Created!');
     }
-
+    
+    /**
+     * Show edit classroom page
+     *
+     * @param  Classroom $classroom
+     * @return \Illuminate\Contracts\View\View
+     */
     public function edit(Classroom $classroom)
     {
         return view('editClassroom', compact('classroom'));
     }
-
+    
+    /**
+     * Update classroom 
+     *
+     * @param  Classroom $classroom
+     * @param  Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Classroom $classroom, Request $request)
     {
         $classrooms = Classroom::all();
@@ -84,7 +114,13 @@ class ClassroomController extends Controller
 
         return redirect('/classrooms')->with('success', 'Classroom Updated!');
     }
-
+    
+    /**
+     * Show classroom
+     *
+     * @param  Classroom $classroom
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Contracts\View\View
+     */
     public function show(Classroom $classroom)
     {
         $students = $classroom->students->whereNull('graduated_at');
@@ -104,7 +140,13 @@ class ClassroomController extends Controller
 
         return view('showClassroom', compact('students', 'classroom', 'academicSessions', 'terms', 'subjects', 'teachers'));
     }
-
+    
+    /**
+     * Delete classroom
+     *
+     * @param  Classroom $classroom
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(Classroom $classroom)
     {
         try {
@@ -133,8 +175,12 @@ class ClassroomController extends Controller
         return back()->with('success', 'Classroom Deleted!');
     }
 
+    
     /**
-     * This method return the set subjects view
+     * Show set classroom subjects view
+     *
+     * @param  Classroom $classroom
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function setSubjects(Classroom $classroom)
     {
@@ -160,8 +206,13 @@ class ClassroomController extends Controller
         return view('setSubjects', compact('relations', 'classroom'));
     }
 
+       
     /**
-     * This method stores or update subjects for the given classroom
+     * Update classroom subjects
+     *
+     * @param  Classroom $classroom
+     * @param  Request $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function updateSubjects(Classroom $classroom, Request $request)
     {
@@ -194,7 +245,7 @@ class ClassroomController extends Controller
     }
 
     /**
-     * assign teacher to a classroom
+     * Assign teacher to a classroom
      *
      * @param  Classroom $classroom
      * @param  string $teacherSlug

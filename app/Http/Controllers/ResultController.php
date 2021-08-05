@@ -21,7 +21,7 @@ class ResultController extends Controller
      * Get Result creation page
      *
      * @param  Student $student
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function create(Student $student)
     {
@@ -106,7 +106,7 @@ class ResultController extends Controller
      *
      * @param  Student $student
      * @param  string $periodSlug
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function showPerformanceReport(Student $student, $periodSlug)
     {
@@ -175,7 +175,7 @@ class ResultController extends Controller
     /**
      * Mail StudentPerformanceReport to guardian
      *
-     * @param  mixed $student
+     * @param  \App\Models\Student $student
      * @param  mixed $periodSlug
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -193,7 +193,7 @@ class ResultController extends Controller
     /**
      * Email the entire classroom performance reports
      *
-     * @param  mixed $classroom
+     * @param  \App\Models\Classroom $classroom
      * @return \Illuminate\Http\RedirectResponse
      */
     public function sendClassroomPerformanceReportEmail(Classroom $classroom)

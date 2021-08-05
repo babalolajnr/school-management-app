@@ -56,7 +56,7 @@ class Teacher extends Authenticatable implements CanResetPassword
     /**
      * TeacherRemark relationship
      *
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function remarks()
     {
@@ -66,7 +66,7 @@ class Teacher extends Authenticatable implements CanResetPassword
     /**
      * Teacher settings relationship
      *
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function settings()
     {
@@ -99,7 +99,7 @@ class Teacher extends Authenticatable implements CanResetPassword
     /**
      * Get Teacher dark mode status
      *
-     * @return void
+     * @return string
      */
     public function darkMode()
     {

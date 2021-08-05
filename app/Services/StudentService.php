@@ -22,7 +22,7 @@ class StudentService
      * making sure it's all filled out. Then it checks if the guardian's phone number is present
      * in the database. If it is then it gets the guardian's id and inserts it into the student's table
      * 
-     * @param  mixed $storeStudentRequest
+     * @param  StoreStudentRequest $storeStudentRequest
      * @return void
      */
     public function store(StoreStudentRequest $storeStudentRequest)

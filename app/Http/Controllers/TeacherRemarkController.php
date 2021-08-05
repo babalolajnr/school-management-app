@@ -10,20 +10,10 @@ use Illuminate\Http\Request;
 class TeacherRemarkController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @param Student $student
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Contracts\View\View
      */
     public function create(Student $student)
     {
@@ -48,7 +38,7 @@ class TeacherRemarkController extends Controller
      * Store or Update teacher's remark
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function storeOrUpdate(Student $student, Request $request)
     {
@@ -74,25 +64,4 @@ class TeacherRemarkController extends Controller
         return back()->with('success', 'Teacher\'s Remark recorded!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\TeacherRemark  $remark
-     * @return \Illuminate\Http\Response
-     */
-    public function show(TeacherRemark $remark)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\TeacherRemark  $remark
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(TeacherRemark $remark)
-    {
-        //
-    }
 }

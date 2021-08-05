@@ -59,8 +59,7 @@ class UserPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\User  $model
-     * @return mixed
+     * @return bool
      */
     public function delete(User $user)
     {
@@ -94,7 +93,7 @@ class UserPolicy
      * Determine whether the user can store signature
      *
      * @param  User $user
-     * @return void
+     * @return bool
      */
     public function storeSignature(User $user)
     {

@@ -52,7 +52,7 @@ class Period extends Model
     /**
      * Attendance relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function attendance()
     {
@@ -145,7 +145,7 @@ class Period extends Model
     /**
      * Get current academic session
      *
-     * @return AcademicSession
+     * @return AcademicSession|null
      */
     public static function currentAcademicSession()
     {
@@ -156,7 +156,7 @@ class Period extends Model
     /**
      * Get current term
      *
-     * @return Term
+     * @return Term|null
      */
     public static function currentTerm()
     {

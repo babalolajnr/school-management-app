@@ -94,7 +94,7 @@ class ResultGenerationService
         $totalObtainable = count($subjects) * 100;
         $currentDate = now()->year;
         $yearOfBirth = Carbon::createFromFormat('Y-m-d', $this->student->date_of_birth)->format('Y');
-        $age = $currentDate - $yearOfBirth;
+        $age = $currentDate - (int)$yearOfBirth;
 
         $teacherRemark = TeacherRemark::where('student_id', $this->student->id)->where('period_id', $period->id)->first();
         //Get class score statistics
