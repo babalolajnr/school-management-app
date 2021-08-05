@@ -41,11 +41,11 @@
             data-success-message='{{ json_encode(session('success')) }}'></span>
         <span id="error" {{ session('error') ? 'data-error = true' : false }}
             data-error-message='{{ json_encode(session('error')) }}'></span>
-        @auth('web')
+        {{-- @auth('web')
             <span id="darkmode-status" data-darkmode-status="{{ auth('web')->user()->darkMode() }}"></span>
         @else
             <span id="darkmode-status" data-darkmode-status="{{ auth('teacher')->user()->darkMode() }}"></span>
-        @endauth
+        @endauth --}}
         <!-- Content Wrapper. Contains page content -->
         {{ $slot }}
         <!-- /.content-wrapper -->
@@ -105,14 +105,25 @@
         }
 
         function darkMode() {
-            //get darkmode status
-            let darkmodeStatus = $("#darkmode-status").attr('data-darkmode-status')
+            //get darkmode status from localStorage
+            let darkmodeStatus = localStorage.getItem('dark-mode')
 
-            if (darkmodeStatus == 'true') {
-                darkmodeStatus = true
-                $('body').addClass('dark-mode')
-            } else {
+            if (darkmodeStatus == null) {
+                darkmodeStatus = $("#darkmode-status").attr('data-darkmode-status')
+
+                if (darkmodeStatus == 'true') {
+                    darkmodeStatus = true
+                    $('body').addClass('dark-mode')
+                    localStorage.setItem('dark-mode', true)
+                } else {
+                    darkmodeStatus = false
+                    localStorage.setItem('dark-mode', false)
+                }
+            } else if (darkmodeStatus == 'false') {
                 darkmodeStatus = false
+            } else {
+                $('body').addClass('dark-mode')
+                darkmodeStatus = true
             }
 
             //set dark mode button toggle
@@ -148,9 +159,11 @@
                             if (response.darkmode == true) {
                                 $("#dark-mode").bootstrapSwitch('toggleState', true, true)
                                 $('body').addClass('dark-mode')
+                                localStorage.setItem('dark-mode', true)
                             } else {
                                 $("#dark-mode").bootstrapSwitch('toggleState', true, false)
                                 $('body').removeClass('dark-mode')
+                                localStorage.setItem('dark-mode', false)
                             }
                         }
                     },
