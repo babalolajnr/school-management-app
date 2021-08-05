@@ -44,7 +44,7 @@ class Classroom extends Model
     /**
      * Fee relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function fee()
     {

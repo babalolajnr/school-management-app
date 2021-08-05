@@ -21,13 +21,14 @@ class SendClassroomPerformanceReportEmail implements ShouldQueue
     /**
      * classroom instance
      *
-     * @var App\Models\Classroom
+     * @var mixed
      */
     protected $classroom;
 
     /**
      * Create a new job instance.
      *
+     * @param Classroom $classroom
      * @return void
      */
     public function __construct(Classroom $classroom)

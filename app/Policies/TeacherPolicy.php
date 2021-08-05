@@ -95,8 +95,8 @@ class TeacherPolicy
     /**
      * Determine whether the user can store signature
      *
-     * @param  mixed $teacher
-     * @return void
+     * @param  Teacher $teacher
+     * @return bool
      */
     public function storeSignature(Teacher $teacher)
     {

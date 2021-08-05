@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use  Intervention\Image\Facades\Image;
 
@@ -32,7 +31,7 @@ class TeacherController extends Controller
     }
 
     /**
-     * get teachers view
+     * Show teachers page
      *
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
@@ -43,7 +42,7 @@ class TeacherController extends Controller
     }
 
     /**
-     * get create view
+     * Show create teacher page
      *
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
@@ -53,7 +52,7 @@ class TeacherController extends Controller
     }
 
     /**
-     * store new teacher
+     * Store new teacher
      *
      * @param StoreTeacherRequest $request
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
@@ -74,7 +73,7 @@ class TeacherController extends Controller
     }
 
     /**
-     * show teacher
+     * Show teacher
      *
      * @param  Teacher $teacher
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
@@ -85,7 +84,7 @@ class TeacherController extends Controller
     }
 
     /**
-     * get edit teacher view.
+     * Show edit teacher view.
      *
      * @param  Teacher $teacher
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
@@ -96,12 +95,12 @@ class TeacherController extends Controller
     }
 
     /**
-     * User teacher update`
+     * User teacher update
      * 
      * Only users authenticated with the web guard can use this method
      *
-     * @param  mixed $teacher
-     * @param  mixed $request
+     * @param  Teacher $teacher
+     * @param  UserTeacherUpdateRequest $request
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function userTeacherUpdate(Teacher $teacher, UserTeacherUpdateRequest $request)
@@ -121,6 +120,13 @@ class TeacherController extends Controller
         return redirect()->route('teacher.edit', ['teacher' => $teacher])->with('success', 'Teacher Updated!');
     }
 
+    /**
+     * Update Teacher
+     *
+     * @param  Teacher $teacher
+     * @param  Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Teacher $teacher, Request $request)
     {
         $validatedData =  $request->validate([
@@ -139,11 +145,10 @@ class TeacherController extends Controller
         $teacher->update($data);
 
         return redirect()->route('teacher.edit', ['teacher' => $teacher])->with('success', 'Teacher Updated!');
-
     }
 
     /**
-     * activate teacher
+     * Activate teacher
      *
      * @param  Teacher $teacher
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
@@ -157,7 +162,7 @@ class TeacherController extends Controller
     }
 
     /**
-     * deactivate teacher
+     * Deactivate teacher
      *
      * @param  Teacher $teacher
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
@@ -213,9 +218,9 @@ class TeacherController extends Controller
     /**
      * Update password.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Teacher  $teacher
-     * @return \Illuminate\Http\Response
+     * @param  Request  $request
+     * @param  Teacher  $teacher
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function updatePassword(Request $request, Teacher $teacher)
     {
@@ -236,23 +241,23 @@ class TeacherController extends Controller
 
         return redirect()->back()->with('success', 'Password updated!');
     }
-    
+
     /**
      * Show deleted teachers
      *
-     * @return void
+     * @return \Illuminate\View\View
      */
     public function showTrashed()
     {
         $teachers = Teacher::onlyTrashed()->get();
         return view('teacherTrash', compact('teachers'));
     }
-    
+
     /**
-     * restore deleted teacher
+     * Restore deleted teacher
      *
      * @param  mixed $id
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function restore($id)
     {
@@ -261,13 +266,13 @@ class TeacherController extends Controller
 
         return back()->with('success', 'Teacher restored!');
     }
-    
+
     /**
-     * force delete teacher from database
+     * Force delete teacher from database
      *
      * @param  mixed $id
-     * @param  mixed $teacher
-     * @return void
+     * @param  Teacher $teacher
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function forceDelete($id, Teacher $teacher)
     {

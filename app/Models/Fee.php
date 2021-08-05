@@ -19,7 +19,7 @@ class Fee extends Model
     /**
      * Period relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function period()
     {
@@ -29,7 +29,7 @@ class Fee extends Model
     /**
      * Classroom relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function classroom()
     {

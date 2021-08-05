@@ -68,7 +68,7 @@ class PeriodController extends Controller
     /**
      * Set active period
      *
-     * @param  mixed $period
+     * @param  \App\Models\Period $period
      * @return \Illuminate\Http\RedirectResponse
      */
     public function setActivePeriod(Period $period)
@@ -87,7 +87,7 @@ class PeriodController extends Controller
     /**
      * destroy period
      *
-     * @param  mixed $period
+     * @param  \App\Models\Period $period
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Period $period)

@@ -18,9 +18,8 @@ class ADController extends Controller
      * active period
      * 
      * @param Student $student
-     * @param string $periodSlug
      * 
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      * 
      */
     public function create(Student $student)

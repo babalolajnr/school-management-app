@@ -19,9 +19,9 @@ class StudentController extends Controller
 {
 
     /**
-     * index
+     * Show students page
      *
-     * @return void
+     * @return \Illuminate\View\View
      */
     public function index()
     {
@@ -35,7 +35,7 @@ class StudentController extends Controller
     /**
      * Get Alumni
      *
-     * @return void
+     * @return \Illuminate\View\View
      */
     public function getAlumni()
     {
@@ -44,9 +44,9 @@ class StudentController extends Controller
     }
 
     /**
-     * create student
+     * Show create student view
      *
-     * @return void
+     * @return \Illuminate\View\View
      */
     public function create()
     {
@@ -56,7 +56,7 @@ class StudentController extends Controller
 
 
     /**
-     * store student
+     * Store student
      *
      * @param  StoreStudentRequest $request
      * @param  StudentService $studentService
@@ -69,7 +69,7 @@ class StudentController extends Controller
     }
 
     /**
-     * show student
+     * Show student
      *
      * @param  Student $student
      * @param  StudentService $studentService
@@ -94,7 +94,13 @@ class StudentController extends Controller
 
         return back()->with('success', 'Student Activated!');
     }
-
+    
+    /**
+     * Deactivate student
+     *
+     * @param  Student $student
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function deactivate(Student $student)
     {
 
@@ -103,26 +109,56 @@ class StudentController extends Controller
 
         return back()->with('success', 'Student Deactivated!');
     }
-
+    
+    /**
+     * Edit student
+     *
+     * @param  Student $student
+     * @return \Illuminate\Contracts\View\View
+     */
     public function edit(Student $student)
     {
         $classrooms = Classroom::pluck('name')->all();
         return view('editStudent', compact(['student', 'classrooms']));
     }
-
+    
+    /**
+     * Update student's record
+     *
+     * @param  Student $student
+     * @param  UpdateStudentRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Student $student, UpdateStudentRequest $request)
     {
         $classroom_id = Classroom::where('name', $request->validated()['classroom'])->first()->id;
         $student->update($request->validated() + ['classroom_id' => $classroom_id]);
         return redirect(route('student.edit', ['student' => $student]))->with('success', 'Student Updated!');
     }
-
+    
+    /**
+     * Get student's sessional results
+     *
+     * @param  Student $student
+     * @param  mixed $academicSessionName
+     * @param  StudentService $studentService
+     * @return \Illuminate\Contracts\View\View
+     */
     public function getSessionalResults(Student $student, $academicSessionName, StudentService $studentService)
     {
         $sessionalResults = $studentService->getSessionalResults($student, $academicSessionName);
         return view('studentSessionalResults', $sessionalResults);
     }
-
+    
+    /**
+     * Get student's term results
+     *
+     * @param  Student $student
+     * @param  mixed $termSlug
+     * @param  mixed $academicSessionName
+     * @param  StudentService $studentService
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function getTermResults(Student $student, $termSlug, $academicSessionName, StudentService $studentService)
     {
         try {
@@ -133,7 +169,13 @@ class StudentController extends Controller
 
         return view('studentTermResults', $termResults);
     }
-
+    
+    /**
+     * Soft delete student record
+     *
+     * @param  Student $student
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(Student $student)
     {
         $this->authorize('delete', $student);
@@ -142,7 +184,14 @@ class StudentController extends Controller
 
         return back()->with('success', 'Student deleted');
     }
-
+    
+    /**
+     * Delete student's record permanently
+     *
+     * @param  mixed $id
+     * @param  Student $student
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function forceDelete($id, Student $student)
     {
         $this->authorize('delete', $student);
@@ -172,13 +221,27 @@ class StudentController extends Controller
 
         return back()->with('success', 'Student deleted permanently');
     }
-
+    
+    /**
+     * Upload student's image
+     *
+     * @param  Student $student
+     * @param  Request $request
+     * @param  StudentService $studentService
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function uploadImage(Student $student, Request $request, StudentService $studentService)
     {
         $studentService->uploadImage($student, $request);
         return back()->with('success', 'Image uploaded successfully');
     }
 
+    /**
+     * Show Student's settings view
+     *
+     * @param  Student $student
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function showStudentSettingsView(Student $student)
     {
         $currentAcademicSession = Period::activePeriod()->academicSession;
@@ -193,6 +256,12 @@ class StudentController extends Controller
         return view('studentSettings', compact('student', 'pdTypes', 'currentAcademicSession', 'terms'));
     }
 
+    /**
+     * Promote Student
+     *
+     * @param  Student $student
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function promote(Student $student)
     {
 
@@ -211,6 +280,12 @@ class StudentController extends Controller
         return back()->with('error', 'Student is in the Maximum class possible');
     }
 
+    /**
+     * Demote student
+     *
+     * @param  Student $student
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function demote(Student $student)
     {
 
@@ -236,6 +311,11 @@ class StudentController extends Controller
         return back()->with('error', 'Student is in the Lowest class possible');
     }
 
+    /**
+     * Show trashed students
+     *
+     * @return \Illuminate\Contracts\View\View
+     */
     public function showTrashed()
     {
         $students = Student::onlyTrashed()->get();
@@ -243,6 +323,12 @@ class StudentController extends Controller
         return view('studentTrash', compact('students'));
     }
 
+    /**
+     * Restore deleted student
+     *
+     * @param  mixed $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function restore($id)
     {
         $student = Student::withTrashed()->findOrFail($id);
@@ -256,7 +342,7 @@ class StudentController extends Controller
      *
      * @param  Student $student
      * @param  Request $request
-     * @return void
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function graduate(Student $student, Request $request)
     {

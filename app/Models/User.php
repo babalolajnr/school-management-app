@@ -47,7 +47,7 @@ class User extends Authenticatable implements CanResetPassword
     /**
      * User settings relationship
      *
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function settings()
     {
@@ -107,7 +107,7 @@ class User extends Authenticatable implements CanResetPassword
     /**
      * Get user dark mode status
      *
-     * @return void
+     * @return string
      */
     public function darkMode()
     {

@@ -41,7 +41,7 @@ class Student extends Model
     /**
      * Result relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function results()
     {
@@ -81,7 +81,7 @@ class Student extends Model
     /**
      * teacher remarks relationship
      *
-     * @return void
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function teacherRemarks()
     {
@@ -92,7 +92,7 @@ class Student extends Model
      * Find student
      *
      * @param  string $admission_no
-     * @return Student $student
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function findStudent($admission_no)
     {
@@ -157,7 +157,7 @@ class Student extends Model
     /**
      * check if student is an alumni
      *
-     * @return void
+     * @return bool
      */
     public function hasGraduated()
     {

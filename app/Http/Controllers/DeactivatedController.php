@@ -9,7 +9,7 @@ class DeactivatedController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function index(Request $request)
     {

@@ -14,7 +14,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -25,7 +25,8 @@ class UserController extends Controller
     /**
      * Verify a new user.
      *
-     * @return Redirect
+     * @param User $user
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function verify(User $user)
     {
@@ -43,7 +44,7 @@ class UserController extends Controller
      * Toggle the user status between active and inactive states.
      *
      * @param  \App\Models\User  $user
-     * @return Redirect
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function toggleStatus(User $user)
     {
@@ -70,7 +71,7 @@ class UserController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\View
      */
     public function show(User $user)
     {
@@ -83,7 +84,7 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, User $user)
     {
@@ -105,7 +106,7 @@ class UserController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function updatePassword(Request $request, User $user)
     {
@@ -159,7 +160,7 @@ class UserController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(User $user)
     {
@@ -168,12 +169,12 @@ class UserController extends Controller
 
         return redirect()->back()->with('success', 'User deleted!');
     }
-    
+
     /**
      * Set HOS
      *
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function setHos(User $user)
     {
