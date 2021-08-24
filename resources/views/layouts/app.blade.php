@@ -106,77 +106,31 @@
 
         function darkMode() {
             //get darkmode status from localStorage
-            let darkmodeStatus = localStorage.getItem('dark-mode')
+            const darkmodeStatus = localStorage.getItem('dark-mode')
 
-            if (darkmodeStatus == null) {
-                darkmodeStatus = $("#darkmode-status").attr('data-darkmode-status')
-
-                if (darkmodeStatus == 'true') {
-                    darkmodeStatus = true
-                    $('body').addClass('dark-mode')
-                    localStorage.setItem('dark-mode', true)
-                } else {
-                    darkmodeStatus = false
-                    localStorage.setItem('dark-mode', false)
-                }
-            } else if (darkmodeStatus == 'false') {
-                darkmodeStatus = false
-            } else {
+            if (darkmodeStatus == "true") {
                 $('body').addClass('dark-mode')
-                darkmodeStatus = true
+                $("#dark-mode").append("<i class='far fa-sun'></i>")
+            } else {
+                $("#dark-mode").append("<i class='fas fa-moon'></i>")
             }
-
-            //set dark mode button toggle
-            $("#dark-mode").bootstrapSwitch({
-                size: "mini",
-                state: darkmodeStatus,
-                onText: '🌆',
-                offText: '☀',
-                onColor: 'dark'
-            })
-
-            //on dark mode switch click
-            $("#dark-mode").bootstrapSwitch('onSwitchChange', function(e, state) {
-                e.preventDefault();
-                $(this).bootstrapSwitch('state', !state, true)
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $.ajax({
-                    type: 'POST',
-                    url: $("#dark-mode-form").attr('action'),
-                    data: {
-                        darkmode: state
-                    },
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.status == 'success') {
-                            //toggle switch
-                            if (response.darkmode == true) {
-                                $("#dark-mode").bootstrapSwitch('toggleState', true, true)
-                                $('body').addClass('dark-mode')
-                                localStorage.setItem('dark-mode', true)
-                            } else {
-                                $("#dark-mode").bootstrapSwitch('toggleState', true, false)
-                                $('body').removeClass('dark-mode')
-                                localStorage.setItem('dark-mode', false)
-                            }
-                        }
-                    },
-                    error: function(data) {
-                        Toast.fire({
-                            icon: 'error',
-                            title: "Unable to toggle dark mode. Try again!"
-                        })
-                    }
-
-                })
-            });
         }
+
+        $("#dark-mode").click(function() {
+            const darkmodeStatus = localStorage.getItem('dark-mode')
+
+            $('body').toggleClass('dark-mode')
+
+            if (darkmodeStatus == "true") {
+                $("#dark-mode").children().remove()
+                $("#dark-mode").append("<i class='fas fa-moon'></i>")
+                localStorage.setItem('dark-mode', false)
+            } else {
+                $("#dark-mode").children().remove()
+                $("#dark-mode").append("<i class='far fa-sun'></i>")
+                localStorage.setItem('dark-mode', true)
+            }
+        })
     </script>
 </body>
 
