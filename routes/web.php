@@ -44,7 +44,6 @@ Route::get('/deactivated', [DeactivatedController::class, 'index'])->middleware(
 
 Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerified'])->group(function () {
 
-    Route::post('/toggle-dark-mode', [UserTeacherSettingsController::class, 'toggleDarkMode'])->name('toggle-dark-mode');
     Route::get('teachers/edit/{teacher:slug}', [TeacherController::class, 'edit'])->name('teacher.edit');
 
     Route::get('/classrooms/view/{classroom:slug}', [ClassroomController::class, 'show'])->name('classroom.show')->middleware('classTeacherOrUser');

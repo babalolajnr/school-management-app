@@ -45,16 +45,6 @@ class User extends Authenticatable implements CanResetPassword
     ];
 
     /**
-     * User settings relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function settings()
-    {
-        return $this->hasOne(UserTeacherSettings::class);
-    }
-
-    /**
      * Check if user is an admin
      *
      * @return boolean
@@ -104,22 +94,6 @@ class User extends Authenticatable implements CanResetPassword
         return $this->is_hos == true;
     }
 
-    /**
-     * Get user dark mode status
-     *
-     * @return string
-     */
-    public function darkMode()
-    {
-        if (!is_null($this->settings)) {
-            if ($this->settings->dark_mode == 1) {
-                return "true";
-            }
-        }
-
-        return "false";
-    }
-    
     /**
      * Get HOS
      *
