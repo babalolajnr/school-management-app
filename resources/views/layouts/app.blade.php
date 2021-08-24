@@ -41,11 +41,7 @@
             data-success-message='{{ json_encode(session('success')) }}'></span>
         <span id="error" {{ session('error') ? 'data-error = true' : false }}
             data-error-message='{{ json_encode(session('error')) }}'></span>
-        {{-- @auth('web')
-            <span id="darkmode-status" data-darkmode-status="{{ auth('web')->user()->darkMode() }}"></span>
-        @else
-            <span id="darkmode-status" data-darkmode-status="{{ auth('teacher')->user()->darkMode() }}"></span>
-        @endauth --}}
+
         <!-- Content Wrapper. Contains page content -->
         {{ $slot }}
         <!-- /.content-wrapper -->
