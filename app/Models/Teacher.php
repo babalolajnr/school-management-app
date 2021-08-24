@@ -64,16 +64,6 @@ class Teacher extends Authenticatable implements CanResetPassword
     }
 
     /**
-     * Teacher settings relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function settings()
-    {
-        return $this->hasOne(UserTeacherSettings::class);
-    }
-
-    /**
      * Check if teacher is active
      *
      * @return bool
@@ -96,19 +86,4 @@ class Teacher extends Authenticatable implements CanResetPassword
         $this->notify($notification);
     }
 
-    /**
-     * Get Teacher dark mode status
-     *
-     * @return string
-     */
-    public function darkMode()
-    {
-        if (!is_null($this->settings)) {
-            if ($this->settings->dark_mode == 1) {
-                return "true";
-            }
-        }
-
-        return "false";
-    }
 }
