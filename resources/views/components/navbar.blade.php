@@ -14,11 +14,19 @@
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                @if (Cache::has('user-is-online-' . auth()->user()->id))
-                    <i class="fas fa-circle text-green-700 text-sm" title="Online"></i>
+                @auth('web')
+                    @if (Cache::has('user-is-online-' . auth()->user()->id))
+                        <i class="fas fa-circle text-green-700 text-sm" title="Online"></i>
+                    @else
+                        <i class="fas fa-circle text-red-600 text-sm" title="Offline"></i>
+                    @endif
                 @else
-                    <i class="fas fa-circle text-red-600 text-sm" title="Offline"></i>
-                @endif
+                    @if (Cache::has('teacher-is-online-' . auth()->user()->id))
+                        <i class="fas fa-circle text-green-700 text-sm" title="Online"></i>
+                    @else
+                        <i class="fas fa-circle text-red-600 text-sm" title="Offline"></i>
+                    @endif
+                @endauth
             </a>
         </li>
         <li class="nav-item">
