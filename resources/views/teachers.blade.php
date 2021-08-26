@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-         
+
         <!-- DataTables -->
         <link rel="stylesheet" href="{{ asset('TAssets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
         <link rel="stylesheet"
@@ -11,7 +11,7 @@
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        
+
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -19,7 +19,7 @@
                         <h1>Teachers</h1>
                     </div>
                     <div class="col-sm-6">
-                        
+
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -51,7 +51,7 @@
                             <div class="card-body">
                                 <div>
                                     <!-- The only way to do great work is to love what you do. - Steve Jobs -->
-                                    <table id="example1" class="table table-bordered table-striped">
+                                    <table id="example1" class="table table-bordered table-hover text-center">
                                         <thead>
                                             <tr>
                                                 <th>S/N</th>
@@ -59,6 +59,7 @@
                                                 <th>Last name</th>
                                                 <th>Sex</th>
                                                 <th>Status</th>
+                                                <th>Last Seen</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -82,11 +83,16 @@
                                                         {{ $teacher->sex }}
                                                     </td>
                                                     <td>
-                                                        @if ($teacher->isActive())
-                                                            active
+                                                        @if (Cache::has('teacher-is-online-' . $teacher->id))
+                                                            <i class="fas fa-circle text-green-700 text-sm"
+                                                                title="Online"></i>
                                                         @else
-                                                            inactive
+                                                            <i class="fas fa-circle text-red-600 text-sm"
+                                                                title="Offline"></i>
                                                         @endif
+                                                    </td>
+                                                    <td>
+                                                        {{ $teacher->last_seen }}
                                                     </td>
                                                     <td>
                                                         <div class="btn-group">
@@ -117,6 +123,7 @@
                                                 <th>Last name</th>
                                                 <th>Sex</th>
                                                 <th>Status</th>
+                                                <th>Last Seen</th>
                                                 <th>Action</th>
                                             </tr>
                                         </tfoot>
@@ -160,7 +167,7 @@
     </div>
 
     <x-slot name="scripts">
-         
+
         <!-- DataTables  & Plugins -->
         <script src="{{ asset('TAssets/plugins/datatables/jquery.dataTables.min.js') }}">
         </script>
@@ -203,7 +210,6 @@
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
             });
-
         </script>
     </x-slot>
 </x-app-layout>
