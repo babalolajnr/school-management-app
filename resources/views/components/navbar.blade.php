@@ -13,7 +13,7 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+            <a class="nav-link" href="#" role="button">
                 @auth('web')
                     @if (Cache::has('user-is-online-' . auth()->user()->id))
                         <i class="fas fa-circle text-green-700 text-sm" title="Online"></i>
@@ -30,12 +30,12 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+            <a class="nav-link" data-widget="fullscreen" href="#" role="button" title="Go Fullscreen">
                 <i class="fas fa-expand-arrows-alt"></i>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" role="button" id="dark-mode">
+            <a class="nav-link" role="button" id="dark-mode" title="Toggle dark mode">
             </a>
         </li>
     </ul>
