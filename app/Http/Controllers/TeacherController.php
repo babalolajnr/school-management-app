@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTeacherRequest;
 use App\Http\Requests\UserTeacherUpdateRequest;
 use App\Models\Teacher;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -38,6 +39,20 @@ class TeacherController extends Controller
     public function index()
     {
         $teachers = Teacher::all();
+        $teachers->map(function ($teacher) {
+            if ($teacher->last_seen) {
+
+                $lastSeen = $teacher->last_seen;
+
+                // convert to carbon instance
+                $lastSeen = Carbon::createFromFormat('Y-m-d H:i:s', $lastSeen);
+
+                // Convert to human diff format
+                $lastSeen = $lastSeen->diffForHumans();
+
+                $teacher->last_seen = $lastSeen;
+            }
+        });
         return view('teachers', compact('teachers'));
     }
 

@@ -19,7 +19,7 @@
                         <h1>Users</h1>
                     </div>
                     <div class="col-sm-6">
-                        
+
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -40,16 +40,16 @@
                             <div class="card-body">
                                 <div>
                                     <!-- The only way to do great work is to love what you do. - Steve Jobs -->
-                                    <table id="example1" class="table table-bordered table-striped">
+                                    <table id="example1" class="table table-sm table-hover table-bordered  text-center">
                                         <thead>
                                             <tr>
                                                 <th>S/N</th>
-                                                <th>First name</th>
-                                                <th>Last name</th>
+                                                <th>Name</th>
                                                 <th>Email</th>
                                                 <th>User type</th>
                                                 <th>Verified</th>
                                                 <th>Status</th>
+                                                <th>Last Seen</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -64,10 +64,7 @@
                                                         ?>
                                                     </td>
                                                     <td>
-                                                        {{ $user->first_name }}
-                                                    </td>
-                                                    <td>
-                                                        {{ $user->last_name }}
+                                                        {{ $user->first_name }} {{ $user->last_name }}
                                                     </td>
                                                     <td>
                                                         {{ $user->email }}
@@ -81,22 +78,32 @@
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        @if ($user->isActive())
-                                                        active @else inactive
+                                                        @if (Cache::has('user-is-online-' . $user->id))
+                                                            <i class="fas fa-circle text-green-700 text-sm"
+                                                                title="Online"></i>
+                                                        @else
+                                                            <i class="fas fa-circle text-red-600 text-sm"
+                                                                title="Offline"></i>
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        <div class="btn-group">
-                                                            <form
-                                                                action="{{ route('user.verify', ['user' => $user]) }}"
-                                                                method="post">
-                                                                @csrf
-                                                                @method('PATCH')
-                                                                <button type="submit" class="btn btn-success btn-flat"
-                                                                    title="Verify User" @if ($user->isVerified()) disabled @endif> <i
-                                                                        class="fas fa-check"></i>
-                                                                </button>
-                                                            </form>
+                                                        {{ $user->last_seen }}
+                                                    </td>
+                                                    <td>
+                                                        <div class="btn-group btn-sm">
+                                                            @if (!$user->isVerified())
+                                                                <form
+                                                                    action="{{ route('user.verify', ['user' => $user]) }}"
+                                                                    method="post">
+                                                                    @csrf
+                                                                    @method('PATCH')
+                                                                    <button type="submit"
+                                                                        class="btn btn-success btn-flat"
+                                                                        title="Verify User"> <i
+                                                                            class="fas fa-check"></i>
+                                                                    </button>
+                                                                </form>
+                                                            @endif
                                                             @if ($user->isVerified())
                                                                 @if ($user->isHos())
                                                                     <button type="button"
@@ -124,17 +131,18 @@
                                                                     method="post">
                                                                     @csrf
                                                                     @method('PATCH')
-                                                                    <button type="submit"
-                                                                        class="btn btn-default btn-flat"
-                                                                        title="@if ($user->isActive()) Deactivate
-                                                                        User
+
+                                                                    @if ($user->isActive())
+                                                                        <button class="btn btn-success btn-flat"
+                                                                            title="Deactivate User">
+                                                                            active
+                                                                        </button>
                                                                     @else
-                                                                        Activate User @endif" >
-                                                                        @if ($user->isActive()) <i
-                                                                                class="fas fa-lightbulb text-yellow-400"></i>
-                                                                        @else <i class="far fa-lightbulb"></i>
-                                                                        @endif
-                                                                    </button>
+                                                                        <button class="btn btn-default btn-flat"
+                                                                            title="Activate User">
+                                                                            inactive
+                                                                        </button>
+                                                                    @endif
                                                                 </form>
                                                             @endif
                                                             @if ($user->isAdmin())
@@ -152,12 +160,12 @@
                                         <tfoot>
                                             <tr>
                                                 <th>S/N</th>
-                                                <th>First name</th>
-                                                <th>Last name</th>
+                                                <th>Name</th>
                                                 <th>Email</th>
                                                 <th>User type</th>
                                                 <th>Verified</th>
                                                 <th>Status</th>
+                                                <th>Last Seen</th>
                                                 <th>Action</th>
                                             </tr>
                                         </tfoot>
