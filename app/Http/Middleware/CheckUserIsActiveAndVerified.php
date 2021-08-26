@@ -21,10 +21,12 @@ class CheckUserIsActiveAndVerified
     {
         if (auth('web')->check()) {
             if (!$request->user('web')->isActive() || !$request->user('web')->isVerified()) {
+                auth()->logout();
                 return redirect('deactivated');
             }
         } elseif (auth('teacher')->check()) {
             if (!$request->user('teacher')->isActive()) {
+                auth()->logout();
                 return redirect('deactivated');
             }
         }
