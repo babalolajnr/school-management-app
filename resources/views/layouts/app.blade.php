@@ -69,6 +69,9 @@
         const date = new Date().getFullYear();
         document.getElementById('footerDate').innerHTML = date;
 
+        const sunIcon = "<i class='fas fa-sun text-yellow-400'></i>"
+        const moonIcon = "<i class='fas fa-moon'></i>"
+
         var Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -104,11 +107,15 @@
             //get darkmode status from localStorage
             const darkmodeStatus = localStorage.getItem('dark-mode')
 
+
+
             if (darkmodeStatus == "true") {
                 $('body').addClass('dark-mode')
-                $("#dark-mode").append("<i class='far fa-sun'></i>")
+                $('#navbar').removeClass('navbar-white navbar-light')
+                $('#navbar').addClass('navbar-dark')
+                $("#dark-mode").append(sunIcon)
             } else {
-                $("#dark-mode").append("<i class='fas fa-moon'></i>")
+                $("#dark-mode").append(moonIcon)
             }
         }
 
@@ -116,14 +123,15 @@
             const darkmodeStatus = localStorage.getItem('dark-mode')
 
             $('body').toggleClass('dark-mode')
+            $('#navbar').toggleClass('navbar-dark navbar-white navbar-light')
 
             if (darkmodeStatus == "true") {
                 $("#dark-mode").children().remove()
-                $("#dark-mode").append("<i class='fas fa-moon'></i>")
+                $("#dark-mode").append(moonIcon)
                 localStorage.setItem('dark-mode', false)
             } else {
                 $("#dark-mode").children().remove()
-                $("#dark-mode").append("<i class='far fa-sun'></i>")
+                $("#dark-mode").append(sunIcon)
                 localStorage.setItem('dark-mode', true)
             }
         })
