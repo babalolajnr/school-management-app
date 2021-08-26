@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -19,6 +20,20 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+        $users->map(function ($user) {
+            if ($user->last_seen) {
+
+                $lastSeen = $user->last_seen;
+
+                // convert to carbon instance
+                $lastSeen = Carbon::createFromFormat('Y-m-d H:i:s', $lastSeen);
+
+                // Convert to human diff format
+                $lastSeen = $lastSeen->diffForHumans();
+
+                $user->last_seen = $lastSeen;
+            }
+        });
         return view('users', compact('users'));
     }
 
