@@ -3798,6 +3798,21 @@ module.exports = {
   \*****************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var _require = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js"),
+    forEach = _require.forEach;
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/alpine.js");
@@ -3815,6 +3830,7 @@ var Toast = Swal.mixin({
 $(function () {
   toastrAlert();
   darkMode();
+  setActiveSidebarLink();
 });
 
 function toastrAlert() {
@@ -3863,6 +3879,38 @@ $("#dark-mode").click(function () {
     localStorage.setItem('dark-mode', true);
   }
 });
+
+function setActiveSidebarLink() {
+  var routeName = JSON.parse(document.getElementById('route').dataset.route); // All sidebar links and their children
+
+  var routes = {
+    "school-management": ["academic-session", "period", "fee", "classroom", "term", "subject", "teacher"],
+    "student-management": ["student.index", "student.create", "student.get.alumni", "pd-type", "ad-type"],
+    "app-management": ["user"]
+  };
+
+  var _loop = function _loop() {
+    var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+        parent = _Object$entries$_i[0],
+        children = _Object$entries$_i[1];
+
+    children.forEach(function (child) {
+      if (routeName.startsWith(child)) {
+        // replace '.' with '-' because of selector issues
+        while (child.includes('.')) {
+          child = child.replace(".", '-');
+        }
+
+        $('#' + child).addClass('active');
+        $('#' + parent).addClass('active');
+      }
+    });
+  };
+
+  for (var _i = 0, _Object$entries = Object.entries(routes); _i < _Object$entries.length; _i++) {
+    _loop();
+  }
+}
 
 /***/ }),
 

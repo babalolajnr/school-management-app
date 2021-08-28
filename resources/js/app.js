@@ -1,3 +1,5 @@
+const { forEach } = require('lodash');
+
 require('./bootstrap');
 
 require('alpinejs');
@@ -19,6 +21,7 @@ var Toast = Swal.mixin({
 $(function () {
     toastrAlert()
     darkMode()
+    setActiveSidebarLink()
 });
 
 function toastrAlert() {
@@ -73,3 +76,31 @@ $("#dark-mode").click(function () {
         localStorage.setItem('dark-mode', true)
     }
 })
+
+function setActiveSidebarLink() {
+    const routeName = JSON.parse(document.getElementById('route').dataset.route)
+
+    // All sidebar links and their children
+    const routes = {
+        "school-management": ["academic-session", "period", "fee", "classroom", "term", "subject", "teacher"],
+        "student-management": ["student.index", "student.create", "student.get.alumni", "pd-type", "ad-type"],
+        "app-management": ["user"]
+    }
+
+    for (const [parent, children] of Object.entries(routes)) {
+        children.forEach((child) => {
+            if (routeName.startsWith(child)) {
+
+                // replace '.' with '-' because of selector issues
+                while (child.includes('.')) {
+                    child = child.replace(".", '-')
+                }
+
+                $('#' + child).addClass('active')
+                $('#' + parent).addClass('active')
+            }
+        })
+    }
+
+
+}
