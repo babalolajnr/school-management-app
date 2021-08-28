@@ -3886,7 +3886,8 @@ function setActiveSidebarLink() {
   var routes = {
     "school-management": ["academic-session", "period", "fee", "classroom", "term", "subject", "teacher"],
     "student-management": ["student.index", "student.create", "student.get.alumni", "pd-type", "ad-type"],
-    "app-management": ["user"]
+    "app-management": ["user"],
+    "dashboard": []
   };
 
   var _loop = function _loop() {
@@ -3894,17 +3895,22 @@ function setActiveSidebarLink() {
         parent = _Object$entries$_i[0],
         children = _Object$entries$_i[1];
 
-    children.forEach(function (child) {
-      if (routeName.startsWith(child)) {
-        // replace '.' with '-' because of selector issues
-        while (child.includes('.')) {
-          child = child.replace(".", '-');
-        }
+    //When there are no child links
+    if (children.length < 1) {
+      if (routeName.startsWith(parent)) $('#' + parent).addClass('active');
+    } else {
+      children.forEach(function (child) {
+        if (routeName.startsWith(child)) {
+          // replace '.' with '-' because of selector issues
+          while (child.includes('.')) {
+            child = child.replace(".", '-');
+          }
 
-        $('#' + child).addClass('active');
-        $('#' + parent).addClass('active');
-      }
-    });
+          $('#' + child).addClass('active');
+          $('#' + parent).addClass('active');
+        }
+      });
+    }
   };
 
   for (var _i = 0, _Object$entries = Object.entries(routes); _i < _Object$entries.length; _i++) {
