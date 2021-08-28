@@ -110,20 +110,24 @@
 
 
             if (darkmodeStatus == "true") {
-                $('body').addClass('dark-mode')
                 $('#navbar').removeClass('navbar-white navbar-light')
+                $("#sidebar").addClass('sidebar-dark-navy')
+                $('body').addClass('dark-mode')
                 $('#navbar').addClass('navbar-dark')
                 $("#dark-mode").append(sunIcon)
             } else {
+                $("#sidebar").addClass('sidebar-light-navy')
                 $("#dark-mode").append(moonIcon)
             }
         }
-
+        
         $("#dark-mode").click(function() {
             const darkmodeStatus = localStorage.getItem('dark-mode')
-
+            
             $('body').toggleClass('dark-mode')
+            $("#sidebar").toggleClass('sidebar-light-navy sidebar-dark-navy')
             $('#navbar').toggleClass('navbar-dark navbar-white navbar-light')
+
 
             if (darkmodeStatus == "true") {
                 $("#dark-mode").children().remove()
