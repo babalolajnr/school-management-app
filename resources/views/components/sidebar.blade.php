@@ -2,26 +2,28 @@
    <aside class="main-sidebar main-sidebar-custom  elevation-4" id="sidebar">
        <!-- Brand Logo -->
        <a href="/dashboard" class="brand-link d-flex justify-content-center" id="brand-link">
-           <img src="{{ asset('images/radiant_logo-removebg-preview.png') }}" alt="Logo" class="brand-image img-circle elevation-3"
-               style="opacity: .8"><span class="brand-text font-weight-light">Radiant Minds School</span>
+           <img src="{{ asset('images/radiant_logo-removebg-preview.png') }}" alt="Logo"
+               class="brand-image img-circle elevation-3" style="opacity: .8"><span
+               class="brand-text font-weight-light">Radiant Minds School</span>
        </a>
 
        <!-- Sidebar -->
        <div class="sidebar">
            <!-- Sidebar user (optional) -->
-           <div class="user-panel mt-3 pb-3 mb-3 d-flex justify-content-center">
-               <i class="fas fa-user text-white"></i>
-               <a @if (Auth::guard('web')->user())
-                   href="{{ route('user.show', ['user' => Auth::user()]) }}"
-               @else
-                   href="{{ route('teacher.show', ['teacher' => Auth::guard('teacher')->user()]) }}" @endif
-                   class="pl-2">
+           <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+               <div class="image">
+                   <img src="{{ asset('images/user1.svg') }}" class="img-circle elevation-2" alt="User Image">
+               </div>
+               <div class="info">
                    @if (Auth::guard('web')->user())
-                       {{ Auth::user()->first_name }}
+                       <a href="{{ route('user.show', ['user' => Auth::user()]) }}" class="d-block">
+                           {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</a>
                    @else
-                       {{ Auth::guard('teacher')->user()->first_name }}
+                       <a href="{{ route('teacher.show', ['teacher' => Auth::guard('teacher')->user()]) }}"
+                           class="d-block">{{ Auth::guard('teacher')->user()->last_name }}
+                           {{ Auth::guard('teacher')->user()->last_name }}</a>
                    @endif
-               </a>
+               </div>
            </div>
 
            <!-- SidebarSearch Form -->
