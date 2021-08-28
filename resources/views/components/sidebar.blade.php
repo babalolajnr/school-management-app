@@ -1,9 +1,9 @@
    <!-- Well begun is half done. - Aristotle -->
-   <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4">
+   <aside class="main-sidebar main-sidebar-custom  elevation-4" id="sidebar">
        <!-- Brand Logo -->
-       <a href="/dashboard" class="brand-link d-flex justify-content-center">
-           <span
-               class="brand-text font-weight-bold text-uppercase">{{ str_replace('-', ' ', config('app.name', 'School name')) }}</span>
+       <a href="/dashboard" class="brand-link d-flex justify-content-center" id="brand-link">
+           <img src="{{ asset('images/radiant_logo-removebg-preview.png') }}" alt="Logo" class="brand-image img-circle elevation-3"
+               style="opacity: .8"><span class="brand-text font-weight-light">Radiant Minds School</span>
        </a>
 
        <!-- Sidebar -->
@@ -11,9 +11,11 @@
            <!-- Sidebar user (optional) -->
            <div class="user-panel mt-3 pb-3 mb-3 d-flex justify-content-center">
                <i class="fas fa-user text-white"></i>
-               <a @if (Auth::guard('web')->user()) href="{{ route('user.show', ['user' => Auth::user()]) }}"
-@else 
-                 href="{{ route('teacher.show', ['teacher' => Auth::guard('teacher')->user()]) }}" @endif class="pl-2">
+               <a @if (Auth::guard('web')->user())
+                   href="{{ route('user.show', ['user' => Auth::user()]) }}"
+               @else
+                   href="{{ route('teacher.show', ['teacher' => Auth::guard('teacher')->user()]) }}" @endif
+                   class="pl-2">
                    @if (Auth::guard('web')->user())
                        {{ Auth::user()->first_name }}
                    @else
@@ -162,7 +164,8 @@
                    @endif
                    @auth('teacher')
                        <li class="nav-item">
-                           <a href="{{ route('classroom.show', ['classroom' => auth('teacher')->user()->classroom]) }}" class="nav-link">
+                           <a href="{{ route('classroom.show', ['classroom' => auth('teacher')->user()->classroom]) }}"
+                               class="nav-link">
                                <i class="nav-icon fas fa-chalkboard"></i>
                                <p>Classroom</p>
                            </a>
