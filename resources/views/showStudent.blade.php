@@ -18,7 +18,7 @@
                         <h1>{{ $student->name }}</h1>
                     </div>
                     <div class="col-sm-6">
-                        
+
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -36,7 +36,8 @@
                             <div class="card card-primary card-outline">
                                 <div class="card-body box-profile">
                                     <div class="text-center">
-                                    <img class="profile-user-img img-fluid img-circle" src="@if ($student->image) {{ asset($student->image) }} @else
+                                        <img class="profile-user-img img-fluid img-circle" src="
+                                        @if ($student->image) {{ asset($student->image) }} @else
                                         {{ asset('images/user1.svg') }} @endif"
                                         alt="student image">
                                     </div>
@@ -357,7 +358,6 @@
                 let selected = $('#termResultModal #termResultAcademicSession').val()
                 window.location.href = selected
             }
-
         </script>
     </x-slot>
 </x-app-layout>

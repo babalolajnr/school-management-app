@@ -1,25 +1,29 @@
    <!-- Well begun is half done. - Aristotle -->
-   <aside class="main-sidebar main-sidebar-custom sidebar-dark-primary elevation-4">
+   <aside class="main-sidebar main-sidebar-custom  elevation-4" id="sidebar">
        <!-- Brand Logo -->
-       <a href="/dashboard" class="brand-link d-flex justify-content-center">
-           <span
-               class="brand-text font-weight-bold text-uppercase">{{ str_replace('-', ' ', config('app.name', 'School name')) }}</span>
+       <a href="/dashboard" class="brand-link d-flex justify-content-center" id="brand-link">
+           <img src="{{ asset('images/radiant_logo-removebg-preview.png') }}" alt="Logo"
+               class="brand-image img-circle elevation-3" style="opacity: .8"><span
+               class="brand-text font-weight-light">Radiant Minds School</span>
        </a>
 
        <!-- Sidebar -->
        <div class="sidebar">
            <!-- Sidebar user (optional) -->
-           <div class="user-panel mt-3 pb-3 mb-3 d-flex justify-content-center">
-               <i class="fas fa-user text-white"></i>
-               <a @if (Auth::guard('web')->user()) href="{{ route('user.show', ['user' => Auth::user()]) }}"
-@else 
-                 href="{{ route('teacher.show', ['teacher' => Auth::guard('teacher')->user()]) }}" @endif class="pl-2">
+           <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+               <div class="image">
+                   <img src="https://img.icons8.com/plumpy/192/000000/user.png" class="img-circle elevation-2" alt="User Image">
+               </div>
+               <div class="info">
                    @if (Auth::guard('web')->user())
-                       {{ Auth::user()->first_name }}
+                       <a href="{{ route('user.show', ['user' => Auth::user()]) }}" class="d-block">
+                           {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</a>
                    @else
-                       {{ Auth::guard('teacher')->user()->first_name }}
+                       <a href="{{ route('teacher.show', ['teacher' => Auth::guard('teacher')->user()]) }}"
+                           class="d-block">{{ Auth::guard('teacher')->user()->last_name }}
+                           {{ Auth::guard('teacher')->user()->last_name }}</a>
                    @endif
-               </a>
+               </div>
            </div>
 
            <!-- SidebarSearch Form -->
@@ -43,7 +47,7 @@
                with font-awesome or any other icon font library -->
                    @if (Auth::guard('web')->user())
                        <li class="nav-item menu-is-opening menu-open">
-                           <a href="#" class="nav-link">
+                           <a href="#" class="nav-link" id="school-management">
                                <i class="nav-icon fas fa-school"></i>
                                <p>
                                    School Management
@@ -52,43 +56,43 @@
                            </a>
                            <ul class="nav nav-treeview" style="display: block;">
                                <li class="nav-item">
-                                   <a href="{{ route('academic-session.index') }}" class="nav-link">
+                                   <a href="{{ route('academic-session.index') }}" class="nav-link" id="academic-session">
                                        <i class="nav-icon fas fa-calendar"></i>
                                        <p>Academic Sessions</p>
                                    </a>
                                </li>
                                <li class="nav-item">
-                                   <a href="{{ route('period.index') }}" class="nav-link">
+                                   <a href="{{ route('period.index') }}" class="nav-link" id="period">
                                        <i class="nav-icon fas fa-hourglass-half"></i>
                                        <p>Periods</p>
                                    </a>
                                </li>
                                <li class="nav-item">
-                                   <a href="{{ route('fee.index') }}" class="nav-link">
+                                   <a href="{{ route('fee.index') }}" class="nav-link" id="fee">
                                        <i class="nav-icon fas fa-money-bill-wave"></i>
                                        <p>Fees</p>
                                    </a>
                                </li>
                                <li class="nav-item">
-                                   <a href="{{ route('classroom.index') }}" class="nav-link">
+                                   <a href="{{ route('classroom.index') }}" class="nav-link" id="classroom">
                                        <i class="nav-icon fas fa-chalkboard"></i>
                                        <p>Classrooms</p>
                                    </a>
                                </li>
                                <li class="nav-item">
-                                   <a href="{{ route('term.index') }}" class="nav-link">
+                                   <a href="{{ route('term.index') }}" class="nav-link" id="term">
                                        <i class="nav-icon fas fa-clock"></i>
                                        <p>Terms</p>
                                    </a>
                                </li>
                                <li class="nav-item">
-                                   <a href="{{ route('subject.index') }}" class="nav-link">
+                                   <a href="{{ route('subject.index') }}" class="nav-link" id="subject">
                                        <i class="nav-icon fas fa-book"></i>
                                        <p>Subjects</p>
                                    </a>
                                </li>
                                <li class="nav-item">
-                                   <a href="{{ route('teacher.index') }}" class="nav-link">
+                                   <a href="{{ route('teacher.index') }}" class="nav-link" id="teacher">
                                        <i class="nav-icon fas fa-chalkboard-teacher"></i>
                                        <p>Teachers</p>
                                    </a>
@@ -96,7 +100,7 @@
                            </ul>
                        </li>
                        <li class="nav-item menu-is-opening menu-open">
-                           <a href="#" class="nav-link">
+                           <a href="#" class="nav-link" id="student-management">
                                <i class="nav-icon fa fa-child"></i>
 
                                <p>
@@ -106,32 +110,32 @@
                            </a>
                            <ul class="nav nav-treeview" style="display: block;">
                                <li class="nav-item">
-                                   <a href="{{ route('student.index') }}" class="nav-link">
+                                   <a href="{{ route('student.index') }}" class="nav-link" id="student-index">
                                        <i class="nav-icon fas fa-user-graduate"></i>
                                        <p>Students</p>
                                    </a>
                                </li>
                                <li class="nav-item">
-                                   <a href="{{ route('student.create') }}" class="nav-link">
+                                   <a href="{{ route('student.create') }}" class="nav-link" id="student-create">
                                        <i class="nav-icon fas fa-plus"></i>
                                        <p>New Student</p>
                                    </a>
                                </li>
                                <li class="nav-item">
-                                   <a href="{{ route('student.get.alumni') }}" class="nav-link">
+                                   <a href="{{ route('student.get.alumni') }}" class="nav-link" id="student-get-alumni">
                                        <span class="nav-icon"><i class="fa fa-history pr-2 text-sm"></i><i
                                                class="fas fa-user-graduate"></i></span>
                                        <p>Alumni</p>
                                    </a>
                                </li>
                                <li class="nav-item">
-                                   <a href="{{ route('pd-type.index') }}" class="nav-link">
+                                   <a href="{{ route('pd-type.index') }}" class="nav-link" id="pd-type">
                                        <i class="nav-icon fas fa-biking"></i>
                                        <p>Pychomotor domains</p>
                                    </a>
                                </li>
                                <li class="nav-item">
-                                   <a href="{{ route('ad-type.index') }}" class="nav-link">
+                                   <a href="{{ route('ad-type.index') }}" class="nav-link" id="ad-type">
                                        <i class="nav-icon fas fa-brain"></i>
                                        <p>Affective domains</p>
                                    </a>
@@ -141,7 +145,7 @@
                        </li>
                        @masteruser (Auth::user())
                        <li class="nav-item menu-is-opening menu-open">
-                           <a href="#" class="nav-link">
+                           <a href="#" class="nav-link" id="app-management">
                                <i class="nav-icon fas fa-cog"></i>
                                <p>
                                    App Management
@@ -150,7 +154,7 @@
                            </a>
                            <ul class="nav nav-treeview" style="display: block;">
                                <li class="nav-item">
-                                   <a href="{{ route('user.index') }}" class="nav-link">
+                                   <a href="{{ route('user.index') }}" class="nav-link" id="user">
                                        <i class="nav-icon fas fa-users"></i>
                                        <p>Users</p>
                                    </a>
@@ -162,7 +166,8 @@
                    @endif
                    @auth('teacher')
                        <li class="nav-item">
-                           <a href="{{ route('classroom.show', ['classroom' => auth('teacher')->user()->classroom]) }}" class="nav-link">
+                           <a href="{{ route('classroom.show', ['classroom' => auth('teacher')->user()->classroom]) }}"
+                               class="nav-link">
                                <i class="nav-icon fas fa-chalkboard"></i>
                                <p>Classroom</p>
                            </a>
