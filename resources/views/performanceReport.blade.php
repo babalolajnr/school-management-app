@@ -37,14 +37,16 @@
                         <br>
                         <i class="fa fa-phone text-danger"></i>08172951965 &nbsp;&nbsp; <img class="icon"
                             src="{{ asset('images/whatsapp.png') }}" alt="">08147971373 &nbsp;&nbsp;
-                        <img class="icon" src="{{ asset('images/gmail.png') }}" alt=""> radiantmindsschool@gmail.com
+                        <img class="icon" src="{{ asset('images/gmail.png') }}" alt="">
+                        radiantmindsschool@gmail.com
                     </strong>
                 </p>
-                <p class="h5"><strong class="text-uppercase"><u>{{ $period->term->name }} STUDENT'S PERFORMANCE
+                <p class="h5"><strong class="text-uppercase"><u>{{ $period->term->name }} STUDENT'S
+                            PERFORMANCE
                             REPORT</u></strong></p>
             </div>
             <div class="passport">
-            <img src="@if ($student->image) {{ asset($student->image) }} @else
+            <img src=" @if ($student->image) {{ asset($student->image) }} @else
                 {{ asset('images/user1.svg') }} @endif" height="170" width="140" alt="Passport
                 Photograph">
             </div>
@@ -146,8 +148,8 @@
                                     @elseif(round($result->total) > 39 && round($result->total) <= 49) D
                                         @elseif(round($result->total) > 49 && round($result->total) <= 59) C
                                             @elseif(round($result->total) > 59 && round($result->total) <= 69) B
-                                                @elseif(round($result->total) > 69 && round($result->total) <= 100) A
-                                                    @else @endif
+                                                @elseif(round($result->total) > 69 && round($result->total) <= 100)
+                                                    A @else @endif
                                 </td>
                         @endif
 
@@ -441,8 +443,10 @@
                     <label for="class-teachers-sign" class="fw-bold">Sign</label>
                     <div class="sign">
                         <span class="ps-4">
-                            <img src="{{ asset(App\Models\User::getHOS()->signature) }}" height=40 width=60
-                                alt="Hos's signature">
+                            @if (App\Models\User::getHOS())
+                                <img src="{{ asset(App\Models\User::getHOS()->signature) }}" height=40 width=60
+                                    alt="Hos's signature">
+                            @endif
                         </span>
                     </div>
                 </div>
