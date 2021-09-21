@@ -12,6 +12,7 @@ use Database\Seeders\SubjectSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
 class ClassroomTest extends TestCase
@@ -83,7 +84,7 @@ class ClassroomTest extends TestCase
         $user = User::factory()->create();
         $subjects = $this->generateTestSubjects();
         $classroom = Classroom::factory()->create();
-        
+
         Period::factory()->create(['active' => true]);
         $response = $this->actingAs($user)->post(route('classroom.update.subjects', ['classroom' => $classroom]), [
             'subjects' => $subjects
@@ -104,11 +105,24 @@ class ClassroomTest extends TestCase
 
     public function test_teacher_can_be_assigned_to_classroom()
     {
-        $this->withoutExceptionHandling();
         $classroom = Classroom::factory()->create();
         $user = User::factory()->create();
         $teacher = Teacher::factory()->create(['is_active' => true]);
         $response = $this->actingAs($user)->patch(route('classroom.assign.teacher', ['classroom' => $classroom, 'teacherSlug' => $teacher->slug]));
+        $response->assertStatus(302)->assertSessionHas('success');
+    }
+
+    public function test_user_can_promote_students()
+    {
+        $user = User::factory()->create();
+        Artisan::call('db:seed', ['--class' => 'ClassroomSeeder']);
+        $classroom = Classroom::first();
+        $students = Student::factory()->times(5)->create(['classroom_id' => $classroom->id]);
+        $response = $this->actingAs($user)->post(
+            route('classroom.promote.students', ['classroom' => $classroom]),
+            ['students' => $students]
+
+        );
         $response->assertStatus(302)->assertSessionHas('success');
     }
 
