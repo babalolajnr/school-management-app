@@ -18,8 +18,9 @@
                     <div class="col-sm-6">
                         <h1>{{ $classroom->name }}</h1>
                     </div>
-                    <div class="col-sm-6">
-
+                    <div class="col-sm-6 d-flex justify-content-end">
+                        <a href="{{ route('classroom.promote.or.demote.students', ['classroom' => $classroom]) }}"><button class="
+                            btn btn-sm btn-flat btn-outline-primary">Promote/Demote Students</button></a>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -37,7 +38,9 @@
                                 <span class="col-6 d-flex justify-content-start font-semibold">Students</span>
                                 @auth('web')
                                     <span class="col-6 d-flex justify-content-end"><button
-                                            class="btn btn-sm btn-flat btn-outline-secondary" onclick="emailClassPerformanceReportConfirmationModal('{{ route('email.class.performace.report', ['classroom' => $classroom]) }}')">Email Class Performance
+                                            class="btn btn-sm btn-flat btn-outline-secondary"
+                                            onclick="emailClassPerformanceReportConfirmationModal('{{ route('email.class.performace.report', ['classroom' => $classroom]) }}')">Email
+                                            Class Performance
                                             Report</button></span>
                                 @endauth
                             </div>
