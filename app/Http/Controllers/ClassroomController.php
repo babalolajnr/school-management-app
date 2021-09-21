@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AcademicSession;
 use App\Models\Classroom;
 use App\Models\Period;
+use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\Term;
@@ -13,7 +14,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
 
 class ClassroomController extends Controller
-{    
+{
     /**
      * Validate request
      *
@@ -33,7 +34,7 @@ class ClassroomController extends Controller
 
         return $validatedData;
     }
-    
+
     /**
      * Show classrooms page
      *
@@ -44,7 +45,7 @@ class ClassroomController extends Controller
         $classrooms = Classroom::all()->sortBy('rank');
         return view('classrooms', compact('classrooms'));
     }
-    
+
     /**
      * Store classroom
      *
@@ -61,7 +62,7 @@ class ClassroomController extends Controller
         Classroom::create($data);
         return back()->with('success', 'Classroom Created!');
     }
-    
+
     /**
      * Show edit classroom page
      *
@@ -72,7 +73,7 @@ class ClassroomController extends Controller
     {
         return view('editClassroom', compact('classroom'));
     }
-    
+
     /**
      * Update classroom 
      *
@@ -114,7 +115,7 @@ class ClassroomController extends Controller
 
         return redirect('/classrooms')->with('success', 'Classroom Updated!');
     }
-    
+
     /**
      * Show classroom
      *
@@ -123,13 +124,7 @@ class ClassroomController extends Controller
      */
     public function show(Classroom $classroom)
     {
-        // Get students that have not graduated yet
-        $students = $classroom->students->whereNull('graduated_at');
-
-        // Filter inactive students out
-        $students = $students->filter(function ($student) {
-            return $student->isActive();
-        });
+        $students = $classroom->getActiveStudents();
 
         $academicSessions = AcademicSession::all();
         $terms = Term::all();
@@ -147,7 +142,7 @@ class ClassroomController extends Controller
 
         return view('showClassroom', compact('students', 'classroom', 'academicSessions', 'terms', 'subjects', 'teachers'));
     }
-    
+
     /**
      * Delete classroom
      *
@@ -182,7 +177,7 @@ class ClassroomController extends Controller
         return back()->with('success', 'Classroom Deleted!');
     }
 
-    
+
     /**
      * Show set classroom subjects view
      *
@@ -213,7 +208,7 @@ class ClassroomController extends Controller
         return view('setSubjects', compact('relations', 'classroom'));
     }
 
-       
+
     /**
      * Update classroom subjects
      *
@@ -226,7 +221,7 @@ class ClassroomController extends Controller
         if (!Period::activePeriodIsSet()) {
             return back()->with('error', 'Active Period is not set!');
         }
-        
+
         //detach all subjects from classroom when no subject is provided
         if (!$request->has('subjects')) {
             $classroom->subjects()->sync([]);
@@ -235,8 +230,6 @@ class ClassroomController extends Controller
 
         $subjects = $request->subjects;
         $subjectIds = [];
-
-        
 
         $currentAcademicSession = Period::activePeriod()->academicSession;
 
@@ -280,5 +273,53 @@ class ClassroomController extends Controller
         $classroom->save();
 
         return back()->with('success', "{$teacher->first_name} {$teacher->last_name} assigned to {$classroom->name}");
+    }
+
+    /**
+     * Show promoteOrDemoteStudents view
+     *
+     * @param  Classroom $classroom
+     * @return void
+     */
+    public function promoteOrDemoteStudents(Classroom $classroom)
+    {
+        $students = $classroom->getActiveStudents();
+
+        return view('promoteOrDemoteStudents', compact('students', 'classroom'));
+    }
+    
+    /**
+     * Promote multiple Students from a classroom
+     *
+     * @param  Request $request
+     * @param  Classroom $classroom
+     * @return void
+     */
+    public function promoteStudents(Request $request, Classroom $classroom)
+    {
+
+        // if no student is selected
+        if (!$request->has('students')) {
+            return back()->with('error', 'No students selected');
+        }
+
+        $studentIds = $request->students;
+
+        $classRank = $classroom->rank;
+        $highestClassRank = Classroom::max('rank');
+
+        // If students are not in the highest class promote them
+        if ($classRank !== $highestClassRank) {
+            $newClassRank = $classRank + 1;
+            $newClassId = Classroom::where('rank', $newClassRank)->first()->id;
+
+            Student::find($studentIds)->map(function($student) use ($newClassId){
+                $student->update(['classroom_id' => $newClassId]);
+            });
+
+            return back()->with('success', 'Student Promoted!');
+        }
+
+        return back()->with('error', 'Student is in the Maximum class possible');
     }
 }
