@@ -30,14 +30,15 @@
                                 <h3 class="card-title">Select Students to Promote</h3>
                             </div>
                             @if (!$students->isEmpty())
+                            <button class="btn btn-outline-success btn-flat" id="selectAllPromote">Select all</button>
                                 <form method="POST"
-                                    action="{{ route('classroom.promote.students', ['classroom' => $classroom]) }}">
+                                    action="{{ route('classroom.promote.students', ['classroom' => $classroom]) }}" id="promoteForm">
                                     @csrf
                                     <div class="card-body">
                                         <div class="form-group">
                                             @foreach ($students as $student)
                                                 <div class="custom-control custom-checkbox">
-                                                    <input class="custom-control-input" type="checkbox"
+                                                    <input class="custom-control-input custom-control-input-success" type="checkbox"
                                                         id="{{ $student->first_name }}-{{ $student->last_name }}-{{ $student->id }}-promote"
                                                         name="students[]" value="{{ $student->id }}">
                                                     <label
@@ -69,13 +70,15 @@
                                 <h3 class="card-title">Select Students to Demote</h3>
                             </div>
                             @if (!$students->isEmpty())
-                                <form method="POST" action="{{ route('classroom.demote.students', ['classroom' => $classroom]) }}">
+                            <button class="btn btn-outline-danger btn-flat" id="selectAllDemote">Select all</button>
+                                <form method="POST"
+                                    action="{{ route('classroom.demote.students', ['classroom' => $classroom]) }}" id="demoteForm">
                                     @csrf
                                     <div class="card-body">
                                         <div class="form-group">
                                             @foreach ($students as $student)
                                                 <div class="custom-control custom-checkbox">
-                                                    <input class="custom-control-input" type="checkbox"
+                                                    <input class="custom-control-input custom-control-input-danger" type="checkbox"
                                                         id="{{ $student->first_name }}-{{ $student->last_name }}-{{ $student->id }}-demote"
                                                         name="students[]" value="{{ $student->id }}">
                                                     <label
@@ -104,5 +107,19 @@
         <!-- /.content -->
     </div>
     <x-slot name="scripts">
+        <script>
+            $(function() {
+
+                $("#selectAllPromote").on("click", function() {
+                    const checkboxes = $("#promoteForm").find(':checkbox')
+                    checkboxes.prop('checked', true);
+                })
+
+                $("#selectAllDemote").on("click", function() {
+                    const checkboxes = $("#demoteForm").find(':checkbox')
+                    checkboxes.prop('checked', true);
+                })
+            })
+        </script>
     </x-slot>
 </x-app-layout>
