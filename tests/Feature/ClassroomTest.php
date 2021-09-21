@@ -114,10 +114,11 @@ class ClassroomTest extends TestCase
 
     public function test_user_can_promote_students()
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->create();
         Artisan::call('db:seed', ['--class' => 'ClassroomSeeder']);
         $classroom = Classroom::first();
-        $students = Student::factory()->times(5)->create(['classroom_id' => $classroom->id]);
+        $students = Student::factory()->times(5)->create(['classroom_id' => $classroom->id])->pluck('id');
         $response = $this->actingAs($user)->post(
             route('classroom.promote.students', ['classroom' => $classroom]),
             ['students' => $students]
@@ -130,8 +131,8 @@ class ClassroomTest extends TestCase
     {
         $user = User::factory()->create();
         Artisan::call('db:seed', ['--class' => 'ClassroomSeeder']);
-        $classroom = Classroom::first();
-        $students = Student::factory()->times(5)->create(['classroom_id' => $classroom->id]);
+        $classroom = Classroom::where('rank', 3)->first();
+        $students = Student::factory()->times(5)->create(['classroom_id' => $classroom->id])->pluck('id');
         $response = $this->actingAs($user)->post(
             route('classroom.demote.students', ['classroom' => $classroom]),
             ['students' => $students]
