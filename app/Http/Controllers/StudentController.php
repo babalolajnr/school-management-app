@@ -26,6 +26,12 @@ class StudentController extends Controller
     public function index()
     {
         $students = Student::whereNull('graduated_at')->get();
+
+        // Filter out inactive students
+        $students = $students->filter(function ($student) {
+            return $student->isActive();
+        });
+
         $academicSessions = AcademicSession::all()->sortByDesc('created_at');
         $terms = Term::all()->sortByDesc('created_at');
 
@@ -41,6 +47,16 @@ class StudentController extends Controller
     {
         $students = Student::whereNotNull('graduated_at')->get();
         return view('alumni', compact('students'));
+    }
+    
+    /**
+     * Get Inactive Students
+     *
+     * @return \Illuminate\View\View
+     */
+    public function getInactiveStudents(){
+        $students = Student::getInactiveStudents();
+        return view('inactive-students', compact('students'));
     }
 
     /**

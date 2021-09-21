@@ -125,6 +125,17 @@ class Student extends Model
         $students = Student::whereNull('graduated_at')->where('is_active', true)->get();
         return $students;
     }
+    
+    /**
+     * Get Inactive Students
+     *
+     * @return mixed $students
+     */
+    public static function getInactiveStudents() 
+    {
+        $students = Student::where('is_active', false)->get();
+        return $students;
+    }
 
     /**
      * Get Alumni

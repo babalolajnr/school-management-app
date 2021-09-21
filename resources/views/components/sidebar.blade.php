@@ -126,17 +126,24 @@
                                    </a>
                                </li>
                                <li class="nav-item">
-                                   <a href="{{ route('student.create') }}" class="nav-link" id="student-create">
-                                       <i class="nav-icon fas fa-plus"></i>
+                                   <a href="{{ route('student.create') }}" class="nav-link"
+                                       id="student-create">
+                                       <i class="fas fa-user-plus"></i>
                                        <p>New Student</p>
                                    </a>
                                </li>
                                <li class="nav-item">
                                    <a href="{{ route('student.get.alumni') }}" class="nav-link"
                                        id="student-get-alumni">
-                                       <span class="nav-icon"><i class="fa fa-history pr-2 text-sm"></i><i
-                                               class="fas fa-user-graduate"></i></span>
+                                       <span class="nav-icon"><i class="fas fa-graduation-cap"></i></span>
                                        <p>Alumni</p>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
+                                   <a href="{{ route('student.get.inactive') }}" class="nav-link"
+                                       id="student-get-inactive">
+                                       <span class="nav-icon"><i class="fas fa-ban"></i></span>
+                                       <p>Inactive Students</p>
                                    </a>
                                </li>
                                <li class="nav-item">

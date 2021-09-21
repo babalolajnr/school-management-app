@@ -3885,7 +3885,7 @@ function setActiveSidebarLink() {
 
   var routes = {
     "school-management": ["academic-session", "period", "fee", "classroom", "term", "subject", "teacher"],
-    "student-management": ["student.index", "student.create", "student.get.alumni", "pd-type", "ad-type"],
+    "student-management": ["student.index", "student.create", "student.get.alumni", "student.get.inactive", "pd-type", "ad-type"],
     "app-management": ["user"],
     "dashboard": []
   };
