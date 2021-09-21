@@ -26,6 +26,12 @@ class StudentController extends Controller
     public function index()
     {
         $students = Student::whereNull('graduated_at')->get();
+
+        // Filter out inactive students
+        $students = $students->filter(function ($student) {
+            return $student->isActive();
+        });
+
         $academicSessions = AcademicSession::all()->sortByDesc('created_at');
         $terms = Term::all()->sortByDesc('created_at');
 
