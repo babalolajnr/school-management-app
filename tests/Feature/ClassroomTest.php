@@ -126,6 +126,20 @@ class ClassroomTest extends TestCase
         $response->assertStatus(302)->assertSessionHas('success');
     }
 
+    public function test_user_can_demote_students()
+    {
+        $user = User::factory()->create();
+        Artisan::call('db:seed', ['--class' => 'ClassroomSeeder']);
+        $classroom = Classroom::first();
+        $students = Student::factory()->times(5)->create(['classroom_id' => $classroom->id]);
+        $response = $this->actingAs($user)->post(
+            route('classroom.demote.students', ['classroom' => $classroom]),
+            ['students' => $students]
+
+        );
+        $response->assertStatus(302)->assertSessionHas('success');
+    }
+
     private function generateTestSubjects()
     {
         $subjects = Subject::pluck('name')->all();
