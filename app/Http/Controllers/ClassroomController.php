@@ -123,7 +123,14 @@ class ClassroomController extends Controller
      */
     public function show(Classroom $classroom)
     {
+        // Get students that have not graduated yet
         $students = $classroom->students->whereNull('graduated_at');
+
+        // Filter inactive students out
+        $students = $students->filter(function ($student) {
+            return $student->isActive();
+        });
+
         $academicSessions = AcademicSession::all();
         $terms = Term::all();
         $activePeriod = Period::activePeriod();
