@@ -36,10 +36,9 @@
                             <div class="card-header row">
                                 <span class="col-6 d-flex justify-content-start font-semibold">Students</span>
                                 @auth('web')
-                                    <span class="col-6 d-flex justify-content-end"><a
-                                            href="{{ route('email.class.performace.report', ['classroom' => $classroom]) }}"><button
-                                                class="btn btn-sm btn-flat btn-outline-secondary">Email Class Performance
-                                                Report</button></a></span>
+                                    <span class="col-6 d-flex justify-content-end"><button
+                                            class="btn btn-sm btn-flat btn-outline-secondary" onclick="emailClassPerformanceReportConfirmationModal('{{ route('email.class.performace.report', ['classroom' => $classroom]) }}')">Email Class Performance
+                                            Report</button></span>
                                 @endauth
                             </div>
                             <div class="card-body">
@@ -123,6 +122,31 @@
         <!-- /.modal-dialog -->
     </div>
 
+    {{-- Send email confirmation modal --}}
+    <div class="modal fade" id="emailClassPerformanceReportConfirmationModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirmation</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to email entire class performance reports
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <a href="" id="yesSendEmailConfirmation">
+                        <button type="submit" class="btn btn-danger">Yes</button>
+                    </a>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
     {{-- Assign Teacher modal --}}
     <div class="modal fade" id="assignTeacherModal">
         <div class="modal-dialog">
@@ -193,6 +217,11 @@
                 $('#yesDeleteConfirmation').attr("action", url)
                 $('#deleteItemName').html(name)
                 $('#deleteConfirmationModal').modal('show')
+            }
+
+            function emailClassPerformanceReportConfirmationModal(url) {
+                $('#yesSendEmailConfirmation').attr("href", url)
+                $('#emailClassPerformanceReportConfirmationModal').modal('show')
             }
 
             function showAssignTeacherModal() {
