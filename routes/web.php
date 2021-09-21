@@ -1,11 +1,9 @@
 <?php
 
 use App\Http\Controllers\AcademicSessionController;
-use App\Http\Controllers\PeriodController;
 use App\Http\Controllers\ADController;
 use App\Http\Controllers\ADTypeController;
 use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\ResultController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeactivatedController;
@@ -14,13 +12,14 @@ use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\HosRemarkController;
 use App\Http\Controllers\PDController;
 use App\Http\Controllers\PDTypeController;
-use App\Http\Controllers\TeacherRemarkController;
+use App\Http\Controllers\PeriodController;
+use App\Http\Controllers\ResultController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\TeacherRemarkController;
 use App\Http\Controllers\TermController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserTeacherSettingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,7 +31,7 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::get('/', function () {
     return view('welcome');
@@ -66,15 +65,12 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
         Route::delete('/delete/{result}', [ResultController::class, 'destroy'])->name('destroy');
     });
 
-
-
     Route::prefix('teacher-remarks')->name('remark.teacher.')->middleware('studentClassTeacher')->group(function () {
 
         //Only Student's current classroom teacher can access this routes
         Route::get('/create/{student:admission_no}', [TeacherRemarkController::class, 'create'])->name('create')->where('student', '.*');
         Route::post('/store/{student}', [TeacherRemarkController::class, 'storeOrUpdate'])->name('storeOrUpdate');
     });
-
 
     Route::middleware('studentClassTeacherOrUser')->group(function () {
         //Routes accessible to student's classteachers and master-user and admins only
@@ -114,7 +110,6 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::post('/store/{student}/{periodSlug?}', [ADController::class, 'storeOrUpdate'])->name('storeOrUpdate');
         });
     });
-
 
     //Routes accessible to both master-users and admins only
     Route::middleware(['auth:web'])->group(function () {
@@ -183,6 +178,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::get('/promote-or-demote-students/{classroom:slug}', [ClassroomController::class, 'promoteOrDemoteStudents'])->name('promote.or.demote.students');
             Route::post('/update-subjects/{classroom:slug}', [ClassroomController::class, 'updateSubjects'])->name('update.subjects');
             Route::post('/promote-students/{classroom:slug}', [ClassroomController::class, 'promoteStudents'])->name('promote.students');
+            Route::post('/demote-students/{classroom:slug}', [ClassroomController::class, 'demoteStudents'])->name('demote.students');
             Route::post('/store', [ClassroomController::class, 'store'])->name('store');
             Route::patch('/assign-teacher/{classroom:slug}/{teacherSlug}', [ClassroomController::class, 'assignTeacher'])->name('assign.teacher');
             Route::patch('/update/{classroom:slug}', [ClassroomController::class, 'update'])->name('update');
@@ -198,7 +194,6 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::delete('/delete/{term:slug}', [TermController::class, 'destroy'])->name('destroy');
         });
 
-
         Route::prefix('subjects')->name('subject.')->group(function () {
             // Subject routes
             Route::get('/', [SubjectController::class, 'index'])->name('index');
@@ -207,7 +202,6 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::patch('/update/{subject:slug}', [SubjectController::class, 'update'])->name('update');
             Route::delete('/delete/{subject:slug}', [SubjectController::class, 'destroy'])->name('destroy');
         });
-
 
         Route::prefix('academic-sessions')->name('academic-session.')->group(function () {
             //AcademicSession routes
@@ -233,7 +227,6 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::delete('/delete/{pdType}', [PDTypeController::class, 'destroy'])->name('destroy');
         });
 
-
         Route::prefix('ad-types')->name('ad-type.')->group(function () {
             //Affective domain type routes
             Route::get('/', [ADTypeController::class, 'index'])->name('index');
@@ -242,7 +235,6 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::patch('/update/{adType}', [ADTypeController::class, 'update'])->name('update');
             Route::delete('/delete/{adType}', [ADTypeController::class, 'destroy'])->name('destroy');
         });
-
 
         Route::prefix('period')->name('period.')->group(function () {
             Route::get('/', [PeriodController::class, 'index'])->name('index');
@@ -264,7 +256,5 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
         Route::get('email-class-performace-report/{classroom}', [ResultController::class, 'sendClassroomPerformanceReportEmail'])->name('email.class.performace.report');
     });
 });
-
-
 
 require __DIR__ . '/auth.php';
