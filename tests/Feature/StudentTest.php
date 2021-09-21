@@ -235,4 +235,11 @@ class StudentTest extends TestCase
 
         $response->assertStatus(302)->assertSessionHas('success');
     }
+
+    public function test_user_can_get_inactive_students()
+    {
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get(route('student.get.inactive'));
+        $response->assertStatus(200)->assertViewIs('inactive-students');
+    }
 }
