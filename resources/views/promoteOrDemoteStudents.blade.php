@@ -69,7 +69,7 @@
                                 <h3 class="card-title">Select Students to Demote</h3>
                             </div>
                             @if (!$students->isEmpty())
-                                <form method="POST" action="">
+                                <form method="POST" action="{{ route('classroom.demote.students', ['classroom' => $classroom]) }}">
                                     @csrf
                                     <div class="card-body">
                                         <div class="form-group">
