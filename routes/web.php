@@ -161,7 +161,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::get('/edit/{student:admission_no}', [StudentController::class, 'edit'])->name('edit')->where('student', '.*');
             Route::get('/trashed', [StudentController::class, 'showTrashed'])->name('show.trashed');
             Route::get('/alumni', [StudentController::class, 'getAlumni'])->name('get.alumni');
-            Route::get('/inactive/students', [StudentController::class, 'getInactiveStudents'])->name('get.inactive');
+            Route::get('/inactive', [StudentController::class, 'getInactiveStudents'])->name('get.inactive');
             Route::post('/store/image/{student}', [StudentController::class, 'uploadImage'])->name('upload.image');
             Route::post('/store', [StudentController::class, 'store'])->name('store');
             Route::patch('/update/{student}', [StudentController::class, 'update'])->name('update');
