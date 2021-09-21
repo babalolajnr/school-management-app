@@ -10,7 +10,7 @@ class Classroom extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'rank', 'slug'];
-    
+
     /**
      * Subjects relationship
      *
@@ -20,7 +20,7 @@ class Classroom extends Model
     {
         return $this->belongsToMany(Subject::class)->withPivot('academic_session_id')->withTimestamps();
     }
-    
+
     /**
      * Students relationship
      *
@@ -30,7 +30,7 @@ class Classroom extends Model
     {
         return $this->hasMany(Student::class);
     }
-    
+
     /**
      * Teacher relationship
      *
@@ -40,7 +40,7 @@ class Classroom extends Model
     {
         return $this->belongsTo(Teacher::class);
     }
-    
+
     /**
      * Fee relationship
      *
@@ -49,5 +49,17 @@ class Classroom extends Model
     public function fee()
     {
         return $this->hasMany(Fee::class);
+    }
+
+    /**
+     * Get Active Students of a classroom
+     *
+     * @return mixed
+     */
+    public function getActiveStudents()
+    {
+        return $this->students->whereNull('graduated_at')->filter(function ($student) {
+            return $student->isActive();
+        });
     }
 }

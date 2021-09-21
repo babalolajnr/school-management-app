@@ -22,7 +22,6 @@ class PDTest extends TestCase
         $period = Period::factory()->create();
         Period::factory()->create(['active' => true]);
 
-
         $response = $this->actingAs($user)->get(route('pd.create', ['student' => $student, 'periodSlug' => $period->slug]));
 
         $response->assertStatus(200);
@@ -59,7 +58,7 @@ class PDTest extends TestCase
         }
 
         $response = $this->actingAs($user)->post(route('pd.storeOrUpdate', ['student' => $student, 'periodSlug' => $period->slug]), [
-            'pdTypes' => $data
+            'pdTypes' => $data,
         ]);
 
         $response->assertStatus(302);
@@ -82,7 +81,7 @@ class PDTest extends TestCase
         }
 
         $response = $this->actingAs($user)->post(route('pd.storeOrUpdate', ['student' => $student]), [
-            'pdTypes' => $data
+            'pdTypes' => $data,
         ]);
 
         $response->assertStatus(302);

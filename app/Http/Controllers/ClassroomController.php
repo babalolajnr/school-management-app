@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\AcademicSession;
 use App\Models\Classroom;
 use App\Models\Period;
+use App\Models\Student;
 use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\Term;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class ClassroomController extends Controller
-{    
+{
     /**
      * Validate request
      *
@@ -24,16 +25,16 @@ class ClassroomController extends Controller
     {
 
         $messages = [
-            'name.unique' => 'Classroom Exists'
+            'name.unique' => 'Classroom Exists',
         ];
 
         $validatedData = $request->validate([
-            'name' => ['required', 'string', 'unique:classrooms']
+            'name' => ['required', 'string', 'unique:classrooms'],
         ], $messages);
 
         return $validatedData;
     }
-    
+
     /**
      * Show classrooms page
      *
@@ -44,7 +45,7 @@ class ClassroomController extends Controller
         $classrooms = Classroom::all()->sortBy('rank');
         return view('classrooms', compact('classrooms'));
     }
-    
+
     /**
      * Store classroom
      *
@@ -61,7 +62,7 @@ class ClassroomController extends Controller
         Classroom::create($data);
         return back()->with('success', 'Classroom Created!');
     }
-    
+
     /**
      * Show edit classroom page
      *
@@ -72,9 +73,9 @@ class ClassroomController extends Controller
     {
         return view('editClassroom', compact('classroom'));
     }
-    
+
     /**
-     * Update classroom 
+     * Update classroom
      *
      * @param  Classroom $classroom
      * @param  Request $request
@@ -88,10 +89,10 @@ class ClassroomController extends Controller
 
         $validatedData = $request->validate([
             'name' => ['required', 'string', Rule::unique('classrooms')->ignore($classroom)],
-            'rank' => ['required', 'numeric', 'min:1', 'max:' . $maxRank]
+            'rank' => ['required', 'numeric', 'min:1', 'max:' . $maxRank],
         ]);
 
-        /** 
+        /**
          * get row where rank is equal to the posted rank and if it exists
          * set the rank of the row to 0, then update the classroom that need to be updated
          * to avoid unique constraint error. Set the row whose rank was set to 0
@@ -114,7 +115,7 @@ class ClassroomController extends Controller
 
         return redirect('/classrooms')->with('success', 'Classroom Updated!');
     }
-    
+
     /**
      * Show classroom
      *
@@ -123,13 +124,7 @@ class ClassroomController extends Controller
      */
     public function show(Classroom $classroom)
     {
-        // Get students that have not graduated yet
-        $students = $classroom->students->whereNull('graduated_at');
-
-        // Filter inactive students out
-        $students = $students->filter(function ($student) {
-            return $student->isActive();
-        });
+        $students = $classroom->getActiveStudents();
 
         $academicSessions = AcademicSession::all();
         $terms = Term::all();
@@ -147,7 +142,7 @@ class ClassroomController extends Controller
 
         return view('showClassroom', compact('students', 'classroom', 'academicSessions', 'terms', 'subjects', 'teachers'));
     }
-    
+
     /**
      * Delete classroom
      *
@@ -158,7 +153,7 @@ class ClassroomController extends Controller
     {
         try {
             $classroom->delete();
-        } catch (\Illuminate\Database\QueryException $e) {
+        } catch (\Illuminate\Database\QueryException$e) {
             if ($e->getCode() == 23000) {
                 //SQLSTATE[23000]: Integrity constraint violation
                 return back()->with('error', 'Classroom can not be deleted because some resources are dependent on it!');
@@ -167,7 +162,7 @@ class ClassroomController extends Controller
 
         /**
          * update the rank of the other classes
-         * 
+         *
          * get all the classes sorted by their current rank
          * and then loop through them to update their ranks
          * while incrementing the rank
@@ -182,7 +177,6 @@ class ClassroomController extends Controller
         return back()->with('success', 'Classroom Deleted!');
     }
 
-    
     /**
      * Show set classroom subjects view
      *
@@ -213,7 +207,6 @@ class ClassroomController extends Controller
         return view('setSubjects', compact('relations', 'classroom'));
     }
 
-       
     /**
      * Update classroom subjects
      *
@@ -226,7 +219,7 @@ class ClassroomController extends Controller
         if (!Period::activePeriodIsSet()) {
             return back()->with('error', 'Active Period is not set!');
         }
-        
+
         //detach all subjects from classroom when no subject is provided
         if (!$request->has('subjects')) {
             $classroom->subjects()->sync([]);
@@ -235,8 +228,6 @@ class ClassroomController extends Controller
 
         $subjects = $request->subjects;
         $subjectIds = [];
-
-        
 
         $currentAcademicSession = Period::activePeriod()->academicSession;
 
@@ -268,7 +259,7 @@ class ClassroomController extends Controller
 
         /**
          * A teacher cannot manage multiple classes so if a teacher
-         * has a classroom already assigned set the teacher_id of the 
+         * has a classroom already assigned set the teacher_id of the
          * currently assigned class as null
          */
         if (!is_null($teacher->classroom)) {
@@ -280,5 +271,87 @@ class ClassroomController extends Controller
         $classroom->save();
 
         return back()->with('success', "{$teacher->first_name} {$teacher->last_name} assigned to {$classroom->name}");
+    }
+
+    /**
+     * Show promoteOrDemoteStudents view
+     *
+     * @param  Classroom $classroom
+     * @return \Illuminate\Contracts\View\View
+     */
+    public function promoteOrDemoteStudents(Classroom $classroom)
+    {
+        $students = $classroom->getActiveStudents();
+
+        return view('promoteOrDemoteStudents', compact('students', 'classroom'));
+    }
+
+    /**
+     * Promote multiple Students from a classroom
+     *
+     * @param  Request $request
+     * @param  Classroom $classroom
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function promoteStudents(Request $request, Classroom $classroom)
+    {
+
+        // if no student is selected
+        if (!$request->has('students')) {
+            return back()->with('error', 'No students selected');
+        }
+
+        $studentIds = $request->students;
+
+        $classRank = $classroom->rank;
+        $highestClassRank = Classroom::max('rank');
+
+        // If students are not in the highest class promote them
+        if ($classRank !== $highestClassRank) {
+            $newClassRank = $classRank + 1;
+            $newClassId = Classroom::where('rank', $newClassRank)->first()->id;
+
+            Student::find($studentIds)->map(function ($student) use ($newClassId) {
+                $student->update(['classroom_id' => $newClassId]);
+            });
+
+            return back()->with('success', 'Students Promoted!');
+        }
+
+        return back()->with('error', 'Student is in the Maximum class possible');
+    }
+    
+    /**
+     * Demote multiple Students from a classroom
+     *
+     * @param  Request $request
+     * @param  Classroom $classroom
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function demoteStudents(Request $request, Classroom $classroom)
+    {
+        // if no student is selected
+        if (!$request->has('students')) {
+            return back()->with('error', 'No students selected');
+        }
+
+        $studentIds = $request->students;
+
+        $classRank = $classroom->rank;
+        $lowestClassRank = Classroom::min('rank');
+
+        // If students are not in the lowest class demote them
+        if ($classRank !== $lowestClassRank) {
+            $newClassRank = $classRank - 1;
+            $newClassId = Classroom::where('rank', $newClassRank)->first()->id;
+
+            Student::find($studentIds)->map(function ($student) use ($newClassId) {
+                $student->update(['classroom_id' => $newClassId]);
+            });
+
+            return back()->with('success', 'Students Demoted!');
+        }
+
+        return back()->with('error', 'Student is in the Minimum class possible');
     }
 }
