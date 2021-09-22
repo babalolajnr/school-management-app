@@ -29,7 +29,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">Select Students to Promote</h3>
                             </div>
-                            @if (!$students->isEmpty())
+                            @if ($students > 1)
                             <button class="btn btn-outline-success btn-flat" id="selectAllPromote">Select all</button>
                                 <form method="POST"
                                     action="{{ route('classroom.promote.students', ['classroom' => $classroom]) }}" id="promoteForm">
@@ -69,7 +69,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">Select Students to Demote</h3>
                             </div>
-                            @if (!$students->isEmpty())
+                            @if ($students > 1 )
                             <button class="btn btn-outline-danger btn-flat" id="selectAllDemote">Select all</button>
                                 <form method="POST"
                                     action="{{ route('classroom.demote.students', ['classroom' => $classroom]) }}" id="demoteForm">
