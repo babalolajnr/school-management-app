@@ -116,14 +116,18 @@ class Student extends Model
     }
 
     /**
-     * Get all students that have not graduated and are active
+     * Get all active students
      *
      * @return mixed $students
      */
-    public static function getAllStudents()
+    public static function getActiveStudents()
     {
-        $students = Student::whereNull('graduated_at')->where('is_active', true)->get();
-        return $students;
+        return Student::whereNull('graduated_at')->where('is_active', true)->get();
+    }
+
+    public static function countActiveStudents()
+    {
+        return  Student::whereNull('graduated_at')->where('is_active', true)->count();
     }
     
     /**
