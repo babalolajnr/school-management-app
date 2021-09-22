@@ -62,4 +62,14 @@ class Classroom extends Model
             return $student->isActive();
         });
     }
+    
+    /**
+     * Count students
+     *
+     * @return int
+     */
+    public function countStudents()
+    {
+       return $this->students->whereNull('graduated_at')->where('is_active', true)->count();
+    }
 }
