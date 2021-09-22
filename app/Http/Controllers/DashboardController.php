@@ -27,14 +27,14 @@ class DashboardController extends Controller
 
         $dashboardData = FacadesCache::remember('dashboardData', 60, function () {
 
-            $students = Student::getAllStudents();
+            $students = Student::getActiveStudents();
             $studentsNo = count($students);
-            $alumni = count(Student::getAlumni());
-            $teachers = count(Teacher::all());
-            $users = count(User::all());
-            $classrooms = count(Classroom::all());
+            $alumni =  Student::whereNotNull('graduated_at')->count();
+            $teachers = Teacher::count();
+            $users = User::count();
+            $classrooms = Classroom::count();
             $period = Period::activePeriod();
-            $subjects = count(Subject::all());
+            $subjects = Subject::count();
             $classroomPopulationChartData = $this->generateClassroomsPopulationChart();
             $genderDistributionChartData = $this->generateGenderDistributionChart($students);
 
@@ -66,7 +66,7 @@ class DashboardController extends Controller
      */
     private function generateClassroomsPopulationChart()
     {
-        $classrooms = Classroom::all();
+        $classrooms = Classroom::with('students')->get();
         $classroomNames = [];
         $populations = [];
         $colors = [];
@@ -75,8 +75,7 @@ class DashboardController extends Controller
             array_push($classroomNames, $classroom->name);
 
             //get students that have not graduated for each class and count them
-            $population = $classroom->students->whereNull('graduated_at');
-            array_push($populations, count($population));
+            array_push($populations, $classroom->countActiveStudents());
 
             //push random colors into array
             array_push($colors, Color::hexcolor());
