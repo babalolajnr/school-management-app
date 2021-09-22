@@ -137,8 +137,7 @@ class Student extends Model
      */
     public static function getInactiveStudents() 
     {
-        $students = Student::where('is_active', false)->get();
-        return $students;
+        return Student::where('is_active', false)->get();
     }
 
     /**
@@ -148,8 +147,7 @@ class Student extends Model
      */
     public static function getAlumni()
     {
-        $alumni = Student::whereNotNull('graduated_at')->get();
-        return $alumni;
+        return Student::whereNotNull('graduated_at')->get();
     }
 
 
