@@ -87,7 +87,7 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    {{ $classroom->students()->where('graduated_at', null)->count() }}
+                                                    {{ $classroom->countStudents() }}
                                                 </td>
                                                 <td>
                                                     <div class="btn-group">
