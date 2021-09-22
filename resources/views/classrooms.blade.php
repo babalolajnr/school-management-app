@@ -87,7 +87,7 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    {{ $classroom->countStudents() }}
+                                                    {{ $classroom->countActiveStudents() }}
                                                 </td>
                                                 <td>
                                                     <div class="btn-group">

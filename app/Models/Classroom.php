@@ -58,7 +58,7 @@ class Classroom extends Model
      */
     public function getActiveStudents()
     {
-        return $this->students->whereNull('graduated_at')->where('is_active', true)->get();
+        return $this->students->whereNull('graduated_at')->where('is_active', true)->all();
     }
     
     /**

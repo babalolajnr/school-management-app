@@ -124,7 +124,7 @@ class ClassroomController extends Controller
      */
     public function show(Classroom $classroom)
     {
-        $students = $classroom->getActiveStudents();
+        $students = Student::with('guardian')->whereNull('graduated_at')->where('is_active', true)->where('classroom_id', $classroom->id)->get();
 
         $academicSessions = AcademicSession::all();
         $terms = Term::all();
@@ -136,11 +136,10 @@ class ClassroomController extends Controller
             $currentAcademicSession = $activePeriod->academicSession;
         }
 
-        $teachers = Teacher::whereIsActive(true)->get();
-
+        $teachers = Teacher::with('classroom')->whereIsActive(true)->get();
+        $classroomTeacher = $classroom->teacher;
         $subjects = $classroom->subjects()->where('academic_session_id', $currentAcademicSession->id)->get();
-
-        return view('showClassroom', compact('students', 'classroom', 'academicSessions', 'terms', 'subjects', 'teachers'));
+        return view('showClassroom', compact('students', 'classroom', 'academicSessions', 'terms', 'subjects', 'teachers', 'classroomTeacher'));
     }
 
     /**
