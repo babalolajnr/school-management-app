@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-         
+
         <!-- DataTables -->
         <link rel="stylesheet" href="{{ asset('TAssets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
         <link rel="stylesheet"
@@ -15,7 +15,7 @@
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        
+
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -23,7 +23,7 @@
                         <h1>Periods</h1>
                     </div>
                     <div class="col-sm-6">
-                        
+
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -49,8 +49,7 @@
                                         <select class="form-control select2" name="academic_session"
                                             style="width: 100%;">
                                             @foreach ($academicSessions as $academicSession)
-                                                <option @if (old('academic_session') == $academicSession->name) SELECTED @endif
-                                                    value="{{ $academicSession->name }}">
+                                                <option @if (old('academic_session') == $academicSession->name) SELECTED @endif value="{{ $academicSession->name }}">
                                                     {{ $academicSession->name }}
                                                     ({{ $academicSession->start_date }} to
                                                     {{ $academicSession->end_date }})
@@ -235,7 +234,7 @@
     </div>
 
     <x-slot name="scripts">
-         
+
         <!-- DataTables  & Plugins -->
         <script src="{{ asset('TAssets/plugins/datatables/jquery.dataTables.min.js') }}">
         </script>
@@ -289,7 +288,6 @@
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
             });
-
         </script>
     </x-slot>
 </x-app-layout>
