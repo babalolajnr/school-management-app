@@ -25,7 +25,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::whereNull('graduated_at')->get();
+        $students = Student::with('guardian')->whereNull('graduated_at')->get();
 
         // Filter out inactive students
         $students = $students->filter(function ($student) {

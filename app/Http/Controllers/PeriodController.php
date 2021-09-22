@@ -19,7 +19,7 @@ class PeriodController extends Controller
      */
     public function index()
     {
-        $periods = Period::all();
+        $periods = Period::with(['term', 'academicSession'])->get();
         $academicSessions = AcademicSession::all();
         $terms = Term::all();
         return view('periods', compact('periods', 'academicSessions', 'terms'));
