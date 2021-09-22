@@ -165,7 +165,7 @@
                         <label for="Teachers">Teachers</label>
                         <select class="form-control select2" id="teacherSelect" style="width: 100%;">
                             @foreach ($teachers as $teacher)
-                                <option @if ($classroom->teacher == $teacher) SELECTED @endif
+                                <option @if ($classroomTeacher->id == $teacher->id) SELECTED @endif
                                     value="{{ route('classroom.assign.teacher', ['classroom' => $classroom, 'teacherSlug' => $teacher->slug]) }}">
                                     {{ "{$teacher->first_name} {$teacher->last_name}" }} @if ($teacher->classroom) {{ "({$teacher->classroom->name})" }}
                                     @endif
