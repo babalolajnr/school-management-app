@@ -108,8 +108,7 @@
                                                                 @if ($user->isHos())
                                                                     <button type="button"
                                                                         class="btn btn-success btn-flat"
-                                                                        title="Current HOS"> <i
-                                                                            class="fas fa-crown"></i>
+                                                                        title="Current HOS">HOS</i>
                                                                     </button>
                                                                 @else
                                                                     <form
@@ -119,8 +118,7 @@
                                                                         @method('PATCH')
                                                                         <button type="submit"
                                                                             class="btn btn-default btn-flat"
-                                                                            title="Set HOS"> <i
-                                                                                class="fas fa-crown"></i>
+                                                                            title="Set HOS">HOS</i>
                                                                         </button>
                                                                     </form>
                                                                 @endif
