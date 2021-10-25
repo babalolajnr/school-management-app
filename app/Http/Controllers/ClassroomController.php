@@ -152,7 +152,7 @@ class ClassroomController extends Controller
     {
         try {
             $classroom->delete();
-        } catch (\Illuminate\Database\QueryException$e) {
+        } catch (\Illuminate\Database\QueryException $e) {
             if ($e->getCode() == 23000) {
                 //SQLSTATE[23000]: Integrity constraint violation
                 return back()->with('error', 'Classroom can not be deleted because some resources are dependent on it!');
@@ -219,16 +219,16 @@ class ClassroomController extends Controller
             return back()->with('error', 'Active Period is not set!');
         }
 
+        $currentAcademicSession = Period::activePeriod()->academicSession;
+
         //detach all subjects from classroom when no subject is provided
         if (!$request->has('subjects')) {
-            $classroom->subjects()->sync([]);
+            $classroom->subjects()->wherePivot('academic_session_id', '=', $currentAcademicSession->id)->sync([]);
             return back()->with('success', 'Subjects set successfully');
         }
 
         $subjects = $request->subjects;
         $subjectIds = [];
-
-        $currentAcademicSession = Period::activePeriod()->academicSession;
 
         foreach ($subjects as $subject) {
             $subjectId = Subject::where('name', $subject)->first()->id;
@@ -236,7 +236,7 @@ class ClassroomController extends Controller
         }
 
         //insert all subjectIds to the related class on the pivot table
-        $classroom->subjects()->syncWithPivotValues($subjectIds, ['academic_session_id' => $currentAcademicSession->id]);
+        $classroom->subjects()->wherePivot('academic_session_id', '=', $currentAcademicSession->id)->syncWithPivotValues($subjectIds, ['academic_session_id' => $currentAcademicSession->id]);
 
         return back()->with('success', 'Subjects set successfully');
     }
@@ -319,7 +319,7 @@ class ClassroomController extends Controller
 
         return back()->with('error', 'Student is in the Maximum class possible');
     }
-    
+
     /**
      * Demote multiple Students from a classroom
      *
