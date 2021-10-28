@@ -31,7 +31,8 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
-                        <form action="">
+                        <form action="{{ route('notification.store') }}" method="POST">
+                            @csrf
                             <div class="card">
                                 <div class="card-header">
                                     <div class="card-title">
@@ -41,11 +42,18 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="Title">Title</label>
-                                        <input type="text" class="form-control" placeholder="Enter title" name="title">
+                                        <input type="text" class="form-control" placeholder="Enter title"
+                                            name="title">
+                                        @error('title')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="Message">Message</label>
                                         <textarea id="summernote" name="message">
+                                            @error('message')
+                                                <small class="text-danger">{{ $message }}</small>
+                                            @enderror
                                         </textarea>
                                     </div>
                                     <div class="form-group">
@@ -53,6 +61,9 @@
                                         <select class="form-control" name="notification-type">
                                             <option>App Notification</option>
                                         </select>
+                                        @error('notification-type')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="To">To:</label>
@@ -62,6 +73,9 @@
                                             <option>Teachers</option>
                                             <option>All</option>
                                         </select>
+                                        @error('to')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="card-footer">
