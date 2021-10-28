@@ -119,7 +119,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
 
         Route::prefix('notifications')->name('notification.')->group(function () {
             Route::get('/', [NotificationController::class, 'index'])->name('index');
-            Route::get('/store', [NotificationController::class, 'store'])->name('store');
+            Route::post('/store', [NotificationController::class, 'store'])->name('store');
         });
 
         Route::prefix('users')->name('user.')->group(function () {
