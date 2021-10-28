@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notification;
+namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -10,14 +10,14 @@ use Illuminate\Notifications\Notification;
 class AppNotification extends Notification
 {
     use Queueable;
-    
+
     /**
      * Notification title
      *
      * @var mixed
      */
     private $title;
-    
+
     /**
      * Notification message
      *
