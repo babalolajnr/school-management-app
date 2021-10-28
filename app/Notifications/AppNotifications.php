@@ -10,15 +10,30 @@ use Illuminate\Notifications\Notification;
 class AppNotifications extends Notification
 {
     use Queueable;
+    
+    /**
+     * Notification title
+     *
+     * @var mixed
+     */
+    private $title;
+    
+    /**
+     * Notification message
+     *
+     * @var mixed
+     */
+    private $message;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($notification)
     {
-        //
+        $this->title = $notification["title"];
+        $this->message = $notification["message"];
     }
 
     /**
@@ -29,22 +44,9 @@ class AppNotifications extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
 
     /**
      * Get the array representation of the notification.
@@ -55,7 +57,8 @@ class AppNotifications extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'title' => $this->title,
+            'message' => $this->message,
         ];
     }
 }
