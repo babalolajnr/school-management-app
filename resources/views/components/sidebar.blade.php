@@ -178,7 +178,7 @@
                                    </a>
                                </li>
                                <li class="nav-item">
-                                   <a href="" class="nav-link" id="notification">
+                                   <a href="{{ route('notifications') }}" class="nav-link" id="notification">
                                        <i class="nav-icon fas fa-bell"></i>
                                        <p>Notifications</p>
                                    </a>
