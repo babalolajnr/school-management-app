@@ -27,6 +27,7 @@ class NotificationRequest extends FormRequest
             'title' => ['required', 'string', 'max:255'],
             'message' => ['required', 'string'],
             'notification-type' => ['required', 'string'],
+            'to' => ['required', 'string'],
         ];
     }
 }
