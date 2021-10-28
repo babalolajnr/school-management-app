@@ -116,7 +116,11 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
     Route::middleware(['auth:web'])->group(function () {
 
         Route::get('/dashboard', DashboardController::class)->name('dashboard');
-        Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
+
+        Route::prefix('notifications')->name('notification.')->group(function () {
+            Route::get('/', [NotificationController::class, 'index'])->name('index');
+            Route::get('/store', [NotificationController::class, 'store'])->name('store');
+        });
 
         Route::prefix('users')->name('user.')->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('index');
