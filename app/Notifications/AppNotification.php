@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notification;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AppNotifications extends Notification
+class AppNotification extends Notification
 {
     use Queueable;
     
