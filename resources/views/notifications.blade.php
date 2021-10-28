@@ -54,6 +54,15 @@
                                             <option>App Notification</option>
                                         </select>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="To">To:</label>
+                                        <select class="form-control" name="notification-type">
+                                            <option>Admins</option>
+                                            <option>Master Users</option>
+                                            <option>Teachers</option>
+                                            <option>All</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="card-footer">
                                     <button class="btn btn-primary">
