@@ -56,7 +56,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="To">To:</label>
-                                        <select class="form-control" name="notification-type">
+                                        <select class="form-control" name="to">
                                             <option>Admins</option>
                                             <option>Master Users</option>
                                             <option>Teachers</option>
