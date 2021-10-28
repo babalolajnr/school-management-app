@@ -7,6 +7,7 @@
             href="{{ asset('TAssets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
         <link rel="stylesheet"
             href="{{ asset('TAssets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('TAssets/plugins/summernote/summernote-bs4.min.css') }}">
     </x-slot>
 
     <div class="content-wrapper">
@@ -30,18 +31,37 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="card-title">
-                                    Create Notification
+                        <form action="">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        Create Notification
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label for="Title">Title</label>
+                                        <input type="text" class="form-control" placeholder="Enter title" name="title">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Message">Message</label>
+                                        <textarea id="summernote" name="message">
+                                        </textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Notification type">Notification Type</label>
+                                        <select class="form-control" name="notification-type">
+                                            <option>App Notification</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <button class="btn btn-primary">
+                                        Submit
+                                    </button>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <button class="btn btn-primary">App Notification</button>
-                                </div>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -74,9 +94,12 @@
         </script>
         <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}">
         </script>
+        <script src="{{ asset('TAssets/plugins/summernote/summernote-bs4.min.js') }}"></script>
         <!-- AdminLTE App -->
         <script>
-
+            $(document).ready(function() {
+                $('#summernote').summernote();
+            });
         </script>
     </x-slot>
 </x-app-layout>
