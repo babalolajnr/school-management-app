@@ -10,6 +10,7 @@ use App\Http\Controllers\DeactivatedController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\HosRemarkController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PDController;
 use App\Http\Controllers\PDTypeController;
 use App\Http\Controllers\PeriodController;
@@ -115,6 +116,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
     Route::middleware(['auth:web'])->group(function () {
 
         Route::get('/dashboard', DashboardController::class)->name('dashboard');
+        Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications');
 
         Route::prefix('users')->name('user.')->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('index');
