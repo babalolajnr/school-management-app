@@ -145,7 +145,7 @@ class StudentService
      */
     public function show($student)
     {
-        //get unique results that has unique academic sessions
+        //get results that have unique academic sessions
         $results = Result::where('student_id', $student->id)->get();
         $periods = [];
 
