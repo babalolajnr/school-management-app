@@ -93,10 +93,23 @@
     {{ $scripts }}
 
     <script>
-        function showNotification(notification) {
+        function showNotification(url, notification) {
             $('#notification-modal #title').html(notification.data.title)
             $('#notification-modal #body').html(notification.data.message)
             $('#notification-modal').modal('show')
+
+            // Mark notification as read
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function(data) {
+                    if (data == 'Success') {
+                        $("#" + notification.id).remove()
+                        $("#notifications-badge-count").text(parseInt($("#notifications-badge-count").text()) - 1) 
+                        $("#notifications-header-count").text(parseInt($("#notifications-header-count").text()) - 1) 
+                    }
+                }
+            })
         }
     </script>
 </body>
