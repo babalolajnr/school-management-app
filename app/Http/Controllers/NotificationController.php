@@ -6,6 +6,7 @@ use App\Http\Requests\NotificationRequest;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Notifications\AppNotification;
+use Illuminate\Support\Facades\Notification;
 
 class NotificationController extends Controller
 {
@@ -28,25 +29,23 @@ class NotificationController extends Controller
             $notification = ["title" => $data['title'], "message" => $data['message']];
 
             if ($recipients == 'Admins') {
-                User::all()->map(function ($user) use ($notification) {
-                    $user->notify(new AppNotification($notification));
-                });
+
+                $users = User::all();
+                Notification::send($users, new AppNotification($notification));
             } elseif ($recipients == 'Master Users') {
-                User::where('user_type', 'master')->get()->map(function ($user) use ($notification) {
-                    $user->notify(new AppNotification($notification));
-                });
+
+                $users = User::where('user_type', 'master')->get();
+                Notification::send($users, new AppNotification($notification));
             } elseif ($recipients == 'Teachers') {
-                Teacher::all()->map(function ($teacher) use ($notification) {
-                    $teacher->notify(new AppNotification($notification));
-                });
+
+                $teachers = Teacher::all();
+                Notification::send($teachers, new AppNotification($notification));
             } elseif ($recipients == 'All') {
-                
-                Teacher::all()->map(function ($teacher) use ($notification) {
-                    $teacher->notify(new AppNotification($notification));
-                });
-                User::all()->map(function ($user) use ($notification) {
-                    $user->notify(new AppNotification($notification));
-                });
+
+                $teachers = Teacher::all();
+                $users = User::all();
+                Notification::send($teachers, new AppNotification($notification));
+                Notification::send($users, new AppNotification($notification));
             }
 
             return back()->with('success', 'Notification sent');
