@@ -10,6 +10,7 @@ use App\Http\Controllers\DeactivatedController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\GuardianController;
 use App\Http\Controllers\HosRemarkController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PDController;
 use App\Http\Controllers\PDTypeController;
 use App\Http\Controllers\PeriodController;
@@ -41,7 +42,10 @@ Route::get('guardian/performance-report/{student:admission_no}/{periodSlug}', [R
 
 Route::get('/deactivated', [DeactivatedController::class, 'index'])->middleware(['auth:teacher,web'])->name('deactivated');
 
+// Accessible to every logged in entity
 Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerified'])->group(function () {
+
+    Route::get('notifications/read/{notification}', [NotificationController::class, 'read'])->name('notification.read');
 
     Route::get('teachers/edit/{teacher:slug}', [TeacherController::class, 'edit'])->name('teacher.edit');
 
@@ -115,6 +119,11 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
     Route::middleware(['auth:web'])->group(function () {
 
         Route::get('/dashboard', DashboardController::class)->name('dashboard');
+
+        Route::prefix('notifications')->name('notification.')->group(function () {
+            Route::get('/', [NotificationController::class, 'index'])->name('index');
+            Route::post('/store', [NotificationController::class, 'store'])->name('store');
+        });
 
         Route::prefix('users')->name('user.')->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('index');
