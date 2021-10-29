@@ -64,6 +64,16 @@ class User extends Authenticatable implements CanResetPassword
     {
         return $this->user_type == 'master';
     }
+    
+    /**
+     * Check if user is a developer
+     *
+     * @return boolean
+     */
+    public function isDev()
+    {
+        return $this->is_dev == true;
+    }
 
     /**
      * Check if user is active
