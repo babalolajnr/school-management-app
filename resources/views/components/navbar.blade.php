@@ -32,21 +32,32 @@
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
                 <i class="far fa-bell"></i>
-                <span
-                    class="badge badge-warning navbar-badge">{{ auth()->user()->unreadNotifications->count() }}</span>
+                @if (auth()->user()->unreadNotifications->count() > 0)
+                    <span class="badge badge-warning navbar-badge"
+                        id="notifications-badge-count">{{ auth()->user()->unreadNotifications->count() }}</span>
+                @endif
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" style="left: inherit; right: 0px;">
-                <span class="dropdown-item dropdown-header">{{ auth()->user()->unreadNotifications->count() }}
+                <span class="dropdown-item dropdown-header"><span
+                        id="notifications-header-count">{{ auth()->user()->unreadNotifications->count() }}</span>
                     Notifications</span>
                 <div class="dropdown-divider"></div>
                 @foreach (auth()->user()->unreadNotifications as $notification)
-                    <span onclick="showNotification({{ $notification }})" class="dropdown-item">
+                    <span
+                        onclick="showNotification('{{ route('notification.read', ['notification' => $notification]) }}',{{ $notification }})"
+                        class="dropdown-item" id="{{ $notification->id }}">
                         @if ($notification->type == 'App\Notifications\AppNotification')
                             <i class="far fa-bell mr-2"></i>
                         @endif
                         <span
                             class="float-right text-muted text-sm">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $notification->created_at)->diffForHumans() }}</span>
-                        <span>{{ $notification->data['title'] }}</span>
+                        <span>
+                            @if (strlen($notification->data['title']) > 16)
+                                {{ substr($notification->data['title'], 0, 16) }}...
+                            @else
+                                {{ $notification->data['title'] }}
+                            @endif
+                        </span>
                     </span>
                     <div class="dropdown-divider"></div>
                 @endforeach
