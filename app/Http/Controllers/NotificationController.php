@@ -19,7 +19,7 @@ class NotificationController extends Controller
     {
         return view('notifications');
     }
-    
+
     /**
      * Store notification
      *
@@ -30,34 +30,46 @@ class NotificationController extends Controller
     {
         $data = $request->validated();
 
-        if ($data['notification-type'] == 'App Notification') {
-            $recipients = $data['to'];
-            $notification = ["title" => $data['title'], "message" => $data['message']];
+        $notification = ["title" => $data['title'], "message" => $data['message']];
 
-            if ($recipients == 'Admins') {
+        switch ($data['notification-type']) {
+            case 'App Notification':
+                switch ($data['to']) {
+                    case 'Admins':
+                        $users = User::all();
+                        Notification::send($users, new AppNotification($notification));
+                        break;
 
-                $users = User::all();
-                Notification::send($users, new AppNotification($notification));
-            } elseif ($recipients == 'Master Users') {
+                    case 'Master Users':
+                        $users = User::where('user_type', 'master')->get();
+                        Notification::send($users, new AppNotification($notification));
+                        break;
 
-                $users = User::where('user_type', 'master')->get();
-                Notification::send($users, new AppNotification($notification));
-            } elseif ($recipients == 'Teachers') {
+                    case 'Teachers':
+                        $teachers = Teacher::all();
+                        Notification::send($teachers, new AppNotification($notification));
+                        break;
 
-                $teachers = Teacher::all();
-                Notification::send($teachers, new AppNotification($notification));
-            } elseif ($recipients == 'All') {
+                    case 'All':
+                        $teachers = Teacher::all();
+                        $users = User::all();
+                        Notification::send($teachers, new AppNotification($notification));
+                        Notification::send($users, new AppNotification($notification));
+                        break;
 
-                $teachers = Teacher::all();
-                $users = User::all();
-                Notification::send($teachers, new AppNotification($notification));
-                Notification::send($users, new AppNotification($notification));
-            }
+                    default:
+                        return back()->with('error', 'Recipient not found');
+                        break;
+                }
+                break;
 
-            return back()->with('success', 'Notification sent');
+            default:
+                # code...
+                break;
         }
+        return back()->with('success', 'Notification sent');
     }
-    
+
     /**
      * Mark notification as read
      *
