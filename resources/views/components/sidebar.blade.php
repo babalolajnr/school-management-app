@@ -177,6 +177,15 @@
                                        <p>Users</p>
                                    </a>
                                </li>
+                               @if (auth()->user()->isDev())
+                                   <li class="nav-item">
+                                       <a href="{{ route('notification.index') }}" class="nav-link"
+                                           id="notification">
+                                           <i class="nav-icon fas fa-bell"></i>
+                                           <p>Notifications</p>
+                                       </a>
+                                   </li>
+                               @endif
                            </ul>
                        </li>
                        @endmasteruser
