@@ -40,14 +40,14 @@
                     Notifications</span>
                 <div class="dropdown-divider"></div>
                 @foreach (auth()->user()->unreadNotifications as $notification)
-                    <a href="#" class="dropdown-item">
+                    <span onclick="showNotification({{ $notification }})" class="dropdown-item">
                         @if ($notification->type == 'App\Notifications\AppNotification')
-                                <i class="far fa-bell mr-2"></i>
+                            <i class="far fa-bell mr-2"></i>
                         @endif
                         <span
                             class="float-right text-muted text-sm">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $notification->created_at)->diffForHumans() }}</span>
                         <span>{{ $notification->data['title'] }}</span>
-                    </a>
+                    </span>
                     <div class="dropdown-divider"></div>
                 @endforeach
                 <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
