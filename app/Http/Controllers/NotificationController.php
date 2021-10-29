@@ -19,7 +19,13 @@ class NotificationController extends Controller
     {
         return view('notifications');
     }
-
+    
+    /**
+     * Store notification
+     *
+     * @param  NotificationRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(NotificationRequest $request)
     {
         $data = $request->validated();
@@ -50,5 +56,17 @@ class NotificationController extends Controller
 
             return back()->with('success', 'Notification sent');
         }
+    }
+    
+    /**
+     * Mark notification as read
+     *
+     * @return void
+     */
+    public function read($notification)
+    {
+        $user = auth()->user();
+        $notification = $user->notifications->where('id', $notification)->markAsRead();
+        return response()->json("Success");
     }
 }
