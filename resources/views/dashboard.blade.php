@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="col-lg-3 col-6">
                         <!-- small box -->
-                        <div class="small-box bg-info">
+                        <div class="small-box bg-gray-300">
                             <div class="inner">
                                 <h3>{{ $dashboardData['students'] }}</h3>
                                 <p class="font-semibold">Students</p>
@@ -39,7 +39,7 @@
                     <!-- ./col -->
                     <div class="col-lg-3 col-6">
                         <!-- small box -->
-                        <div class="small-box bg-success">
+                        <div class="small-box bg-gray-300">
                             <div class="inner">
                                 <h3>{{ $dashboardData['teachers'] }}</h3>
 
@@ -55,7 +55,7 @@
                     <!-- ./col -->
                     <div class="col-lg-3 col-6">
                         <!-- small box -->
-                        <div class="small-box bg-warning">
+                        <div class="small-box bg-gray-300">
                             <div class="inner">
                                 <h3>{{ $dashboardData['users'] }}</h3>
 
@@ -71,7 +71,7 @@
                     <!-- ./col -->
                     <div class="col-lg-3 col-6">
                         <!-- small box -->
-                        <div class="small-box bg-danger">
+                        <div class="small-box bg-gray-300">
                             <div class="inner">
                                 <h3>{{ $dashboardData['classrooms'] }}</h3>
 
@@ -89,7 +89,7 @@
                 <div class="row">
                     <div class="col-lg-3 col-6">
                         <!-- small box -->
-                        <div class="small-box bg-secondary">
+                        <div class="small-box bg-gray-300">
                             <div class="inner">
                                 <h3>
                                     @if ($dashboardData['period'] !== null)
@@ -109,7 +109,7 @@
                     </div>
                     <div class="col-lg-3 col-6">
                         <!-- small box -->
-                        <div class="small-box bg-danger">
+                        <div class="small-box bg-gray-300">
                             <div class="inner">
                                 <h3>
                                     @if ($dashboardData['period'] !== null)
@@ -130,7 +130,7 @@
                     <!-- ./col -->
                     <div class="col-lg-3 col-6">
                         <!-- small box -->
-                        <div class="small-box bg-success">
+                        <div class="small-box bg-gray-300">
                             <div class="inner">
                                 <h3>{{ $dashboardData['subjects'] }}</h3>
                                 <p class="font-semibold">Subjects</p>
@@ -145,7 +145,7 @@
                     <!-- ./col -->
                     <div class="col-lg-3 col-6">
                         <!-- small box -->
-                        <div class="small-box bg-warning">
+                        <div class="small-box bg-gray-300">
                             <div class="inner">
                                 <h3>{{ $dashboardData['alumni'] }}</h3>
 
