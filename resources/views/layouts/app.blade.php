@@ -98,18 +98,27 @@
             $('#notification-modal #body').html(notification.data.message)
             $('#notification-modal').modal('show')
 
-            // Mark notification as read
-            $.ajax({
-                url: url,
-                method: 'GET',
-                success: function(data) {
-                    if (data == 'Success') {
-                        $("#" + notification.id).remove()
-                        $("#notifications-badge-count").text(parseInt($("#notifications-badge-count").text()) - 1) 
-                        $("#notifications-header-count").text(parseInt($("#notifications-header-count").text()) - 1) 
+            if (notification.read_at == null) {
+                // Mark notification as read
+                $.ajax({
+                    url: url,
+                    method: 'GET',
+                    success: function(data) {
+                        if (data == 'Success') {
+                            $("#" + notification.id).remove()
+
+                            if ($("#notifications-badge-count").text() > 0) {
+                                $("#notifications-badge-count").text(parseInt($("#notifications-badge-count")
+                                    .text()) - 1)
+                            }
+                            if ($("#notifications-header-count").text() > 0) {
+                                $("#notifications-header-count").text(parseInt($("#notifications-header-count")
+                                    .text()) - 1)
+                            }
+                        }
                     }
-                }
-            })
+                })
+            }
         }
     </script>
 </body>

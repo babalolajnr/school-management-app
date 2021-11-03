@@ -81,4 +81,9 @@ class NotificationController extends Controller
         $notification = $user->notifications->where('id', $notification)->markAsRead();
         return response()->json("Success");
     }
+
+    public function inbox()
+    {
+        return view('notificationsInbox');
+    }
 }

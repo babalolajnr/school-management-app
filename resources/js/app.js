@@ -84,12 +84,12 @@ function setActiveSidebarLink() {
     const routes = {
         "school-management": ["academic-session", "period", "fee", "classroom", "term", "subject", "teacher"],
         "student-management": ["student.index", "student.create", "student.get.alumni", "student.get.inactive", "pd-type", "ad-type"],
-        "app-management": ["user"],
+        "app-management": ["user", "notification"],
         "dashboard": []
     }
 
     for (const [parent, children] of Object.entries(routes)) {
-        
+
         //When there are no child links
         if (children.length < 1) {
             if (routeName.startsWith(parent)) $('#' + parent).addClass('active')
@@ -109,6 +109,4 @@ function setActiveSidebarLink() {
             })
         }
     }
-
-
 }
