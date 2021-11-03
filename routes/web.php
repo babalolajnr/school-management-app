@@ -46,6 +46,7 @@ Route::get('/deactivated', [DeactivatedController::class, 'index'])->middleware(
 Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerified'])->group(function () {
 
     Route::get('notifications/read/{notification}', [NotificationController::class, 'read'])->name('notification.read');
+    Route::get('notifications/inbox', [NotificationController::class, 'inbox'])->name('notification.inbox');
 
     Route::get('teachers/edit/{teacher:slug}', [TeacherController::class, 'edit'])->name('teacher.edit');
 
