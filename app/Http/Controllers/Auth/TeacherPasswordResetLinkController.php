@@ -15,7 +15,7 @@ class TeacherPasswordResetLinkController extends Controller
      */
     public function create()
     {
-        return view('auth.teacher.teacher-forgot-password');
+        return view('auth.teacher.forgot-password');
     }
 
     /**

@@ -12,7 +12,7 @@ class TermController extends Controller
     public function index()
     {
         $terms = Term::all();
-        return view('terms', compact('terms'));
+        return view('term.index', compact('terms'));
     }
 
     public function store(Request $request)
@@ -25,7 +25,7 @@ class TermController extends Controller
 
     public function edit(Term $term)
     {
-        return view('editTerm', compact('term'));
+        return view('term.edit', compact('term'));
     }
 
     public function update(Term $term, Request $request)

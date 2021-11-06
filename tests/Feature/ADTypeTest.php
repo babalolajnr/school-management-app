@@ -42,14 +42,14 @@ class ADTypeTest extends TestCase
         $user = User::factory()->create();
         $adType = ADType::factory()->create();
         $response = $this->actingAs($user)->get(route('ad-type.edit', ['adType' => $adType]));
-        $response->assertStatus(200)->assertViewIs('editADType');
+        $response->assertStatus(200);
     }
 
     public function test_adType_index_method()
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)->get(route('ad-type.index'));
-        $response->assertStatus(200)->assertViewIs('adTypes');
+        $response->assertStatus(200);
     }
 
     public function test_user_can_delete_a_adType()

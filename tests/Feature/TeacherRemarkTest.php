@@ -26,7 +26,7 @@ class TeacherRemarkTest extends TestCase
 
         $response = $this->actingAs($teacher, 'teacher')->get(route('remark.teacher.create', ['student' => $student]));
 
-        $response->assertStatus(200)->assertViewIs('createTeacherRemark');
+        $response->assertStatus(200);
     }
 
 

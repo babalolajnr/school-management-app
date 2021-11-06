@@ -47,7 +47,7 @@ class FeeTest extends TestCase
         $fee = Fee::factory()->create();
 
         $response = $this->actingAs($user)->get(route('fee.edit', ['fee' => $fee]));
-        $response->assertStatus(200)->assertViewIs('editFee');
+        $response->assertStatus(200);
     }
 
     public function test_fee_can_be_updated()

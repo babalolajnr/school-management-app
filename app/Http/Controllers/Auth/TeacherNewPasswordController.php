@@ -18,7 +18,7 @@ class TeacherNewPasswordController extends Controller
      */
     public function create(Request $request)
     {
-        return view('auth.teacher.teacher-reset-password', ['request' => $request]);
+        return view('auth.teacher.reset-password', ['request' => $request]);
     }
 
     /**

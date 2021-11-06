@@ -20,7 +20,7 @@ class PDTypeController extends Controller
     public function index()
     {
         $pdTypes = PDType::all();
-        return view('pdTypes', compact('pdTypes'));
+        return view('pd-type.index', compact('pdTypes'));
     }
 
     public function store(Request $request)
@@ -37,7 +37,7 @@ class PDTypeController extends Controller
 
     public function edit(PDType $pdType)
     {
-        return view('editPDType', compact('pdType'));
+        return view('pd-type.edit', compact('pdType'));
     }
 
     public function update(PDType $pdType, Request $request)

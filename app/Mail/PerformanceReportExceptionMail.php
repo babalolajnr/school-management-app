@@ -35,7 +35,7 @@ class PerformanceReportExceptionMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.performanceReportExceptionMail')
+        return $this->markdown('emails.performance-report-exception-mail')
             ->subject('Performance Report Mailing Exception')->with('content', $this->content);
     }
 }

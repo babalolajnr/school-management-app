@@ -47,7 +47,7 @@ class PDController extends Controller
             $pdTypesValues = null;
         }
 
-        return view('createPD', compact('pdTypes', 'student', 'pdTypesValues', 'period'));
+        return view('pd.create', compact('pdTypes', 'student', 'pdTypesValues', 'period'));
     }
 
     /**

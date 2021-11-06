@@ -174,7 +174,7 @@ class PeriodTest extends TestCase
 
         $response = $this->actingAs($user)->get(route('period.edit', ['period' => $period]));
 
-        $response->assertStatus(200)->assertViewIs('editPeriod');
+        $response->assertStatus(200);
     }
 
     public function test_update_period_method()

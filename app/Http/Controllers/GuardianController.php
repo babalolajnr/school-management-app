@@ -10,7 +10,7 @@ class GuardianController extends Controller
 {
     public function edit(Guardian $guardian)
     {
-        return view('editGuardian', compact(['guardian']));
+        return view('guardian.edit', compact(['guardian']));
     }
 
     public function update(Guardian $guardian, Request $request)

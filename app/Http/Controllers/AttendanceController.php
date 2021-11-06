@@ -27,10 +27,10 @@ class AttendanceController extends Controller
 
         if ($attendance->exists()) {
             $attendance = $attendance->first();
-            return view('createAttendance', compact('attendance', 'period', 'student'));
+            return view('attendance.create', compact('attendance', 'period', 'student'));
         }
 
-        return view('createAttendance', compact('period', 'student'));
+        return view('attendance.create', compact('period', 'student'));
     }
 
     /**

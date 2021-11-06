@@ -31,7 +31,7 @@ class TeacherRemarkController extends Controller
             $remark = null;
         }
 
-        return view('createTeacherRemark', compact('period', 'student', 'remark'));
+        return view('teacher.create-remark', compact('period', 'student', 'remark'));
     }
 
     /**
