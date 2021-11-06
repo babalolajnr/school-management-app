@@ -33,7 +33,7 @@ class TeacherTest extends TestCase
             'email' => $this->faker->email,
             'phone' => $this->faker->e164PhoneNumber,
             'sex' => 'M',
-            'date_of_birth' => $this->faker->dateTimeThisCentury(),
+            'date_of_birth' => '1998-05-20',
             'password' => 'password'
         ]);
         $response->assertStatus(302)->assertSessionHas('success');
@@ -58,7 +58,7 @@ class TeacherTest extends TestCase
             'last_name' => $this->faker->lastName,
             'email' => $this->faker->email,
             'phone' => $this->faker->e164PhoneNumber,
-            'date_of_birth' => $this->faker->dateTimeThisCentury(),
+            'date_of_birth' => '1998-05-20',
             'sex' => 'F'
         ]);
         $response->assertStatus(302)->assertSessionHas('success');

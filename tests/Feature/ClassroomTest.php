@@ -24,7 +24,7 @@ class ClassroomTest extends TestCase
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)->get(route('classroom.index'));
-        $response->assertStatus(200)->assertViewIs('classrooms');
+        $response->assertStatus(200);
     }
 
     public function test_classroom_can_be_stored()
@@ -42,7 +42,7 @@ class ClassroomTest extends TestCase
         $user = User::factory()->create();
         $classroom = Classroom::factory()->create();
         $response = $this->actingAs($user)->get(route('classroom.edit', ['classroom' => $classroom]));
-        $response->assertStatus(200)->assertViewIs('editClassroom');
+        $response->assertStatus(200);
     }
 
     public function test_classroom_update_method()
@@ -100,7 +100,7 @@ class ClassroomTest extends TestCase
         Period::factory()->create(['active' => true]);
         $response = $this->actingAs($user)->get(route('classroom.set.subjects', ['classroom' => $classroom]));
 
-        $response->assertStatus(200)->assertViewIs('setSubjects');
+        $response->assertStatus(200);
     }
 
     public function test_teacher_can_be_assigned_to_classroom()

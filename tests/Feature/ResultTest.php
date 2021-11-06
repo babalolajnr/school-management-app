@@ -65,7 +65,7 @@ class ResultTest extends TestCase
 
         $response = $this->actingAs($user)->get(route('result.create', ['student' => $student]));
 
-        $response->assertStatus(200)->assertViewIs('createResults');
+        $response->assertStatus(200);
     }
 
     public function test_result_edit_method()
@@ -76,7 +76,7 @@ class ResultTest extends TestCase
         $result = Result::factory()->create();
         $response = $this->actingAs($user)->get(route('result.edit', ['result' => $result]));
 
-        $response->assertStatus(200)->assertViewIs('editResult');
+        $response->assertStatus(200);
     }
 
     public function test_result_destroy_method()
@@ -101,7 +101,7 @@ class ResultTest extends TestCase
         $classroom->subjects()->attach($data);
 
         $response = $this->actingAs($user)->get(route('result.show.performance', ['student' => $result->student, 'periodSlug' => $result->period->slug]));
-        $response->assertStatus(200)->assertViewIs('performanceReport');
+        $response->assertStatus(200);
     }
 
     public function test_result_update_method()

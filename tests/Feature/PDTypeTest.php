@@ -42,14 +42,14 @@ class PDTypeTest extends TestCase
         $user = User::factory()->create();
         $pdType = PDType::factory()->create();
         $response = $this->actingAs($user)->get(route('pd-type.edit', ['pdType' => $pdType]));
-        $response->assertStatus(200)->assertViewIs('editPDType');
+        $response->assertStatus(200);
     }
 
     public function test_pdType_index_method()
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)->get(route('pd-type.index'));
-        $response->assertStatus(200)->assertViewIs('pdTypes');
+        $response->assertStatus(200);
     }
 
     public function test_user_can_delete_a_pdType()

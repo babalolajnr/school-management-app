@@ -81,6 +81,7 @@ class StudentTest extends TestCase
 
     public function test_an_already_taken_guardian_phone_will_work()
     {
+        $this->withoutExceptionHandling();
         $guardian = Guardian::factory()->create();
         $user = User::factory()->create();
 
@@ -200,7 +201,7 @@ class StudentTest extends TestCase
         $student = $result->student;
         $academicSession = $result->period->academicSession->name;
         $response = $this->actingAs($user)->get(route('student.get.sessional.results', ['student' => $student, 'academicSessionName' => $academicSession]));
-        $response->assertStatus(200)->assertViewIs('studentSessionalResults');
+        $response->assertStatus(200);
     }
 
     public function test_user_can_get_student_term_results()
@@ -211,14 +212,14 @@ class StudentTest extends TestCase
         $academicSession = $result->period->academicSession->name;
         $term = $result->period->term->slug;
         $response = $this->actingAs($user)->get(route('student.get.sessional.results', ['student' => $student, 'academicSessionName' => $academicSession, 'termSlug' => $term]));
-        $response->assertStatus(200)->assertViewIs('studentSessionalResults');
+        $response->assertStatus(200);
     }
 
     public function test_user_can_get_alumni()
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)->get(route('student.get.alumni'));
-        $response->assertStatus(200)->assertViewIs('alumni');
+        $response->assertStatus(200);
     }
 
     public function test_student_image_upload()
@@ -240,6 +241,6 @@ class StudentTest extends TestCase
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)->get(route('student.get.inactive'));
-        $response->assertStatus(200)->assertViewIs('inactive-students');
+        $response->assertStatus(200);
     }
 }

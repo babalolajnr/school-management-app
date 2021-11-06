@@ -32,6 +32,7 @@ class TermTest extends TestCase
 
     public function test_term_edit_method()
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $term = Term::factory()->create();
         $response = $this->actingAs($user)->get(route('term.edit', ['term' => $term]));

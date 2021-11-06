@@ -18,7 +18,7 @@ class GuardianTest extends TestCase
         $user = User::factory()->create();
         $guardian = Guardian::factory()->create();
         $response = $this->actingAs($user)->get(route('guardian.edit', ['guardian' => $guardian]));
-        $response->assertStatus(200)->assertViewIs('editGuardian');
+        $response->assertStatus(200);
     }
 
     public function test_guardian_controller_update_method()
