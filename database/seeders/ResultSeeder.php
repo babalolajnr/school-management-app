@@ -28,7 +28,7 @@ class ResultSeeder extends Seeder
             return $item->academic_session_id;
         });
         $classroomPeriods = [];
-        $classroom_id = 1;
+        $classroom_id = Classroom::first()->id;
         foreach ($academicSessions as $academicSession) {
             foreach ($academicSession as $period) {
                 $classroomPeriod = ['period_id' => $period->id, 'classroom_id' => $classroom_id];
