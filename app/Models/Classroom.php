@@ -50,6 +50,16 @@ class Classroom extends Model
     {
         return $this->hasMany(Fee::class);
     }
+    
+    /**
+     * Branch relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function branches()
+    {
+        return $this->belongsToMany(Branch::class);
+    }
 
     /**
      * Get Active Students of a classroom
@@ -60,7 +70,7 @@ class Classroom extends Model
     {
         return $this->students->whereNull('graduated_at')->where('is_active', true)->all();
     }
-    
+
     /**
      * Count active students
      *
@@ -68,6 +78,6 @@ class Classroom extends Model
      */
     public function countActiveStudents()
     {
-       return $this->students->whereNull('graduated_at')->where('is_active', true)->count();
+        return $this->students->whereNull('graduated_at')->where('is_active', true)->count();
     }
 }
