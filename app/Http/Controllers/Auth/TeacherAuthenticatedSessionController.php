@@ -16,7 +16,7 @@ class TeacherAuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        return view('auth.teacher.teacher-login');
+        return view('auth.teacher.login');
     }
 
     /**

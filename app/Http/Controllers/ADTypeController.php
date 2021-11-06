@@ -20,7 +20,7 @@ class ADTypeController extends Controller
     public function index()
     {
         $adTypes = ADType::all();
-        return view('adTypes', compact('adTypes'));
+        return view('ad-type.index', compact('adTypes'));
     }
 
     public function store(Request $request)
@@ -37,7 +37,7 @@ class ADTypeController extends Controller
 
     public function edit(ADType $adType)
     {
-        return view('editADType', compact('adType'));
+        return view('ad-type.edit', compact('adType'));
     }
 
     public function update(ADType $adType, Request $request)

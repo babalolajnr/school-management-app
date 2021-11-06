@@ -44,7 +44,7 @@ class ResultController extends Controller
             }
         });
 
-        return view('createResults', compact('subjects', 'student', 'activePeriod'));
+        return view('result.create', compact('subjects', 'student', 'activePeriod'));
     }
 
     /**
@@ -121,7 +121,7 @@ class ResultController extends Controller
                 abort(404);
             }
         }
-        return view('performanceReport', $data);
+        return view('performance-report', $data);
     }
 
     /**
@@ -134,7 +134,7 @@ class ResultController extends Controller
     {
         //store previous url in session to be used for redirect after update
         session(['resultsPage' => url()->previous()]);
-        return view('editResult', compact('result'));
+        return view('result.edit', compact('result'));
     }
 
     /**

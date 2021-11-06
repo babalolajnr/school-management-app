@@ -17,7 +17,7 @@ class NotificationController extends Controller
      */
     public function index()
     {
-        return view('notifications');
+        return view('notification.create');
     }
 
     /**
@@ -84,6 +84,6 @@ class NotificationController extends Controller
 
     public function inbox()
     {
-        return view('notificationsInbox');
+        return view('notification.inbox');
     }
 }

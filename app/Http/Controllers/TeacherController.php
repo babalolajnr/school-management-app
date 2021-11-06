@@ -53,7 +53,7 @@ class TeacherController extends Controller
                 $teacher->last_seen = $lastSeen;
             }
         });
-        return view('teachers', compact('teachers'));
+        return view('teacher.index', compact('teachers'));
     }
 
     /**
@@ -63,7 +63,7 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        return view('createTeacher');
+        return view('teacher.create');
     }
 
     /**
@@ -95,7 +95,7 @@ class TeacherController extends Controller
      */
     public function show(Teacher $teacher)
     {
-        return view('showTeacher', compact('teacher'));
+        return view('teacher.show', compact('teacher'));
     }
 
     /**
@@ -106,7 +106,7 @@ class TeacherController extends Controller
      */
     public function edit(Teacher $teacher)
     {
-        return view('editTeacher', compact('teacher'));
+        return view('teacher.edit', compact('teacher'));
     }
 
     /**
@@ -265,7 +265,7 @@ class TeacherController extends Controller
     public function showTrashed()
     {
         $teachers = Teacher::onlyTrashed()->get();
-        return view('teacherTrash', compact('teachers'));
+        return view('teacher.trash', compact('teachers'));
     }
 
     /**

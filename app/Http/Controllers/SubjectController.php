@@ -25,7 +25,7 @@ class SubjectController extends Controller
     public function index()
     {
         $subjects = Subject::all();
-        return view('subjects', compact('subjects'));
+        return view('subject.index', compact('subjects'));
     }
 
     public function store(Request $request)
@@ -41,7 +41,7 @@ class SubjectController extends Controller
 
     public function edit(Subject $subject)
     {
-        return view('editSubject', compact('subject'));
+        return view('subject.edit', compact('subject'));
     }
 
     public function update(Subject $subject, Request $request)

@@ -32,7 +32,7 @@ class AcademicSessionController extends Controller
     public function index()
     {
         $academicSessions = AcademicSession::all();
-        return view('academicSession', compact('academicSessions'));
+        return view('academic-session.index', compact('academicSessions'));
     }
 
     public function store(Request $request)
@@ -57,7 +57,7 @@ class AcademicSessionController extends Controller
 
     public function edit(AcademicSession $academicSession)
     {
-        return view('editAcademicSession', compact('academicSession'));
+        return view('academic-session.edit', compact('academicSession'));
     }
 
     public function update(AcademicSession $academicSession, Request $request)

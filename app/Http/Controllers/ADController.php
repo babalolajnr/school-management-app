@@ -46,7 +46,7 @@ class ADController extends Controller
             $adTypesValues = null;
         }
 
-        return view('createAD', compact('adTypes', 'student', 'adTypesValues', 'period'));
+        return view('ad.create', compact('adTypes', 'student', 'adTypesValues', 'period'));
     }
 
     /**

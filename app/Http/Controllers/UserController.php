@@ -34,7 +34,7 @@ class UserController extends Controller
                 $user->last_seen = $lastSeen;
             }
         });
-        return view('users', compact('users'));
+        return view('user.index', compact('users'));
     }
 
     /**
@@ -91,7 +91,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         $this->authorize('view', $user);
-        return view('showUser', compact('user'));
+        return view('user.show', compact('user'));
     }
 
     /**

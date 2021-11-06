@@ -21,7 +21,7 @@ class FeeController extends Controller
         $periods = Period::all();
         $classrooms = Classroom::all();
 
-        return view('fees', compact('fees', 'periods', 'classrooms'));
+        return view('fee.index', compact('fees', 'periods', 'classrooms'));
     }
     /**
      * store fee
@@ -64,7 +64,7 @@ class FeeController extends Controller
      */
     public function edit(Fee $fee)
     {
-        return view('editFee', compact('fee'));
+        return view('fee.edit', compact('fee'));
     }
 
     /**

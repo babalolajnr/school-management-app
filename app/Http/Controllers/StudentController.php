@@ -35,7 +35,7 @@ class StudentController extends Controller
         $academicSessions = AcademicSession::all()->sortByDesc('created_at');
         $terms = Term::all()->sortByDesc('created_at');
 
-        return view('students', compact('students', 'academicSessions', 'terms'));
+        return view('student.index', compact('students', 'academicSessions', 'terms'));
     }
 
     /**
@@ -46,7 +46,7 @@ class StudentController extends Controller
     public function getAlumni()
     {
         $students = Student::whereNotNull('graduated_at')->get();
-        return view('alumni', compact('students'));
+        return view('alumni.index', compact('students'));
     }
     
     /**
@@ -56,7 +56,7 @@ class StudentController extends Controller
      */
     public function getInactiveStudents(){
         $students = Student::getInactiveStudents();
-        return view('inactive-students', compact('students'));
+        return view('student.inactive', compact('students'));
     }
 
     /**
@@ -67,7 +67,7 @@ class StudentController extends Controller
     public function create()
     {
         $classrooms = Classroom::pluck('name')->all();
-        return view('createStudent', compact('classrooms'));
+        return view('student.create', compact('classrooms'));
     }
 
 
@@ -93,7 +93,7 @@ class StudentController extends Controller
      */
     public function show(Student $student, StudentService $studentService)
     {
-        return view('showStudent', $studentService->show($student));
+        return view('student.show', $studentService->show($student));
     }
 
 
@@ -135,7 +135,7 @@ class StudentController extends Controller
     public function edit(Student $student)
     {
         $classrooms = Classroom::pluck('name')->all();
-        return view('editStudent', compact(['student', 'classrooms']));
+        return view('student.edit', compact(['student', 'classrooms']));
     }
     
     /**
@@ -163,7 +163,7 @@ class StudentController extends Controller
     public function getSessionalResults(Student $student, $academicSessionName, StudentService $studentService)
     {
         $sessionalResults = $studentService->getSessionalResults($student, $academicSessionName);
-        return view('studentSessionalResults', $sessionalResults);
+        return view('student.sessional-results', $sessionalResults);
     }
     
     /**
@@ -183,7 +183,7 @@ class StudentController extends Controller
             return back()->with('error', $e->getMessage());
         }
 
-        return view('studentTermResults', $termResults);
+        return view('student.term-results', $termResults);
     }
     
     /**
@@ -269,7 +269,7 @@ class StudentController extends Controller
         $pdTypes = PDType::all();
         $terms = Term::all();
 
-        return view('studentSettings', compact('student', 'pdTypes', 'currentAcademicSession', 'terms'));
+        return view('student.settings', compact('student', 'pdTypes', 'currentAcademicSession', 'terms'));
     }
 
     /**
@@ -336,7 +336,7 @@ class StudentController extends Controller
     {
         $students = Student::onlyTrashed()->get();
 
-        return view('studentTrash', compact('students'));
+        return view('student.trash', compact('students'));
     }
 
     /**

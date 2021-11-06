@@ -43,7 +43,7 @@ class ClassroomController extends Controller
     public function index()
     {
         $classrooms = Classroom::with('teacher')->get()->sortBy('rank');
-        return view('classrooms', compact('classrooms'));
+        return view('classroom.index', compact('classrooms'));
     }
 
     /**
@@ -71,7 +71,7 @@ class ClassroomController extends Controller
      */
     public function edit(Classroom $classroom)
     {
-        return view('editClassroom', compact('classroom'));
+        return view('classroom.edit', compact('classroom'));
     }
 
     /**
@@ -113,7 +113,7 @@ class ClassroomController extends Controller
             $classroom->update($validatedData + $slug);
         }
 
-        return redirect('/classrooms')->with('success', 'Classroom Updated!');
+        return redirect(route('classroom.index'))->with('success', 'Classroom Updated!');
     }
 
     /**
@@ -139,7 +139,7 @@ class ClassroomController extends Controller
         $teachers = Teacher::with('classroom')->whereIsActive(true)->get();
         $classroomTeacher = $classroom->teacher;
         $subjects = $classroom->subjects()->where('academic_session_id', $currentAcademicSession->id)->get();
-        return view('showClassroom', compact('students', 'classroom', 'academicSessions', 'terms', 'subjects', 'teachers', 'classroomTeacher'));
+        return view('classroom.show', compact('students', 'classroom', 'academicSessions', 'terms', 'subjects', 'teachers', 'classroomTeacher'));
     }
 
     /**
@@ -203,7 +203,7 @@ class ClassroomController extends Controller
         //set array as collection for it to be showable in the view
         $relations = collect($relations);
 
-        return view('setSubjects', compact('relations', 'classroom'));
+        return view('subject.set', compact('relations', 'classroom'));
     }
 
     /**
@@ -282,7 +282,7 @@ class ClassroomController extends Controller
     {
         $students = $classroom->getActiveStudents();
 
-        return view('promoteOrDemoteStudents', compact('students', 'classroom'));
+        return view('student.promote-demote', compact('students', 'classroom'));
     }
 
     /**

@@ -46,7 +46,7 @@ class StudentPerformanceReport extends Mailable
             'academicSession' => $academicSession
         ];
 
-        return $this->markdown('emails.performanceReport')
+        return $this->markdown('emails.performance-report')
             ->subject('Performance Report')->with('content', $content);
     }
 }
