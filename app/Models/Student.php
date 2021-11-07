@@ -39,6 +39,16 @@ class Student extends Model
     }
 
     /**
+     * branch-classroom relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function branchClassroom()
+    {
+        return $this->belongsTo(BranchClassroom::class);
+    }
+
+    /**
      * Result relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -87,7 +97,7 @@ class Student extends Model
     {
         return $this->hasMany(TeacherRemark::class);
     }
-    
+
     /**
      * Find student
      *
@@ -129,13 +139,13 @@ class Student extends Model
     {
         return  Student::whereNull('graduated_at')->where('is_active', true)->count();
     }
-    
+
     /**
      * Get Inactive Students
      *
      * @return mixed $students
      */
-    public static function getInactiveStudents() 
+    public static function getInactiveStudents()
     {
         return Student::where('is_active', false)->get();
     }
