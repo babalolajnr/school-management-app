@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Branch;
-use App\Models\User;
+use App\Models\Classroom;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,7 +17,7 @@ class CreateBranchClassroomTable extends Migration
     {
         Schema::create('branch_classroom', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(Classroom::class);
             $table->foreignIdFor(Branch::class);
             $table->timestamps();
         });
