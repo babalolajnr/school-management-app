@@ -58,7 +58,7 @@ class Classroom extends Model
      */
     public function branches()
     {
-        return $this->belongsToMany(Branch::class);
+        return $this->belongsToMany(Branch::class)->using(BranchClassroom::class)->withTimestamps();
     }
 
     /**
