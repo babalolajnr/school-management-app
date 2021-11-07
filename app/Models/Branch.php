@@ -16,6 +16,6 @@ class Branch extends Model
 
     public function classrooms()
     {
-        $this->belongsToMany(Classroom::class);
+        $this->belongsToMany(Classroom::class)->using(BranchClassroom::class)->withTimestamps();
     }
 }
