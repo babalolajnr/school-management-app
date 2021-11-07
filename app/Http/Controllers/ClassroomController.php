@@ -317,7 +317,7 @@ class ClassroomController extends Controller
             return back()->with('success', 'Students Promoted!');
         }
 
-        return back()->with('error', 'Student is in the Maximum class possible');
+        return back()->with('error', 'Students is in the Maximum class possible');
     }
 
     /**
