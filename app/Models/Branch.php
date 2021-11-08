@@ -13,9 +13,14 @@ class Branch extends Model
     use HasFactory;
 
     protected $fillable = ['name'];
-
+    
+    /**
+     * Classrooms relationship
+     *
+     * @return void
+     */
     public function classrooms()
     {
-        $this->belongsToMany(Classroom::class)->using(BranchClassroom::class)->withTimestamps();
+        return $this->belongsToMany(Classroom::class)->using(BranchClassroom::class)->withTimestamps();
     }
 }
