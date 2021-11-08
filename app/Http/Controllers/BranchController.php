@@ -29,21 +29,21 @@ class BranchController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'unique:branches']
-        ]);
+        ], ['name.unique' => 'Name exists']);
 
         Branch::create($data);
         return back()->with('success', 'Branch created!');
     }
-    
+
     /**
      * Edit branch.
      *
-     * @param  mixed $branch
-     * @return void
+     * @param  Branch $branch
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function edit(Branch $branch)
     {
-        return response();
+        return view('branch.edit', compact('branch'));
     }
 
     /**
@@ -57,7 +57,7 @@ class BranchController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'unique:branches']
-        ]);
+        ], ['name.unique' => 'Name exists']);
 
         $branch->update($data);
         return back()->with('success', 'Branch updated!');
