@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\AcademicSession;
+use App\Models\Branch;
+use App\Models\BranchClassroom;
 use App\Models\Classroom;
 use App\Models\Period;
 use App\Models\Student;
@@ -353,4 +355,25 @@ class ClassroomController extends Controller
 
         return back()->with('error', 'Student is in the Minimum class possible');
     }
+
+    /**
+     * Show a classroom branch
+     *
+     * @param  Classroom $classroom
+     * @param  Branch $branch
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function showBranch(Classroom $classroom, Branch $branch)
+    {
+        $branchClassroomId = BranchClassroom::where('classroom_id', $classroom->id)
+            ->where('branch_id', $branch->id)->first();
+        $students = Student::where('branch_classroom_id', $branchClassroomId)->get();
+
+        return view('classroom.branch', compact('students', 'branch', 'classroom'));
+    }
+
+    // public function chooseBranches(Classroom $classroom, Request $request)
+    // {
+        
+    // }
 }
