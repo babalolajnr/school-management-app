@@ -4,6 +4,7 @@ use App\Http\Controllers\AcademicSessionController;
 use App\Http\Controllers\ADController;
 use App\Http\Controllers\ADTypeController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeactivatedController;
@@ -124,6 +125,14 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
         Route::prefix('notifications')->name('notification.')->group(function () {
             Route::get('/', [NotificationController::class, 'index'])->name('index');
             Route::post('/store', [NotificationController::class, 'store'])->name('store');
+        });
+
+        Route::prefix('branches')->name('branch.')->group(function () {
+            Route::get('/', [BranchController::class, 'index'])->name('index');
+            Route::get('/edit/{branches:name}', [BranchController::class, 'edit'])->name('edit');
+            Route::post('/store', [BranchController::class, 'store'])->name('store');
+            Route::patch('/update/{branch:name}', [BranchController::class, 'update'])->name('update');
+            Route::delete('/delete/{branch:name}', [BranchController::class, 'destroy'])->name('destroy');
         });
 
         Route::prefix('users')->name('user.')->group(function () {
