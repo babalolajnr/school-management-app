@@ -194,6 +194,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::get('/', [ClassroomController::class, 'index'])->name('index');
             Route::get('/edit/{classroom:slug}', [ClassroomController::class, 'edit'])->name('edit');
             Route::get('/set-subjects/{classroom:slug}', [ClassroomController::class, 'setSubjects'])->name('set.subjects');
+            Route::get('show/{classroom:slug}/{branch:name}', [ClassroomController::class, 'showBranch'])->name('show.branch');
             Route::get('/promote-or-demote-students/{classroom:slug}', [ClassroomController::class, 'promoteOrDemoteStudents'])->name('promote.or.demote.students');
             Route::post('/update-subjects/{classroom:slug}', [ClassroomController::class, 'updateSubjects'])->name('update.subjects');
             Route::post('/promote-students/{classroom:slug}', [ClassroomController::class, 'promoteStudents'])->name('promote.students');
