@@ -19,8 +19,10 @@
                         <h1>{{ $classroom->name }}</h1>
                     </div>
                     <div class="col-sm-6 d-flex justify-content-end">
-                        <a href="{{ route('classroom.promote.or.demote.students', ['classroom' => $classroom]) }}"><button class="
-                            btn btn-sm btn-flat btn-outline-primary">Promote/Demote Students</button></a>
+                        <a href="{{ route('classroom.promote.or.demote.students', ['classroom' => $classroom]) }}"><button
+                                class="
+                            btn btn-sm btn-flat btn-outline-primary">Promote/Demote
+                                Students</button></a>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -69,6 +71,28 @@
                                             @endif
                                         </div>
                                     </div>
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="d-flex justify-content-between align-items-baseline">
+                                                <span class="font-semibold">Branches</span>
+                                                <span>
+                                                    <button class="btn btn-primary" onclick="showAssignTeacherModal()">Edit
+                                                        Branches</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="btn-group">
+                                                @foreach ($classroom->branches as $branch)
+                                                    <a href="{{ route('classroom.show.branch', ['classroom' => $classroom, 'branch' => $branch]) }}">
+                                                        <button type="button" class="btn btn-default btn-flat">
+                                                            {{ $branch->name }}
+                                                        </button>
+                                                    </a>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="card col-lg-6">
                                     <div class="card-header">
@@ -91,7 +115,6 @@
                                     </div>
                                 </div>
                             @endauth
-
                         </div>
                     </div>
                 </div>
