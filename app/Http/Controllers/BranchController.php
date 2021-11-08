@@ -15,7 +15,8 @@ class BranchController extends Controller
      */
     public function index()
     {
-        return response(200);
+        $branches = Branch::all();
+        return view('branch.index', compact('branches'));
     }
 
     /**
@@ -78,5 +79,7 @@ class BranchController extends Controller
                 return back()->with('error', 'Branch can not be deleted because some resources are dependent on it!');
             }
         }
+
+        return back()->with('success', 'Branch deleted');
     }
 }
