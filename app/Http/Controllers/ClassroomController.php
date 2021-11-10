@@ -14,7 +14,6 @@ use App\Models\Term;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\ValidationException;
 
 class ClassroomController extends Controller
 {
