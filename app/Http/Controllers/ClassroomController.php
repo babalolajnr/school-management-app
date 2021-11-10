@@ -14,6 +14,7 @@ use App\Models\Term;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class ClassroomController extends Controller
 {
@@ -372,8 +373,51 @@ class ClassroomController extends Controller
         return view('classroom.branch', compact('students', 'branch', 'classroom'));
     }
 
-    // public function chooseBranches(Classroom $classroom, Request $request)
-    // {
-        
-    // }
+    /**
+     * Edit Branches
+     *
+     * @param  Classroom $classroom
+     * @param  Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function editBranches(Classroom $classroom, Request $request)
+    {
+        $branches = $request->branches;
+
+        foreach ($branches as $branch) {
+
+            // Validate if all the selected branches exist
+            if (!Branch::where('name', $branch)->exists()) {
+                return back()->with('error', "Branch $branch does not exist");
+            }
+        }
+
+        $classroomBranches = $classroom->branches->pluck('name');
+        $branches = collect($branches);
+
+        $newBranches = $branches->diff($classroomBranches);
+        $removedBranches = $classroomBranches->diff($branches);
+
+        $removedBranches->map(function ($branch) use ($classroom) {
+
+            $branch = Branch::where('name', $branch)->first();
+            $branchClassroom = BranchClassroom::where('branch_id', $branch->id)->where('classroom_id', $classroom->id)->first();
+
+            // Check if the branch has students
+            if ($branchClassroom->students->count() > 1) {
+                return back()->with('error', "Cannot remove $classroom->name $branch->name because it has students");
+            }
+
+            // Remove the branch from the classroom
+            $classroom->branches()->detach($branch->id);
+        });
+
+        $newBranches->map(function ($branch) use ($classroom) {
+            $branch = Branch::where('name', $branch)->first();
+
+            $classroom->branches()->attach($branch->id);
+        });
+
+        return back()->with('success', 'Branches Updated!');
+    }
 }
