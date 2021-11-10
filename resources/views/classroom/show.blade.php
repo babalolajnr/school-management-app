@@ -76,7 +76,7 @@
                                             <div class="d-flex justify-content-between align-items-baseline">
                                                 <span class="font-semibold">Branches</span>
                                                 <span>
-                                                    <button class="btn btn-primary" onclick="showAssignTeacherModal()">Edit
+                                                    <button class="btn btn-primary" onclick="showEditBranchesModal()">Edit
                                                         Branches</button>
                                                 </span>
                                             </div>
@@ -84,7 +84,8 @@
                                         <div class="card-body">
                                             <div class="btn-group">
                                                 @foreach ($classroom->branches as $branch)
-                                                    <a href="{{ route('classroom.show.branch', ['classroom' => $classroom, 'branch' => $branch]) }}">
+                                                    <a
+                                                        href="{{ route('classroom.show.branch', ['classroom' => $classroom, 'branch' => $branch]) }}">
                                                         <button type="button" class="btn btn-default btn-flat">
                                                             {{ $branch->name }}
                                                         </button>
@@ -149,7 +150,7 @@
     </div>
 
     {{-- Send email confirmation modal --}}
-    <div class="modal fade" id="emailClassPerformanceReportConfirmationModal">
+    <div class="modal fade" id="email-class-performance-report-confirmation-modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -211,6 +212,48 @@
         <!-- /.modal-dialog -->
     </div>
 
+    {{-- Edit branches modal --}}
+    <div class="modal fade" id="edit-branches-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Branches</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('classroom.edit.branches', ['classroom' => $classroom]) }}" method="POST"
+                    id="edit-branches-form">
+                    @method('PATCH')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="Branches">Branches</label>
+                            <div class="form-group">
+                                @foreach (App\Models\Branch::all() as $branch)
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox" name="branches[]"
+                                            id="{{ $branch->name }}" value="{{ $branch->name }}"
+                                            @if ($classroom->branches->contains($branch)) checked=""@endif>
+                                        <label for="{{ $branch->name }}"
+                                            class="custom-control-label">{{ $branch->name }}</label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+    </div>
+
     <x-slot name="scripts">
 
         <!-- DataTables  & Plugins -->
@@ -247,7 +290,7 @@
 
             function emailClassPerformanceReportConfirmationModal(url) {
                 $('#yesSendEmailConfirmation').attr("href", url)
-                $('#emailClassPerformanceReportConfirmationModal').modal('show')
+                $('#email-class-performance-report-confirmation-modal').modal('show')
             }
 
             function showAssignTeacherModal() {
@@ -269,6 +312,10 @@
                 const selected = $("#teacherSelect").val()
                 $("#assignTeacherForm").attr('action', selected)
                 $("#assignTeacherForm").submit()
+            }
+
+            function showEditBranchesModal() {
+                $('#edit-branches-modal').modal('show');
             }
         </script>
     </x-slot>
