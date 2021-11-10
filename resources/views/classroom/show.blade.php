@@ -222,7 +222,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('classroom.edit.branches', ['classroom' => $classroom]) }}" method="POST"
+                <form action="{{ route('classroom.update.branches', ['classroom' => $classroom]) }}" method="POST"
                     id="edit-branches-form">
                     @method('PATCH')
                     @csrf
