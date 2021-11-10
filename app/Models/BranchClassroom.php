@@ -18,8 +18,8 @@ class BranchClassroom extends Pivot
      *
      * @return void
      */
-    public function student()
+    public function students()
     {
-        $this->hasMany(Student::class);
+        return $this->hasMany(Student::class, 'branch_classroom_id');
     }
 }
