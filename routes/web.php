@@ -202,6 +202,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::post('/store', [ClassroomController::class, 'store'])->name('store');
             Route::patch('/assign-teacher/{classroom:slug}/{teacherSlug}', [ClassroomController::class, 'assignTeacher'])->name('assign.teacher');
             Route::patch('/update/{classroom:slug}', [ClassroomController::class, 'update'])->name('update');
+            Route::patch('/update-branches/{classroom:slug}', [ClassroomController::class, 'updateBranches'])->name('update.branches');
             Route::delete('/delete/{classroom:slug}', [ClassroomController::class, 'destroy'])->name('destroy');
         });
 
