@@ -374,13 +374,13 @@ class ClassroomController extends Controller
     }
 
     /**
-     * Edit Branches
+     * Update Branches
      *
      * @param  Classroom $classroom
      * @param  Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function editBranches(Classroom $classroom, Request $request)
+    public function updateBranches(Classroom $classroom, Request $request)
     {
         $branches = $request->branches;
 
