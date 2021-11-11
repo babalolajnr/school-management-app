@@ -42,16 +42,6 @@ class Teacher extends Authenticatable implements CanResetPassword
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    /**
-     * Classroom relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function classroom()
-    {
-        return $this->hasOne(Classroom::class);
-    }
     
     /**
      * BranchClassroom relationship
@@ -60,7 +50,7 @@ class Teacher extends Authenticatable implements CanResetPassword
      */
     public function branchClassroom()
     {
-        return $this->hasOne(BranchClassroom::class);
+        return $this->belongsTo(BranchClassroom::class);
     }
 
     /**
