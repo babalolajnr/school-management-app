@@ -23,7 +23,7 @@
                         <h1>Student Settings</h1>
                     </div>
                     <div class="col-sm-6">
-                        
+
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -35,7 +35,6 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
-                        {{-- Teacher --}}
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">{{ $student->first_name . ' ' . $student->last_name }}</h3>
@@ -52,101 +51,130 @@
                                                 </div>
                                             @else
                                                 <div class="btn-group">
-                                                    <form action="@if ($student->isActive()) {{ route('student.deactivate', ['student' => $student]) }}
+                                                    <form action="             @if ($student->isActive())
+                                                        {{ route('student.deactivate', ['student' => $student]) }}
                                                     @else
-                                                        {{ route('student.activate', ['student' => $student]) }} @endif"
+                                                        {{ route('student.activate', ['student' => $student]) }}
+                                                        @endif"
                                                         method="post">
                                                         @csrf
                                                         @method('PATCH')
-                                                        <button type="submit" class="btn @if ($student->isActive()) btn-danger
+                                                        <button type="submit"
+                                                            class="btn @if ($student->isActive()) btn-danger
                                                         @else btn-success @endif btn-flat"
                                                             @if ($student->hasGraduated())
-                                                                disabled
-                                                            @endif>
-                                                            @if ($student->isActive())
-                                                                Deactivate
-                                                            @else
-                                                                Activate
-                                                            @endif
-                                                        </button>
-                                                    </form>
-                                                </div>
+                                                            disabled
+                                            @endif>
+                                            @if ($student->isActive())
+                                                Deactivate
+                                            @else
+                                                Activate
                                             @endif
+                                            </button>
+                                            </form>
                                         </div>
-                                        {{-- /Status --}}
+                                        @endif
                                     </div>
+                                    {{-- /Status --}}
+                                </div>
 
-                                    @if (!$student->hasGraduated())
-                                        {{-- class --}}
-                                        <div class="form-group row">
-                                            <label for="class" class="col-sm-2 col-form-label">Class
-                                                ({{ $student->classroom->name }})</label>
-                                            <div class="col-sm-10">
-                                                <div class="btn-group">
-                                                    <button type="button"
-                                                        onclick="changeClassConfirmationModal('{{ route('student.promote', ['student' => $student]) }}', {{ $student }}, 'promote')"
-                                                        class="btn btn-success btn-flat" @if ($student->canGraduate() || $student->hasGraduated()) disabled @endif>
-                                                        Promote
-                                                    </button>
-
-                                                    <button type="button"
-                                                        onclick="changeClassConfirmationModal('{{ route('student.demote', ['student' => $student]) }}',{{ $student }}, 'demote')"
-                                                        class="btn btn-danger btn-flat">
-                                                        Demote
-                                                    </button>
-                                                </div>
+                                <div class="form-horizontal">
+                                    <div class="form-group row">
+                                        <label for="classroom branch" class="col-sm-2 col-form-label">Classroom
+                                            Branch</label>
+                                        <div class="col-sm-10">
+                                            <div class="btn-group">
+                                                @foreach ($student->classroom->branches as $branch)
+                                                    <form
+                                                        action="{{ route('student.set.classroom.branch', ['student' => $student, 'branch' => $branch]) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        @if (App\Models\BranchClassroom::where('classroom_id', $student->classroom->id)->where('branch_id', $branch->id)->first()->id == $student->branchClassroom?->id)
+                                                            <button type="submit" class="btn btn-success btn-flat">
+                                                                {{ $branch->name }}
+                                                            </button>
+                                                        @else
+                                                            <button type="submit" class="btn btn-default btn-flat">
+                                                                {{ $branch->name }}
+                                                            </button>
+                                                        @endif
+                                                    </form>
+                                                @endforeach
                                             </div>
                                         </div>
-                                        {{-- /class --}}
+                                    </div>
+                                </div>
 
-                                        {{-- Set Graduation date --}}
-                                        @if ($student->canGraduate())
-                                            <form action="{{ route('student.graduate', ['student' => $student]) }}"
-                                                method="POST">
-                                                @csrf
-                                                @method('PATCH')
-                                                <div class="form-group row">
-                                                    <label for="class" class="col-sm-2 col-form-label">Set
-                                                        Graduation
-                                                        Date
-                                                        ({{ $currentAcademicSession->name }})</label>
-                                                    <div class="col-sm-2">
-                                                        <div class="input-group date" id="graduationDate"
-                                                            data-target-input="nearest">
-                                                            <input type="text"
-                                                                class="form-control @error('graduated_at') is-invalid @enderror datetimepicker-input"
-                                                                data-target="#graduationDate"
-                                                                value="{{ old('graduated_at') }}"
-                                                                name="graduated_at" />
-                                                            <div class="input-group-append"
-                                                                data-target="#graduationDate"
-                                                                data-toggle="datetimepicker">
-                                                                <div class="input-group-text"><i
-                                                                        class="fa fa-calendar"></i>
-                                                                </div>
+                                @if (!$student->hasGraduated())
+                                    {{-- class --}}
+                                    <div class="form-group row">
+                                        <label for="class" class="col-sm-2 col-form-label">Class
+                                            <a
+                                                href="{{ route('classroom.show', ['classroom' => $student->classroom]) }}">({{ $student->classroom->name }})</a></label>
+                                        <div class="col-sm-10">
+                                            <div class="btn-group">
+                                                <button type="button"
+                                                    onclick="changeClassConfirmationModal('{{ route('student.promote', ['student' => $student]) }}', {{ $student }}, 'promote')"
+                                                    class="btn btn-success btn-flat" @if ($student->canGraduate() || $student->hasGraduated()) disabled @endif>
+                                                    Promote
+                                                </button>
+
+                                                <button type="button"
+                                                    onclick="changeClassConfirmationModal('{{ route('student.demote', ['student' => $student]) }}',{{ $student }}, 'demote')"
+                                                    class="btn btn-danger btn-flat">
+                                                    Demote
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- /class --}}
+
+                                    {{-- Set Graduation date --}}
+                                    @if ($student->canGraduate())
+                                        <form action="{{ route('student.graduate', ['student' => $student]) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <div class="form-group row">
+                                                <label for="class" class="col-sm-2 col-form-label">Set
+                                                    Graduation
+                                                    Date
+                                                    ({{ $currentAcademicSession->name }})</label>
+                                                <div class="col-sm-2">
+                                                    <div class="input-group date" id="graduationDate"
+                                                        data-target-input="nearest">
+                                                        <input type="text"
+                                                            class="form-control @error('graduated_at') is-invalid @enderror datetimepicker-input"
+                                                            data-target="#graduationDate"
+                                                            value="{{ old('graduated_at') }}" name="graduated_at" />
+                                                        <div class="input-group-append" data-target="#graduationDate"
+                                                            data-toggle="datetimepicker">
+                                                            <div class="input-group-text"><i class="fa fa-calendar"></i>
                                                             </div>
                                                         </div>
-                                                        @error('graduated_at')
-                                                            <div class="text-danger">{{ $message }}</div>
-                                                        @enderror
+                                                    </div>
+                                                    @error('graduated_at')
+                                                        <div class="text-danger">{{ $message }}</div>
+                                                    @enderror
 
-                                                    </div>
-                                                    <div class="col-sm-3">
-                                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                                    </div>
                                                 </div>
-                                            </form>
-                                        @endif
-
-                                        {{-- /Set graduation date --}}
+                                                <div class="col-sm-3">
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                </div>
+                                            </div>
+                                        </form>
                                     @endif
 
-                                </div>
+                                    {{-- /Set graduation date --}}
+                                @endif
+
                             </div>
                         </div>
-
                     </div>
+
                 </div>
+            </div>
         </section>
         <!-- /.content -->
 

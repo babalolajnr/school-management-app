@@ -4,6 +4,7 @@ use App\Http\Controllers\AcademicSessionController;
 use App\Http\Controllers\ADController;
 use App\Http\Controllers\ADTypeController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\BranchController;
 use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeactivatedController;
@@ -126,6 +127,14 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::post('/store', [NotificationController::class, 'store'])->name('store');
         });
 
+        Route::prefix('branches')->name('branch.')->group(function () {
+            Route::get('/', [BranchController::class, 'index'])->name('index');
+            Route::get('/edit/{branch:name}', [BranchController::class, 'edit'])->name('edit');
+            Route::post('/store', [BranchController::class, 'store'])->name('store');
+            Route::patch('/update/{branch:name}', [BranchController::class, 'update'])->name('update');
+            Route::delete('/delete/{branch:name}', [BranchController::class, 'destroy'])->name('destroy');
+        });
+
         Route::prefix('users')->name('user.')->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('index');
             Route::get('/{user:email}', [UserController::class, 'show'])->name('show');
@@ -175,6 +184,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::patch('/promote/{student}', [StudentController::class, 'promote'])->name('promote');
             Route::patch('/demote/{student}', [StudentController::class, 'demote'])->name('demote');
             Route::patch('/graduate/{student}', [StudentController::class, 'graduate'])->name('graduate');
+            Route::patch('/set-classroom-branch/{student}/{branch}', [StudentController::class, 'setClassroomBranch'])->name('set.classroom.branch');
             Route::patch('/restore/{id}', [StudentController::class, 'restore'])->name('restore');
             Route::delete('/delete/{student}', [StudentController::class, 'destroy'])->name('destroy');
             Route::delete('/force-delete/{id}', [StudentController::class, 'forceDelete'])->name('force.delete');
@@ -185,6 +195,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::get('/', [ClassroomController::class, 'index'])->name('index');
             Route::get('/edit/{classroom:slug}', [ClassroomController::class, 'edit'])->name('edit');
             Route::get('/set-subjects/{classroom:slug}', [ClassroomController::class, 'setSubjects'])->name('set.subjects');
+            Route::get('show/{classroom:slug}/{branch:name}', [ClassroomController::class, 'showBranch'])->name('show.branch');
             Route::get('/promote-or-demote-students/{classroom:slug}', [ClassroomController::class, 'promoteOrDemoteStudents'])->name('promote.or.demote.students');
             Route::post('/update-subjects/{classroom:slug}', [ClassroomController::class, 'updateSubjects'])->name('update.subjects');
             Route::post('/promote-students/{classroom:slug}', [ClassroomController::class, 'promoteStudents'])->name('promote.students');
@@ -192,6 +203,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::post('/store', [ClassroomController::class, 'store'])->name('store');
             Route::patch('/assign-teacher/{classroom:slug}/{teacherSlug}', [ClassroomController::class, 'assignTeacher'])->name('assign.teacher');
             Route::patch('/update/{classroom:slug}', [ClassroomController::class, 'update'])->name('update');
+            Route::patch('/update-branches/{classroom:slug}', [ClassroomController::class, 'updateBranches'])->name('update.branches');
             Route::delete('/delete/{classroom:slug}', [ClassroomController::class, 'destroy'])->name('destroy');
         });
 

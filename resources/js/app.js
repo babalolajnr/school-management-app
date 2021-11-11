@@ -82,7 +82,7 @@ function setActiveSidebarLink() {
 
     // All sidebar links and their children
     const routes = {
-        "school-management": ["academic-session", "period", "fee", "classroom", "term", "subject", "teacher"],
+        "school-management": ["academic-session", "period", "fee", "classroom", "term", "subject", "teacher", "branch"],
         "student-management": ["student.index", "student.create", "student.get.alumni", "student.get.inactive", "pd-type", "ad-type"],
         "app-management": ["user", "notification"],
         "dashboard": []

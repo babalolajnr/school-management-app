@@ -90,6 +90,12 @@
                                    </a>
                                </li>
                                <li class="nav-item">
+                                   <a href="{{ route('branch.index') }}" class="nav-link" id="branch">
+                                       <i class="nav-icon fas fa-code-branch"></i>
+                                       <p>Branches</p>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
                                    <a href="{{ route('term.index') }}" class="nav-link" id="term">
                                        <i class="nav-icon fas fa-clock"></i>
                                        <p>Terms</p>
