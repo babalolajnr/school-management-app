@@ -366,7 +366,7 @@ class ClassroomController extends Controller
     public function showBranch(Classroom $classroom, Branch $branch)
     {
         $branchClassroomId = BranchClassroom::where('classroom_id', $classroom->id)
-            ->where('branch_id', $branch->id)->first();
+            ->where('branch_id', $branch->id)->first()->id;
         $students = Student::where('branch_classroom_id', $branchClassroomId)->get();
 
         return view('classroom.branch', compact('students', 'branch', 'classroom'));
