@@ -56,24 +56,6 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <div class="d-flex justify-content-between align-items-baseline">
-                                                <span class="font-semibold">Class Teacher</span>
-                                                <span>
-                                                    <button class="btn btn-primary"
-                                                        onclick="showAssignTeacherModal()">Assign Teacher</button>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="card-body">
-                                            @if ($classroom->teacher)
-                                                <a href="{{ route('teacher.show', ['teacher' => $classroom->teacher]) }}">
-                                                    {{ $classroom->teacher->first_name . ' ' . $classroom->teacher->last_name }}
-                                                </a>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <div class="d-flex justify-content-between align-items-baseline">
                                                 <span class="font-semibold">Branches</span>
                                                 <span>
                                                     <button class="btn btn-primary" onclick="showEditBranchesModal()">Edit
@@ -174,44 +156,6 @@
         <!-- /.modal-dialog -->
     </div>
 
-    {{-- Assign Teacher modal --}}
-    <div class="modal fade" id="assignTeacherModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Assign Teacher</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="Teachers">Teachers</label>
-                        <select class="form-control select2" id="teacherSelect" style="width: 100%;">
-                            @foreach ($teachers as $teacher)
-                                <option @if ($classroomTeacher->id == $teacher->id) SELECTED @endif
-                                    value="{{ route('classroom.assign.teacher', ['classroom' => $classroom, 'teacherSlug' => $teacher->slug]) }}">
-                                    {{ "{$teacher->first_name} {$teacher->last_name}" }} @if ($teacher->classroom) {{ "({$teacher->classroom->name})" }}
-                                    @endif
-                                </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <form action="" method="POST" id="assignTeacherForm">
-                        @method('PATCH')
-                        @csrf
-                        <button type="button" onclick="assignTeacher()" class="btn btn-success">Submit</button>
-                    </form>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-
     {{-- Edit branches modal --}}
     <div class="modal fade" id="edit-branches-modal">
         <div class="modal-dialog">
@@ -293,10 +237,6 @@
                 $('#email-class-performance-report-confirmation-modal').modal('show')
             }
 
-            function showAssignTeacherModal() {
-                $('#assignTeacherModal').modal('show')
-            }
-
             //datatables
             $(function() {
                 $("#example1").DataTable({
@@ -307,12 +247,6 @@
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
             });
-
-            function assignTeacher() {
-                const selected = $("#teacherSelect").val()
-                $("#assignTeacherForm").attr('action', selected)
-                $("#assignTeacherForm").submit()
-            }
 
             function showEditBranchesModal() {
                 $('#edit-branches-modal').modal('show');
