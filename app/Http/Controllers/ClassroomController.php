@@ -44,7 +44,7 @@ class ClassroomController extends Controller
      */
     public function index()
     {
-        $classrooms = Classroom::with('teacher')->get()->sortBy('rank');
+        $classrooms = Classroom::all()->sortBy('rank');
         return view('classroom.index', compact('classrooms'));
     }
 
@@ -138,7 +138,7 @@ class ClassroomController extends Controller
             $currentAcademicSession = $activePeriod->academicSession;
         }
 
-        $teachers = Teacher::with('classroom')->whereIsActive(true)->get();
+        $teachers = Teacher::whereIsActive(true)->get();
         $classroomTeacher = $classroom->teacher;
         $subjects = $classroom->subjects()->where('academic_session_id', $currentAcademicSession->id)->get();
         return view('classroom.show', compact('students', 'classroom', 'academicSessions', 'terms', 'subjects', 'teachers', 'classroomTeacher'));
