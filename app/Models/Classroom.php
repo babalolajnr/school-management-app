@@ -32,16 +32,6 @@ class Classroom extends Model
     }
 
     /**
-     * Teacher relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function teacher()
-    {
-        return $this->belongsTo(Teacher::class);
-    }
-
-    /**
      * Fee relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
