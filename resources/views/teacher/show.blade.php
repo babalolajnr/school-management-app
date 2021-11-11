@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-         
+
         <!-- DataTables -->
         <link rel="stylesheet"
             href="{{ asset('TAssets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
@@ -10,7 +10,7 @@
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        
+
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -18,7 +18,7 @@
                         <h1>{{ $teacher->name }}</h1>
                     </div>
                     <div class="col-sm-6">
-                        
+
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -36,7 +36,9 @@
                             <div class="card card-primary card-outline">
                                 <div class="card-body box-profile">
                                     <div class="text-center">
-                                    <img class="profile-user-img img-fluid img-circle" src="@if ($teacher->image) {{ asset($teacher->image) }} @else
+                                        <img class="profile-user-img img-fluid img-circle" src="
+                                          @if ($teacher->image)
+                                    {{ asset($teacher->image) }} @else
                                         {{ asset('images/user1.svg') }} @endif"
                                         alt="teacher image">
                                     </div>
@@ -124,16 +126,13 @@
                                             <hr>
                                             <strong></i>Class</strong>
 
-                                            @if ($teacher->classroom)
-                                                <a
-                                                    href="{{ route('classroom.show', ['classroom' => $teacher->classroom]) }}">
-                                                    <p class="text-info" id="classroom">
-                                                        {{ $teacher->classroom->name }}
-                                                    </p>
-                                                </a>
-                                            @else
-                                                <p class="text-muted">-</p>
-                                            @endif
+                                            <a
+                                                href="{{ route('classroom.show.branch', ['classroom' => $teacher->branchClassroom?->classroom, 'branch' => $teacher->branchClassroom?->branch]) }}">
+                                                <p class="text-info" id="classroom">
+                                                    {{ $teacher->branchClassroom?->classroom->name }}
+                                                    ({{ $teacher->branchClassroom?->branch->name }})
+                                                </p>
+                                            </a>
 
                                             <hr>
 
@@ -157,7 +156,8 @@
                                                                 method="post">
                                                                 @csrf
                                                                 @method('PATCH')
-                                                                <button type="submit" class="btn @if ($teacher->isActive()) btn-primary
+                                                                <button type="submit"
+                                                                    class="btn @if ($teacher->isActive()) btn-primary
                                                                 disabled @else btn-default @endif
                                                                     btn-flat"
                                                                     @if ($teacher->isActive()) disabled
@@ -170,7 +170,8 @@
                                                                 method="post">
                                                                 @csrf
                                                                 @method('PATCH')
-                                                                <button type="submit" class="btn @if (!$teacher->isActive()) btn-primary
+                                                                <button type="submit"
+                                                                    class="btn @if (!$teacher->isActive()) btn-primary
                                                                 disabled @else btn-default @endif
                                                                     btn-flat"
                                                                     @if (!$teacher->isActive()) disabled
@@ -221,10 +222,10 @@
                                                     @method('PATCH')
                                                     <div class="form-group">
                                                         <label for="old_password">Current password</label>
-                                                        <input type="password" class="form-control @error('current_password')
-                                                                                                            is-invalid
-                                                                @enderror" placeholder="Enter current password"
-                                                            name="current_password" required>
+                                                        <input type="password"
+                                                            class="form-control @error('current_password') is-invalid @enderror"
+                                                            placeholder="Enter current password" name="current_password"
+                                                            required>
                                                         @error('current_password')
                                                             <div class="text-danger">
                                                                 {{ $message }}
@@ -233,10 +234,9 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="new_password">New password</label>
-                                                        <input type="password" class="form-control @error('new_password')
-                                                                                                            is-invalid
-                                                                @enderror" placeholder="Enter new password"
-                                                            name="new_password" required>
+                                                        <input type="password"
+                                                            class="form-control @error('new_password') is-invalid @enderror"
+                                                            placeholder="Enter new password" name="new_password" required>
                                                         @error('new_password')
                                                             <div class="text-danger">
                                                                 {{ $message }}
@@ -245,8 +245,10 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="confirm_password">Cofirm password</label>
-                                                        <input type="password" class="form-control @error('new_password_confirmation') is-invalid
-                                                                @enderror" placeholder="Confirm new password"
+                                                        <input type="password"
+                                                            class="form-control @error('new_password_confirmation') is-invalid
+                                                                @enderror"
+                                                            placeholder="Confirm new password"
                                                             name="new_password_confirmation" required>
                                                         @error('new_password_confirmation')
                                                             <div class="text-danger">
@@ -279,7 +281,7 @@
 
     {{-- /edit teacher modal --}}
     <x-slot name="scripts">
-         
+
         <!-- AdminLTE App -->
     </x-slot>
 </x-app-layout>
