@@ -73,18 +73,11 @@ class BranchController extends Controller
      */
     public function destroy(Branch $branch)
     {
-        try {
-            $branch->delete();
-        } catch (\Illuminate\Database\QueryException $e) {
-            if ($e->getCode() == 23000) {
-                //SQLSTATE[23000]: Integrity constraint violation
-                return back()->with('error', 'Branch can not be deleted because some resources are dependent on it!');
-            }
-        }
-
+        if ($branch->classrooms->count() > 0) return back()->with('error', 'Branch can not be deleted because some resources are dependent on it!');
+        $branch->delete();
         return back()->with('success', 'Branch deleted');
     }
-    
+
     /**
      * Assign teachers to classroom branch
      *
