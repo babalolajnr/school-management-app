@@ -16,7 +16,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>{{ $classroom->name }}-{{ $branch->name }}</h1>
+                        <h1>{{ $branchClassroom->classroom->name }} ({{ $branchClassroom->branch->name }})</h1>
                     </div>
                     <div class="col-sm-6 d-flex justify-content-end">
                         <a href="{{ route('classroom.promote.or.demote.students', ['classroom' => $classroom]) }}"><button
@@ -47,7 +47,7 @@
                                 @endauth
                             </div>
                             <div class="card-body">
-                                <x-students-table :students="$students" />
+                                <x-students-table :students="$branchClassroom->students" />
                             </div>
                         </div>
                         @auth('web')
@@ -56,19 +56,19 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <div class="d-flex justify-content-between align-items-baseline">
-                                                <span class="font-semibold">Class Teacher</span>
+                                                <span class="font-semibold">Class Teachers</span>
                                                 <span>
                                                     <button class="btn btn-primary"
-                                                        onclick="showAssignTeacherModal()">Assign Teacher</button>
+                                                        onclick="showAssignTeachersModal()">Assign Teachers</button>
                                                 </span>
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            {{-- @if ($classroom->teacher)
-                                                <a href="{{ route('teacher.show', ['teacher' => $classroom->teacher]) }}">
-                                                    {{ $classroom->teacher->first_name . ' ' . $classroom->teacher->last_name }}
+                                            @foreach ($branchClassroom->teachers as $teacher)
+                                                <a href="{{ route('teacher.show', ['teacher' => $teacher]) }}">
+                                                    {{ "$teacher->first_name $teacher->last_name, " }}
                                                 </a>
-                                            @endif --}}
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -131,38 +131,41 @@
         <!-- /.modal-dialog -->
     </div>
 
-    {{-- Assign Teacher modal --}}
-    <div class="modal fade" id="assignTeacherModal">
+    {{-- Assign Teachers modal --}}
+    <div class="modal fade" id="assignTeachersModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Assign Teacher</h4>
+                    <h4 class="modal-title">Assign Teachers</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="Teachers">Teachers</label>
-                        <select class="form-control select2" id="teacherSelect" style="width: 100%;">
-                            {{-- @foreach ($teachers as $teacher)
-                                <option @if ($classroomTeacher->id == $teacher->id) SELECTED @endif
-                                    value="{{ route('classroom.assign.teacher', ['classroom' => $classroom, 'teacherSlug' => $teacher->slug]) }}">
-                                    {{ "{$teacher->first_name} {$teacher->last_name}" }} @if ($teacher->classroom) {{ "({$teacher->classroom->name})" }}
-                                    @endif
-                                </option>
-                            @endforeach --}}
-                        </select>
+                <form action="{{ route('branch.assign.teachers', ['branchClassroom' => $branchClassroom]) }}"
+                    method="POST" id="assign-teachers-form">
+                    @method('PATCH')
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="Teacher">Teacher</label>
+                            <div class="form-group">
+                                @foreach (App\Models\Teacher::all() as $teacher)
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox" name="teachers[]"
+                                            id="{{ $teacher->slug }}" @if ($branchClassroom->teachers->contains($teacher)) checked="" @endif
+                                            value="{{ $teacher->slug }}">
+                                        <label for="{{ $teacher->slug }}"
+                                            class="custom-control-label">{{ "$teacher->first_name $teacher->last_name" }}</label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <form action="" method="POST" id="assignTeacherForm">
-                        @method('PATCH')
-                        @csrf
-                        <button type="button" onclick="assignTeacher()" class="btn btn-success">Submit</button>
-                    </form>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
             </div>
             <!-- /.modal-content -->
         </div>
@@ -208,8 +211,8 @@
                 $('#emailClassPerformanceReportConfirmationModal').modal('show')
             }
 
-            function showAssignTeacherModal() {
-                $('#assignTeacherModal').modal('show')
+            function showAssignTeachersModal() {
+                $('#assignTeachersModal').modal('show')
             }
 
             //datatables
@@ -222,12 +225,6 @@
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
             });
-
-            function assignTeacher() {
-                const selected = $("#teacherSelect").val()
-                $("#assignTeacherForm").attr('action', selected)
-                $("#assignTeacherForm").submit()
-            }
         </script>
     </x-slot>
 </x-app-layout>
