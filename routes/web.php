@@ -132,6 +132,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::get('/edit/{branch:name}', [BranchController::class, 'edit'])->name('edit');
             Route::post('/store', [BranchController::class, 'store'])->name('store');
             Route::patch('/update/{branch:name}', [BranchController::class, 'update'])->name('update');
+            Route::patch('/assign-teachers/{branchClassroom}', [BranchController::class, 'assignTeachers'])->name('assign.teachers');
             Route::delete('/delete/{branch:name}', [BranchController::class, 'destroy'])->name('destroy');
         });
 
