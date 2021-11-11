@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
+use App\Models\BranchClassroom;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class BranchController extends Controller
@@ -81,5 +83,36 @@ class BranchController extends Controller
         }
 
         return back()->with('success', 'Branch deleted');
+    }
+    
+    /**
+     * Assign teachers to classroom branch
+     *
+     * @param  BranchClassroom $branchClassroom
+     * @param  Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function assignTeachers(BranchClassroom $branchClassroom, Request $request)
+    {
+        $teachers = $request->teachers;
+
+        foreach ($teachers as $teacher) {
+
+            // Validate if all the selected teachers exist
+            if (!Teacher::where('slug', $teacher)->exists()) {
+                return back()->with('error', "Teacher $teacher does not exist");
+            }
+        }
+
+        $teachers = collect($teachers);
+
+        $teachers->map(function ($teacher) use ($branchClassroom) {
+            $teacher = Teacher::where('slug', $teacher)->first();
+
+            $teacher->branch_classroom_id = $branchClassroom->id;
+            $teacher->save();
+        });
+
+        return back()->with('success', 'Teachers assigned to classroom');
     }
 }
