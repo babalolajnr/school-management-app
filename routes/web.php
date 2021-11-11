@@ -184,6 +184,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::patch('/promote/{student}', [StudentController::class, 'promote'])->name('promote');
             Route::patch('/demote/{student}', [StudentController::class, 'demote'])->name('demote');
             Route::patch('/graduate/{student}', [StudentController::class, 'graduate'])->name('graduate');
+            Route::patch('/set-classroom-branch/{student}/{branch}', [StudentController::class, 'setClassroomBranch'])->name('set.classroom.branch');
             Route::patch('/restore/{id}', [StudentController::class, 'restore'])->name('restore');
             Route::delete('/delete/{student}', [StudentController::class, 'destroy'])->name('destroy');
             Route::delete('/force-delete/{id}', [StudentController::class, 'forceDelete'])->name('force.delete');
