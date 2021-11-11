@@ -52,6 +52,16 @@ class Teacher extends Authenticatable implements CanResetPassword
     {
         return $this->hasOne(Classroom::class);
     }
+    
+    /**
+     * BranchClassroom relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function branchClassroom()
+    {
+        return $this->hasOne(BranchClassroom::class);
+    }
 
     /**
      * TeacherRemark relationship
