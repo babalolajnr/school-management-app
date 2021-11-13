@@ -37,7 +37,7 @@
                                 <div class="card-body box-profile">
                                     <div class="text-center">
                                         <img class="profile-user-img img-fluid img-circle" src="
-                                          @if ($teacher->image)
+                                            @if ($teacher->image)
                                     {{ asset($teacher->image) }} @else
                                         {{ asset('images/user1.svg') }} @endif"
                                         alt="teacher image">
@@ -125,14 +125,17 @@
 
                                             <hr>
                                             <strong></i>Class</strong>
-
-                                            <a
-                                                href="{{ route('classroom.show.branch', ['classroom' => $teacher->branchClassroom?->classroom, 'branch' => $teacher->branchClassroom?->branch]) }}">
-                                                <p class="text-info" id="classroom">
-                                                    {{ $teacher->branchClassroom?->classroom->name }}
-                                                    ({{ $teacher->branchClassroom?->branch->name }})
-                                                </p>
-                                            </a>
+                                            @if ($teacher->branchClassroom)
+                                                <a
+                                                    href="{{ route('classroom.show.branch', ['classroom' => $teacher->branchClassroom->classroom, 'branch' => $teacher->branchClassroom->branch]) }}">
+                                                    <p class="text-info" id="classroom">
+                                                        {{ $teacher->branchClassroom->classroom->name }}
+                                                        ({{ $teacher->branchClassroom->branch->name }})
+                                                    </p>
+                                                </a>
+                                            @else
+                                                null
+                                            @endif
 
                                             <hr>
 
