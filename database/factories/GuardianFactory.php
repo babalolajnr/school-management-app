@@ -23,13 +23,13 @@ class GuardianFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->title,
-            'first_name' => $this->faker->firstName,
-            'last_name' => $this->faker->lastName,
-            'email' => $this->faker->email,
-            'phone' => $this->faker->e164PhoneNumber,
-            'occupation' => $this->faker->jobTitle,
-            'address' => $this->faker->address
+            'title' => $this->faker->title(),
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'email' => $this->faker->email(),
+            'phone' => $this->faker->e164PhoneNumber(),
+            'occupation' => $this->faker->jobTitle(),
+            'address' => $this->faker->address()
         ];
     }
 }
