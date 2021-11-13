@@ -29,7 +29,7 @@ class TeacherRemarkFactory extends Factory
             'remark' => $this->faker->realText(),
             'student_id' => $student->id,
             'period_id' => Period::factory()->create(['active' => true])->id,
-            'teacher_id' => $student->classroom->teacher->id,
+            'teacher_id' => $student->branchClassroom?->teacher?->id,
         ];
     }
 }
