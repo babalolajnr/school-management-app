@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\BranchClassroom;
 use App\Models\Period;
 use App\Models\TeacherRemark;
 use App\Models\Student;
@@ -21,25 +22,22 @@ class TeacherRemarkTest extends TestCase
         $this->withoutExceptionHandling();
 
         $student = Student::factory()->create();
-        $teacher = $student->classroom->teacher;
+        $teacher = Teacher::factory()->create(['branch_classroom_id' => $student->branch_classroom_id]);
         Period::factory()->create(['active' => true]);
 
         $response = $this->actingAs($teacher, 'teacher')->get(route('remark.teacher.create', ['student' => $student]));
-
         $response->assertStatus(200);
     }
 
 
     public function test_non_class_teacher_cannot_get_teacher_remark_screen()
     {
-
         $student = Student::factory()->create();
-        $teacher = Teacher::factory()->create(['is_active' => true]);
-        
+        $teacher = Teacher::factory()->create(['branch_classroom_id' => BranchClassroom::where('classroom_id', '!=', $student->classroom->id)->first()->id]);
+
         Period::factory()->create(['active' => true]);
 
         $response = $this->actingAs($teacher, 'teacher')->get(route('remark.teacher.create', ['student' => $student]));
-
         $response->assertStatus(403);
     }
 
@@ -48,7 +46,7 @@ class TeacherRemarkTest extends TestCase
         $this->withoutExceptionHandling();
 
         $student = Student::factory()->create();
-        $teacher = $student->classroom->teacher;
+        $teacher = Teacher::factory()->create(['branch_classroom_id' => $student->branch_classroom_id]);
 
         Period::factory()->create(['active' => true]);
 
@@ -66,9 +64,9 @@ class TeacherRemarkTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $student = Student::factory()->create();
-        $teacher = $student->classroom->teacher;
+        $teacher = Teacher::factory()->create(['branch_classroom_id' => $student->branch_classroom_id]);
 
-        TeacherRemark::factory()->create(['student_id' => $student->id]);
+        TeacherRemark::factory()->create(['student_id' => $student->id, 'teacher_id' => $teacher->id]);
 
         $response = $this->actingAs($teacher, 'teacher')->post(
             route('remark.teacher.storeOrUpdate', ['student' => $student]),
