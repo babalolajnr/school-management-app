@@ -103,15 +103,6 @@ class ClassroomTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_teacher_can_be_assigned_to_classroom()
-    {
-        $classroom = Classroom::factory()->create();
-        $user = User::factory()->create();
-        $teacher = Teacher::factory()->create(['is_active' => true]);
-        $response = $this->actingAs($user)->patch(route('classroom.assign.teacher', ['classroom' => $classroom, 'teacherSlug' => $teacher->slug]));
-        $response->assertStatus(302)->assertSessionHas('success');
-    }
-
     public function test_user_can_promote_students()
     {
         $this->withoutExceptionHandling();
