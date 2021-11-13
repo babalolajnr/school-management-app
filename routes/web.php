@@ -53,6 +53,8 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
 
     Route::get('/classrooms/view/{classroom:slug}', [ClassroomController::class, 'show'])->name('classroom.show')->middleware('classTeacherOrUser');
 
+    Route::get('/classrooms/show/{classroom:slug}/{branch:name}', [ClassroomController::class, 'showBranch'])->name('classroom.show.branch');
+
     Route::get('teachers/view/{teacher:slug}', [TeacherController::class, 'show'])->name('teacher.show');
 
     Route::prefix('teachers')->name('teacher.')->middleware('auth:teacher')->group(function () {
@@ -129,10 +131,11 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
 
         Route::prefix('branches')->name('branch.')->group(function () {
             Route::get('/', [BranchController::class, 'index'])->name('index');
-            Route::get('/edit/{branch:name}', [BranchController::class, 'edit'])->name('edit');
+            Route::get('/edit/{branch}', [BranchController::class, 'edit'])->name('edit');
             Route::post('/store', [BranchController::class, 'store'])->name('store');
-            Route::patch('/update/{branch:name}', [BranchController::class, 'update'])->name('update');
-            Route::delete('/delete/{branch:name}', [BranchController::class, 'destroy'])->name('destroy');
+            Route::patch('/update/{branch}', [BranchController::class, 'update'])->name('update');
+            Route::patch('/assign-teachers/{branchClassroom}', [BranchController::class, 'assignTeachers'])->name('assign.teachers');
+            Route::delete('/delete/{branch}', [BranchController::class, 'destroy'])->name('destroy');
         });
 
         Route::prefix('users')->name('user.')->group(function () {
@@ -195,7 +198,6 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::get('/', [ClassroomController::class, 'index'])->name('index');
             Route::get('/edit/{classroom:slug}', [ClassroomController::class, 'edit'])->name('edit');
             Route::get('/set-subjects/{classroom:slug}', [ClassroomController::class, 'setSubjects'])->name('set.subjects');
-            Route::get('show/{classroom:slug}/{branch:name}', [ClassroomController::class, 'showBranch'])->name('show.branch');
             Route::get('/promote-or-demote-students/{classroom:slug}', [ClassroomController::class, 'promoteOrDemoteStudents'])->name('promote.or.demote.students');
             Route::post('/update-subjects/{classroom:slug}', [ClassroomController::class, 'updateSubjects'])->name('update.subjects');
             Route::post('/promote-students/{classroom:slug}', [ClassroomController::class, 'promoteStudents'])->name('promote.students');

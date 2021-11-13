@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Branch;
+use App\Models\BranchClassroom;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class BranchController extends Controller
@@ -71,15 +73,39 @@ class BranchController extends Controller
      */
     public function destroy(Branch $branch)
     {
-        try {
-            $branch->delete();
-        } catch (\Illuminate\Database\QueryException $e) {
-            if ($e->getCode() == 23000) {
-                //SQLSTATE[23000]: Integrity constraint violation
-                return back()->with('error', 'Branch can not be deleted because some resources are dependent on it!');
+        if ($branch->classrooms->count() > 0) return back()->with('error', 'Branch can not be deleted because some resources are dependent on it!');
+        $branch->delete();
+        return back()->with('success', 'Branch deleted');
+    }
+
+    /**
+     * Assign teachers to classroom branch
+     *
+     * @param  BranchClassroom $branchClassroom
+     * @param  Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function assignTeachers(BranchClassroom $branchClassroom, Request $request)
+    {
+        $teachers = $request->teachers;
+
+        foreach ($teachers as $teacher) {
+
+            // Validate if all the selected teachers exist
+            if (!Teacher::where('slug', $teacher)->exists()) {
+                return back()->with('error', "Teacher $teacher does not exist");
             }
         }
 
-        return back()->with('success', 'Branch deleted');
+        $teachers = collect($teachers);
+
+        $teachers->map(function ($teacher) use ($branchClassroom) {
+            $teacher = Teacher::where('slug', $teacher)->first();
+
+            $teacher->branch_classroom_id = $branchClassroom->id;
+            $teacher->save();
+        });
+
+        return back()->with('success', 'Teachers assigned to classroom');
     }
 }

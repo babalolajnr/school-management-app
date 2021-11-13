@@ -16,15 +16,13 @@ class CheckUserIsStudentClassroomTeacher
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth('teacher')->check()) {
+        if (!auth('teacher')->check()) abort(403);
 
-            //if request teacher doesn't have a classroom
-            if (is_null($request->user()->classroom)) abort(403);
+        //if request teacher doesn't have a classroom
+        if (is_null($request->user()->branchClassroom)) abort(403);
 
-            //check if authenticated teacher is the classteacher of the classroom to be viewed
-            if (!$request->user()->classroom->id === $request->route('student')->classroom->id) abort(403);
-            
-        } else abort(403);
+        //check if authenticated teacher is the classteacher of the classroom to be viewed
+        if ($request->user()->branchClassroom->id != $request->route('student')->branchClassroom->id) abort(403);
 
         return $next($request);
     }

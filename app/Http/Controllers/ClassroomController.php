@@ -44,7 +44,7 @@ class ClassroomController extends Controller
      */
     public function index()
     {
-        $classrooms = Classroom::with('teacher')->get()->sortBy('rank');
+        $classrooms = Classroom::all()->sortBy('rank');
         return view('classroom.index', compact('classrooms'));
     }
 
@@ -138,7 +138,7 @@ class ClassroomController extends Controller
             $currentAcademicSession = $activePeriod->academicSession;
         }
 
-        $teachers = Teacher::with('classroom')->whereIsActive(true)->get();
+        $teachers = Teacher::whereIsActive(true)->get();
         $classroomTeacher = $classroom->teacher;
         $subjects = $classroom->subjects()->where('academic_session_id', $currentAcademicSession->id)->get();
         return view('classroom.show', compact('students', 'classroom', 'academicSessions', 'terms', 'subjects', 'teachers', 'classroomTeacher'));
@@ -365,11 +365,10 @@ class ClassroomController extends Controller
      */
     public function showBranch(Classroom $classroom, Branch $branch)
     {
-        $branchClassroomId = BranchClassroom::where('classroom_id', $classroom->id)
-            ->where('branch_id', $branch->id)->first()->id;
-        $students = Student::where('branch_classroom_id', $branchClassroomId)->get();
+        $branchClassroom = BranchClassroom::where('classroom_id', $classroom->id)
+            ->where('branch_id', $branch->id)->first();
 
-        return view('classroom.branch', compact('students', 'branch', 'classroom'));
+        return view('classroom.branch', compact('branch', 'classroom', 'branchClassroom'));
     }
 
     /**

@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-         
+
         <!-- DataTables -->
         <link rel="stylesheet" href="{{ asset('TAssets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
         <link rel="stylesheet"
@@ -11,7 +11,7 @@
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        
+
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -19,7 +19,7 @@
                         <h1>Classrooms</h1>
                     </div>
                     <div class="col-sm-6">
-                        
+
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -66,7 +66,6 @@
                                         <tr>
                                             <th>Rank</th>
                                             <th>Name</th>
-                                            <th>Class teacher</th>
                                             <th>Population</th>
                                             <th>Action</th>
                                         </tr>
@@ -79,12 +78,6 @@
                                                 </td>
                                                 <td>
                                                     {{ $classroom->name }}
-                                                </td>
-
-                                                <td>
-                                                    @if ($classroom->teacher)
-                                                        {{ "{$classroom->teacher->first_name} {$classroom->teacher->last_name}" }}
-                                                    @endif
                                                 </td>
                                                 <td>
                                                     {{ $classroom->countActiveStudents() }}
@@ -120,7 +113,6 @@
                                         <tr>
                                             <th>Rank</th>
                                             <th>Name</th>
-                                            <th>Class teacher</th>
                                             <th>Population</th>
                                             <th>Action</th>
                                         </tr>
@@ -161,7 +153,7 @@
     </div>
 
     <x-slot name="scripts">
-         
+
         <!-- DataTables  & Plugins -->
         <script src="{{ asset('TAssets/plugins/datatables/jquery.dataTables.min.js') }}">
         </script>
@@ -192,7 +184,7 @@
                 $('#deleteItemName').html(name)
                 $('#deleteConfirmationModal').modal('show')
             }
-            
+
             $(function() {
                 $("#example1").DataTable({
                     "responsive": true,
@@ -202,7 +194,6 @@
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
             });
-
         </script>
     </x-slot>
 </x-app-layout>

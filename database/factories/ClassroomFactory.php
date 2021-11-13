@@ -29,7 +29,6 @@ class ClassroomFactory extends Factory
             'name' => $class['name'],
             'rank' => $class['rank'],
             'slug' => $slug,
-            'teacher_id' => Teacher::factory()->create(['is_active' => true])->id
         ];
     }
 
