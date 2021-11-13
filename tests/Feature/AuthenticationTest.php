@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Branch;
+use App\Models\BranchClassroom;
 use App\Models\Classroom;
 use App\Models\Teacher;
 use App\Models\User;
@@ -51,8 +53,10 @@ class AuthenticationTest extends TestCase
     public function test_teachers_can_authenticate_using_the_login_screen()
     {
         $this->withoutExceptionHandling();
+        $branch = Branch::factory()->create();
         $classroom = Classroom::factory()->create();
-        $teacher = $classroom->teacher;
+        $classroom->branches()->attach($branch->id);
+        $teacher = Teacher::factory()->create(['branch_classroom_id' => BranchClassroom::where('classroom_id', $classroom->id)->first()->id]);
 
         $response = $this->post(route('teacher.login'), [
             'email' => $teacher->email,
@@ -60,7 +64,7 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated('teacher');
-        $response->assertRedirect(route('classroom.show', ['classroom' => $classroom]));
+        $response->assertRedirect(route('classroom.show.branch', ['classroom' => $classroom, 'branch' => $branch]));
     }
 
     public function test_teacher_can_not_authenticate_with_invalid_password()
@@ -74,5 +78,4 @@ class AuthenticationTest extends TestCase
 
         $this->assertGuest();
     }
-
 }
