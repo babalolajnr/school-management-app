@@ -28,11 +28,12 @@ class TeacherTest extends TestCase
         $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $response = $this->actingAs($user)->post(route('teacher.store'), [
-            'first_name' => $this->faker->firstName,
-            'last_name' => $this->faker->lastName,
-            'email' => $this->faker->email,
-            'phone' => $this->faker->e164PhoneNumber,
-            'sex' => 'M',
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'email' => "email@gmail.com",
+            'phone' => '09093485830',
+            'date_of_birth' => '1998-05-20',
+            'sex' => 'F',
             'date_of_birth' => '1998-05-20',
             'password' => 'password'
         ]);
@@ -54,10 +55,10 @@ class TeacherTest extends TestCase
         $user = User::factory()->create();
         $teacher = Teacher::factory()->create();
         $response = $this->actingAs($user)->patch(route('teacher.user.update', ['teacher' => $teacher]), [
-            'first_name' => $this->faker->firstName,
-            'last_name' => $this->faker->lastName,
-            'email' => $this->faker->email,
-            'phone' => $this->faker->e164PhoneNumber,
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'email' => "email@gmail.com",
+            'phone' => '09093485830',
             'date_of_birth' => '1998-05-20',
             'sex' => 'F'
         ]);
