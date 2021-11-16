@@ -65,9 +65,21 @@
                                         </div>
                                         <div class="card-body">
                                             @foreach ($branchClassroom->teachers as $teacher)
-                                                <a href="{{ route('teacher.show', ['teacher' => $teacher]) }}">
-                                                    {{ "$teacher->first_name $teacher->last_name, " }}
-                                                </a>
+                                                <div class="row pb-2">
+                                                    <div class="col">
+                                                        <a href="{{ route('teacher.show', ['teacher' => $teacher]) }}">
+                                                            {{ "$teacher->first_name $teacher->last_name" }}
+                                                        </a>
+                                                        <a
+                                                            href="{{ route('branch.assign.main.teacher', ['branchClassroom' => $branchClassroom, 'teacher' => $teacher]) }}">
+                                                            @if ($teacher->id == $branchClassroom->mainTeacher()?->id)
+                                                                <i class="fas fa-star"></i>
+                                                            @else
+                                                                <i class="far fa-star"></i>
+                                                            @endif
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             @endforeach
                                         </div>
                                     </div>
