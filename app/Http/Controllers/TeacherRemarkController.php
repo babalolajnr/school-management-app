@@ -21,7 +21,7 @@ class TeacherRemarkController extends Controller
 
         if (!Period::activePeriodIsSet()) {
             return back()->with('error', 'Active Period is not set');
-        };
+        }
 
         $remark = $student->teacherRemarks()->where('period_id', $period->id);
 
@@ -46,9 +46,7 @@ class TeacherRemarkController extends Controller
             'remark' => ['string', 'required']
         ]);
 
-        if (!Period::activePeriodIsSet()) {
-            return back()->with('error', 'Active Period is not set');
-        };
+        if (!Period::activePeriodIsSet()) return back()->with('error', 'Active Period is not set');
 
         TeacherRemark::updateOrCreate(
             [
@@ -63,5 +61,4 @@ class TeacherRemarkController extends Controller
 
         return back()->with('success', 'Teacher\'s Remark recorded!');
     }
-
 }

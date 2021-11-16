@@ -21,7 +21,7 @@
                            {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</a>
                    @else
                        <a href="{{ route('teacher.show', ['teacher' => Auth::guard('teacher')->user()]) }}"
-                           class="d-block">{{ Auth::guard('teacher')->user()->last_name }}
+                           class="d-block">{{ Auth::guard('teacher')->user()->first_name }}
                            {{ Auth::guard('teacher')->user()->last_name }}</a>
                    @endif
                </div>
@@ -87,6 +87,12 @@
                                    <a href="{{ route('classroom.index') }}" class="nav-link" id="classroom">
                                        <i class="nav-icon fas fa-chalkboard"></i>
                                        <p>Classrooms</p>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
+                                   <a href="{{ route('branch.index') }}" class="nav-link" id="branch">
+                                       <i class="nav-icon fas fa-code-branch"></i>
+                                       <p>Branches</p>
                                    </a>
                                </li>
                                <li class="nav-item">
@@ -193,7 +199,7 @@
                    @endif
                    @auth('teacher')
                        <li class="nav-item">
-                           <a href="{{ route('classroom.show', ['classroom' => auth('teacher')->user()->classroom]) }}"
+                           <a href="{{ route('classroom.show.branch', ['classroom' => auth('teacher')->user()?->branchClassroom?->classroom, 'branch' => auth('teacher')->user()?->branchClassroom?->branch]) }}"
                                class="nav-link">
                                <i class="nav-icon fas fa-chalkboard"></i>
                                <p>Classroom</p>

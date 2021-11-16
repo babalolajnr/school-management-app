@@ -27,13 +27,13 @@ class GuardianTest extends TestCase
         $guardian = Guardian::factory()->create();
 
         $response = $this->actingAs($user)->patch(route('guardian.update', ['guardian' => $guardian]), [
-            'title' => $this->faker->title,
-            'first_name' => $this->faker->firstName,
-            'last_name' => $this->faker->lastName,
-            'email' => $this->faker->email,
-            'phone' => $this->faker->e164PhoneNumber,
-            'occupation' => $this->faker->jobTitle,
-            'address' => $this->faker->address
+            'title' => $this->faker->title(),
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'email' => 'email@gmail.com',
+            'phone' => '09019203939',
+            'occupation' => $this->faker->jobTitle(),
+            'address' => $this->faker->address()
         ]);
 
         $response->assertStatus(302)->assertSessionHas('success')->assertSessionHasNoErrors();

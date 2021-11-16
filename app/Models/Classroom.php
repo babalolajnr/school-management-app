@@ -32,16 +32,6 @@ class Classroom extends Model
     }
 
     /**
-     * Teacher relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function teacher()
-    {
-        return $this->belongsTo(Teacher::class);
-    }
-
-    /**
      * Fee relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -49,6 +39,16 @@ class Classroom extends Model
     public function fee()
     {
         return $this->hasMany(Fee::class);
+    }
+    
+    /**
+     * Branch relationship
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function branches()
+    {
+        return $this->belongsToMany(Branch::class)->using(BranchClassroom::class)->withTimestamps();
     }
 
     /**
@@ -60,7 +60,7 @@ class Classroom extends Model
     {
         return $this->students->whereNull('graduated_at')->where('is_active', true)->all();
     }
-    
+
     /**
      * Count active students
      *
@@ -68,6 +68,6 @@ class Classroom extends Model
      */
     public function countActiveStudents()
     {
-       return $this->students->whereNull('graduated_at')->where('is_active', true)->count();
+        return $this->students->whereNull('graduated_at')->where('is_active', true)->count();
     }
 }

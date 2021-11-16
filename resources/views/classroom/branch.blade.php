@@ -16,7 +16,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>{{ $classroom->name }}</h1>
+                        <h1>{{ $branchClassroom->classroom->name }} ({{ $branchClassroom->branch->name }})</h1>
                     </div>
                     <div class="col-sm-6 d-flex justify-content-end">
                         <a href="{{ route('classroom.promote.or.demote.students', ['classroom' => $classroom]) }}"><button
@@ -47,7 +47,7 @@
                                 @endauth
                             </div>
                             <div class="card-body">
-                                <x-students-table :students="$students" />
+                                <x-students-table :students="$branchClassroom->students" />
                             </div>
                         </div>
                         @auth('web')
@@ -56,45 +56,20 @@
                                     <div class="card">
                                         <div class="card-header">
                                             <div class="d-flex justify-content-between align-items-baseline">
-                                                <span class="font-semibold">Branches</span>
+                                                <span class="font-semibold">Class Teachers</span>
                                                 <span>
-                                                    <button class="btn btn-primary" onclick="showEditBranchesModal()">Edit
-                                                        Branches</button>
+                                                    <button class="btn btn-primary"
+                                                        onclick="showAssignTeachersModal()">Assign Teachers</button>
                                                 </span>
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <div class="btn-group">
-                                                @foreach ($classroom->branches as $branch)
-                                                    <a
-                                                        href="{{ route('classroom.show.branch', ['classroom' => $classroom, 'branch' => $branch]) }}">
-                                                        <button type="button" class="btn btn-default btn-flat">
-                                                            {{ $branch->name }}
-                                                        </button>
-                                                    </a>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card col-lg-6">
-                                    <div class="card-header">
-                                        <div class="d-flex justify-content-between align-items-baseline">
-                                            <span class="font-semibold">Subjects</span>
-                                            <span>
-                                                <a
-                                                    href="{{ route('classroom.set.subjects', ['classroom' => $classroom]) }}"><button
-                                                        class="btn btn-primary">Set Subjects</button>
+                                            @foreach ($branchClassroom->teachers as $teacher)
+                                                <a href="{{ route('teacher.show', ['teacher' => $teacher]) }}">
+                                                    {{ "$teacher->first_name $teacher->last_name, " }}
                                                 </a>
-                                            </span>
+                                            @endforeach
                                         </div>
-                                    </div>
-                                    <div class="card-body">
-                                        @foreach ($subjects as $subject)
-                                            <div class="callout callout-info">
-                                                <span>{{ $subject->name }}</span>
-                                            </div>
-                                        @endforeach
                                     </div>
                                 </div>
                             @endauth
@@ -132,7 +107,7 @@
     </div>
 
     {{-- Send email confirmation modal --}}
-    <div class="modal fade" id="email-class-performance-report-confirmation-modal">
+    <div class="modal fade" id="emailClassPerformanceReportConfirmationModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -156,31 +131,31 @@
         <!-- /.modal-dialog -->
     </div>
 
-    {{-- Edit branches modal --}}
-    <div class="modal fade" id="edit-branches-modal">
+    {{-- Assign Teachers modal --}}
+    <div class="modal fade" id="assignTeachersModal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit Branches</h4>
+                    <h4 class="modal-title">Assign Teachers</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('classroom.update.branches', ['classroom' => $classroom]) }}" method="POST"
-                    id="edit-branches-form">
+                <form action="{{ route('branch.assign.teachers', ['branchClassroom' => $branchClassroom]) }}"
+                    method="POST" id="assign-teachers-form">
                     @method('PATCH')
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="Branches">Branches</label>
+                            <label for="Teacher">Teacher</label>
                             <div class="form-group">
-                                @foreach (App\Models\Branch::all() as $branch)
+                                @foreach (App\Models\Teacher::all() as $teacher)
                                     <div class="custom-control custom-checkbox">
-                                        <input class="custom-control-input" type="checkbox" name="branches[]"
-                                            id="{{ $branch->name }}" value="{{ $branch->name }}"
-                                            @if ($classroom->branches->contains($branch)) checked=""@endif>
-                                        <label for="{{ $branch->name }}"
-                                            class="custom-control-label">{{ $branch->name }}</label>
+                                        <input class="custom-control-input" type="checkbox" name="teachers[]"
+                                            id="{{ $teacher->slug }}" @if ($branchClassroom->teachers->contains($teacher)) checked="" @endif
+                                            value="{{ $teacher->slug }}">
+                                        <label for="{{ $teacher->slug }}"
+                                            class="custom-control-label">{{ "$teacher->first_name $teacher->last_name" }}</label>
                                     </div>
                                 @endforeach
                             </div>
@@ -192,10 +167,9 @@
                     </div>
                 </form>
             </div>
+            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
+        <!-- /.modal-dialog -->
     </div>
 
     <x-slot name="scripts">
@@ -234,7 +208,11 @@
 
             function emailClassPerformanceReportConfirmationModal(url) {
                 $('#yesSendEmailConfirmation').attr("href", url)
-                $('#email-class-performance-report-confirmation-modal').modal('show')
+                $('#emailClassPerformanceReportConfirmationModal').modal('show')
+            }
+
+            function showAssignTeachersModal() {
+                $('#assignTeachersModal').modal('show')
             }
 
             //datatables
@@ -247,10 +225,6 @@
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
             });
-
-            function showEditBranchesModal() {
-                $('#edit-branches-modal').modal('show');
-            }
         </script>
     </x-slot>
 </x-app-layout>

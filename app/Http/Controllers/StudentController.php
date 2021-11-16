@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Models\AcademicSession;
+use App\Models\Branch;
+use App\Models\BranchClassroom;
 use App\Models\Classroom;
 use App\Models\PDType;
 use App\Models\Period;
@@ -48,13 +50,14 @@ class StudentController extends Controller
         $students = Student::whereNotNull('graduated_at')->get();
         return view('alumni.index', compact('students'));
     }
-    
+
     /**
      * Get Inactive Students
      *
      * @return \Illuminate\View\View
      */
-    public function getInactiveStudents(){
+    public function getInactiveStudents()
+    {
         $students = Student::getInactiveStudents();
         return view('student.inactive', compact('students'));
     }
@@ -110,7 +113,7 @@ class StudentController extends Controller
 
         return back()->with('success', 'Student Activated!');
     }
-    
+
     /**
      * Deactivate student
      *
@@ -125,7 +128,7 @@ class StudentController extends Controller
 
         return back()->with('success', 'Student Deactivated!');
     }
-    
+
     /**
      * Edit student
      *
@@ -137,7 +140,7 @@ class StudentController extends Controller
         $classrooms = Classroom::pluck('name')->all();
         return view('student.edit', compact(['student', 'classrooms']));
     }
-    
+
     /**
      * Update student's record
      *
@@ -151,7 +154,7 @@ class StudentController extends Controller
         $student->update($request->validated() + ['classroom_id' => $classroom_id]);
         return redirect(route('student.edit', ['student' => $student]))->with('success', 'Student Updated!');
     }
-    
+
     /**
      * Get student's sessional results
      *
@@ -165,7 +168,7 @@ class StudentController extends Controller
         $sessionalResults = $studentService->getSessionalResults($student, $academicSessionName);
         return view('student.sessional-results', $sessionalResults);
     }
-    
+
     /**
      * Get student's term results
      *
@@ -185,7 +188,7 @@ class StudentController extends Controller
 
         return view('student.term-results', $termResults);
     }
-    
+
     /**
      * Soft delete student record
      *
@@ -200,7 +203,7 @@ class StudentController extends Controller
 
         return back()->with('success', 'Student deleted');
     }
-    
+
     /**
      * Delete student's record permanently
      *
@@ -237,7 +240,7 @@ class StudentController extends Controller
 
         return back()->with('success', 'Student deleted permanently');
     }
-    
+
     /**
      * Upload student's image
      *
@@ -377,5 +380,22 @@ class StudentController extends Controller
         $student->save();
 
         return back()->with('success', 'Student Graduated!');
+    }
+
+    /**
+     * Set Classroom branch in which student belongs
+     *
+     * @param  Student $student
+     * @param  Branch $branch
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function setClassroomBranch(Student $student, Branch $branch)
+    {
+        $classroom = $student->classroom;
+        $classroomBranch = BranchClassroom::where('classroom_id', $classroom->id)->where('branch_id', $branch->id)->first();
+
+        $student->update(['branch_classroom_id' => $classroomBranch->id]);
+
+        return back()->with('success', "Student Moved to $branch->name");
     }
 }

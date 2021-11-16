@@ -2,8 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\BranchClassroom;
 use App\Models\Teacher;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 
 class TeacherFactory extends Factory
@@ -24,10 +26,15 @@ class TeacherFactory extends Factory
     {
         $sex = $this->faker->randomElement(['M', 'F']);
 
-        $firstName = $sex == 'M' ? $this->faker->firstNameMale : $this->faker->firstNameFemale;
-        $lastName = $this->faker->lastName;
+        $firstName = $sex == 'M' ? $this->faker->firstNameMale() : $this->faker->firstNameFemale();
+        $lastName = $this->faker->lastName();
         $fullname = $firstName . ' ' . $lastName . ' ' . Str::random(5);
         $slug = Str::of($fullname)->slug('-');
+
+        $branchClassroom = BranchClassroom::first();
+        if (!$branchClassroom) Artisan::call('db:seed', ['--class' => 'ClassroomSeeder']);
+
+        $branchClassroomId = BranchClassroom::inRandomOrder()->first()->id;
 
         return [
             'first_name' => $firstName,
@@ -36,11 +43,12 @@ class TeacherFactory extends Factory
             'slug' => $slug,
             'email' => $this->faker->unique()->safeEmail,
             'phone' => $this->faker->e164PhoneNumber,
-            'is_active' => $this->faker->randomElement([true, false]),
+            'is_active' => true,
             'date_of_birth' => $this->faker->dateTimeThisCentury(),
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
+            'branch_classroom_id' => $branchClassroomId
         ];
     }
 }

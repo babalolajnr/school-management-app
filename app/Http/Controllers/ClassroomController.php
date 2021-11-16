@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\AcademicSession;
+use App\Models\Branch;
+use App\Models\BranchClassroom;
 use App\Models\Classroom;
 use App\Models\Period;
 use App\Models\Student;
@@ -42,7 +44,7 @@ class ClassroomController extends Controller
      */
     public function index()
     {
-        $classrooms = Classroom::with('teacher')->get()->sortBy('rank');
+        $classrooms = Classroom::all()->sortBy('rank');
         return view('classroom.index', compact('classrooms'));
     }
 
@@ -136,7 +138,7 @@ class ClassroomController extends Controller
             $currentAcademicSession = $activePeriod->academicSession;
         }
 
-        $teachers = Teacher::with('classroom')->whereIsActive(true)->get();
+        $teachers = Teacher::whereIsActive(true)->get();
         $classroomTeacher = $classroom->teacher;
         $subjects = $classroom->subjects()->where('academic_session_id', $currentAcademicSession->id)->get();
         return view('classroom.show', compact('students', 'classroom', 'academicSessions', 'terms', 'subjects', 'teachers', 'classroomTeacher'));
@@ -317,7 +319,7 @@ class ClassroomController extends Controller
             return back()->with('success', 'Students Promoted!');
         }
 
-        return back()->with('error', 'Student is in the Maximum class possible');
+        return back()->with('error', 'Students is in the Maximum class possible');
     }
 
     /**
@@ -352,5 +354,68 @@ class ClassroomController extends Controller
         }
 
         return back()->with('error', 'Student is in the Minimum class possible');
+    }
+
+    /**
+     * Show a classroom branch
+     *
+     * @param  Classroom $classroom
+     * @param  Branch $branch
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function showBranch(Classroom $classroom, Branch $branch)
+    {
+        $branchClassroom = BranchClassroom::where('classroom_id', $classroom->id)
+            ->where('branch_id', $branch->id)->first();
+
+        return view('classroom.branch', compact('branch', 'classroom', 'branchClassroom'));
+    }
+
+    /**
+     * Update Branches
+     *
+     * @param  Classroom $classroom
+     * @param  Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateBranches(Classroom $classroom, Request $request)
+    {
+        $branches = $request->branches;
+
+        foreach ($branches as $branch) {
+
+            // Validate if all the selected branches exist
+            if (!Branch::where('name', $branch)->exists()) {
+                return back()->with('error', "Branch $branch does not exist");
+            }
+        }
+
+        $classroomBranches = $classroom->branches->pluck('name');
+        $branches = collect($branches);
+
+        $newBranches = $branches->diff($classroomBranches);
+        $removedBranches = $classroomBranches->diff($branches);
+
+        $removedBranches->map(function ($branch) use ($classroom) {
+
+            $branch = Branch::where('name', $branch)->first();
+            $branchClassroom = BranchClassroom::where('branch_id', $branch->id)->where('classroom_id', $classroom->id)->first();
+
+            // Check if the branch has students
+            if ($branchClassroom->students->count() > 1) {
+                return back()->with('error', "Cannot remove $classroom->name $branch->name because it has students");
+            }
+
+            // Remove the branch from the classroom
+            $classroom->branches()->detach($branch->id);
+        });
+
+        $newBranches->map(function ($branch) use ($classroom) {
+            $branch = Branch::where('name', $branch)->first();
+
+            $classroom->branches()->attach($branch->id);
+        });
+
+        return back()->with('success', 'Branches Updated!');
     }
 }

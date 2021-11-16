@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\BranchClassroom;
 use App\Models\Classroom;
 use App\Models\Guardian;
 use App\Models\Student;
@@ -26,34 +27,43 @@ class StudentFactory extends Factory
      */
     public function definition()
     {
-        $classroom = Classroom::pluck('id')->all();
+        $classrooms = Classroom::all();
+        $branchClassrooms = BranchClassroom::all();
 
-        if (!empty($classroom)) {
-            $classroom = Arr::random($classroom);
-        } else {
+        if ($classrooms->count() < 1) {
             Artisan::call('db:seed', ['--class' => 'ClassroomSeeder']);
-            $classroom = Classroom::inRandomOrder()->first();
+            $classrooms = Classroom::all();
         }
+
+        if ($branchClassrooms->count() < 1) {
+            Artisan::call('db:seed', ['--class' => 'BranchClassroomSeeder']);
+            $branchClassrooms = BranchClassroom::all();
+        }
+
+        $classroom = $classrooms->random();
+
+        $branchClassroom = $branchClassrooms->where('classroom_id', $classroom->id)->random();
 
         $guardian = Guardian::factory()->create();
         $sex = $this->faker->randomElement(['M', 'F']);
-        $firstName = $sex == 'M' ? $this->faker->firstNameMale : $this->faker->firstNameFemale;
-       
+        $firstName = $sex == 'M' ? $this->faker->firstNameMale() : $this->faker->firstNameFemale();
+
         return [
             'first_name' => $firstName,
             'last_name' => $guardian->last_name,
             'sex' => $sex,
             'admission_no' => Str::random(6),
-            'lg' => $this->faker->state,
-            'state' => $this->faker->state,
-            'country' => $this->faker->country,
+            'lg' => $this->faker->state(),
+            'state' => $this->faker->state(),
+            'country' => $this->faker->country(),
             'date_of_birth' => $this->faker->dateTimeThisDecade(),
             'classroom_id' => $classroom,
             'blood_group' => $this->faker->randomElement(['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']),
-            'place_of_birth' => $this->faker->address,
+            'place_of_birth' => $this->faker->address(),
             'guardian_id' => $guardian->id,
             'is_active' => true,
-            'graduated_at' => null
+            'graduated_at' => null,
+            'branch_classroom_id' => $branchClassroom->id
         ];
     }
 }

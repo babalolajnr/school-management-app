@@ -31,14 +31,14 @@ class TeacherAuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $teachersClassroom = $request->user('teacher')->classroom;
+        $teachersClassroom = $request->user('teacher')->branchClassroom;
 
-        if (is_null($teachersClassroom)) {
-
-            return back()->with('error', 'You are not a class-teacher!');
+        if (is_null($teachersClassroom)) { 
+            auth('teacher')->logout();
+            return route('deactivated');
         }
 
-        return redirect(route('classroom.show', ['classroom' => $teachersClassroom]))->with('success', "Welcome {$request->user('teacher')->first_name} {$request->user('teacher')->last_name}");
+        return redirect(route('classroom.show.branch', ['classroom' => $teachersClassroom?->classroom, 'branch' => $teachersClassroom?->branch]))->with('success', "Welcome {$request->user('teacher')->first_name} {$request->user('teacher')->last_name}");
     }
 
     /**
