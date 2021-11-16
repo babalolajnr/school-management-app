@@ -132,6 +132,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
         Route::prefix('branches')->name('branch.')->group(function () {
             Route::get('/', [BranchController::class, 'index'])->name('index');
             Route::get('/edit/{branch}', [BranchController::class, 'edit'])->name('edit');
+            Route::get('/assign-main-teacher/{branchClassroom}/{teacher}', [BranchController::class, 'assignMainTeacher'])->name('assign.main.teacher');
             Route::post('/store', [BranchController::class, 'store'])->name('store');
             Route::patch('/update/{branch}', [BranchController::class, 'update'])->name('update');
             Route::patch('/assign-teachers/{branchClassroom}', [BranchController::class, 'assignTeachers'])->name('assign.teachers');
