@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-         
+
         <!-- Select2 -->
         <link rel="stylesheet" href="{{ asset('TAssets/plugins/select2/css/select2.min.css') }}">
         <link rel="stylesheet"
@@ -9,7 +9,7 @@
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        
+
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -17,7 +17,7 @@
                         <h1>Teacher's Remark</h1>
                     </div>
                     <div class="col-sm-6">
-                        
+
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -40,15 +40,8 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="Class Teacher TeacherRemark">Class Teacher's Remark</label>
-                                        <textarea class='form-control @error('remark') is-invalid
-                                            @enderror' name='remark' rows="4">
-                                                @if (!is_null($remark))
-                                                    {{ old('remark', $remark->remark) }}
-                                                @else 
-                                                    {{ old('remark') }}
-                                                @endif
-                                            </textarea>
-
+                                        <input type="text" name='remark' class='form-control @error(' remark')
+                                            is-invalid @enderror' value="@if (!$remark) {{ old('remark') }} @else {{ old('remark', $remark->remark) }} @endif" />
                                         @error('remark')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -66,18 +59,16 @@
         <!-- /.content -->
     </div>
     <x-slot name="scripts">
-         
+
         <!-- Select2 -->
         <script src="{{ asset('TAssets/plugins/select2/js/select2.full.min.js') }}"></script>
         <!-- AdminLTE App -->
         <script>
-            
             $(function() {
 
                 //Initialize Select2 Elements
                 $('.select2').select2()
             })
-
         </script>
     </x-slot>
 </x-app-layout>
