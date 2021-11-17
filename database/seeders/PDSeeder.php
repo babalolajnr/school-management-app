@@ -18,8 +18,6 @@ class PDSeeder extends Seeder
      */
     public function run()
     {
-        $this->command->getOutput()->progressStart(100);
-
         $data = $this->allRecords();
 
         foreach ($data['students'] as $student) {
@@ -32,9 +30,7 @@ class PDSeeder extends Seeder
                         ->where('student_id', $student->id)
                         ->where('period_id', $period->id);
 
-                    if ($record->exists()) {
-                        continue;
-                    }
+                    if ($record->exists()) continue;
 
                     PD::create([
                         'period_id' => $period->id,
@@ -44,11 +40,7 @@ class PDSeeder extends Seeder
                     ]);
                 }
             }
-            
-            $this->command->getOutput()->progressAdvance();
         }
-
-        $this->command->getOutput()->progressFinish();
     }
 
     private function allRecords()
@@ -58,17 +50,9 @@ class PDSeeder extends Seeder
         $pdType = PDType::first();
 
         //if any of the required values are empty seed their tables
-        if (is_null($period)) {
-            Artisan::call('db:seed', ['--class' => 'PeriodSeeder']);
-        }
-
-        if (is_null($student)) {
-            Artisan::call('db:seed', ['--class' => 'StudentSeeder']);
-        }
-
-        if (is_null($pdType)) {
-            Artisan::call('db:seed', ['--class' => 'PDTypeSeeder']);
-        }
+        if (!$period) Artisan::call('db:seed', ['--class' => 'PeriodSeeder']);
+        if (!$student) Artisan::call('db:seed', ['--class' => 'StudentSeeder']);
+        if (!$pdType) Artisan::call('db:seed', ['--class' => 'PDTypeSeeder']);
 
         $periods = Period::all();
         $students = Student::where('is_active', true)->get();
