@@ -17,16 +17,12 @@ class PDTypeSeeder extends Seeder
      */
     public function run()
     {
-        $this->command->getOutput()->progressStart(100);
-
         $pdTypes = PDTypeFactory::$pdTypes;
 
         foreach ($pdTypes as $pdType) {
             $record = PDType::where('name', $pdType);
 
-            if ($record->exists()) {
-                continue;
-            }
+            if ($record->exists()) continue;
 
             $slug = Str::of($pdType)->slug('-');
 
@@ -34,9 +30,6 @@ class PDTypeSeeder extends Seeder
                 'name' => $pdType,
                 'slug' => $slug
             ]);
-            $this->command->getOutput()->progressAdvance();
         }
-
-        $this->command->getOutput()->progressFinish();
     }
 }
