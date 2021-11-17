@@ -24,17 +24,9 @@ class ClassroomSubjectSeeder extends Seeder
         $subject = Subject::first();
         $academicSession = AcademicSession::first();
 
-        if (is_null($classroom)) {
-            Artisan::call('db:seed', ['--class' => 'ClassroomSeeder']);
-        }
-
-        if (is_null($academicSession)) {
-            Artisan::call('db:seed', ['--class' => 'AcademicSessionSeeder']);
-        }
-
-        if (is_null($subject)) {
-            Artisan::call('db:seed', ['--class' => 'SubjectSeeder']);
-        }
+        if (!$classroom) Artisan::call('db:seed', ['--class' => 'ClassroomSeeder']);
+        if (!$academicSession) Artisan::call('db:seed', ['--class' => 'AcademicSessionSeeder']);
+        if (!$subject) Artisan::call('db:seed', ['--class' => 'SubjectSeeder']);
 
         $subjects = Subject::all();
         $classrooms = Classroom::all();
@@ -43,8 +35,6 @@ class ClassroomSubjectSeeder extends Seeder
         /**
          * generate 9 random subject for a classroom for each academic session
          */
-        $this->command->getOutput()->progressStart(100);
-
         foreach ($academicSessions as $academicSession) {
             foreach ($classrooms as $classroom) {
                 $randomSubjects = $subjects->random(9);
@@ -65,8 +55,6 @@ class ClassroomSubjectSeeder extends Seeder
                     }
                 }
             }
-            $this->command->getOutput()->progressAdvance();
         }
-        $this->command->getOutput()->progressFinish();
     }
 }
