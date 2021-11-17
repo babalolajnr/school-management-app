@@ -16,18 +16,13 @@ class AcademicSessionSeeder extends Seeder
      */
     public function run()
     {
-
-        $this->command->getOutput()->progressStart(100);
-
         $academicSessions = AcademicSessionFactory::$academicSessions;
 
         foreach ($academicSessions as $academicSession) {
             $record = AcademicSession::where('name', $academicSession);
 
-            if ($record->exists()) {
-                continue;
-            }
-
+            if ($record->exists()) continue;
+            
             /**
              * break the string and extract the first part before the '-'
              * then generate a random day and month
@@ -47,10 +42,6 @@ class AcademicSessionSeeder extends Seeder
                 'start_date' => $startDate,
                 'end_date' => $endDate,
             ]);
-            
-            $this->command->getOutput()->progressAdvance();
         }
-
-        $this->command->getOutput()->progressFinish();
     }
 }

@@ -18,10 +18,9 @@ class TeacherRemarkSeeder extends Seeder
      */
     public function run()
     {
-        $this->command->getOutput()->progressStart(100);
         $data = $this->allRecords();
         $faker = Factory::create();
-        
+
         foreach ($data['students'] as $student) {
 
             foreach ($data['periods'] as $period) {
@@ -29,22 +28,16 @@ class TeacherRemarkSeeder extends Seeder
                 $record = TeacherRemark::where('student_id', $student->id)
                     ->where('period_id', $period->id);
 
-                if ($record->exists()) {
-                    continue;
-                }
+                if ($record->exists()) continue;
 
                 TeacherRemark::create([
                     'student_id' => $student->id,
                     'period_id' => $period->id,
-                    'teacher_id' => $student->classroom->teacher->id,
+                    'teacher_id' => $student->branchClassroom->mainTeacher()->id,
                     'remark' => $faker->realText()
                 ]);
             }
-
-            $this->command->getOutput()->progressAdvance();
         }
-
-        $this->command->getOutput()->progressFinish();
     }
 
     private function allRecords()
@@ -53,13 +46,8 @@ class TeacherRemarkSeeder extends Seeder
         $student = Student::first();
 
         //if any of the required values are empty seed their tables
-        if (is_null($period)) {
-            Artisan::call('db:seed', ['--class' => 'PeriodSeeder']);
-        }
-
-        if (is_null($student)) {
-            Artisan::call('db:seed', ['--class' => 'StudentSeeder']);
-        }
+        if (!$period) Artisan::call('db:seed', ['--class' => 'PeriodSeeder']);
+        if (!$student) Artisan::call('db:seed', ['--class' => 'StudentSeeder']);
 
         $periods = Period::all();
         $students = Student::all();

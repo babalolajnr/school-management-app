@@ -132,6 +132,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
         Route::prefix('branches')->name('branch.')->group(function () {
             Route::get('/', [BranchController::class, 'index'])->name('index');
             Route::get('/edit/{branch}', [BranchController::class, 'edit'])->name('edit');
+            Route::get('/assign-main-teacher/{branchClassroom}/{teacher}', [BranchController::class, 'assignMainTeacher'])->name('assign.main.teacher');
             Route::post('/store', [BranchController::class, 'store'])->name('store');
             Route::patch('/update/{branch}', [BranchController::class, 'update'])->name('update');
             Route::patch('/assign-teachers/{branchClassroom}', [BranchController::class, 'assignTeachers'])->name('assign.teachers');
@@ -203,7 +204,6 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::post('/promote-students/{classroom:slug}', [ClassroomController::class, 'promoteStudents'])->name('promote.students');
             Route::post('/demote-students/{classroom:slug}', [ClassroomController::class, 'demoteStudents'])->name('demote.students');
             Route::post('/store', [ClassroomController::class, 'store'])->name('store');
-            Route::patch('/assign-teacher/{classroom:slug}/{teacherSlug}', [ClassroomController::class, 'assignTeacher'])->name('assign.teacher');
             Route::patch('/update/{classroom:slug}', [ClassroomController::class, 'update'])->name('update');
             Route::patch('/update-branches/{classroom:slug}', [ClassroomController::class, 'updateBranches'])->name('update.branches');
             Route::delete('/delete/{classroom:slug}', [ClassroomController::class, 'destroy'])->name('destroy');

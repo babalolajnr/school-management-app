@@ -46,7 +46,7 @@ class Teacher extends Authenticatable implements CanResetPassword
     /**
      * BranchClassroom relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function branchClassroom()
     {

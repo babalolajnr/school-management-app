@@ -52,4 +52,14 @@ class BranchClassroom extends Pivot
     {
         return $this->belongsTo(Branch::class);
     }
+    
+    /**
+     * Get Main Teacher
+     *
+     * @return App\Models\Teacher
+     */
+    public function mainTeacher()
+    {
+        return Teacher::where('id', $this->teacher_id)->first();
+    }
 }

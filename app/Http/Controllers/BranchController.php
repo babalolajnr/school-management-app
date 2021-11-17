@@ -108,4 +108,19 @@ class BranchController extends Controller
 
         return back()->with('success', 'Teachers assigned to classroom');
     }
+    
+    /**
+     * Assign main branch teacher
+     *
+     * @param  BranchClassroom $branchClassroom
+     * @param  Teacher $teacher
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function assignMainTeacher(BranchClassroom $branchClassroom, Teacher $teacher)
+    {
+        $branchClassroom->teacher_id = $teacher->id;
+        $branchClassroom->save();
+
+        return back()->with('success', "$teacher->first_name $teacher->last_name is now the main teacher!");
+    }
 }

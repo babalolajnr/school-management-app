@@ -18,9 +18,6 @@ class ADSeeder extends Seeder
      */
     public function run()
     {
-  
-        $this->command->getOutput()->progressStart(100);
-
         $data = $this->allRecords();
 
         foreach ($data['students'] as $student) {
@@ -33,9 +30,7 @@ class ADSeeder extends Seeder
                         ->where('student_id', $student->id)
                         ->where('period_id', $period->id);
 
-                    if ($record->exists()) {
-                        continue;
-                    }
+                    if ($record->exists()) continue;
 
                     AD::create([
                         'period_id' => $period->id,
@@ -45,11 +40,7 @@ class ADSeeder extends Seeder
                     ]);
                 }
             }
-            
-            $this->command->getOutput()->progressAdvance();
         }
-
-        $this->command->getOutput()->progressFinish();
     }
 
     private function allRecords()
@@ -59,17 +50,9 @@ class ADSeeder extends Seeder
         $adType = ADType::first();
 
         //if any of the required values are empty seed their tables
-        if (is_null($period)) {
-            Artisan::call('db:seed', ['--class' => 'PeriodSeeder']);
-        }
-
-        if (is_null($student)) {
-            Artisan::call('db:seed', ['--class' => 'StudentSeeder']);
-        }
-
-        if (is_null($adType)) {
-            Artisan::call('db:seed', ['--class' => 'ADTypeSeeder']);
-        }
+        if (!$period) Artisan::call('db:seed', ['--class' => 'PeriodSeeder']);
+        if (!$student) Artisan::call('db:seed', ['--class' => 'StudentSeeder']);
+        if (!$adType) Artisan::call('db:seed', ['--class' => 'ADTypeSeeder']);
 
         $periods = Period::all();
         $students = Student::where('is_active', true)->get();
@@ -79,19 +62,6 @@ class ADSeeder extends Seeder
             'periods' => $periods,
             'students' => $students,
             'adTypes' => $adTypes
-        ];
-    }
-
-    private function getRandomValues($allRecords)
-    {
-        $student = $allRecords['students']->random();
-        $period = $allRecords['periods']->random();
-        $adType = $allRecords['adTypes']->random();
-
-        return [
-            'student' => $student,
-            'period' => $period,
-            'adType' => $adType
         ];
     }
 }

@@ -31,11 +31,6 @@ class TeacherFactory extends Factory
         $fullname = $firstName . ' ' . $lastName . ' ' . Str::random(5);
         $slug = Str::of($fullname)->slug('-');
 
-        $branchClassroom = BranchClassroom::first();
-        if (!$branchClassroom) Artisan::call('db:seed', ['--class' => 'ClassroomSeeder']);
-
-        $branchClassroomId = BranchClassroom::inRandomOrder()->first()->id;
-
         return [
             'first_name' => $firstName,
             'last_name' => $lastName,
@@ -48,7 +43,7 @@ class TeacherFactory extends Factory
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
-            'branch_classroom_id' => $branchClassroomId
+            'branch_classroom_id' => null
         ];
     }
 }

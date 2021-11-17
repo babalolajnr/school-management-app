@@ -82,12 +82,12 @@ class AlumnusResultSeeder extends Seeder
         $classroomSubject = DB::table('classroom_subject')->first();
 
         //if any of the required values are empty seed their tables
-        if (is_null($classroomSubject)) Artisan::call('db:seed', ['--class' => 'ClassroomSubjectSeeder']);
-        if (is_null($student)) Artisan::call('db:seed', ['--class' => 'StudentSeeder']);
-        if (is_null($period)) Artisan::call('db:seed', ['--class' => 'PeriodSeeder']);
-        if (is_null($subject)) Artisan::call('db:seed', ['--class' => 'SubjectSeeder']);
-        if (is_null($classroom)) Artisan::call('db:seed', ['--class' => 'ClassroomSeeder']);
-        if (is_null($academicSession)) Artisan::call('db:seed', ['--class' => 'AcademicSessionSeeder']);
+        if (!$classroomSubject) Artisan::call('db:seed', ['--class' => 'ClassroomSubjectSeeder']);
+        if (!$student) Artisan::call('db:seed', ['--class' => 'StudentSeeder']);
+        if (!$period) Artisan::call('db:seed', ['--class' => 'PeriodSeeder']);
+        if (!$subject) Artisan::call('db:seed', ['--class' => 'SubjectSeeder']);
+        if (!$classroom) Artisan::call('db:seed', ['--class' => 'ClassroomSeeder']);
+        if (!$academicSession) Artisan::call('db:seed', ['--class' => 'AcademicSessionSeeder']);
 
 
         $classrooms = Classroom::all();
