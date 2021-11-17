@@ -16,16 +16,12 @@ class ADTypeSeeder extends Seeder
      */
     public function run()
     {
-        $this->command->getOutput()->progressStart(100);
-
         $adTypes = ADTypeFactory::$adTypes;
 
         foreach ($adTypes as $pdType) {
             $record = ADType::where('name', $pdType);
 
-            if ($record->exists()) {
-                continue;
-            }
+            if ($record->exists()) continue;
 
             $slug = Str::of($pdType)->slug('-');
 
@@ -33,9 +29,6 @@ class ADTypeSeeder extends Seeder
                 'name' => $pdType,
                 'slug' => $slug
             ]);
-            $this->command->getOutput()->progressAdvance();
         }
-
-        $this->command->getOutput()->progressFinish();
     }
 }
