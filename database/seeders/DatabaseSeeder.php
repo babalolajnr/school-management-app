@@ -13,23 +13,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            UserSeeder::class,
-            AcademicSessionSeeder::class,
-            ADTypeSeeder::class,
-            ADSeeder::class,
-            ClassroomSeeder::class,
-            ClassroomSubjectSeeder::class,
-            PDSeeder::class,
-            PDTypeSeeder::class,
-            ResultSeeder::class,
-            StudentSeeder::class,
-            SubjectSeeder::class,
-            TeacherSeeder::class,
-            TermSeeder::class,
-            AttendanceSeeder::class,
-            RemarkSeeder::class,
-            Fee::class
-        ]);
+      
     }
 }
