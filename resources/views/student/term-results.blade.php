@@ -19,7 +19,7 @@
                         <h1>{{ $academicSession->name . ' ' . $term->name }} Results</h1>
                     </div>
                     <div class="col-sm-6">
-                        
+
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -66,11 +66,15 @@
                                                     Attendance</button>
                                             </a>
                                             @auth('teacher')
-                                                <a href="{{ route('remark.teacher.create', ['student' => $student]) }}">
-                                                    <button type="button" class="btn btn-outline-secondary btn-sm btn-flat"
-                                                        title="Create or update teacher's remark">Create/Update
-                                                        Teacher's Remark</button>
-                                                </a>
+                                                @if ($student->mainTeacher()->id == auth('teacher')->id())
+                                                    <a
+                                                        href="{{ route('remark.teacher.create', ['student' => $student]) }}">
+                                                        <button type="button"
+                                                            class="btn btn-outline-secondary btn-sm btn-flat"
+                                                            title="Create or update teacher's remark">Create/Update
+                                                            Teacher's Remark</button>
+                                                    </a>
+                                                @endif
                                             @endauth
                                             @auth('web')
                                                 <a href="{{ route('remark.hos.create', ['student' => $student]) }}">

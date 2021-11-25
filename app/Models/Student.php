@@ -186,4 +186,15 @@ class Student extends Model
     {
         return $this->graduated_at !== null;
     }
+    
+     
+    /**
+     * Get student's main teacher
+     *
+     * @return Teacher
+     */
+    public function mainTeacher()
+    {
+        return $this->branchClassroom->mainTeacher();
+    }
 }
