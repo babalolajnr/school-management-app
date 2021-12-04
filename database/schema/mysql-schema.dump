@@ -71,6 +71,33 @@ CREATE TABLE `attendances` (
   CONSTRAINT `attendances_student_id_foreign` FOREIGN KEY (`student_id`) REFERENCES `students` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `branch_classroom`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `branch_classroom` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `classroom_id` bigint unsigned NOT NULL,
+  `branch_id` bigint unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `teacher_id` bigint unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `branch_classroom_teacher_id_foreign` (`teacher_id`),
+  CONSTRAINT `branch_classroom_teacher_id_foreign` FOREIGN KEY (`teacher_id`) REFERENCES `teachers` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `branches`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `branches` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `branches_name_unique` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `classroom_subject`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -100,7 +127,6 @@ CREATE TABLE `classrooms` (
   `rank` int NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `teacher_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `classrooms_name_unique` (`name`),
   UNIQUE KEY `classrooms_slug_unique` (`slug`),
@@ -318,10 +344,13 @@ CREATE TABLE `students` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   `guardian_id` bigint unsigned NOT NULL,
   `classroom_id` bigint unsigned NOT NULL,
+  `branch_classroom_id` bigint unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `students_image_unique` (`image`),
   KEY `students_guardian_id_foreign` (`guardian_id`),
   KEY `students_classroom_id_foreign` (`classroom_id`),
+  KEY `students_branch_classroom_id_foreign` (`branch_classroom_id`),
+  CONSTRAINT `students_branch_classroom_id_foreign` FOREIGN KEY (`branch_classroom_id`) REFERENCES `branch_classroom` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `students_classroom_id_foreign` FOREIGN KEY (`classroom_id`) REFERENCES `classrooms` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   CONSTRAINT `students_guardian_id_foreign` FOREIGN KEY (`guardian_id`) REFERENCES `guardians` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -381,10 +410,13 @@ CREATE TABLE `teachers` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   `last_seen` timestamp NULL DEFAULT NULL,
+  `branch_classroom_id` bigint unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `teachers_phone_unique` (`phone`),
   UNIQUE KEY `teachers_slug_unique` (`slug`),
-  UNIQUE KEY `teachers_email_unique` (`email`)
+  UNIQUE KEY `teachers_email_unique` (`email`),
+  KEY `teachers_branch_classroom_id_foreign` (`branch_classroom_id`),
+  CONSTRAINT `teachers_branch_classroom_id_foreign` FOREIGN KEY (`branch_classroom_id`) REFERENCES `branch_classroom` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `terms`;
@@ -473,3 +505,9 @@ INSERT INTO `migrations` VALUES (38,'2021_08_26_061518_add_last_seen_to_users_ta
 INSERT INTO `migrations` VALUES (39,'2021_08_26_065740_add_last_seen_to_teachers_table',1);
 INSERT INTO `migrations` VALUES (40,'2021_10_28_124417_create_notifications_table',2);
 INSERT INTO `migrations` VALUES (41,'2021_10_29_103832_add_is_dev_column_to_users_table',2);
+INSERT INTO `migrations` VALUES (42,'2021_11_06_085114_create_branches_table',3);
+INSERT INTO `migrations` VALUES (43,'2021_11_06_091027_create_branch_classroom_table',3);
+INSERT INTO `migrations` VALUES (44,'2021_11_07_144452_add_branch_classroom_id_to_students_table',3);
+INSERT INTO `migrations` VALUES (45,'2021_11_11_100423_add_branch_classroom_id_to_teachers_table',3);
+INSERT INTO `migrations` VALUES (46,'2021_11_11_134613_drop_teacher_id_from_classrooms_table',3);
+INSERT INTO `migrations` VALUES (47,'2021_11_15_134905_add_teacher_id_to_branch_classroom_table',3);
