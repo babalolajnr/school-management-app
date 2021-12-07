@@ -37,7 +37,8 @@
                                 <div class="card-body box-profile">
                                     <div class="text-center">
                                         <img class="profile-user-img img-fluid img-circle" src="
-                                        @if ($student->image) {{ asset($student->image) }} @else
+                                                  @if ($student->image)
+                                    {{ asset($student->image) }} @else
                                         {{ asset('images/user1.svg') }} @endif"
                                         alt="student image">
                                     </div>
@@ -160,7 +161,8 @@
 
                                             <hr>
                                             <strong></i>Address</strong>
-                                            <p class="text-muted" id="gAddress">{{ $student->guardian->address }}</p>
+                                            <p class="text-muted" id="gAddress">{{ $student->guardian->address }}
+                                            </p>
 
                                         </div>
                                         <!-- /.tab-pane -->
@@ -283,12 +285,19 @@
                                 <label>Academic Session & Term</label>
                                 <select class="form-control select2" id="termResultAcademicSession"
                                     style="width: 100%;">
+                                    <option
+                                        value="{{ route('student.get.term.results', ['student' => $student, 'academicSessionName' => $activePeriod->academicSession->id, 'termSlug' => $activePeriod->term->slug]) }}">
+                                        {{ $activePeriod->academicSession->name }} {{ $activePeriod->term->name }}
+                                        (Current Term)
+                                    </option>
                                     @foreach ($academicSessions as $academicSession)
                                         @foreach ($terms as $term)
+                                            @if ($activePeriod->academicSession->id == $academicSession->id && $activePeriod->term->id == $term->id)
+                                                @continue
+                                            @endif
                                             <option
                                                 value="{{ route('student.get.term.results', ['student' => $student, 'academicSessionName' => $academicSession->name, 'termSlug' => $term->slug]) }}">
-                                                {{ $academicSession->name }} {{ $term->name }} @if ($activePeriod->academicSession->id == $academicSession->id && $activePeriod->term->id == $term->id)
-                                                    * @endif
+                                                {{ $academicSession->name }} {{ $term->name }}
                                             </option>
                                         @endforeach
                                     @endforeach
