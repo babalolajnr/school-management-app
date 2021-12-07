@@ -286,7 +286,7 @@
                                 <select class="form-control select2" id="termResultAcademicSession"
                                     style="width: 100%;">
                                     <option
-                                        value="{{ route('student.get.term.results', ['student' => $student, 'academicSessionName' => $activePeriod->academicSession->id, 'termSlug' => $activePeriod->term->slug]) }}">
+                                        value="{{ route('student.get.term.results', ['student' => $student, 'academicSessionName' => $activePeriod->academicSession->name, 'termSlug' => $activePeriod->term->slug]) }}">
                                         {{ $activePeriod->academicSession->name }} {{ $activePeriod->term->name }}
                                         (Current Term)
                                     </option>
