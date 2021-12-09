@@ -428,7 +428,8 @@
                     <label for="class-teachers-remark" class="fw-bold">HOS's Remark</label>
                     <div class="remark-hd fst-italic ps-2">
                         @if (round($percentage) <= 39)
-
+                            This is not a result to be proud of. I expect we can work on this to improve
+                            significantly next term.
                         @endif
                         @if (round($percentage) > 39 && round($percentage) <= 44)
                             You aren't failing, you are trying and that is the most important step towards success.
