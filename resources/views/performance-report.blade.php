@@ -46,9 +46,11 @@
                             REPORT</u></strong></p>
             </div>
             <div class="passport">
-            <img src=" @if ($student->image) {{ asset($student->image) }} @else
-                {{ asset('images/user1.svg') }} @endif" height="170" width="140" alt="Passport
-                Photograph">
+                @if ($student->image)
+                    <img src="{{ asset($student->image) }}" height="170" width="140" alt="Passport Photograph">
+                @else
+                    <img src="{{ asset('images/user1.svg') }}" height="170" width="140" alt="Passport Photograph">
+                @endif
             </div>
         </div>
 
@@ -145,11 +147,19 @@
                                 <td class="text-center">
                                     @if (round($result->total) <= 39)
                                         F
-                                    @elseif(round($result->total) > 39 && round($result->total) <= 49) D
-                                        @elseif(round($result->total) > 49 && round($result->total) <= 59) C
-                                            @elseif(round($result->total) > 59 && round($result->total) <= 69) B
-                                                @elseif(round($result->total) > 69 && round($result->total) <= 100)
-                                                    A @else @endif
+                                    @endif
+                                    @if (round($result->total) > 39 && round($result->total) <= 49)
+                                        D
+                                    @endif
+                                    @if (round($result->total) > 49 && round($result->total) <= 59)
+                                        C
+                                    @endif
+                                    @if (round($result->total) > 59 && round($result->total) <= 69)
+                                        B
+                                    @endif
+                                    @if (round($result->total) > 69 && round($result->total) <= 100)
+                                        A
+                                    @endif
                                 </td>
                         @endif
 
@@ -418,25 +428,29 @@
                     <label for="class-teachers-remark" class="fw-bold">HOS's Remark</label>
                     <div class="remark-hd fst-italic ps-2">
                         @if (round($percentage) <= 39)
-                            Sadly, this result cannot allow you progress to the next grade level. I'm positive that
-                            you will achieve greater performance if you settle through the class again in sha Allah.
-                        @elseif(round($percentage) > 39 && round($percentage) <= 44) You have tried but this
-                                performance is not so encouraging. Let us concentrate on achieving a greater
-                            performance next year in sha Allah. @elseif(round($percentage)> 44 &&
-                                round($percentage) <= 49) Good. However, you are capable of achieving higher grades
-                                    with more effort and support. Looking forward to a better result next year.
-                                @elseif(round($percentage)> 49 && round($percentage) <= 59) You have done very
-                                        well this session but this performance will be better with greater effort. I
-                                    look forward to better results next year. @elseif(round($percentage)> 59 &&
-                                        round($percentage) <= 69) You have worked very hard this year and I'm proud
-                                            of your accomplishment. Let's have an even better result next year. You
-                                        can do it. @elseif(round($percentage)> 69 && round($percentage)
-                                            <= 79) This is an examplary result and I'm proud of you! Keep the
-                                            Radiant Minds flag flying @elseif(round($percentage)> 79 &&
-                                                round($percentage) <= 89) Wow! What an awesome performance! Continue
-                                                to break barriers and soar high. @else Incredible! Your
-                                                    consistent effort and good study habits have paid off. Bravo!
-                                                    See you at the top again next year. @endif
+
+                        @endif
+                        @if (round($percentage) > 39 && round($percentage) <= 44)
+                            You aren't failing, you are trying and that is the most important step towards success.
+                        @endif
+                        @if (round($percentage) > 44 && round($percentage) <= 49)
+                            Average performance. You have the capacity to be better. Go for it!
+                        @endif
+                        @if (round($percentage) > 49 && round($percentage) <= 59)
+                            Well done. Put in more effort and it will be better.
+                        @endif
+                        @if (round($percentage) > 59 && round($percentage) <= 69)
+                            Great! Reach for higher.
+                        @endif
+                        @if (round($percentage) > 69 && round($percentage) <= 79)
+                            This is a result to be proud of. Do not rest on your oars.
+                        @endif
+                        @if (round($percentage) > 79 && round($percentage) <= 89)
+                            What an excellent result performance. Maa Sha Allah.
+                        @endif
+                        @if (round($percentage) > 89)
+                            Awesome performance. You are a star.
+                        @endif
                     </div>
                 </div>
                 <div class="class-teacher-sign ">
