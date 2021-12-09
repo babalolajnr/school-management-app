@@ -447,7 +447,7 @@
                             This is a result to be proud of. Do not rest on your oars.
                         @endif
                         @if (round($percentage) > 79 && round($percentage) <= 89)
-                            What an excellent result performance. Maa Sha Allah.
+                            What an excellent performance. Maa Sha Allah.
                         @endif
                         @if (round($percentage) > 89)
                             Awesome performance. You are a star.
