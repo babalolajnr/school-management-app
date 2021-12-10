@@ -37,7 +37,7 @@
                                 <div class="card-body box-profile">
                                     <div class="text-center">
                                         <img class="profile-user-img img-fluid img-circle" src="
-                                                  @if ($student->image)
+                                                            @if ($student->image)
                                     {{ asset($student->image) }} @else
                                         {{ asset('images/user1.svg') }} @endif"
                                         alt="student image">
@@ -78,7 +78,7 @@
                                 <div class="card-body">
                                     <div class="tab-content">
                                         <div class="active tab-pane" id="about">
-                                            <strong></i>Class</strong>
+                                            <strong>Class</strong>
 
                                             <a
                                                 href="{{ route('classroom.show', ['classroom' => $student->classroom]) }}">
@@ -89,40 +89,40 @@
 
                                             <hr>
 
-                                            <strong></i>Local
+                                            <strong>Local
                                                 government</strong>
 
                                             <p class="text-muted" id="lg"> {{ $student->lg }}</p>
 
                                             <hr>
 
-                                            <strong></i>State</strong>
+                                            <strong>State</strong>
 
                                             <p class="text-muted" id="state"> {{ $student->state }}</p>
                                             <hr>
 
-                                            <strong></i>Country</strong>
+                                            <strong>Country</strong>
 
                                             <p class="text-muted" id="country">{{ $student->country }}</p>
                                             <hr>
 
-                                            <strong></i>Date of birth</strong>
+                                            <strong>Date of birth</strong>
 
                                             <p class="text-muted" id="dob">{{ $student->date_of_birth }}</p>
 
                                             <hr>
 
-                                            <strong></i>Place of birth</strong>
+                                            <strong>Place of birth</strong>
 
                                             <p class="text-muted" id="pob">{{ $student->place_of_birth }}</p>
 
                                             <hr>
-                                            <strong></i>Blood Group</strong>
+                                            <strong>Blood Group</strong>
 
                                             <p class="text-muted" id="bloodGroup">{{ $student->blood_group }}</p>
 
                                             <hr>
-                                            <strong></i>status</strong>
+                                            <strong>status</strong>
 
                                             <p class="text-muted" id="status">
                                                 @if ($student->isActive())
@@ -135,18 +135,18 @@
                                         </div>
                                         <!-- /.tab-pane -->
                                         <div class="tab-pane" id="guardianInfo">
-                                            <strong></i>Full name</strong>
+                                            <strong>Full name</strong>
                                             <p class="text-muted" id="gFullname">
                                                 {{ $student->guardian->title . ' ' . $student->guardian->first_name . ' ' . $student->guardian->last_name }}
                                             </p>
 
                                             <hr>
-                                            <strong></i>Occupation</strong>
+                                            <strong>Occupation</strong>
                                             <p class="text-muted" id="gOccupation">
                                                 {{ $student->guardian->occupation }}</p>
 
                                             <hr>
-                                            <strong></i>Email</strong>
+                                            <strong>Email</strong>
                                             <p class="text-muted" id="gEmail">
                                                 @if (is_null($student->guardian->email))
                                                     No email address provided
@@ -156,14 +156,37 @@
                                             </p>
 
                                             <hr>
-                                            <strong></i>Phone</strong>
+                                            <strong>Phone</strong>
                                             <p class="text-muted" id="gPhone">{{ $student->guardian->phone }}</p>
 
                                             <hr>
-                                            <strong></i>Address</strong>
+                                            <strong>Address</strong>
                                             <p class="text-muted" id="gAddress">{{ $student->guardian->address }}
                                             </p>
 
+                                            <hr>
+                                            <strong>Change guardian</strong>
+                                            <p>
+                                            <form
+                                                action="{{ route('guardian.change', ['student' => $student]) }}"
+                                                method="post">
+                                                @csrf
+                                                <div class="row">
+                                                    <select class="form-control col-lg-9" name="guardian"
+                                                        id="change-guardian">
+                                                        @foreach ($guardians as $guardian)
+                                                            <option value="{{ $guardian->email }}"
+                                                                @if ($guardian->id == $student->guardian->id) selected @endif>
+                                                                {{ "$guardian->title $guardian->first_name $guardian->last_name ($guardian->email)" }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    <span class="ml-2">
+                                                        <button class="btn btn-primary" type="submit">Change</button>
+                                                    </span>
+                                                </div>
+                                            </form>
+                                            </p>
                                         </div>
                                         <!-- /.tab-pane -->
 
