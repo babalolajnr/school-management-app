@@ -240,6 +240,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             //Guardian Routes
             Route::get('/edit/{guardian:phone}', [GuardianController::class, 'edit'])->name('edit');
             Route::patch('/update/{guardian:phone}', [GuardianController::class, 'update'])->name('update');
+            Route::post('/change-guardian/{student}', [GuardianController::class, 'changeGuardian'])->name('change');
         });
 
         Route::prefix('pd-types')->name('pd-type.')->group(function () {
