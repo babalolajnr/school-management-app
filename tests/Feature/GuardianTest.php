@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\Guardian;
+use App\Models\Student;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -37,5 +38,18 @@ class GuardianTest extends TestCase
         ]);
 
         $response->assertStatus(302)->assertSessionHas('success')->assertSessionHasNoErrors();
+    }
+
+    public function test_guardian_can_be_changed()
+    {
+        $user = User::factory()->create();
+        $student = Student::factory()->create();
+        $guardian = Guardian::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('guardian.change', ['student' => $student]), [
+            'guardian' => $guardian->email
+        ]);
+
+        $response->assertStatus(302)->assertSessionHas('success');
     }
 }

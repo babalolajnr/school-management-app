@@ -20,7 +20,7 @@ class StudentService
      *
      * This method works by collecting all the guardian and student info from the user and
      * making sure it's all filled out. Then it checks if the guardian's phone number is present
-     * in the database. If it is then it gets the guardian's id and inserts it into the student's table
+     * in the database. If it is then it gets the guardian's id and inserts it into the student's guardian id column
      * 
      * @param  StoreStudentRequest $storeStudentRequest
      * @return void
@@ -169,7 +169,9 @@ class StudentService
         $terms = Term::all();
         $activePeriod = Period::activePeriod();
 
-        return compact('student', 'academicSessions', 'terms', 'activePeriod');
+        $guardians = Guardian::all();
+
+        return compact('student', 'academicSessions', 'terms', 'activePeriod', 'guardians');
     }
 
     public function getSessionalResults($student, $academicSessionName)
