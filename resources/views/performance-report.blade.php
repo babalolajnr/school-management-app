@@ -413,7 +413,7 @@
                     <div class="sign">
                         @if ($teacherRemark)
                             <span class="ps-4">
-                                <img src="{{ asset($teacherRemark->teacher->signature) }}" height=40 width=60
+                                <img src="{{ asset($teacherRemark->teacher?->signature) }}" height=40 width=60
                                     alt="teacher's signature">
                             </span>
                         @endif
