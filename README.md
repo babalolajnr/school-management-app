@@ -1,1 +1,1 @@
-School management app
+School Management APP
