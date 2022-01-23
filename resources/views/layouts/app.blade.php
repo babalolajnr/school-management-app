@@ -40,7 +40,7 @@
     </style>
 </head>
 
-<body class="hold-transition sidebar-mini layout-navbar-fixed layout-fixed layout-footer-fixed">
+<body class="hold-transition dark-mode sidebar-mini layout-navbar-fixed layout-fixed layout-footer-fixed">
     <span id="route" data-route="{{ json_encode(Route::currentRouteName()) }}"></span>
     <!-- Site wrapper -->
     <div class="wrapper">

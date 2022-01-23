@@ -47,12 +47,12 @@ function darkMode() {
     const darkmodeStatus = localStorage.getItem('dark-mode')
 
     if (darkmodeStatus == "true") {
-        $('#navbar').removeClass('navbar-white navbar-light')
-        $("#sidebar").addClass('sidebar-dark-navy')
-        $('body').addClass('dark-mode')
-        $('#navbar').addClass('navbar-dark')
         $("#dark-mode").append(sunIcon)
     } else {
+        $('#navbar').removeClass('navbar-dark')
+        $("#sidebar").removeClass('sidebar-dark-navy')
+        $('body').removeClass('dark-mode')
+        $('#navbar').addClass('navbar-white navbar-light')
         $("#sidebar").addClass('sidebar-light-navy')
         $("#dark-mode").append(moonIcon)
     }
