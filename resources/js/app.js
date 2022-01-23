@@ -51,8 +51,8 @@ function darkMode() {
     } else {
         $('#navbar').removeClass('navbar-dark')
         $("#sidebar").removeClass('sidebar-dark-navy')
+        $('#navbar').addClass('navbar-white navbar-light') 
         $('body').removeClass('dark-mode')
-        $('#navbar').addClass('navbar-white navbar-light')
         $("#sidebar").addClass('sidebar-light-navy')
         $("#dark-mode").append(moonIcon)
     }
