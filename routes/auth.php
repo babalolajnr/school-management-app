@@ -35,7 +35,7 @@ Route::middleware('guest:web,teacher')->group(function () {
 
 Route::controller(RegisteredUserController::class)->middleware('auth')->group(function () {
 
-    Route::get('/register', 'create');
+    Route::get('/register', 'create')->name('register');
     Route::post('/register', 'store');
 });
 
