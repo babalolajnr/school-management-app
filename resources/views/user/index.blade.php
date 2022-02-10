@@ -14,12 +14,11 @@
 
         <section class="content-header">
             <div class="container-fluid">
-                <div class="row mb-2">
+                <div class="row mb-2 d-flex">
                     <div class="col-sm-6">
                         <h1>Users</h1>
                     </div>
                     <div class="col-sm-6">
-
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -35,7 +34,16 @@
                         <!-- Default box -->
                         <div class="card">
                             <div class="card-header">
-                                <h5 class="card-title">Users</h5>
+                                <div class="d-flex justify-content-between">
+                                    <div class="">
+                                        <h5 class="card-title pt-2">Users</h5>
+                                    </div>
+                                    <div>
+                                        <a href="{{ route('register') }}">
+                                            <button class="btn btn-sm btn-primary">Register User</button>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                             <div class="card-body">
                                 <div>
