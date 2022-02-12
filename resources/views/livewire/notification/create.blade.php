@@ -23,7 +23,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
-                        <form action="{{ route('notification.store') }}" method="POST" wire:submit.prevent="submit">
+                        <form action="#" method="POST" wire:submit.prevent="submit">
                             @csrf
                             <div class="card">
                                 <div class="card-header">
