@@ -78,7 +78,9 @@
                                 </div>
                                 <div class="card-footer">
                                     <button class="btn btn-primary">
-                                        Submit
+                                        <span wire:loading.remove wire:target="submit">Submit</span> 
+                                        <div class="spinner-border spinner-border text-muted" wire:loading wire:target="submit">
+                                        </div>
                                     </button>
                                 </div>
                             </div>
@@ -106,8 +108,6 @@
                     }
                 });
             });
-
-            
         </script>
     </x-slot>
 </div>
