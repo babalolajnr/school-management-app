@@ -167,8 +167,10 @@
                     Are you sure you want to delete <span id="deleteItemName" class="font-bold"></span>?
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <span data-delete-item='' id="deleteItem"></span>
-                    <button type="button" class="btn btn-danger" id="confirmDelete">Yes</button>
+                    <div>
+                        <span data-delete-item='' id="deleteItem"></span>
+                        <button type="button" class="btn btn-danger" id="confirmDelete">Yes</button>
+                    </div>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
