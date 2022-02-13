@@ -40,13 +40,12 @@
                             <div class="card-header">
                                 <h3 class="card-title">New Academic Session</h3>
                             </div>
-                            <form id="addAcademicSession" method="POST"
-                                action="#" wire:submit.prevent="submit">
+                            <form id="addAcademicSession" method="POST" action="#" wire:submit.prevent="submit">
                                 @csrf
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="Academic Session">Academic Session</label>
-                                        <input type="text" wire:model="name" 
+                                        <input type="text" wire:model="name"
                                             class="form-control @error('name') is-invalid @enderror"
                                             id="academicSession" placeholder="Enter Academic Session">
                                         <small class="text-muted">e.g 2009-2010 </small>
@@ -59,8 +58,7 @@
                                         <div class="input-group date" id="startDate" data-target-input="nearest">
                                             <input type="text"
                                                 class="form-control @error('startDate') is-invalid @enderror datetimepicker-input"
-                                                data-target="#startDate"
-                                                wire:model="startDate" />
+                                                data-target="#startDate" wire:model="startDate" />
                                             <div class="input-group-append" data-target="#startDate"
                                                 data-toggle="datetimepicker">
                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
