@@ -65,5 +65,6 @@ class Index extends Component
         ]);
 
         $this->emit('success', 'Academic Session Created!');
+        $this->academicSessions = AcademicSession::all();
     }
 }
