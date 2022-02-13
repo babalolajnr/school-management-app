@@ -78,6 +78,6 @@ class CreateNotification extends Component
                 break;
         }
 
-        $this->emit('success', 'Notifivation sent');
+        $this->emit('success', 'Notification sent');
     }
 }
