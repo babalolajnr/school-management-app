@@ -22,6 +22,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherRemarkController;
 use App\Http\Controllers\TermController;
 use App\Http\Controllers\UserController;
+use App\Http\Livewire\AcademicSession\Index as AcademicSessionIndex;
 use App\Http\Livewire\Notification\CreateNotification;
 use Illuminate\Support\Facades\Route;
 
@@ -229,9 +230,8 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
 
         Route::prefix('academic-sessions')->name('academic-session.')->group(function () {
             //AcademicSession routes
-            Route::get('/', [AcademicSessionController::class, 'index'])->name('index');
+            Route::get('/', AcademicSessionIndex::class)->name('index');
             Route::get('/edit/{academicSession:name}', [AcademicSessionController::class, 'edit'])->name('edit');
-            Route::post('/store', [AcademicSessionController::class, 'store'])->name('store');
             Route::patch('/update/{academicSession:name}', [AcademicSessionController::class, 'update'])->name('update');
             Route::delete('/delete/{academicSession:name}', [AcademicSessionController::class, 'destroy'])->name('destroy');
         });
