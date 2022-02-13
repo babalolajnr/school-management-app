@@ -34,8 +34,8 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="Title">Title</label>
-                                        <input type="text" class="form-control @error('title') is-invalid @enderror" placeholder="Enter title"
-                                            wire:model="title">
+                                        <input type="text" class="form-control @error('title') is-invalid @enderror"
+                                            placeholder="Enter title" wire:model="title">
                                         @error('title')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
@@ -53,8 +53,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="Notification type">Notification Type</label>
-                                        <select class="form-control @error('notificationType') is-invalid @enderror" name="notificationType"
-                                            wire:model="notificationType">
+                                        <select class="form-control @error('notificationType') is-invalid @enderror"
+                                            name="notificationType" wire:model="notificationType">
                                             <option></option>
                                             <option>App Notification</option>
                                         </select>
@@ -64,7 +64,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="To">To:</label>
-                                        <select class="form-control @error('to') is-invalid @enderror" name="to" wire:model="to">
+                                        <select class="form-control @error('to') is-invalid @enderror" name="to"
+                                            wire:model="to">
                                             <option></option>
                                             <option>Admins</option>
                                             <option>Master Users</option>
@@ -78,8 +79,9 @@
                                 </div>
                                 <div class="card-footer">
                                     <button class="btn btn-primary">
-                                        <span wire:loading.remove wire:target="submit">Submit</span> 
-                                        <div class="spinner-border spinner-border text-muted" wire:loading wire:target="submit">
+                                        <span wire:loading.remove wire:target="submit">Submit</span>
+                                        <div class="spinner-border spinner-border text-muted" wire:loading
+                                            wire:target="submit">
                                         </div>
                                     </button>
                                 </div>
@@ -108,6 +110,10 @@
                     }
                 });
             });
+
+            Livewire.on('success', _ => {
+                $('#summernote').summernote('reset');
+            })
         </script>
     </x-slot>
 </div>
