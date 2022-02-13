@@ -34,7 +34,7 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="Title">Title</label>
-                                        <input type="text" class="form-control" placeholder="Enter title"
+                                        <input type="text" class="form-control @error('title') is-invalid @enderror" placeholder="Enter title"
                                             wire:model="title">
                                         @error('title')
                                             <small class="text-danger">{{ $message }}</small>
@@ -53,7 +53,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="Notification type">Notification Type</label>
-                                        <select class="form-control" name="notificationType"
+                                        <select class="form-control @error('notificationType') is-invalid @enderror" name="notificationType"
                                             wire:model="notificationType">
                                             <option></option>
                                             <option>App Notification</option>
@@ -64,7 +64,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="To">To:</label>
-                                        <select class="form-control" name="to" wire:model="to">
+                                        <select class="form-control @error('to') is-invalid @enderror" name="to" wire:model="to">
                                             <option></option>
                                             <option>Admins</option>
                                             <option>Master Users</option>
