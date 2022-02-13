@@ -129,7 +129,7 @@
                                                         </a>
                                                         <button type="button" class="btn btn-danger btn-flat"
                                                             title="Delete"
-                                                            onclick="deleteConfirmationModal('{{ route('academic-session.destroy', ['academicSession' => $academicSession]) }}', '{{ $academicSession->name }}')">
+                                                            onclick="deleteConfirmationModal('{{ $academicSession->name }}')">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
 
@@ -167,11 +167,8 @@
                     Are you sure you want to delete <span id="deleteItemName" class="font-bold"></span>?
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <form action="" method="POST" id="yesDeleteConfirmation">
-                        @method('DELETE')
-                        @csrf
-                        <button type="submit" class="btn btn-danger">Yes</button>
-                    </form>
+                    <span data-delete-item='' id="deleteItem"></span>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">Yes</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
@@ -220,11 +217,28 @@
                 format: 'YYYY-MM-DD'
             })
 
-            function deleteConfirmationModal(url, name) {
-                $('#yesDeleteConfirmation').attr("action", url)
+            function deleteConfirmationModal(name) {
+
                 $('#deleteItemName').html(name)
                 $('#deleteConfirmationModal').modal('show')
+
+                // Set data-attribute of delete item
+                document.getElementById('deleteItem').dataset.deleteItem = name
             }
+
+            $('#confirmDelete').click(() => {
+                // Set deleteItem property on the component
+                @this.set('deleteItem', document.getElementById('deleteItem').dataset.deleteItem)
+                Livewire.emit('delete')
+            })
+
+            Livewire.on('success', _ => {
+                $('#deleteConfirmationModal').modal('hide')
+            })
+
+            Livewire.on('error', _ => {
+                $('#deleteConfirmationModal').modal('hide')
+            })
 
             $(function() {
                 $("#example1").DataTable({
