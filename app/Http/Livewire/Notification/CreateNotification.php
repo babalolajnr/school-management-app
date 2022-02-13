@@ -79,5 +79,6 @@ class CreateNotification extends Component
         }
 
         $this->emit('success', 'Notification sent');
+        $this->reset();
     }
 }
