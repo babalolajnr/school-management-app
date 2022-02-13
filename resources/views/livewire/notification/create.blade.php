@@ -1,18 +1,10 @@
-<x-app-layout>
+<div>
     <x-slot name="styles">
-
-        <!-- DataTables -->
-        <link rel="stylesheet" href="{{ asset('TAssets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-        <link rel="stylesheet"
-            href="{{ asset('TAssets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-        <link rel="stylesheet"
-            href="{{ asset('TAssets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
         <link rel="stylesheet" href="{{ asset('TAssets/plugins/summernote/summernote-bs4.min.css') }}">
     </x-slot>
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
@@ -31,7 +23,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-12">
-                        <form action="{{ route('notification.store') }}" method="POST">
+                        <form action="#" method="POST" wire:submit.prevent="submit">
                             @csrf
                             <div class="card">
                                 <div class="card-header">
@@ -42,32 +34,39 @@
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="Title">Title</label>
-                                        <input type="text" class="form-control" placeholder="Enter title"
-                                            name="title">
+                                        <input type="text" class="form-control @error('title') is-invalid @enderror"
+                                            placeholder="Enter title" wire:model="title">
                                         @error('title')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <label for="Message">Message</label>
-                                        <textarea id="summernote" name="message">
-                                            @error('message')
-                                                <small class="text-danger">{{ $message }}</small>
-                                            @enderror
-                                        </textarea>
+                                        <label for="Message">Content</label>
+                                        <div wire:ignore>
+                                            <textarea id="summernote">
+                                                {{ $content }}
+                                            </textarea>
+                                        </div>
+                                        @error('content')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="Notification type">Notification Type</label>
-                                        <select class="form-control" name="notification-type">
+                                        <select class="form-control @error('notificationType') is-invalid @enderror"
+                                            name="notificationType" wire:model="notificationType">
+                                            <option></option>
                                             <option>App Notification</option>
                                         </select>
-                                        @error('notification-type')
+                                        @error('notificationType')
                                             <small class="text-danger">{{ $message }}</small>
                                         @enderror
                                     </div>
                                     <div class="form-group">
                                         <label for="To">To:</label>
-                                        <select class="form-control" name="to">
+                                        <select class="form-control @error('to') is-invalid @enderror" name="to"
+                                            wire:model="to">
+                                            <option></option>
                                             <option>Admins</option>
                                             <option>Master Users</option>
                                             <option>Teachers</option>
@@ -80,7 +79,10 @@
                                 </div>
                                 <div class="card-footer">
                                     <button class="btn btn-primary">
-                                        Submit
+                                        <span wire:loading.remove wire:target="submit">Submit</span>
+                                        <div class="spinner-border spinner-border text-muted" wire:loading
+                                            wire:target="submit">
+                                        </div>
                                     </button>
                                 </div>
                             </div>
@@ -95,34 +97,23 @@
 
     <x-slot name="scripts">
 
-        <!-- DataTables  & Plugins -->
-        <script src="{{ asset('TAssets/plugins/datatables/jquery.dataTables.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/jszip/jszip.min.js') }}"></script>
-        <script src="{{ asset('TAssets/plugins/pdfmake/pdfmake.min.js') }}"></script>
-        <script src="{{ asset('TAssets/plugins/pdfmake/vfs_fonts.js') }}"></script>
-        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.html5.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.print.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}">
-        </script>
         <script src="{{ asset('TAssets/plugins/summernote/summernote-bs4.min.js') }}"></script>
         <!-- AdminLTE App -->
         <script>
             $(document).ready(function() {
-                $('#summernote').summernote();
+                $('#summernote').summernote({
+                    // This is just to ensure the summernote textarea content is updated
+                    callbacks: {
+                        onChange: function(contents, $editable) {
+                            @this.set('content', contents)
+                        }
+                    }
+                });
             });
+
+            Livewire.on('success', _ => {
+                $('#summernote').summernote('reset');
+            })
         </script>
     </x-slot>
-</x-app-layout>
+</div>

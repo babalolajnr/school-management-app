@@ -38,6 +38,7 @@
         }
 
     </style>
+    @livewireStyles
 </head>
 
 <body class="hold-transition dark-mode sidebar-mini layout-navbar-fixed layout-fixed layout-footer-fixed">
@@ -90,6 +91,8 @@
         </div>
 
     </div>
+    @livewireScripts
+
     <!-- ./wrapper -->
     <!-- jQuery -->
     <script src="{{ asset('TAssets/plugins/jquery/jquery.min.js') }}"></script>
@@ -133,6 +136,20 @@
                 })
             }
         }
+
+        Livewire.on('success', message => {
+            var Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000
+            });
+
+            Toast.fire({
+                icon: 'success',
+                title: message
+            })
+        })
     </script>
 </body>
 

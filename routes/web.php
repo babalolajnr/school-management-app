@@ -22,6 +22,7 @@ use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherRemarkController;
 use App\Http\Controllers\TermController;
 use App\Http\Controllers\UserController;
+use App\Http\Livewire\Notification\CreateNotification;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -125,8 +126,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
         Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
         Route::prefix('notifications')->name('notification.')->group(function () {
-            Route::get('/', [NotificationController::class, 'index'])->name('index');
-            Route::post('/store', [NotificationController::class, 'store'])->name('store');
+            Route::get('/', CreateNotification::class)->name('index');
         });
 
         Route::prefix('branches')->name('branch.')->group(function () {
