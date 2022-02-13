@@ -15,6 +15,9 @@ class Index extends Component
     public $startDate;
     public $endDate;
     public $name;
+    public $deleteItem;
+
+    protected $listeners = ['delete'];
 
     protected $rules = [
         'name' => ['required', 'string', 'unique:academic_sessions', 'regex:/^\d{4}[-]{1}\d{4}$/m'],
@@ -65,6 +68,23 @@ class Index extends Component
         ]);
 
         $this->emit('success', 'Academic Session Created!');
+        $this->academicSessions = AcademicSession::all();
+    }
+
+    public function delete()
+    {
+        $academicSession = AcademicSession::whereName($this->deleteItem)->first();
+
+        try {
+            $academicSession->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == 23000) {
+                //SQLSTATE[23000]: Integrity constraint violation
+                return $this->emit('error', 'Academic session can not be deleted because some resources are dependent on it!');
+            }
+        }
+
+        $this->emit('success', 'Academic session deleted!');
         $this->academicSessions = AcademicSession::all();
     }
 }
