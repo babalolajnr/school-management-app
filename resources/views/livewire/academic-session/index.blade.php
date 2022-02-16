@@ -1,6 +1,7 @@
-<x-app-layout>
+<div>
+    {{-- Care about people's approval and you will be their prisoner. --}}
     <x-slot name="styles">
-         
+
         <!-- DataTables -->
         <link rel="stylesheet" href="{{ asset('TAssets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
         <link rel="stylesheet"
@@ -22,7 +23,7 @@
                         <h1>Academic Sessions</h1>
                     </div>
                     <div class="col-sm-6">
-                        
+
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -39,13 +40,12 @@
                             <div class="card-header">
                                 <h3 class="card-title">New Academic Session</h3>
                             </div>
-                            <form id="addAcademicSession" method="POST"
-                                action="{{ route('academic-session.store') }}">
+                            <form id="addAcademicSession" method="POST" action="#" wire:submit.prevent="submit">
                                 @csrf
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="Academic Session">Academic Session</label>
-                                        <input type="text" name="name" value="{{ old('name') }}"
+                                        <input type="text" wire:model="name"
                                             class="form-control @error('name') is-invalid @enderror"
                                             id="academicSession" placeholder="Enter Academic Session">
                                         <small class="text-muted">e.g 2009-2010 </small>
@@ -55,33 +55,22 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Start Date</label>
-                                        <div class="input-group date" id="startDate" data-target-input="nearest">
-                                            <input type="text"
-                                                class="form-control @error('start_date') is-invalid @enderror datetimepicker-input"
-                                                data-target="#startDate" value="{{ old('start_date') }}"
-                                                name="start_date" />
-                                            <div class="input-group-append" data-target="#startDate"
-                                                data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                            </div>
-                                        </div>
-                                        @error('start_date')
+                                        <input type="text" wire:model="startDate"
+                                            class="form-control @error('startDate') is-invalid @enderror" id="startDate"
+                                            placeholder="">
+                                        <small class="text-muted">format: YYYY-MM-DD </small>
+                                        @error('startDate')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
+
                                     </div>
                                     <div class="form-group">
                                         <label>End Date</label>
-                                        <div class="input-group date" id="endDate" data-target-input="nearest">
-                                            <input type="text"
-                                                class="form-control @error('end_date') is-invalid @enderror datetimepicker-input"
-                                                data-target="#endDate" value="{{ old('end_date') }}"
-                                                name="end_date" />
-                                            <div class="input-group-append" data-target="#endDate"
-                                                data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                            </div>
-                                        </div>
-                                        @error('end_date')
+                                        <input type="text" wire:model="endDate"
+                                            class="form-control @error('endDate') is-invalid @enderror" id="endDate"
+                                            placeholder="">
+                                        <small class="text-muted">format: YYYY-MM-DD </small>
+                                        @error('endDate')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -113,13 +102,6 @@
                                                 <td>
                                                     {{ $academicSession->name }}
                                                 </td>
-                                                {{-- <td>
-                                                    {{ $academicSession->name }}
-                                                    @if ($academicSession->isCurrentAcademicSession()) <span
-                                                            class="pl-3" title="Current Academic Session"><i
-                                                                class="fas fa-check text-green-600"></i></span>
-                                                    @endif
-                                                </td> --}}
                                                 <td>
                                                     {{ $academicSession->start_date }}
                                                 </td>
@@ -137,24 +119,9 @@
                                                         </a>
                                                         <button type="button" class="btn btn-danger btn-flat"
                                                             title="Delete"
-                                                            onclick="deleteConfirmationModal('{{ route('academic-session.destroy', ['academicSession' => $academicSession]) }}', '{{ $academicSession->name }}')">
+                                                            onclick="deleteConfirmationModal('{{ $academicSession->name }}')">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
-
-                                                        {{-- @if ($academicSession->isCurrentAcademicSession())
-                                                            <button type="button" class="btn btn-default btn-flat"
-                                                                title="Set as current academic session" disabled>
-                                                                <i class="fas fa-toggle-on text-green-700"></i>
-                                                            </button>
-                                                        @else
-                                                            <a
-                                                                href="{{ route('academic-session.set.current', ['academicSession' => $academicSession]) }}">
-                                                                <button type="button" class="btn btn-default btn-flat"
-                                                                    title="Set as current academic session">
-                                                                    <i class="fas fa-toggle-off text-red-500"></i>
-                                                                </button>
-                                                            </a>
-                                                            @endif --}}
 
                                                     </div>
                                                 </td>
@@ -190,11 +157,16 @@
                     Are you sure you want to delete <span id="deleteItemName" class="font-bold"></span>?
                 </div>
                 <div class="modal-footer justify-content-between">
-                    <form action="" method="POST" id="yesDeleteConfirmation">
-                        @method('DELETE')
-                        @csrf
-                        <button type="submit" class="btn btn-danger">Yes</button>
-                    </form>
+                    <div>
+                        <span data-delete-item='' id="deleteItem"></span>
+                        <button type="button" class="btn btn-danger" id="confirmDelete">
+                            <span wire:loading.remove wire:target="delete">
+                                Yes
+                            </span>
+                            <div class="spinner-border spinner-border text-muted" wire:loading wire:target="delete">
+                            </div>
+                        </button>
+                    </div>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
             </div>
@@ -204,7 +176,6 @@
     </div>
 
     <x-slot name="scripts">
-         
         <!-- DataTables  & Plugins -->
         <script src="{{ asset('TAssets/plugins/datatables/jquery.dataTables.min.js') }}">
         </script>
@@ -234,20 +205,28 @@
 
         <!-- AdminLTE App -->
         <script>
-            //Date range picker
-            $('#startDate').datetimepicker({
-                format: 'YYYY-MM-DD'
-            })
+            function deleteConfirmationModal(name) {
 
-            $('#endDate').datetimepicker({
-                format: 'YYYY-MM-DD'
-            })
-
-            function deleteConfirmationModal(url, name) {
-                $('#yesDeleteConfirmation').attr("action", url)
                 $('#deleteItemName').html(name)
                 $('#deleteConfirmationModal').modal('show')
+
+                // Set data-attribute of delete item
+                document.getElementById('deleteItem').dataset.deleteItem = name
             }
+
+            $('#confirmDelete').click(() => {
+                // Set deleteItem property on the component
+                @this.set('deleteItem', document.getElementById('deleteItem').dataset.deleteItem)
+                Livewire.emit('delete')
+            })
+
+            Livewire.on('success', _ => {
+                $('#deleteConfirmationModal').modal('hide')
+            })
+
+            Livewire.on('error', _ => {
+                $('#deleteConfirmationModal').modal('hide')
+            })
 
             $(function() {
                 $("#example1").DataTable({
@@ -258,7 +237,6 @@
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
             });
-
         </script>
     </x-slot>
-</x-app-layout>
+</div>
