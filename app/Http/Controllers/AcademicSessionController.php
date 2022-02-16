@@ -29,32 +29,6 @@ class AcademicSessionController extends Controller
         return $validatedData;
     }
 
-    public function index()
-    {
-        $academicSessions = AcademicSession::all();
-        return view('academic-session.index', compact('academicSessions'));
-    }
-
-    public function store(Request $request)
-    {
-        $data = $this->validateAcademicSession($request);
-
-        //check if date range is unique
-        $validateDateRange = $this->validateDateRange($data['start_date'], $data['end_date'], AcademicSession::class);
-
-        //if date range is not unique
-        if ($validateDateRange !== true) {
-            throw ValidationException::withMessages([
-                'start_date' => ['Date range overlaps with another period'],
-                'end_date' => ['Date range overlaps with another period']
-            ]);
-        }
-
-        AcademicSession::create($data);
-
-        return back()->with('success', 'Academic Session Created!');
-    }
-
     public function edit(AcademicSession $academicSession)
     {
         return view('academic-session.edit', compact('academicSession'));
@@ -66,7 +40,7 @@ class AcademicSessionController extends Controller
 
         //check if date range is unique
         $validateDateRange = $this->validateDateRange($data['start_date'], $data['end_date'], AcademicSession::class, $academicSession);
-        
+
         if ($validateDateRange !== true) {
             return back()->with('error', 'Date range overlaps with another Academic session');
         }
@@ -74,18 +48,5 @@ class AcademicSessionController extends Controller
         $academicSession->update($data);
 
         return redirect()->route('academic-session.index')->with('success', 'Academic Session Updated!');
-    }
-
-    public function destroy(AcademicSession $academicSession)
-    {
-        try {
-            $academicSession->delete();
-        } catch (\Illuminate\Database\QueryException $e) {
-            if ($e->getCode() == 23000) {
-                //SQLSTATE[23000]: Integrity constraint violation
-                return back()->with('error', 'Academic session can not be deleted because some resources are dependent on it!');
-            }
-        }
-        return back()->with('success', 'Academic Session Deleted!');
     }
 }
