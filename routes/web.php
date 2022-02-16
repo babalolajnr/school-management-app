@@ -233,7 +233,6 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::get('/', AcademicSessionIndex::class)->name('index');
             Route::get('/edit/{academicSession:name}', [AcademicSessionController::class, 'edit'])->name('edit');
             Route::patch('/update/{academicSession:name}', [AcademicSessionController::class, 'update'])->name('update');
-            Route::delete('/delete/{academicSession:name}', [AcademicSessionController::class, 'destroy'])->name('destroy');
         });
 
         Route::prefix('guardians')->name('guardian.')->group(function () {
