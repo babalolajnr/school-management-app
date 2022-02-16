@@ -159,7 +159,13 @@
                 <div class="modal-footer justify-content-between">
                     <div>
                         <span data-delete-item='' id="deleteItem"></span>
-                        <button type="button" class="btn btn-danger" id="confirmDelete">Yes</button>
+                        <button type="button" class="btn btn-danger" id="confirmDelete">
+                            <span wire:loading.remove wire:target="delete">
+                                Yes
+                            </span>
+                            <div class="spinner-border spinner-border text-muted" wire:loading wire:target="delete">
+                            </div>
+                        </button>
                     </div>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
@@ -199,7 +205,6 @@
 
         <!-- AdminLTE App -->
         <script>
-
             function deleteConfirmationModal(name) {
 
                 $('#deleteItemName').html(name)
