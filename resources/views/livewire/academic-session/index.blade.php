@@ -55,31 +55,21 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Start Date</label>
-                                        <div class="input-group date" id="startDate" data-target-input="nearest">
-                                            <input type="text"
-                                                class="form-control @error('startDate') is-invalid @enderror datetimepicker-input"
-                                                data-target="#startDate" wire:model="startDate" />
-                                            <div class="input-group-append" data-target="#startDate"
-                                                data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                            </div>
-                                        </div>
+                                        <input type="text" wire:model="startDate"
+                                            class="form-control @error('startDate') is-invalid @enderror" id="startDate"
+                                            placeholder="">
+                                        <small class="text-muted">format: YYYY-MM-DD </small>
                                         @error('startDate')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
+
                                     </div>
                                     <div class="form-group">
                                         <label>End Date</label>
-                                        <div class="input-group date" id="endDate" data-target-input="nearest">
-                                            <input type="text"
-                                                class="form-control @error('endDate') is-invalid @enderror datetimepicker-input"
-                                                data-target="#endDate" value="{{ old('endDate') }}"
-                                                wire:model="endDate" />
-                                            <div class="input-group-append" data-target="#endDate"
-                                                data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                            </div>
-                                        </div>
+                                        <input type="text" wire:model="endDate"
+                                            class="form-control @error('endDate') is-invalid @enderror" id="endDate"
+                                            placeholder="">
+                                        <small class="text-muted">format: YYYY-MM-DD </small>
                                         @error('endDate')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -180,7 +170,6 @@
     </div>
 
     <x-slot name="scripts">
-
         <!-- DataTables  & Plugins -->
         <script src="{{ asset('TAssets/plugins/datatables/jquery.dataTables.min.js') }}">
         </script>
@@ -210,14 +199,6 @@
 
         <!-- AdminLTE App -->
         <script>
-            //Date range picker
-            $('#startDate').datetimepicker({
-                format: 'YYYY-MM-DD'
-            })
-
-            $('#endDate').datetimepicker({
-                format: 'YYYY-MM-DD'
-            })
 
             function deleteConfirmationModal(name) {
 
