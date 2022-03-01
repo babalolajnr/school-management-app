@@ -211,13 +211,13 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::delete('/delete/{term:slug}', 'destroy')->name('destroy');
         });
 
-        Route::prefix('subjects')->name('subject.')->group(function () {
+        Route::controller(SubjectController::class)->prefix('subjects')->name('subject.')->group(function () {
             // Subject routes
-            Route::get('/', [SubjectController::class, 'index'])->name('index');
-            Route::get('/edit/{subject:slug}', [SubjectController::class, 'edit'])->name('edit');
-            Route::post('/store', [SubjectController::class, 'store'])->name('store');
-            Route::patch('/update/{subject:slug}', [SubjectController::class, 'update'])->name('update');
-            Route::delete('/delete/{subject:slug}', [SubjectController::class, 'destroy'])->name('destroy');
+            Route::get('/', 'index')->name('index');
+            Route::get('/edit/{subject:slug}', 'edit')->name('edit');
+            Route::post('/store',  'store')->name('store');
+            Route::patch('/update/{subject:slug}',  'update')->name('update');
+            Route::delete('/delete/{subject:slug}',  'destroy')->name('destroy');
         });
 
         Route::prefix('academic-sessions')->name('academic-session.')->group(function () {
