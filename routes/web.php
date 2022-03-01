@@ -10,7 +10,6 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeactivatedController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\GuardianController;
-use App\Http\Controllers\HosRemarkController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PDController;
 use App\Http\Controllers\PDTypeController;
@@ -164,13 +163,6 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::patch('/deactivate/{teacher}', [TeacherController::class, 'deactivate'])->name('deactivate');
             Route::delete('/delete/{teacher}', [TeacherController::class, 'destroy'])->name('destroy');
             Route::delete('/force-delete/{id}', [TeacherController::class, 'forceDelete'])->name('force.delete');
-        });
-
-        Route::prefix('hos-remarks')->name('remark.hos.')->group(function () {
-
-            //HOS remark routes
-            Route::get('/create/{student:admission_no}', [HosRemarkController::class, 'create'])->name('create')->where('student', '.*');
-            Route::post('/store/{student}', [HosRemarkController::class, 'storeOrUpdate'])->name('storeOrUpdate');
         });
 
         Route::prefix('students')->name('student.')->group(function () {
