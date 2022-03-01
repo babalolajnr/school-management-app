@@ -202,13 +202,13 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::delete('/delete/{classroom:slug}', 'destroy')->name('destroy');
         });
 
-        Route::prefix('terms')->name('term.')->group(function () {
+        Route::controller(TermController::class)->prefix('terms')->name('term.')->group(function () {
             //Term routes
-            Route::get('/', [TermController::class, 'index'])->name('index');
-            Route::get('/edit/{term:slug}', [TermController::class, 'edit'])->name('edit');
-            Route::post('/store', [TermController::class, 'store'])->name('store');
-            Route::patch('/update/{term:slug}', [TermController::class, 'update'])->name('update');
-            Route::delete('/delete/{term:slug}', [TermController::class, 'destroy'])->name('destroy');
+            Route::get('/', 'index')->name('index');
+            Route::get('/edit/{term:slug}', 'edit')->name('edit');
+            Route::post('/store', 'store')->name('store');
+            Route::patch('/update/{term:slug}', 'update')->name('update');
+            Route::delete('/delete/{term:slug}', 'destroy')->name('destroy');
         });
 
         Route::prefix('subjects')->name('subject.')->group(function () {
