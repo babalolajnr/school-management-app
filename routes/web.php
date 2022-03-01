@@ -129,95 +129,95 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::get('/', CreateNotification::class)->name('index');
         });
 
-        Route::prefix('branches')->name('branch.')->group(function () {
-            Route::get('/', [BranchController::class, 'index'])->name('index');
-            Route::get('/edit/{branch}', [BranchController::class, 'edit'])->name('edit');
-            Route::get('/assign-main-teacher/{branchClassroom}/{teacher}', [BranchController::class, 'assignMainTeacher'])->name('assign.main.teacher');
-            Route::post('/store', [BranchController::class, 'store'])->name('store');
-            Route::patch('/update/{branch}', [BranchController::class, 'update'])->name('update');
-            Route::patch('/assign-teachers/{branchClassroom}', [BranchController::class, 'assignTeachers'])->name('assign.teachers');
-            Route::delete('/delete/{branch}', [BranchController::class, 'destroy'])->name('destroy');
+        Route::controller(BranchController::class)->prefix('branches')->name('branch.')->group(function () {
+            Route::get('/',  'index')->name('index');
+            Route::get('/edit/{branch}',  'edit')->name('edit');
+            Route::get('/assign-main-teacher/{branchClassroom}/{teacher}',  'assignMainTeacher')->name('assign.main.teacher');
+            Route::post('/store',  'store')->name('store');
+            Route::patch('/update/{branch}',  'update')->name('update');
+            Route::patch('/assign-teachers/{branchClassroom}',  'assignTeachers')->name('assign.teachers');
+            Route::delete('/delete/{branch}',  'destroy')->name('destroy');
         });
 
-        Route::prefix('users')->name('user.')->group(function () {
-            Route::get('/', [UserController::class, 'index'])->name('index');
-            Route::get('/{user:email}', [UserController::class, 'show'])->name('show');
-            Route::patch('/update/{user}', [UserController::class, 'update'])->name('update');
-            Route::patch('/store-signature/{user}', [UserController::class, 'storeSignature'])->name('store.signature');
-            Route::patch('/update-password/{user}', [UserController::class, 'updatePassword'])->name('update.password');
-            Route::patch('/verify/{user:email}', [UserController::class, 'verify'])->name('verify');
-            Route::patch('/set-hos/{user}', [UserController::class, 'setHos'])->name('set-hos');
-            Route::patch('/toggle-status/{user:email}', [UserController::class, 'toggleStatus'])->name('toggle-status');
-            Route::delete('/delete/{user:email}', [UserController::class, 'destroy'])->name('destroy');
+        Route::controller(UserController::class)->prefix('users')->name('user.')->group(function () {
+            Route::get('/',  'index')->name('index');
+            Route::get('/{user:email}',  'show')->name('show');
+            Route::patch('/update/{user}',  'update')->name('update');
+            Route::patch('/store-signature/{user}',  'storeSignature')->name('store.signature');
+            Route::patch('/update-password/{user}',  'updatePassword')->name('update.password');
+            Route::patch('/verify/{user:email}',  'verify')->name('verify');
+            Route::patch('/set-hos/{user}',  'setHos')->name('set-hos');
+            Route::patch('/toggle-status/{user:email}',  'toggleStatus')->name('toggle-status');
+            Route::delete('/delete/{user:email}',  'destroy')->name('destroy');
         });
 
-        Route::prefix('teachers')->name('teacher.')->group(function () {
+        Route::controller(TeacherController::class)->prefix('teachers')->name('teacher.')->group(function () {
             //Teacher routes
-            Route::get('/', [TeacherController::class, 'index'])->name('index');
-            Route::get('/create', [TeacherController::class, 'create'])->name('create');
-            Route::get('/trashed', [TeacherController::class, 'showTrashed'])->name('show.trashed');
-            Route::patch('user/update/{teacher}', [TeacherController::class, 'userTeacherUpdate'])->name('user.update');
-            Route::post('/store', [TeacherController::class, 'store'])->name('store');
-            Route::patch('/activate/{teacher}', [TeacherController::class, 'activate'])->name('activate');
-            Route::patch('/restore/{id}', [TeacherController::class, 'restore'])->name('restore');
-            Route::patch('/deactivate/{teacher}', [TeacherController::class, 'deactivate'])->name('deactivate');
-            Route::delete('/delete/{teacher}', [TeacherController::class, 'destroy'])->name('destroy');
-            Route::delete('/force-delete/{id}', [TeacherController::class, 'forceDelete'])->name('force.delete');
+            Route::get('/',  'index')->name('index');
+            Route::get('/create',  'create')->name('create');
+            Route::get('/trashed',  'showTrashed')->name('show.trashed');
+            Route::patch('user/update/{teacher}',  'userTeacherUpdate')->name('user.update');
+            Route::post('/store',  'store')->name('store');
+            Route::patch('/activate/{teacher}',  'activate')->name('activate');
+            Route::patch('/restore/{id}',  'restore')->name('restore');
+            Route::patch('/deactivate/{teacher}',  'deactivate')->name('deactivate');
+            Route::delete('/delete/{teacher}',  'destroy')->name('destroy');
+            Route::delete('/force-delete/{id}',  'forceDelete')->name('force.delete');
         });
 
-        Route::prefix('students')->name('student.')->group(function () {
+        Route::controller(StudentController::class)->prefix('students')->name('student.')->group(function () {
             //Student Routes
-            Route::get('/', [StudentController::class, 'index'])->name('index');
-            Route::get('/create', [StudentController::class, 'create'])->name('create');
-            Route::get('/edit/{student:admission_no}', [StudentController::class, 'edit'])->name('edit')->where('student', '.*');
-            Route::get('/trashed', [StudentController::class, 'showTrashed'])->name('show.trashed');
-            Route::get('/alumni', [StudentController::class, 'getAlumni'])->name('get.alumni');
-            Route::get('/inactive', [StudentController::class, 'getInactiveStudents'])->name('get.inactive');
-            Route::post('/store/image/{student}', [StudentController::class, 'uploadImage'])->name('upload.image');
-            Route::post('/store', [StudentController::class, 'store'])->name('store');
-            Route::patch('/update/{student}', [StudentController::class, 'update'])->name('update');
-            Route::patch('/activate/{student}', [StudentController::class, 'activate'])->name('activate');
-            Route::patch('/deactivate/{student}', [StudentController::class, 'deactivate'])->name('deactivate');
-            Route::patch('/promote/{student}', [StudentController::class, 'promote'])->name('promote');
-            Route::patch('/demote/{student}', [StudentController::class, 'demote'])->name('demote');
-            Route::patch('/graduate/{student}', [StudentController::class, 'graduate'])->name('graduate');
-            Route::patch('/set-classroom-branch/{student}/{branch}', [StudentController::class, 'setClassroomBranch'])->name('set.classroom.branch');
-            Route::patch('/restore/{id}', [StudentController::class, 'restore'])->name('restore');
-            Route::delete('/delete/{student}', [StudentController::class, 'destroy'])->name('destroy');
-            Route::delete('/force-delete/{id}', [StudentController::class, 'forceDelete'])->name('force.delete');
+            Route::get('/',  'index')->name('index');
+            Route::get('/create',  'create')->name('create');
+            Route::get('/edit/{student:admission_no}',  'edit')->name('edit')->where('student', '.*');
+            Route::get('/trashed',  'showTrashed')->name('show.trashed');
+            Route::get('/alumni',  'getAlumni')->name('get.alumni');
+            Route::get('/inactive',  'getInactiveStudents')->name('get.inactive');
+            Route::post('/store/image/{student}',  'uploadImage')->name('upload.image');
+            Route::post('/store',  'store')->name('store');
+            Route::patch('/update/{student}',  'update')->name('update');
+            Route::patch('/activate/{student}',  'activate')->name('activate');
+            Route::patch('/deactivate/{student}',  'deactivate')->name('deactivate');
+            Route::patch('/promote/{student}',  'promote')->name('promote');
+            Route::patch('/demote/{student}',  'demote')->name('demote');
+            Route::patch('/graduate/{student}',  'graduate')->name('graduate');
+            Route::patch('/set-classroom-branch/{student}/{branch}',  'setClassroomBranch')->name('set.classroom.branch');
+            Route::patch('/restore/{id}',  'restore')->name('restore');
+            Route::delete('/delete/{student}',  'destroy')->name('destroy');
+            Route::delete('/force-delete/{id}',  'forceDelete')->name('force.delete');
         });
 
-        Route::prefix('classrooms')->name('classroom.')->group(function () {
+        Route::controller(ClassroomController::class)->prefix('classrooms')->name('classroom.')->group(function () {
             //Classroom Routes
-            Route::get('/', [ClassroomController::class, 'index'])->name('index');
-            Route::get('/edit/{classroom:slug}', [ClassroomController::class, 'edit'])->name('edit');
-            Route::get('/set-subjects/{classroom:slug}', [ClassroomController::class, 'setSubjects'])->name('set.subjects');
-            Route::get('/promote-or-demote-students/{classroom:slug}', [ClassroomController::class, 'promoteOrDemoteStudents'])->name('promote.or.demote.students');
-            Route::post('/update-subjects/{classroom:slug}', [ClassroomController::class, 'updateSubjects'])->name('update.subjects');
-            Route::post('/promote-students/{classroom:slug}', [ClassroomController::class, 'promoteStudents'])->name('promote.students');
-            Route::post('/demote-students/{classroom:slug}', [ClassroomController::class, 'demoteStudents'])->name('demote.students');
-            Route::post('/store', [ClassroomController::class, 'store'])->name('store');
-            Route::patch('/update/{classroom:slug}', [ClassroomController::class, 'update'])->name('update');
-            Route::patch('/update-branches/{classroom:slug}', [ClassroomController::class, 'updateBranches'])->name('update.branches');
-            Route::delete('/delete/{classroom:slug}', [ClassroomController::class, 'destroy'])->name('destroy');
+            Route::get('/', 'index')->name('index');
+            Route::get('/edit/{classroom:slug}', 'edit')->name('edit');
+            Route::get('/set-subjects/{classroom:slug}', 'setSubjects')->name('set.subjects');
+            Route::get('/promote-or-demote-students/{classroom:slug}', 'promoteOrDemoteStudents')->name('promote.or.demote.students');
+            Route::post('/update-subjects/{classroom:slug}', 'updateSubjects')->name('update.subjects');
+            Route::post('/promote-students/{classroom:slug}', 'promoteStudents')->name('promote.students');
+            Route::post('/demote-students/{classroom:slug}', 'demoteStudents')->name('demote.students');
+            Route::post('/store', 'store')->name('store');
+            Route::patch('/update/{classroom:slug}', 'update')->name('update');
+            Route::patch('/update-branches/{classroom:slug}', 'updateBranches')->name('update.branches');
+            Route::delete('/delete/{classroom:slug}', 'destroy')->name('destroy');
         });
 
-        Route::prefix('terms')->name('term.')->group(function () {
+        Route::controller(TermController::class)->prefix('terms')->name('term.')->group(function () {
             //Term routes
-            Route::get('/', [TermController::class, 'index'])->name('index');
-            Route::get('/edit/{term:slug}', [TermController::class, 'edit'])->name('edit');
-            Route::post('/store', [TermController::class, 'store'])->name('store');
-            Route::patch('/update/{term:slug}', [TermController::class, 'update'])->name('update');
-            Route::delete('/delete/{term:slug}', [TermController::class, 'destroy'])->name('destroy');
+            Route::get('/', 'index')->name('index');
+            Route::get('/edit/{term:slug}', 'edit')->name('edit');
+            Route::post('/store', 'store')->name('store');
+            Route::patch('/update/{term:slug}', 'update')->name('update');
+            Route::delete('/delete/{term:slug}', 'destroy')->name('destroy');
         });
 
-        Route::prefix('subjects')->name('subject.')->group(function () {
+        Route::controller(SubjectController::class)->prefix('subjects')->name('subject.')->group(function () {
             // Subject routes
-            Route::get('/', [SubjectController::class, 'index'])->name('index');
-            Route::get('/edit/{subject:slug}', [SubjectController::class, 'edit'])->name('edit');
-            Route::post('/store', [SubjectController::class, 'store'])->name('store');
-            Route::patch('/update/{subject:slug}', [SubjectController::class, 'update'])->name('update');
-            Route::delete('/delete/{subject:slug}', [SubjectController::class, 'destroy'])->name('destroy');
+            Route::get('/', 'index')->name('index');
+            Route::get('/edit/{subject:slug}', 'edit')->name('edit');
+            Route::post('/store',  'store')->name('store');
+            Route::patch('/update/{subject:slug}',  'update')->name('update');
+            Route::delete('/delete/{subject:slug}',  'destroy')->name('destroy');
         });
 
         Route::prefix('academic-sessions')->name('academic-session.')->group(function () {
@@ -227,46 +227,46 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::patch('/update/{academicSession:name}', [AcademicSessionController::class, 'update'])->name('update');
         });
 
-        Route::prefix('guardians')->name('guardian.')->group(function () {
+        Route::controller(GuardianController::class)->prefix('guardians')->name('guardian.')->group(function () {
             //Guardian Routes
-            Route::get('/edit/{guardian:phone}', [GuardianController::class, 'edit'])->name('edit');
-            Route::patch('/update/{guardian:phone}', [GuardianController::class, 'update'])->name('update');
-            Route::post('/change-guardian/{student}', [GuardianController::class, 'changeGuardian'])->name('change');
+            Route::get('/edit/{guardian:phone}',  'edit')->name('edit');
+            Route::patch('/update/{guardian:phone}',  'update')->name('update');
+            Route::post('/change-guardian/{student}',  'changeGuardian')->name('change');
         });
 
-        Route::prefix('pd-types')->name('pd-type.')->group(function () {
+        Route::controller(PDTypeController::class)->prefix('pd-types')->name('pd-type.')->group(function () {
             //Pychomotor domain type routes
-            Route::get('/', [PDTypeController::class, 'index'])->name('index');
-            Route::get('/edit/{pdType:slug}', [PDTypeController::class, 'edit'])->name('edit');
-            Route::post('/store', [PDTypeController::class, 'store'])->name('store');
-            Route::patch('/update/{pdType}', [PDTypeController::class, 'update'])->name('update');
-            Route::delete('/delete/{pdType}', [PDTypeController::class, 'destroy'])->name('destroy');
+            Route::get('/', 'index')->name('index');
+            Route::get('/edit/{pdType:slug}', 'edit')->name('edit');
+            Route::post('/store', 'store')->name('store');
+            Route::patch('/update/{pdType}', 'update')->name('update');
+            Route::delete('/delete/{pdType}', 'destroy')->name('destroy');
         });
 
-        Route::prefix('ad-types')->name('ad-type.')->group(function () {
+        Route::controller(ADTypeController::class)->prefix('ad-types')->name('ad-type.')->group(function () {
             //Affective domain type routes
-            Route::get('/', [ADTypeController::class, 'index'])->name('index');
-            Route::get('/edit/{adType:slug}', [ADTypeController::class, 'edit'])->name('edit');
-            Route::post('/store', [ADTypeController::class, 'store'])->name('store');
-            Route::patch('/update/{adType}', [ADTypeController::class, 'update'])->name('update');
-            Route::delete('/delete/{adType}', [ADTypeController::class, 'destroy'])->name('destroy');
+            Route::get('/',  'index')->name('index');
+            Route::get('/edit/{adType:slug}',  'edit')->name('edit');
+            Route::post('/store',  'store')->name('store');
+            Route::patch('/update/{adType}',  'update')->name('update');
+            Route::delete('/delete/{adType}',  'destroy')->name('destroy');
         });
 
-        Route::prefix('period')->name('period.')->group(function () {
-            Route::get('/', [PeriodController::class, 'index'])->name('index');
-            Route::get('/edit/{period:slug}', [PeriodController::class, 'edit'])->name('edit');
-            Route::post('/store', [PeriodController::class, 'store'])->name('store');
-            Route::patch('/update/{period:slug}', [PeriodController::class, 'update'])->name('update');
-            Route::patch('/set-active/{period:slug}', [PeriodController::class, 'setActivePeriod'])->name('set-active-period');
-            Route::delete('/delete/{period:slug}', [PeriodController::class, 'destroy'])->name('delete');
+        Route::controller(PeriodController::class)->prefix('period')->name('period.')->group(function () {
+            Route::get('/',  'index')->name('index');
+            Route::get('/edit/{period:slug}',  'edit')->name('edit');
+            Route::post('/store',  'store')->name('store');
+            Route::patch('/update/{period:slug}',  'update')->name('update');
+            Route::patch('/set-active/{period:slug}',  'setActivePeriod')->name('set-active-period');
+            Route::delete('/delete/{period:slug}',  'destroy')->name('delete');
         });
 
-        Route::prefix('fee')->name('fee.')->group(function () {
-            Route::get('/', [FeeController::class, 'index'])->name('index');
-            Route::post('/store', [FeeController::class, 'store'])->name('store');
-            Route::get('/edit/{fee}', [FeeController::class, 'edit'])->name('edit');
-            Route::patch('/update/{fee}', [FeeController::class, 'update'])->name('update');
-            Route::delete('/delete/{fee}', [FeeController::class, 'destroy'])->name('destroy');
+        Route::controller(FeeController::class)->prefix('fee')->name('fee.')->group(function () {
+            Route::get('/',  'index')->name('index');
+            Route::post('/store',  'store')->name('store');
+            Route::get('/edit/{fee}',  'edit')->name('edit');
+            Route::patch('/update/{fee}',  'update')->name('update');
+            Route::delete('/delete/{fee}',  'destroy')->name('destroy');
         });
 
         Route::get('email-class-performace-report/{classroom}', [ResultController::class, 'sendClassroomPerformanceReportEmail'])->name('email.class.performace.report');
