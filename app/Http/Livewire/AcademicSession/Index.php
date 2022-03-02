@@ -40,6 +40,10 @@ class Index extends Component
     public function mount()
     {
         $this->academicSessions = AcademicSession::all();
+
+        // Log activity
+        \activity()->causedBy(auth()->user())
+            ->log("Requested Academic Sessions view");
     }
 
     public function updated($propertyName)
@@ -61,15 +65,20 @@ class Index extends Component
             'endDate' => ['Date range overlaps with another period']
         ]);
 
-        AcademicSession::create([
+        $newAcademicSession = AcademicSession::create([
             'name' => $this->name,
             'start_date' => $this->startDate,
             'end_date' => $this->endDate,
         ]);
 
+        // Log activity
+        \activity()->causedBy(auth()->user())
+        ->on($newAcademicSession)
+        ->log("Created Academic Session");
+
         $this->emit('success', 'Academic Session Created!');
-        $this->academicSessions = AcademicSession::all();
         $this->reset();
+        $this->academicSessions = AcademicSession::all();
     }
 
     public function delete()
@@ -84,6 +93,12 @@ class Index extends Component
                 return $this->emit('error', 'Academic session can not be deleted because some resources are dependent on it!');
             }
         }
+
+        // Log activity
+        \activity()->causedBy(auth()->user())
+            ->on($academicSession)
+            ->withProperties(['academic_session_name' => $academicSession->name])
+            ->log("Deleted Academic Session");
 
         $this->emit('success', 'Academic session deleted!');
         $this->academicSessions = AcademicSession::all();
