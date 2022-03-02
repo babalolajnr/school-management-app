@@ -31,6 +31,11 @@ class AcademicSessionController extends Controller
 
     public function edit(AcademicSession $academicSession)
     {
+        // Log activity
+        \activity()->causedBy(auth()->user())
+        ->on($academicSession)
+        ->log("Requested Academic Session edit form");
+
         return view('academic-session.edit', compact('academicSession'));
     }
 
@@ -46,6 +51,11 @@ class AcademicSessionController extends Controller
         }
 
         $academicSession->update($data);
+
+        // Log activity
+        \activity()->causedBy(auth()->user())
+        ->on($academicSession)
+        ->log("Updated Academic Session");
 
         return redirect()->route('academic-session.index')->with('success', 'Academic Session Updated!');
     }
