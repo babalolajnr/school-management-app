@@ -12,20 +12,20 @@ class ADController extends Controller
 {
     /**
      * Get affective domain creation form
-     * 
+     *
      * This method accepts an optional periodSlug parameter
      * if the request does not have periodSlug it defaults to the
      * active period
-     * 
+     *
      * @param Student $student
-     * 
+     *
      * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
-     * 
+     *
      */
     public function create(Student $student)
     {
         if (!Period::activePeriodIsSet()) return redirect()->back()->with('error', 'Active period is not set!');
-        
+
         $period = Period::activePeriod();
 
         $adTypes = ADType::all();
@@ -46,20 +46,23 @@ class ADController extends Controller
             $adTypesValues = null;
         }
 
+        // Log activity
+        \activity()->causedBy(auth()->user())->log("Requested $student->first_name $student->last_name's affective domain form");
+
         return view('ad.create', compact('adTypes', 'student', 'adTypesValues', 'period'));
     }
 
     /**
      * Store or update AD record
-     * 
+     *
      * If the optional periodSlug parameter is null, it
      * uses the active period to store the adType else it
      * uses the period from the url
-     * 
+     *
      * @param Student $student
      * @param Request $request
      * @param string $periodSlug
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
     public function storeOrUpdate(Student $student, Request $request, $periodSlug = null)
@@ -83,6 +86,12 @@ class ADController extends Controller
                 ['value' => $value]
             );
         }
+
+        // Log activity
+        \activity()->causedBy(auth()->user())
+        ->performedOn($student)
+        ->withProperties(['period_id' => $period->id])
+        ->log("Stored Or Updated $student->first_name $student->last_name's affective domain record");
 
         return redirect(route('result.show.performance', ['student' => $student, 'periodSlug' =>  Period::activePeriod()->slug]));
     }
