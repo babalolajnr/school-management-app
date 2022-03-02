@@ -76,13 +76,6 @@
                                                     </a>
                                                 @endif
                                             @endauth
-                                            @auth('web')
-                                                <a href="{{ route('remark.hos.create', ['student' => $student]) }}">
-                                                    <button type="button" class="btn btn-outline-secondary btn-sm btn-flat"
-                                                        title="Create or update HOS remark">Create/Update
-                                                        HOS Remark</button>
-                                                </a>
-                                            @endauth
                                         @endif
                                     </div>
                                 </div>
