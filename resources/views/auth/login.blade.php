@@ -1,72 +1,96 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                {{-- logo goes here --}}
-            </a>
-        </x-slot>
+<!DOCTYPE html>
+<html lang="en">
 
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ asset('images/radiant_logo-removebg-preview.png') }}" type="image/x-icon">
+    <title>Login</title>
+</head>
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <div class="pb-4">
-                <h3 class="text-center font-bold text-xl">User Login</h3>
-            </div>
-
-            <!-- Email Address -->
+<body class="lg:bg-gradient-to-r lg:from-violet-500 lg:to-fuchsia-500 w-screen h-screen sans-pro">
+    <div class="lg:flex lg:flex-row h-full lg:px-10 lg:py-5">
+        <div class="lg:basis-1/2 flex flex-col justify-center items-center h-full bg-slate-100 lg:rounded-l-lg">
             <div>
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
-                    autofocus />
-            </div>
-
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
-                    autocomplete="current-password" />
-            </div>
-
-            <!-- Remember Me -->
-            <div class="block mt-4">
-                <label for="remember_me" class="inline-flex items-center">
-                    <input id="remember_me" type="checkbox"
-                        class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        name="remember">
-                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-                </label>
-            </div>
-
-            <div class="flex items-center justify-between">
-                <div class="mt-4">
-                    <a class="text-sm text-green-600 hover:text-gray-900" href="/register">
-                        {{ __('Register') }}
-                    </a>
-                    <a class="text-sm text-green-600 hover:text-gray-900 pl-3" href="{{ route('teacher.login') }}">
-                        Teacher Login
+                <div class="lg:flex lg:justify-center lg:items-center">
+                    <!-- Logo goes here -->
+                    <img src="{{ asset('images/radiant_logo.jpeg') }}" alt="" class="h-16 w-16 rounded-full shadow-xl">
+                </div>
+                <div class="mt-7">
+                    <span class="font-bold text-2xl">Welcome back</span>
+                    <div>
+                        <span class="text-slate-500 text-sm">Welcome back! Please enter your details.</span>
+                    </div>
+                </div>
+                <form action="{{ route('login') }}" method="POST">
+                    @csrf
+                    <div class="mt-7">
+                        <div>
+                            <label for="Email" class="font-bold text-sm">Email</label><br />
+                            <input autocomplete="email" type="email" value="{{ old('email') }}"
+                                class="rounded-lg h-9 px-3 w-72 bg-transparent border placeholder:font-light border-slate-300"
+                                placeholder="Enter your email" name="email" required />
+                            @error('email')
+                                <div class="text-red-500 text-sm">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="pt-3">
+                            <label for="Password" class="font-bold text-sm">Password</label><br />
+                            <input autocomplete="current-password" name="password" type="password"
+                                placeholder="&middot&middot&middot&middot&middot&middot&middot&middot&middot&middot&middot"
+                                class="rounded-lg h-9 w-72 px-3 bg-transparent border placeholder:font-extrabold placeholder:text-2xl border-slate-300"
+                                required />
+                            @error('password')
+                                <div class="text-red-500 text-sm">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="flex mt-4 justify-between items-baseline">
+                        <div>
+                            <input type="checkbox" name="remember" id="remember_me"
+                                class="accent-slate-900 shadow-sm" />
+                            <label for="Remember Me" class="text-sm font-bold pl-1 rounded-md">Remember Me</label>
+                        </div>
+                        <div>
+                            @if (Route::has('password.request'))
+                                <a href="{{ route('password.request') }}">
+                                    <span
+                                        class="text-sm font-bold hover:bg-gradient-to-r hover:from-violet-500 hover:to-fuchsia-500 hover:bg-clip-text hover:text-transparent">Forgot
+                                        Password?</span>
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="pt-8 flex justify-center">
+                        <button
+                            class="bg-slate-900 rounded-lg shadow-lg hover:shadow-none h-11 w-60 grow group hover:bg-gradient-to-r hover:from-violet-500 hover:to-fuchsia-500"
+                            type="submit">
+                            <span class="px-5 py-4 font-bold text-white text-sm">Login</span>
+                        </button>
+                    </div>
+                </form>
+                <div class="pt-2">
+                    <a href="{{ route('teacher.login') }}" class="flex justify-center">
+                        <button
+                            class="border border-slate-900 rounded-lg shadow-lg hover:shadow-none grow h-11 group hover:bg-gradient-to-r hover:from-violet-500 hover:to-fuchsia-500"
+                            type="button">
+                            <span class="px-5 py-4 font-bold text-slate-900 text-sm">Go to Teacher's login</span>
+                        </button>
                     </a>
                 </div>
-                <div class="flex justify-end">
-                    @if (Route::has('password.request'))
-                        <a class="text-sm text-green-600 hover:text-gray-900 mt-4"
-                            href="{{ route('password.request') }}">
-                            {{ __('Forgot your password?') }}
-                        </a>
-                    @endif
-
-                    <x-button class="ml-3">
-                        {{ __('Login') }}
-                    </x-button>
+                <div class="pt-5">
+                    <span class="text-slate-500 text-sm">Don't have an account? Contact an administrator</span>
                 </div>
             </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+        </div>
+        <div class="hidden lg:block lg:basis-1/2 bg-cover lg:rounded-r-lg"
+            style="background-image: url('{{ asset('images/office.jpg') }}')">
+        </div>
+    </div>
+</body>
+
+</html>
