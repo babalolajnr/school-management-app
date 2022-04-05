@@ -61,13 +61,9 @@
                     </span>
                     <div class="dropdown-divider"></div>
                 @endforeach
-                <a href="{{ route('notification.inbox') }}" class="dropdown-item dropdown-footer">See All Notifications</a>
+                <a href="{{ route('notification.inbox') }}" class="dropdown-item dropdown-footer">See All
+                    Notifications</a>
             </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-widget="fullscreen" href="#" role="button" title="Go Fullscreen">
-                <i class="fas fa-expand-arrows-alt"></i>
-            </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" role="button" id="dark-mode" title="Toggle dark mode">
