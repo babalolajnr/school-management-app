@@ -83,7 +83,7 @@
                     </a>
                 </div>
                 <div class="pt-5">
-                    <span class="text-slate-500 text-sm">Don't have an account? Contact an administrator</span>
+                    <span class="text-slate-500 text-sm text-center">Don't have an account? Contact an administrator</span>
                 </div>
             </div>
         </div>
