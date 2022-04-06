@@ -12,11 +12,11 @@
     <title>Login</title>
 </head>
 
-<body class="lg:bg-gradient-to-r lg:from-violet-500 lg:to-fuchsia-500 w-screen h-screen sans-pro">
-    <div class="lg:flex lg:flex-row h-full lg:px-10 lg:py-5">
-        <div class="lg:basis-1/2 flex flex-col justify-center items-center h-full bg-slate-100 lg:rounded-l-lg">
+<body class="md:bg-gradient-to-r md:from-violet-500 md:to-fuchsia-500 w-screen h-screen sans-pro">
+    <div class="md:flex md:flex-row h-full md:px-10 md:py-5">
+        <div class="md:basis-1/2 flex flex-col justify-center items-center h-full bg-slate-100 md:rounded-l-lg">
             <div>
-                <div class="lg:flex lg:justify-center lg:items-center">
+                <div class="md:flex md:justify-center md:items-center">
                     <!-- Logo goes here -->
                     <img src="{{ asset('images/radiant_logo.jpeg') }}" alt="" class="h-16 w-16 rounded-full shadow-xl">
                 </div>
@@ -32,7 +32,7 @@
                         <div>
                             <label for="Email" class="font-bold text-sm">Email</label><br />
                             <input autocomplete="email" type="email" value="{{ old('email') }}"
-                                class="rounded-lg h-9 px-3 w-72 bg-transparent border placeholder:font-light border-slate-300"
+                                class="rounded-lg h-9 px-3 w-72 focus:shadow-md focus:outline-none bg-transparent border placeholder:font-light border-slate-300"
                                 placeholder="Enter your email" name="email" required />
                             @error('email')
                                 <div class="text-red-500 text-sm">{{ $message }}</div>
@@ -42,7 +42,7 @@
                             <label for="Password" class="font-bold text-sm">Password</label><br />
                             <input autocomplete="current-password" name="password" type="password"
                                 placeholder="&middot&middot&middot&middot&middot&middot&middot&middot&middot&middot&middot"
-                                class="rounded-lg h-9 w-72 px-3 bg-transparent border placeholder:font-extrabold placeholder:text-2xl border-slate-300"
+                                class="rounded-lg h-9 w-72 focus:shadow-md focus:outline-none px-3 bg-transparent border placeholder:font-extrabold placeholder:text-2xl border-slate-300"
                                 required />
                             @error('password')
                                 <div class="text-red-500 text-sm">{{ $message }}</div>
@@ -87,7 +87,7 @@
                 </div>
             </div>
         </div>
-        <div class="hidden lg:block lg:basis-1/2 bg-cover lg:rounded-r-lg"
+        <div class="hidden md:block md:basis-1/2 bg-cover md:rounded-r-lg"
             style="background-image: url('{{ asset('images/office.jpg') }}')">
         </div>
     </div>
