@@ -19,7 +19,7 @@
             <div class="text-sm">
                 {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
             </div>
-            <form action="{{ route('password.email') }}" method="POST" class="mt-4">
+            <form action="{{ route('teacher.password.email') }}" method="POST" class="mt-4">
                 @csrf
                 <label for="Email" class="font-bold text-sm">Email</label><br />
                 <input autocomplete="email" autofocus name="email" type="email" placeholder="Enter your email"
