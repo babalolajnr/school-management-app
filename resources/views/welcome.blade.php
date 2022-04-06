@@ -1,74 +1,40 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Radiant Minds School</title>
-
-    <!-- Favicon -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
     <link rel="shortcut icon" href="{{ asset('images/radiant_logo-removebg-preview.png') }}" type="image/x-icon">
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-    <style>
-        body {
-            font-family: 'Nunito';
-        }
-
-    </style>
+    <title>RMS</title>
 </head>
 
-<body class="antialiased">
-    <div class="pt-60 lg:relative lg:flex lg:items-top lg:justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-        <div class="hidden lg:block">
-            <div class="lg:fixed lg:top-0 lg:right-0 lg:px-6 lg:py-4">
-                @auth('web')
-                    <a href="{{ url('/dashboard') }}" class="text-sm dark:text-white text-gray-700 underline">Dashboard</a>
-                @else
-                    <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-white underline">Login</a>
-                @endauth
-
-                @auth('teacher')
-                    <a href="{{ route('classroom.show', ['classroom' => auth('teacher')->user()->classroom]) }}"
-                        class="text-sm dark:text-white text-gray-700 ml-4 underline">Classroom</a>
-                @else
-                    <a href="{{ route('teacher.login') }}"
-                        class="ml-4 text-sm text-gray-700 dark:text-white underline">Teacher's Login</a>
-                @endauth
-            </div>
+<body class="flex justify-center items-center h-screen sans-pro">
+    <div class="flex flex-col justify-center items-center -mt-16 mx-5 md:mx-0">
+        <div class="h-32 w-32 rounded-full bg-cover"
+            style="background-image: url({{ asset('images/radiant_logo.jpeg') }})">
         </div>
-        <div class="lg:mt-8">
-            <h1 class="font-bold text-lg text-center lg:text-5xl dark:text-white text-gray-900">RADIANT MINDS SCHOOL
-            </h1>
-        </div>
-        <div class="lg:hidden font-thin text-sm flex">
-            <div class="mx-auto">
-                <div class="py-3">
-                    @auth('web')
-                        <a href="{{ url('/dashboard') }}" class="text-sm dark:text-white text-gray-700 underline"><button
-                                class="btn-blue">Dashboard</button></a>
-                    @else
-                        <a href="{{ route('login') }}"><button class="btn-blue">Login</button></a>
-                    </div>
-                @endauth
-                @auth('teacher')
-                    <a href="{{ route('classroom.show', ['classroom' => auth('teacher')->user()->classroom]) }}"
-                        class="text-sm dark:text-white text-gray-700 underline"><button
-                            class="btn-blue">Classroom</button></a>
-                @else
-                    <a href="{{ route('teacher.login') }}" class="block"><button
-                            class="btn-blue">Teacher's
-                            Login</button></a>
-                @endauth
+        <h1 class="font-bold md:text-6xl text-3xl  mt-3 text-center">Radiant Minds School Portal</h1>
+        <div class="flex mt-4">
+            <a href="{{ route('login') }}">
+                <button
+                    class="border border-slate-900 rounded-lg shadow-lg hover:shadow-none grow h-11 group hover:bg-slate-800"
+                    type="button">
+                    <span class="px-5 py-4 font-bold text-slate-900 hover:text-white text-sm">Login</span>
+                </button>
+            </a>
 
-            </div>
+            <a href="{{ route('teacher.login') }}">
+                <button
+                    class="border ml-4 border-slate-900 rounded-lg shadow-lg hover:shadow-none grow h-11 group hover:bg-slate-800"
+                    type="button">
+                    <span class="px-5 py-4 font-bold text-slate-900 hover:text-white text-sm">Teacher's login</span>
+                </button>
+            </a>
         </div>
     </div>
+
 </body>
 
 </html>
