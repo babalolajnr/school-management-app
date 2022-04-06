@@ -25,6 +25,9 @@
                     <div>
                         <span class="text-slate-500 text-sm">Welcome back! Please enter your details.</span>
                     </div>
+                    @if (session('status'))
+                        <div class="text-green-500 text-sm">{{ session('status') }}</div>
+                    @endif
                 </div>
                 <form action="{{ route('teacher.login') }}" method="POST">
                     @csrf
@@ -56,8 +59,8 @@
                             <label for="Remember Me" class="text-sm font-bold pl-1 rounded-md">Remember Me</label>
                         </div>
                         <div>
-                            @if (Route::has('password.request'))
-                                <a href="{{ route('password.request') }}">
+                            @if (Route::has('teacher.password.request'))
+                                <a href="{{ route('teacher.password.request') }}">
                                     <span
                                         class="text-sm font-bold hover:bg-gradient-to-r hover:from-violet-500 hover:to-fuchsia-500 hover:bg-clip-text hover:text-transparent">Forgot
                                         Password?</span>
@@ -83,7 +86,8 @@
                     </a>
                 </div>
                 <div class="pt-5">
-                    <span class="text-slate-500 text-sm text-center">Don't have an account? Contact an administrator</span>
+                    <span class="text-slate-500 text-sm text-center">Don't have an account? Contact an
+                        administrator</span>
                 </div>
             </div>
         </div>
