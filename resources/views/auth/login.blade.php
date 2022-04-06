@@ -25,6 +25,9 @@
                     <div>
                         <span class="text-slate-500 text-sm">Welcome back! Please enter your details.</span>
                     </div>
+                    @if (session('status'))
+                        <div class="text-green-500 text-sm">{{ session('status') }}</div>
+                    @endif
                 </div>
                 <form action="{{ route('login') }}" method="POST">
                     @csrf
@@ -83,7 +86,8 @@
                     </a>
                 </div>
                 <div class="pt-5">
-                    <span class="text-slate-500 text-sm text-center">Don't have an account? Contact an administrator</span>
+                    <span class="text-slate-500 text-sm text-center">Don't have an account? Contact an
+                        administrator</span>
                 </div>
             </div>
         </div>
