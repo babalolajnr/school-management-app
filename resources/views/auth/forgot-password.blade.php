@@ -19,11 +19,15 @@
             <div class="text-sm">
                 {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
             </div>
-            <form action="{{ route('password.email') }}" class="mt-4">
+            <form action="{{ route('password.email') }}" method="POST" class="mt-4">
+                @csrf
                 <label for="Email" class="font-bold text-sm">Email</label><br />
                 <input autocomplete="email" name="email" type="email" placeholder="Enter your email"
                     class="rounded-lg w-full px-3 bg-transparent focus:shadow-md focus:outline-none border placeholder:font-light py-1 border-slate-300"
                     required />
+                @if (session('status'))
+                    <div class="text-green-500 text-sm">{{ session('status') }}</div>
+                @endif
                 @error('email')
                     <div class="text-red-500 text-sm">{{ $message }}</div>
                 @enderror
