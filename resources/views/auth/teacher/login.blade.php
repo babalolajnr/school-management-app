@@ -28,6 +28,9 @@
                     @if (session('status'))
                         <div class="text-green-500 text-sm">{{ session('status') }}</div>
                     @endif
+                    @if (session('error'))
+                        <div class="text-red-500 text-sm">{{ session('error') }}</div>
+                    @endif
                 </div>
                 <form action="{{ route('teacher.login') }}" method="POST">
                     @csrf
