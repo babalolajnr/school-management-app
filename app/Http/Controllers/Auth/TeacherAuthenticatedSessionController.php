@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\TeacherLoginRequest;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,16 +28,22 @@ class TeacherAuthenticatedSessionController extends Controller
      */
     public function store(TeacherLoginRequest $request)
     {
+        /**
+         * Any request that gets here has already been confirmed to
+         * have a valid email address. We can now safely assume that
+         * the next line will return a teacher object.
+         */
+        $teacher = Teacher::where('email', $request->email)->first();
+
+        $teachersClassroom = $teacher->branchClassroom;
+
+        if (is_null($teachersClassroom)) {
+            return back()->with('error', 'You are not a class-teacher!');
+        }
+
         $request->authenticate();
 
         $request->session()->regenerate();
-
-        $teachersClassroom = $request->user('teacher')->branchClassroom;
-
-        if (is_null($teachersClassroom)) { 
-            auth('teacher')->logout();
-            return route('deactivated');
-        }
 
         return redirect(route('classroom.show.branch', ['classroom' => $teachersClassroom?->classroom, 'branch' => $teachersClassroom?->branch]))->with('success', "Welcome {$request->user('teacher')->first_name} {$request->user('teacher')->last_name}");
     }

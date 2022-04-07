@@ -23,17 +23,16 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-
                 if ($guard == 'teacher') {
-                    $teachersClassroom = $request->user('teacher')->classroom;
-
-                    if (is_null($teachersClassroom)) {
-                        return back()->with('error', 'You are not a class-teacher!');
-                    }
-
-                    return redirect(route('classroom.show', ['classroom' => $teachersClassroom]));
+                    $teachersClassroom = $request->user('teacher')->branchClassroom;
+                    return redirect(route(
+                        'classroom.show.branch',
+                        [
+                            'classroom' => $teachersClassroom?->classroom,
+                            'branch' => $teachersClassroom?->branch
+                        ]
+                    ));
                 }
-                
                 return redirect(RouteServiceProvider::HOME);
             }
         }
