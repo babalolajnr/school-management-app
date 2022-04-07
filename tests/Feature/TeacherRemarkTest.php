@@ -23,10 +23,16 @@ class TeacherRemarkTest extends TestCase
 
         $student = Student::factory()->create();
         $teacher = Teacher::factory()->create(['branch_classroom_id' => $student->branch_classroom_id]);
+        
+        $student->branchClassroom->update([
+            'teacher_id' => $teacher->id
+        ]);
         Period::factory()->create(['active' => true]);
 
         $response = $this->actingAs($teacher, 'teacher')->get(route('remark.teacher.create', ['student' => $student]));
         $response->assertStatus(200);
+        $response->assertViewIs('teacher.create-remark');
+        $response->assertSessionMissing('error');
     }
 
 
