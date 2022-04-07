@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <div class="p-3">
+    <div class="wrapper"> <!--Added 'wrapper' to this line and 'p-3'-->
         <!--Logo and details of the company-->
         <div class="head d-flex justify-content-center p-3 pb-0">
             <div class="image">
@@ -55,10 +55,10 @@
         </div>
 
         <!--Student details-->
-        <div class="sub-container">
+        <div class="sub-container pt-0 p-5 pb-4"> <!--Added 'pt-0 p-5 pb-4' to this line-->
             <div class="some">
-                <div class="one">
-                    <form action="" class="p-3">
+                <div class="one p-3"> <!--added 'p-3' to the class on this line-->
+                    <form action="" class="p-1">
                         <div class="stu-name mb-2">
                             <label for="name" class="fw-bold">NAME:</label>
                             <div class="name name-font border-bottom px-2 border-2 border-dark"><span
