@@ -29,8 +29,15 @@ class TeacherLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|string|email',
+            'email' => 'required|string|email|exists:teachers,email',
             'password' => 'required|string',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'email.exists' => 'Email or Password is incorrect.',
         ];
     }
 
