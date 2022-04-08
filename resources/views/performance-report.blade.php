@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 @if ($student->image)
-                    <div class="h-40 w-40 rounded-full shrink-0"
+                    <div class="h-40 w-40 rounded-full bg-cover shrink-0"
                         style="background-image: url('{{ asset($student->image) }}')"></div>
                 @else
                     <img class="h-40 w-40 rounded-full border-2 border-black shrink-0"
