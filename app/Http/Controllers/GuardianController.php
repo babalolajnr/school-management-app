@@ -9,6 +9,18 @@ use Illuminate\Validation\Rule;
 
 class GuardianController extends Controller
 {
+
+    /**
+     * Show guardian page.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
+    {
+        $guardians = Guardian::all();
+        return view('guardian.index', compact('guardians'));
+    }
+
     /**
      * Show edit guardian page
      *
@@ -46,7 +58,7 @@ class GuardianController extends Controller
 
         return redirect()->route('guardian.edit', ['guardian' => $guardian])->with('success', 'Guardian updated!');
     }
-    
+
     /**
      * Change student's guardian
      *
