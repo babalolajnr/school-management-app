@@ -33,6 +33,17 @@ class GuardianController extends Controller
     }
 
     /**
+     * Show guardian
+     *
+     * @param  Guardian $guardian
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function show(Guardian $guardian)
+    {
+        return view('guardian.show', compact(['guardian']));
+    }
+
+    /**
      * Update guardian
      *
      * @param  Guardian $guardian
