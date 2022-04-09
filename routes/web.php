@@ -220,18 +220,21 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::delete('/delete/{subject:slug}',  'destroy')->name('destroy');
         });
 
-        Route::prefix('academic-sessions')->name('academic-session.')->group(function () {
+        Route::controller(AcademicSessionIndex::class)->prefix('academic-sessions')->name('academic-session.')->group(function () {
             //AcademicSession routes
-            Route::get('/', AcademicSessionIndex::class)->name('index');
-            Route::get('/edit/{academicSession:name}', [AcademicSessionController::class, 'edit'])->name('edit');
-            Route::patch('/update/{academicSession:name}', [AcademicSessionController::class, 'update'])->name('update');
+            Route::get('/', 'index')->name('index');
+            Route::get('/edit/{academicSession:name}', 'edit')->name('edit');
+            Route::patch('/update/{academicSession:name}', 'update')->name('update');
         });
 
         Route::controller(GuardianController::class)->prefix('guardians')->name('guardian.')->group(function () {
             //Guardian Routes
-            Route::get('/edit/{guardian:phone}',  'edit')->name('edit');
-            Route::patch('/update/{guardian:phone}',  'update')->name('update');
-            Route::post('/change-guardian/{student}',  'changeGuardian')->name('change');
+            Route::get('/', 'index')->name('index');
+            Route::get('/show/{guardian:phone}', 'show')->name('show');
+            Route::get('/edit/{guardian:phone}', 'edit')->name('edit');
+            Route::patch('/update/{guardian:phone}', 'update')->name('update');
+            Route::post('/change-guardian/{student}', 'changeGuardian')->name('change');
+            Route::delete('/delete/{guardian}', 'destroy')->name('destroy');
         });
 
         Route::controller(PDTypeController::class)->prefix('pd-types')->name('pd-type.')->group(function () {
