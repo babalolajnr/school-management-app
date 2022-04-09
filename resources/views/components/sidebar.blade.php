@@ -146,6 +146,13 @@
                                    </a>
                                </li>
                                <li class="nav-item">
+                                   <a href="{{ route('guardian.index') }}" class="nav-link"
+                                       id="guardian-index">
+                                       <span class="nav-icon"><i class="fas fa-person"></i></span>
+                                       <p>Guardians</p>
+                                   </a>
+                               </li>
+                               <li class="nav-item">
                                    <a href="{{ route('student.get.inactive') }}" class="nav-link"
                                        id="student-get-inactive">
                                        <span class="nav-icon"><i class="fas fa-ban"></i></span>
