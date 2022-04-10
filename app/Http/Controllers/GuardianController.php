@@ -9,6 +9,49 @@ use Illuminate\Validation\Rule;
 
 class GuardianController extends Controller
 {
+
+    /**
+     * Show guardian page.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index()
+    {
+        $guardians = Guardian::all();
+        return view('guardian.index', compact('guardians'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create()
+    {
+        return view('guardian.create');
+    }
+
+    /**
+     * Create new guardian.
+     *
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => ['required', 'email', 'unique:guardians,email'],
+            'phone' => ['required', 'string', 'between:10,15', 'unique:guardians,phone'],
+            'occupation' => 'required',
+            'address' => 'required',
+        ]);
+
+        Guardian::create($request->all());
+
+        return redirect(route('guardian.index'))->with('success', 'Guardian added successfully');
+    }
     /**
      * Show edit guardian page
      *
@@ -18,6 +61,17 @@ class GuardianController extends Controller
     public function edit(Guardian $guardian)
     {
         return view('guardian.edit', compact(['guardian']));
+    }
+
+    /**
+     * Show guardian
+     *
+     * @param  Guardian $guardian
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function show(Guardian $guardian)
+    {
+        return view('guardian.show', compact(['guardian']));
     }
 
     /**
@@ -46,7 +100,7 @@ class GuardianController extends Controller
 
         return redirect()->route('guardian.edit', ['guardian' => $guardian])->with('success', 'Guardian updated!');
     }
-    
+
     /**
      * Change student's guardian
      *
@@ -72,5 +126,19 @@ class GuardianController extends Controller
         if (count($currentGuardian->children) < 1) $currentGuardian->delete();
 
         return back()->with('success', "Guardian changed!");
+    }
+
+    public function destroy(Guardian $guardian)
+    {
+        try {
+            $guardian->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == 23000) {
+                //SQLSTATE[23000]: Integrity constraint violation
+                return back()->with('error', 'Guardian can not be deleted because some resources are dependent on it!');
+            }
+        }
+
+        return redirect()->route('guardian.index')->with('success', 'Guardian deleted!');
     }
 }
