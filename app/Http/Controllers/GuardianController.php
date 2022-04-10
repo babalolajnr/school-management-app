@@ -130,7 +130,15 @@ class GuardianController extends Controller
 
     public function destroy(Guardian $guardian)
     {
-        $guardian->delete();
+        try {
+            $guardian->delete();
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == 23000) {
+                //SQLSTATE[23000]: Integrity constraint violation
+                return back()->with('error', 'Guardian can not be deleted because some resources are dependent on it!');
+            }
+        }
+
         return redirect()->route('guardian.index')->with('success', 'Guardian deleted!');
     }
 }
