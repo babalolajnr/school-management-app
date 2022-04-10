@@ -52,6 +52,7 @@
                                                 <th>Title</th>
                                                 <th>First name</th>
                                                 <th>Last name</th>
+                                                <th>Children</th>
                                                 <th>Email</th>
                                                 <th>Phone number</th>
                                                 <th>Occupation</th>
@@ -75,6 +76,9 @@
                                                     </td>
                                                     <td>
                                                         {{ $guardian->last_name }}
+                                                    </td>
+                                                    <td>
+                                                        {{ $guardian->children()->count() }}
                                                     </td>
                                                     <td>
                                                         {{ $guardian->email }}
@@ -114,6 +118,7 @@
                                                 <th>Title</th>
                                                 <th>First name</th>
                                                 <th>Last name</th>
+                                                <th>Children</th>
                                                 <th>Email</th>
                                                 <th>Phone number</th>
                                                 <th>Occupation</th>
