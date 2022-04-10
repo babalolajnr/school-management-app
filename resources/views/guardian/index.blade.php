@@ -18,7 +18,11 @@
                         <h1>Guardians</h1>
                     </div>
                     <div class="col-sm-6">
-
+                        <div class="flex flex-row-reverse">
+                            <a href="{{ route('guardian.create') }}">
+                                <button class="btn btn-success">Add Guardian</button>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -94,25 +98,11 @@
                                                                     <i class="fas fa-eye"></i>
                                                                 </button>
                                                             </a>
-
-                                                            @auth('web')
-                                                                {{-- render if user is authorized to delete --}}
-                                                                @can('delete', $guardian)
-                                                                    <button type="submit" class="btn btn-default btn-flat"
-                                                                        title="Delete"
-                                                                        onclick="deleteConfirmationModal('{{ route('guardian.destroy', ['guardian' => $guardian]) }}', {{ $guardian }})">
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </button>
-                                                                @endcan
-
-                                                                {{-- render if user is not authorized to delete --}}
-                                                                @cannot('delete', $guardian)
-                                                                    <button type="submit" class="btn btn-default btn-flat"
-                                                                        title="Delete" disabled>
-                                                                        <i class="fas fa-trash"></i>
-                                                                    </button>
-                                                                @endcannot
-                                                            @endauth
+                                                            <button type="submit" class="btn btn-default btn-flat"
+                                                                title="Delete"
+                                                                onclick="deleteConfirmationModal('{{ route('guardian.destroy', ['guardian' => $guardian]) }}', {{ $guardian }})">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
                                                         </div>
                                                     </td>
                                                 </tr>
