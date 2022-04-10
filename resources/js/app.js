@@ -51,7 +51,7 @@ function darkMode() {
     } else {
         $('#navbar').removeClass('navbar-dark')
         $("#sidebar").removeClass('sidebar-dark-navy')
-        $('#navbar').addClass('navbar-white navbar-light') 
+        $('#navbar').addClass('navbar-white navbar-light')
         $('body').removeClass('dark-mode')
         $("#sidebar").addClass('sidebar-light-navy')
         $("#dark-mode").append(moonIcon)
@@ -83,7 +83,7 @@ function setActiveSidebarLink() {
     // All sidebar links and their children
     const routes = {
         "school-management": ["academic-session", "period", "fee", "classroom", "term", "subject", "teacher", "branch"],
-        "student-management": ["student.index", "student.create", "student.get.alumni", "student.get.inactive", "pd-type", "ad-type"],
+        "student-management": ["student.index", "student.create", "student.get.alumni", "student.get.inactive", "pd-type", "ad-type", "guardian.index"],
         "app-management": ["user", "notification"],
         "dashboard": []
     }
