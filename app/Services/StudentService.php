@@ -21,7 +21,7 @@ class StudentService
      * This method works by collecting all the guardian and student info from the user and
      * making sure it's all filled out. Then it checks if the guardian's phone number is present
      * in the database. If it is then it gets the guardian's id and inserts it into the student's guardian id column
-     * 
+     *
      * @param  StoreStudentRequest $storeStudentRequest
      * @return void
      */
@@ -30,7 +30,7 @@ class StudentService
         //merge guardian and student validation rules
         $validatedData = $storeStudentRequest->validated();
 
-        $guardian = Guardian::where('phone', $validatedData['guardian_phone'])->orWhere('email', $validatedData['guardian_email'])->first();
+        $guardian = Guardian::where('phone', $validatedData['guardian_phone'])->first();
 
         //if guardian does not exist create new guardian
         if (is_null($guardian)) {
@@ -54,7 +54,7 @@ class StudentService
     /**
      * @return array
      * @param mixed $validatedData
-     * 
+     *
      * returns student info after it been extracted from
      * the validated data
      */
@@ -84,7 +84,7 @@ class StudentService
      * @param  mixed $student
      * @param  mixed $termSlug
      * @param  mixed $academicSessionName
-     * 
+     *
      * @return array
      */
     public function getTermResults($student, $termSlug, $academicSessionName)
@@ -109,7 +109,7 @@ class StudentService
         $minScores = [];
         $averageScores = [];
 
-        //Get each subject highest and lowest scores    
+        //Get each subject highest and lowest scores
         foreach ($results as $result) {
 
             $scoresQuery = Result::where('period_id', $period->id)
@@ -200,7 +200,7 @@ class StudentService
             //Get Classroom
             $classroomId = $student->results()->where('period_id', $period->id)->first()->classroom_id;
 
-            //Get each subject highest and lowest scores    
+            //Get each subject highest and lowest scores
             foreach ($resultItem as $item) {
 
                 $scoresQuery = Result::where('period_id', $period->id)->where('subject_id', $item->subject->id)->where('classroom_id', $classroomId);
