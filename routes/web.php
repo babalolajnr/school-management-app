@@ -230,10 +230,12 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
         Route::controller(GuardianController::class)->prefix('guardians')->name('guardian.')->group(function () {
             //Guardian Routes
             Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
             Route::get('/show/{guardian:phone}', 'show')->name('show');
             Route::get('/edit/{guardian:phone}', 'edit')->name('edit');
             Route::patch('/update/{guardian:phone}', 'update')->name('update');
             Route::post('/change-guardian/{student}', 'changeGuardian')->name('change');
+            Route::post('/store', 'store')->name('store');
             Route::delete('/delete/{guardian}', 'destroy')->name('destroy');
         });
 
