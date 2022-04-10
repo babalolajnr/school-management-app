@@ -22,6 +22,37 @@ class GuardianController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create()
+    {
+        return view('guardian.create');
+    }
+
+    /**
+     * Create new guardian.
+     *
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'title' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => ['required', 'email', 'unique:guardians,email'],
+            'phone' => ['required', 'string', 'between:10,15', 'unique:guardians,phone'],
+            'occupation' => 'required',
+            'address' => 'required',
+        ]);
+
+        Guardian::create($request->all());
+
+        return redirect(route('guardian.index'))->with('success', 'Guardian added successfully');
+    }
+    /**
      * Show edit guardian page
      *
      * @param  Guardian $guardian
@@ -95,5 +126,11 @@ class GuardianController extends Controller
         if (count($currentGuardian->children) < 1) $currentGuardian->delete();
 
         return back()->with('success', "Guardian changed!");
+    }
+
+    public function destroy(Guardian $guardian)
+    {
+        $guardian->delete();
+        return redirect()->route('guardian.index')->with('success', 'Guardian deleted!');
     }
 }
