@@ -148,7 +148,7 @@
                                <li class="nav-item">
                                    <a href="{{ route('guardian.index') }}" class="nav-link"
                                        id="guardian-index">
-                                       <span class="nav-icon"><i class="fas fa-person"></i></span>
+                                       <span class="nav-icon"><i class="fas fa-user"></i></span>
                                        <p>Guardians</p>
                                    </a>
                                </li>
