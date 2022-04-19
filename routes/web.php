@@ -220,11 +220,11 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::delete('/delete/{subject:slug}',  'destroy')->name('destroy');
         });
 
-        Route::controller(AcademicSessionIndex::class)->prefix('academic-sessions')->name('academic-session.')->group(function () {
+        Route::prefix('academic-sessions')->name('academic-session.')->group(function () {
             //AcademicSession routes
-            Route::get('/', 'index')->name('index');
-            Route::get('/edit/{academicSession:name}', 'edit')->name('edit');
-            Route::patch('/update/{academicSession:name}', 'update')->name('update');
+            Route::get('/', AcademicSessionIndex::class)->name('index');
+            Route::get('/edit/{academicSession:name}', [AcademicSessionController::class, 'edit'])->name('edit');
+            Route::patch('/update/{academicSession:name}', [AcademicSessionController::class, 'update'])->name('update');
         });
 
         Route::controller(GuardianController::class)->prefix('guardians')->name('guardian.')->group(function () {
