@@ -75,16 +75,14 @@ class AcademicSessionController extends Controller
         $data = $this->validateAcademicSession($request, $academicSession);
 
         //check if date range is unique
-        $validateDateRange = $this->validateDateRange(
+        $dateOverlaps = $this->dateOverlaps(
             $data['start_date'],
             $data['end_date'],
             AcademicSession::class,
             $academicSession
         );
 
-        if ($validateDateRange !== true) {
-            return back()->with('error', 'Date range overlaps with another Academic session');
-        }
+        if ($dateOverlaps) return back()->with('error', 'Date range overlaps with another Academic session');
 
         $academicSession->update($data);
 
