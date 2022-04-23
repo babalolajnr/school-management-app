@@ -33,8 +33,7 @@ class AcademicSessionTest extends TestCase
     {
         $user = User::factory()->create();
         $academicSession = AcademicSession::factory()->create();
-        $startDate = now();
-        $startDate = $startDate->toDateString();
+        $startDate = now()->toDateString();
         $endDate = date('Y-m-d', strtotime('+1 year', strtotime($startDate)));
 
         $response = $this->actingAs($user)->patch(route('academic-session.update', ['academicSession' => $academicSession]), [
@@ -46,5 +45,27 @@ class AcademicSessionTest extends TestCase
         $response->assertStatus(302)->assertSessionHas('success')->assertSessionHasNoErrors();
     }
 
+    public function test_academic_session_that_overlaps_another_will_not_save()
+    {
+        $this->withoutExceptionHandling();
+        $user = User::factory()->create();
+        $academicSession = AcademicSession::factory()->create();
 
+        $startDate = '2020-01-01';
+        $endDate = '2020-01-02';
+
+        AcademicSession::factory()->create([
+            'name' => '2022-2023',
+            'start_date' => $startDate,
+            'end_date' => $endDate
+        ]);
+
+        $response = $this->actingAs($user)->patch(route('academic-session.update', ['academicSession' => $academicSession]), [
+            'name' => '2024-2025',
+            'start_date' => '2020-01-02',
+            'end_date' =>  '2020-01-03'
+        ]);
+
+        $response->assertStatus(302)->assertSessionHas('error');
+    }
 }
