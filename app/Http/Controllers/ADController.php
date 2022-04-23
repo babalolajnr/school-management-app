@@ -27,12 +27,14 @@ class ADController extends Controller
         if (!Period::activePeriodIsSet()) return redirect()->back()->with('error', 'Active period is not set!');
 
         $period = Period::activePeriod();
-
         $adTypes = ADType::all();
 
         //get student ads for period and term passed into the controller
         $studentADs = $student->ads()->where('period_id', $period->id);
-        if ($studentADs->exists()) {
+
+        $adTypesValues = null;
+
+        if ($studentADs->exists()) :
             $adTypesValues = [];
 
             $studentADs = $studentADs->get();
@@ -42,12 +44,10 @@ class ADController extends Controller
                 $adTypeValue = [$studentAD->a_d_type_id => $studentAD->value];
                 $adTypesValues += $adTypeValue;
             }
-        } else {
-            $adTypesValues = null;
-        }
+        endif;
 
-        // Log activity
-        \activity()->causedBy(auth()->user())->log("Requested $student->first_name $student->last_name's affective domain form");
+        // // Log activity
+        // \activity()->causedBy(auth()->user())->log("Requested $student->first_name $student->last_name's affective domain form");
 
         return view('ad.create', compact('adTypes', 'student', 'adTypesValues', 'period'));
     }
@@ -87,11 +87,11 @@ class ADController extends Controller
             );
         }
 
-        // Log activity
-        \activity()->causedBy(auth()->user())
-        ->performedOn($student)
-        ->withProperties(['period_id' => $period->id])
-        ->log("Stored Or Updated $student->first_name $student->last_name's affective domain record");
+        // // Log activity
+        // \activity()->causedBy(auth()->user())
+        //     ->performedOn($student)
+        //     ->withProperties(['period_id' => $period->id])
+        //     ->log("Stored Or Updated $student->first_name $student->last_name's affective domain record");
 
         return redirect(route('result.show.performance', ['student' => $student, 'periodSlug' =>  Period::activePeriod()->slug]));
     }

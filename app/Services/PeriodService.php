@@ -9,7 +9,13 @@ use Illuminate\Support\Str;
 
 class PeriodService
 {
-    public function store($request)
+    /**
+     * store period
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function store($request): void
     {
         $validatedData = $request->validated();
 
