@@ -47,7 +47,13 @@ class AcademicSessionController extends Controller
         return $validatedData;
     }
 
-    public function edit(AcademicSession $academicSession)
+    /**
+     * Display a edit view of the resource.
+     *
+     * @param  AcademicSession $academicSession
+     * @return Illuminate\Contracts\View\View
+     */
+    public function edit(AcademicSession $academicSession): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
     {
         // // Log activity
         // \activity()->causedBy(auth()->user())
@@ -57,7 +63,14 @@ class AcademicSessionController extends Controller
         return view('academic-session.edit', compact('academicSession'));
     }
 
-    public function update(AcademicSession $academicSession, Request $request)
+    /**
+     * update Academic Session
+     *
+     * @param  AcademicSession $academicSession
+     * @param  Request $request
+     * @return Illuminate\Routing\Redirector
+     */
+    public function update(AcademicSession $academicSession, Request $request): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
     {
         $data = $this->validateAcademicSession($request, $academicSession);
 
