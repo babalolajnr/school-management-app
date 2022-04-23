@@ -13,7 +13,7 @@ class ADTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_ad_controller_create_method()
+    public function test_user_can_create_ad()
     {
         $this->withoutExceptionHandling();
 
