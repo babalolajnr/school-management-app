@@ -20,7 +20,6 @@ class PeriodTest extends TestCase
 
     public function test_period_can_be_stored()
     {
-        $this->withoutExceptionHandling();
         $user = User::factory()->create(['user_type' => 'master']);
 
         $academicSession = AcademicSession::factory()->create();
@@ -42,7 +41,6 @@ class PeriodTest extends TestCase
 
     public function test_period_can_be_stored_without_no_of_times_school_opened_field()
     {
-        $this->withoutExceptionHandling();
         $user = User::factory()->create(['user_type' => 'master']);
 
         $academicSession = AcademicSession::factory()->create();
@@ -83,7 +81,7 @@ class PeriodTest extends TestCase
 
     public function test_period_can_be_stored_when_there_are_other_period_records()
     {
-        // $this->withoutExceptionHandling();
+        
         $user = User::factory()->create(['user_type' => 'master']);
 
         Period::factory()->create();
@@ -132,7 +130,6 @@ class PeriodTest extends TestCase
 
     public function test_period_with_date_range_that_does_not_overlap_another_period_can_be_stored()
     {
-        $this->withoutExceptionHandling();
         $user = User::factory()->create(['user_type' => 'master']);
 
         $periodStartDate = Carbon::now();
@@ -179,8 +176,6 @@ class PeriodTest extends TestCase
 
     public function test_update_period_method()
     {
-        $this->withoutExceptionHandling();
-
         $user = User::factory()->create(['user_type' => 'master']);
 
         $period = Period::factory()->create();
