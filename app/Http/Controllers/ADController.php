@@ -30,14 +30,13 @@ class ADController extends Controller
         $adTypes = ADType::all();
 
         //get student ads for period and term passed into the controller
-        $studentADs = $student->ads()->where('period_id', $period->id);
+        $studentADs = $student->ads()->where('period_id', $period->id)->get();
 
         $adTypesValues = null;
 
-        if ($studentADs->exists()) :
+        if ($studentADs->count() > 1) :
             $adTypesValues = [];
 
-            $studentADs = $studentADs->get();
 
             //create an associative array of pdtypeid and value from the pd model
             foreach ($studentADs as $studentAD) {

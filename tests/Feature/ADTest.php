@@ -26,6 +26,20 @@ class ADTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_user_can_create_ad_if_ads_exist()
+    {
+        $this->withoutExceptionHandling();
+
+        $user = User::factory()->create();
+        $student = Student::factory()->create();
+        Period::factory()->create(['active' => true]);
+        ADType::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('ad.create', ['student' => $student]));
+
+        $response->assertStatus(200);
+    }
+
     public function test_ad_controller_create_method_will_work_without_the_period_slug_parameter()
     {
         $this->withoutExceptionHandling();

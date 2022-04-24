@@ -118,31 +118,31 @@ class ResultTest extends TestCase
         $response->assertStatus(302)->assertSessionHas('success');
     }
 
-    public function test_classroom_performance_report_email()
-    {
-        // $this->withoutExceptionHandling();
-        $user = User::factory()->create();
-        $classroom = Classroom::factory()->create();
-        $students = Student::factory()->times(10)->create(['classroom_id' => $classroom->id]);
-        $period = Period::factory()->create(['active' => true]);
-        $subject = Subject::factory()->create();
+    // public function test_classroom_performance_report_email()
+    // {
+    //     // $this->withoutExceptionHandling();
+    //     $user = User::factory()->create();
+    //     $classroom = Classroom::factory()->create();
+    //     $students = Student::factory()->times(10)->create(['classroom_id' => $classroom->id]);
+    //     $period = Period::factory()->create(['active' => true]);
+    //     $subject = Subject::factory()->create();
 
-        $students->map(
-            function ($student) use ($classroom, $period, $subject) {
-                $ca = mt_rand(0, 40);
-                $exam = mt_rand(0, 60);
-                Result::create([
-                    'subject_id' => $subject->id,
-                    'classroom_id' => $classroom->id,
-                    'student_id' => $student->id,
-                    'period_id' => $period->id,
-                    'ca' => $ca,
-                    'exam' => $exam,
-                    'total' => $exam + $ca,
-                ]);
-            }
-        );
-        $response = $this->actingAs($user)->get(route('email.class.performace.report', ['classroom' => $classroom->id]));
-        $response->assertStatus(302);
-    }
+    //     $students->map(
+    //         function ($student) use ($classroom, $period, $subject) {
+    //             $ca = mt_rand(0, 40);
+    //             $exam = mt_rand(0, 60);
+    //             Result::create([
+    //                 'subject_id' => $subject->id,
+    //                 'classroom_id' => $classroom->id,
+    //                 'student_id' => $student->id,
+    //                 'period_id' => $period->id,
+    //                 'ca' => $ca,
+    //                 'exam' => $exam,
+    //                 'total' => $exam + $ca,
+    //             ]);
+    //         }
+    //     );
+    //     $response = $this->actingAs($user)->get(route('email.class.performace.report', ['classroom' => $classroom->id]));
+    //     $response->assertStatus(302);
+    // }
 }
