@@ -88,13 +88,12 @@ class StorePeriodRequest extends FormRequest
             }
 
             //check if date range is unique
-            $validateDateRange = $this->validateDateRange($this->start_date, $this->end_date, Period::class);
+            $dateOverlaps = $this->dateOverlaps($this->start_date, $this->end_date, Period::class);
 
-            if ($validateDateRange !== true) {
-
+            if ($dateOverlaps) :
                 $validator->errors()->add('start_date', 'Date range overlaps with another period');
                 $validator->errors()->add('end_date', 'Date range overlaps with another period');
-            }
+            endif;
 
             //check if academic session and term exist on the same row
             $academicSession = AcademicSession::where('name', $this->academic_session)->first();

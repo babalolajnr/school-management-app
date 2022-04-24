@@ -64,14 +64,14 @@ class UpdatePeriodRequest extends FormRequest
                 }
             }
 
-            //check if date range is unique
-            $validateDateRange = $this->validateDateRange($this->start_date, $this->end_date, Period::class, $this->route('period'));
+            //check if date overlaps
+            $dateOverlaps = $this->dateOverlaps($this->start_date, $this->end_date, Period::class, $this->route('period'));
 
-            if ($validateDateRange !== true) {
-
+            if ($dateOverlaps) :
                 $validator->errors()->add('start_date', 'Date range overlaps with another period');
                 $validator->errors()->add('end_date', 'Date range overlaps with another period');
-            }
+            endif;
+
         });
     }
 
