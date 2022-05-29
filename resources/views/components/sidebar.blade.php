@@ -1,5 +1,5 @@
    <!-- Well begun is half done. - Aristotle -->
-   <aside class="main-sidebar main-sidebar-custom sidebar-dark-navy elevation-4" id="sidebar">
+   <aside class="main-sidebar main-sidebar-custom elevation-4" id="sidebar">
        <!-- Brand Logo -->
        <a href="/dashboard" class="brand-link d-flex justify-content-center" id="brand-link">
            <img src="{{ asset('images/radiant_logo-removebg-preview.png') }}" alt="Logo"

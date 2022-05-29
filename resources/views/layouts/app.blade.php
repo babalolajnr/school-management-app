@@ -31,7 +31,6 @@
         rel="stylesheet">
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-
     <style>
         * {
             font-family: 'Nunito', sans-serif;
@@ -41,7 +40,7 @@
     @livewireStyles
 </head>
 
-<body class="hold-transition dark-mode sidebar-mini layout-navbar-fixed layout-fixed layout-footer-fixed">
+<body class="hold-transition sidebar-mini layout-navbar-fixed layout-fixed layout-footer-fixed">
     <span id="route" data-route="{{ json_encode(Route::currentRouteName()) }}"></span>
     <!-- Site wrapper -->
     <div class="wrapper">
@@ -143,7 +142,7 @@
             showConfirmButton: false,
             timer: 5000
         });
-        
+
         Livewire.on('success', message => {
             Toast.fire({
                 icon: 'success',

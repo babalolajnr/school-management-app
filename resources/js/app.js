@@ -47,15 +47,28 @@ function darkMode() {
     const darkmodeStatus = localStorage.getItem('dark-mode')
 
     if (darkmodeStatus == "true") {
-        $("#dark-mode").append(sunIcon)
+        setDarkMode()
     } else {
-        $('#navbar').removeClass('navbar-dark')
-        $("#sidebar").removeClass('sidebar-dark-navy')
-        $('#navbar').addClass('navbar-white navbar-light')
-        $('body').removeClass('dark-mode')
-        $("#sidebar").addClass('sidebar-light-navy')
-        $("#dark-mode").append(moonIcon)
+        removeDarkMode()
     }
+}
+
+function removeDarkMode() {
+    $('body').removeClass('dark-mode')
+    $("#dark-mode").append(moonIcon)
+    $('#navbar').removeClass('navbar-dark')
+    $("#sidebar").removeClass('sidebar-dark-navy')
+    $('#navbar').addClass('navbar-white navbar-light')
+    $("#sidebar").addClass('sidebar-light-navy')
+}
+
+function setDarkMode() {
+    $("body").addClass("dark-mode")
+    $("#dark-mode").append(sunIcon)
+    $('#navbar').addClass('navbar-dark')
+    $("#sidebar").addClass('sidebar-dark-navy')
+    $('#navbar').removeClass('navbar-white navbar-light')
+    $("#sidebar").removeClass('sidebar-light-navy')
 }
 
 $("#dark-mode").click(function () {
