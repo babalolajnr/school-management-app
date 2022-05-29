@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="{{ asset('TAssets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     {{ $styles }}
     <!-- Theme style -->
-    <link rel="stylesheet" href="{{ asset('TAssets/dist/css/adminlte.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('TAssets/dist/css/adminlte.css') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -136,12 +136,12 @@
             }
         }
 
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 5000
-        });
+        // const Toast = Swal.mixin({
+        //     // toast: true,
+        //     // position: 'top-end',
+        //     showConfirmButton: false,
+        //     timer: 5000
+        // });
 
         Livewire.on('success', message => {
             Toast.fire({
