@@ -73,7 +73,7 @@ class ResultController extends Controller
         //term and academic session will be goten from the active period
         $activePeriod = Period::activePeriod();
 
-        if (!Period::activePeriodIsSet()) {
+        if (Period::activePeriodIsNotSet()) {
             return back()->with('error', 'Active period is not set');
         }
 
@@ -189,7 +189,7 @@ class ResultController extends Controller
         return back()->with('success', 'Email sent successfully');
     }
 
-    
+
     /**
      * Email the entire classroom performance reports
      *
@@ -200,6 +200,5 @@ class ResultController extends Controller
     {
         SendClassroomPerformanceReportEmail::dispatch($classroom);
         return back()->with('success', 'Emails sent successfully');
-
     }
 }

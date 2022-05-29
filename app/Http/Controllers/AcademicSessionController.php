@@ -26,7 +26,7 @@ class AcademicSessionController extends Controller
             'name.regex' => 'Academic session format is invalid'
         ];
 
-        $validatedData = $request->validate([
+        return $request->validate([
             'name' => [
                 'required', 'string',
                 Rule::unique('academic_sessions')->ignore($academicSession),
@@ -43,8 +43,6 @@ class AcademicSessionController extends Controller
                 Rule::unique('academic_sessions')->ignore($academicSession), 'after:start_date'
             ]
         ], $messages);
-
-        return $validatedData;
     }
 
     /**

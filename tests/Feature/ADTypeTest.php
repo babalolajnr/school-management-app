@@ -16,13 +16,12 @@ class ADTypeTest extends TestCase
 
     public function test_adType_store_method()
     {
-        $adType = $this->faker->word;
+        $name = $this->faker->word . ' ' . $this->faker->word;
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->post(route('ad-type.store'), [
-            'name' => $adType
+            'name' => $name
         ]);
-
         $response->assertStatus(302)->assertSessionHas('success')->assertSessionHasNoErrors();
     }
 
@@ -31,8 +30,9 @@ class ADTypeTest extends TestCase
         $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $adType = ADType::factory()->create();
+        $name = $this->faker->word;
         $response = $this->actingAs($user)->patch(route('ad-type.update', ['adType' => $adType]), [
-            'name' => $this->faker->word
+            'name' => $name
         ]);
         $response->assertStatus(302)->assertSessionHas('success')->assertSessionHasNoErrors();
     }

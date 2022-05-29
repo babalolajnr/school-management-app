@@ -137,7 +137,7 @@ class Student extends Model
 
     public static function countActiveStudents()
     {
-        return  Student::whereNull('graduated_at')->where('is_active', true)->count();
+        return count(self::getActiveStudents());
     }
 
     /**
@@ -163,7 +163,7 @@ class Student extends Model
 
     /**
      * Check if student can graduate
-     * 
+     *
      * Only Students in the highest class can graduate
      *
      * @return boolean
@@ -186,8 +186,8 @@ class Student extends Model
     {
         return $this->graduated_at !== null;
     }
-    
-     
+
+
     /**
      * Get student's main teacher
      *

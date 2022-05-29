@@ -228,7 +228,7 @@ class StudentController extends Controller
             Storage::delete($deletePath);
         }
 
-        /**if guardian has more than one child delete only the student's 
+        /**if guardian has more than one child delete only the student's
          * data else delete the student and the guargian's data
          */
         if (count($guardianChildren) > 1) {
@@ -365,7 +365,7 @@ class StudentController extends Controller
      */
     public function graduate(Student $student, Request $request)
     {
-        if (!Period::activePeriodIsSet()) {
+        if (Period::activePeriodIsNotSet()) {
             return back()->with('error', 'Active Period is not set');
         }
 

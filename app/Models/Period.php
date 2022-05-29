@@ -111,7 +111,7 @@ class Period extends Model
 
     /**
      * Checks if period is active
-     * 
+     *
      * @return boolean
      */
     public function isActive()
@@ -121,13 +121,12 @@ class Period extends Model
 
     /**
      * Get active period
-     * 
+     *
      * @return Period $activePeriod
      */
     public static function activePeriod()
     {
-        $activePeriod = Period::where('active', true)->first();
-        return $activePeriod;
+        return Period::whereActive(true)->first();
     }
 
     /**
@@ -137,9 +136,17 @@ class Period extends Model
      */
     public static function activePeriodIsSet()
     {
-        $activePeriod = Period::activePeriod();
-        if (is_null($activePeriod)) return false;
-        return true;
+        return Period::activePeriod() ? true : false;
+    }
+
+    /**
+     * check if active period is not set
+     *
+     * @return bool
+     */
+    public static function activePeriodIsNotSet()
+    {
+        return !Period::activePeriodIsSet();
     }
 
     /**
@@ -149,8 +156,7 @@ class Period extends Model
      */
     public static function currentAcademicSession()
     {
-        if (Period::activePeriodIsSet()) return Period::activePeriod()->academicSession;
-        return null;
+        return Period::activePeriod()?->academicSession;
     }
 
     /**
@@ -160,7 +166,6 @@ class Period extends Model
      */
     public static function currentTerm()
     {
-        if (Period::activePeriodIsSet()) return Period::activePeriod()->term;
-        return null;
+        return Period::activePeriod()?->term;
     }
 }

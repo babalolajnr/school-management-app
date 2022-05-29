@@ -11,11 +11,9 @@ class ADTypeController extends Controller
 {
     private function validateADType($request, $adType = null)
     {
-        $validatedData = $request->validate([
+        return $request->validate([
             'name' => ['required', 'string', Rule::unique('a_d_types', 'name')->ignore($adType)]
         ]);
-
-        return $validatedData;
     }
     public function index()
     {
@@ -27,11 +25,9 @@ class ADTypeController extends Controller
     {
         $validatedData = $this->validateADType($request);
 
-        $slug = Str::of($validatedData['name'])->slug('-');
-        $slug = ['slug' => $slug];
-        $data = array_merge($validatedData, $slug);
+        $validatedData['slug'] = Str::of($validatedData['name'])->slug('-');
 
-        ADType::create($data);
+        ADType::create($validatedData);
         return back()->with('success', 'Affective Domain created!');
     }
 
@@ -43,17 +39,15 @@ class ADTypeController extends Controller
     public function update(ADType $adType, Request $request)
     {
         $validatedData = $this->validateADType($request, $adType);
-        $slug = Str::of($validatedData['name'])->slug('-');
-        $slug = ['slug' => $slug];
-        $data = array_merge($validatedData, $slug);
+        $validatedData['slug'] = Str::of($validatedData['name'])->slug('-');
 
-        $adType->update($data);
+        $adType->update($validatedData);
         return redirect()->route('ad-type.index')->with('success', 'Affective domain type updated');
     }
 
     public function destroy(ADType $adType)
     {
-        
+
         try {
             $adType->delete();
         } catch (\Illuminate\Database\QueryException $e) {
