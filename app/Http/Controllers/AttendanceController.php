@@ -18,9 +18,9 @@ class AttendanceController extends Controller
      */
     public function create(Student $student)
     {
-        
-        if (!Period::activePeriodIsSet()) return redirect()->back()->with('error', 'Active period is not set!');
-        
+
+        if (Period::activePeriodIsNotSet()) return redirect()->back()->with('error', 'Active period is not set!');
+
         $period = Period::activePeriod();
 
         $attendance = $student->attendances()->where('period_id', $period->id);
@@ -62,5 +62,4 @@ class AttendanceController extends Controller
 
         return redirect(route('result.show.performance', ['student' => $student, 'periodSlug' =>  Period::activePeriod()->slug]));
     }
-
 }

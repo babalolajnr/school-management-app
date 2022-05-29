@@ -24,7 +24,7 @@ class ADController extends Controller
      */
     public function create(Student $student)
     {
-        if (!Period::activePeriodIsSet()) return redirect()->back()->with('error', 'Active period is not set!');
+        if (Period::activePeriodIsNotSet()) return redirect()->back()->with('error', 'Active period is not set!');
 
         $period = Period::activePeriod();
         $adTypes = ADType::all();

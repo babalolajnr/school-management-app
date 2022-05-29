@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 /**
  * TeacherRemarkController
- * 
+ *
  */
 class TeacherRemarkController extends Controller
 {
@@ -17,7 +17,7 @@ class TeacherRemarkController extends Controller
      * Show the form for creating a new resource.
      *
      * @param Student $student
-     * 
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Contracts\View\View
      */
     public function create(Student $student)
@@ -28,7 +28,7 @@ class TeacherRemarkController extends Controller
 
         $period = Period::activePeriod();
 
-        if (!Period::activePeriodIsSet()) return back()->with('error', 'Active Period is not set');
+        if (Period::activePeriodIsNotSet()) return back()->with('error', 'Active Period is not set');
 
         $remark = $student->teacherRemarks()->where('period_id', $period->id);
 
@@ -53,7 +53,7 @@ class TeacherRemarkController extends Controller
             'remark' => ['string', 'required']
         ]);
 
-        if (!Period::activePeriodIsSet()) return back()->with('error', 'Active Period is not set');
+        if (Period::activePeriodIsNotSet()) return back()->with('error', 'Active Period is not set');
 
         TeacherRemark::updateOrCreate(
             [

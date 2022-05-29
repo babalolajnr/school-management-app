@@ -24,8 +24,8 @@ class RegistrationTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->post('/register', [
-            'firstName' => 'Test User',
-            'lastName' => 'Test User',
+            'first_name' => 'Test User',
+            'last_name' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',

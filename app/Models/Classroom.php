@@ -40,7 +40,7 @@ class Classroom extends Model
     {
         return $this->hasMany(Fee::class);
     }
-    
+
     /**
      * Branch relationship
      *
@@ -68,6 +68,6 @@ class Classroom extends Model
      */
     public function countActiveStudents()
     {
-        return $this->students->whereNull('graduated_at')->where('is_active', true)->count();
+        return count($this->getActiveStudents());
     }
 }

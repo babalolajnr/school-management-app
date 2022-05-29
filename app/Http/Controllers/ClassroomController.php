@@ -188,7 +188,7 @@ class ClassroomController extends Controller
         $relations = [];
 
         //NOTE: subjects can only be set for the current academic session
-        if (!Period::activePeriodIsSet()) {
+        if (Period::activePeriodIsNotSet()) {
             return back()->with('error', 'Academic Session is not set');
         }
 
@@ -215,7 +215,7 @@ class ClassroomController extends Controller
      */
     public function updateSubjects(Classroom $classroom, Request $request)
     {
-        if (!Period::activePeriodIsSet()) {
+        if (Period::activePeriodIsNotSet()) {
             return back()->with('error', 'Active Period is not set!');
         }
 
