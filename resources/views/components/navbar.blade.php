@@ -1,5 +1,5 @@
 <!-- Order your soul. Reduce your wants. - Augustine -->
-<nav class="main-header navbar navbar-expand navbar-dark" id="navbar">
+<nav class="main-header navbar navbar-expand" id="navbar">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
         <li class="nav-item">
