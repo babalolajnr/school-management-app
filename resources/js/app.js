@@ -10,11 +10,12 @@ document.getElementById('footerDate').innerHTML = date;
 const sunIcon = "<i class='fas fa-sun text-yellow-400'></i>"
 const moonIcon = "<i class='fas fa-moon'></i>"
 
-var Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
+const Toast = Swal.mixin({
+    // toast: true,
+    position: 'center',
     showConfirmButton: false,
-    timer: 5000
+    color: '#000',
+    timer: 3000
 });
 
 

@@ -19594,7 +19594,7 @@ html.maximized-card {
   position: fixed;
 }
 
-.dark-mode .toast {
+/* .dark-mode .toast {
   background-color: rgba(52, 58, 64, 0.85);
   color: #fff;
 }
@@ -19602,7 +19602,7 @@ html.maximized-card {
 .dark-mode .toast .toast-header {
   background-color: rgba(52, 58, 64, 0.7);
   color: #f8f9fa;
-}
+} */
 
 .toast.bg-primary {
   background-color: rgba(0, 123, 255, 0.9) !important;
@@ -24845,7 +24845,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
   background-color: #28a745;
 }
 
-.dark-mode .swal2-popup {
+/* .dark-mode .swal2-popup {
   background-color: #343a40;
   color: #e9ecef;
 }
@@ -24853,7 +24853,7 @@ select.form-control-sm ~ .select2-container--default .select2-selection--multipl
 .dark-mode .swal2-popup .swal2-content,
 .dark-mode .swal2-popup .swal2-title {
   color: #e9ecef;
-}
+} */
 
 #toast-container .toast {
   background-color: #007bff;
