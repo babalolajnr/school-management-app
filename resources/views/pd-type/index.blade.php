@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="styles">
-         
+
         <!-- DataTables -->
         <link rel="stylesheet"
             href="{{ asset('TAssets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -12,15 +12,15 @@
 
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        
+
         <section class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1> Pychomotor domains</h1>
+                        <h1>Psychomotor domains</h1>
                     </div>
                     <div class="col-sm-6">
-                        
+
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -35,16 +35,16 @@
                         <!-- Default box -->
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">New Pychomotor Domain Type</h3>
+                                <h3 class="card-title">New Psychomotor Domain</h3>
                             </div>
                             <form id="addPDType" method="POST" action="{{ route('pd-type.store') }}">
                                 @csrf
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <label for="PDType">Pychomotor Domain Type</label>
+                                        <label for="PDType">Psychomotor Domain</label>
                                         <input type="text" name="name" value="{{ old('name') }}"
                                             class="form-control @error('name') is-invalid @enderror" id="pdType"
-                                            placeholder="Enter PDType">
+                                            placeholder="Enter Psychomotor Domain">
                                         @error('name')
                                         <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -59,7 +59,7 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">PDTypes</h3>
+                                <h3 class="card-title">Pyschomotor Domains</h3>
                             </div>
                             <div class="card-body">
                                 <table id="example1" class="table table-bordered table-striped">
@@ -72,13 +72,13 @@
                                     <tbody>
                                         @foreach($pdTypes as $pdType)
                                         <tr>
-                                            
+
                                             <td>
                                                 {{ $pdType->name }}
                                             </td>
                                             <td>
                                                 <div class="btn-group">
-                                                    
+
                                                     <a href="{{ route('pd-type.edit', ['pdType' => $pdType]) }}">
                                                         <button type="button" class="btn btn-default btn-flat"
                                                             title="Edit">
@@ -138,7 +138,7 @@
     </div>
 
     <x-slot name="scripts">
-         
+
         <!-- DataTables  & Plugins -->
         <script src="{{ asset('TAssets/plugins/datatables/jquery.dataTables.min.js') }}">
         </script>
@@ -169,7 +169,7 @@
                 $('#deleteItemName').html(name)
                 $('#deleteConfirmationModal').modal('show')
             }
-            
+
             $(function () {
                 $("#example1").DataTable({
                     "responsive": true,
@@ -177,7 +177,7 @@
                     "autoWidth": false,
                     "buttons": ["copy", "csv", "excel", "pdf", "print"]
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-               
+
             });
 
         </script>
