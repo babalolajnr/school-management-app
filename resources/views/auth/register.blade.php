@@ -1,6 +1,6 @@
 <x-guest-layout>
     <div class="h-screen w-screen flex justify-center items-center sans-pro">
-        <form class="lg:md:w-1/4 w-1/2  rounded-lg shadow-lg" method="POST" action="{{ route('register') }}">
+        <form class="lg:md:w-1/3 w-11/12 rounded-lg shadow-lg" method="POST" action="{{ route('register') }}">
             @csrf
             <div class="my-7 mx-5 flex flex-col space-y-3">
                 <div>
