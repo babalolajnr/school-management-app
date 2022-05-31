@@ -43,7 +43,7 @@ class StoreStudentRequest extends FormRequest
             'guardian_title' => ['required', 'max:30', 'string'],
             'guardian_first_name' => ['required', 'max:30', 'string'],
             'guardian_last_name' => ['required', 'max:30', 'string'],
-            'guardian_email' => ['nullable', 'string', 'email:rfc,dns', 'unique:guardians,email'],
+            'guardian_email' => ['required', 'string', 'email:rfc,dns'],
             'guardian_phone' => ['required', 'string', 'between:10,15'],
             'guardian_occupation' => ['required', 'string'],
             'guardian_address' => ['required']

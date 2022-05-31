@@ -11,6 +11,7 @@ use App\Models\Result;
 use App\Models\Student;
 use App\Models\Term;
 use Exception;
+use Illuminate\Validation\ValidationException;
 use  Intervention\Image\Facades\Image;
 
 class StudentService
@@ -33,7 +34,11 @@ class StudentService
         $guardian = Guardian::where('phone', $validatedData['guardian_phone'])->first();
 
         //if guardian does not exist create new guardian
-        if (is_null($guardian)) {
+        if (!$guardian) {
+            //Check if the email matches an existing email
+            $matchedEmail = Guardian::whereEmail($validatedData['guardian_email'])->first();
+            if ($matchedEmail) throw ValidationException::withMessages(['guardian_email' => 'Guardian email already exists']);
+
             $guardian = Guardian::create([
                 'title' => $validatedData['guardian_title'],
                 'first_name' => $validatedData['guardian_first_name'],
@@ -58,7 +63,7 @@ class StudentService
      * returns student info after it been extracted from
      * the validated data
      */
-    private function studentInfo($validatedData)
+    private function studentInfo($validatedData): array
     {
         $classroom =  Classroom::where('name', $validatedData['classroom'])->first();
 
@@ -182,7 +187,7 @@ class StudentService
 
         $periods = $periods->filter(function ($period) use ($student) {
             $result = $student->results->where('period_id', $period->id)->first();
-            if(!is_null($result)) return $period;
+            if (!is_null($result)) return $period;
         });
 
         $results = [];
