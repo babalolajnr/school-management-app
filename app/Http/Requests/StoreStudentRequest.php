@@ -15,11 +15,7 @@ class StoreStudentRequest extends FormRequest
      */
     public function authorize()
     {
-        if (Auth::guard('web')->check()) {
-            return true;
-        }
-
-        return false;
+        return Auth::guard('web')->check() ? true : false;
     }
 
     /**
