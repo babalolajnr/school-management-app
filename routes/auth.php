@@ -4,6 +4,9 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\Guardian\AuthenticatedSessionController as GuardianAuthenticatedSessionController;
+use App\Http\Controllers\Auth\Guardian\NewPasswordController as GuardianNewPasswordController;
+use App\Http\Controllers\Auth\Guardian\PasswordResetLinkController as GuardianPasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -13,7 +16,7 @@ use App\Http\Controllers\Auth\TeacherPasswordResetLinkController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('guest:web,teacher')->group(function () {
+Route::middleware('guest:web,teacher,guardian')->group(function () {
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
@@ -32,10 +35,14 @@ Route::middleware('guest:web,teacher')->group(function () {
         ->name('password.update');
 });
 
+
+
 Route::controller(RegisteredUserController::class)->middleware('auth')->group(function () {
     Route::get('/register', 'create')->name('register');
     Route::post('/register', 'store');
 });
+
+
 
 Route::get('/verify-email', [EmailVerificationPromptController::class, '__invoke'])
     ->middleware('auth')
@@ -60,8 +67,10 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
+
+
 Route::prefix('teachers')->name('teacher.')->group(function () {
-    Route::middleware('guest:teacher,web')->group(function () {
+    Route::middleware('guest:teacher,web,guardian')->group(function () {
         Route::post('/login', [TeacherAuthenticatedSessionController::class, 'store'])
             ->name('login');
 
@@ -83,5 +92,32 @@ Route::prefix('teachers')->name('teacher.')->group(function () {
 
     Route::post('/logout', [TeacherAuthenticatedSessionController::class, 'destroy'])
         ->middleware('auth:teacher')
+        ->name('logout');
+});
+
+
+
+Route::prefix('guardians')->name('guardian.')->group(function () {
+
+    Route::middleware('guest:guardian,web,teacher')->group(function () {
+
+        Route::controller(GuardianNewPasswordController::class)->group(function () {
+            Route::get('/reset-password/{token}',  'create')->name('password.reset');
+            Route::post('/reset-password',  'store')->name('password.update');
+        });
+
+        Route::controller(GuardianPasswordResetLinkController::class)->group(function () {
+            Route::get('/forgot-password',  'create')->name('password.request');
+            Route::post('/forgot-password',  'store')->name('password.email');
+        });
+
+        Route::controller(GuardianAuthenticatedSessionController::class)->group(function () {
+            Route::post('/login',  'store')->name('login');
+            Route::get('/login',  'create')->name('login');
+        });
+    });
+
+    Route::post('/logout', [GuardianAuthenticatedSessionController::class, 'destroy'])
+        ->middleware('auth:guardian')
         ->name('logout');
 });
