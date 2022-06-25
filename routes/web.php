@@ -276,4 +276,4 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
     });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
