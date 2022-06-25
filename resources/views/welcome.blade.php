@@ -16,12 +16,13 @@
             style="background-image: url({{ asset('images/radiant_logo.jpeg') }})">
         </div>
         <h1 class="font-bold md:text-6xl text-3xl  mt-3 text-center">Radiant Minds School Portal</h1>
+        <h3 class="font-semibold md:text-2xl text-xl  mt-7 text-center">Login as</h3>
         <div class="flex mt-4">
             <a href="{{ route('login') }}">
                 <button
                     class="border border-slate-900 rounded-lg shadow-lg hover:shadow-none grow h-11 group hover:bg-slate-800"
                     type="button">
-                    <span class="px-5 py-4 font-bold text-slate-900 hover:text-white text-sm">Login</span>
+                    <span class="px-5 py-4 font-bold text-slate-900 hover:text-white text-sm">Admin</span>
                 </button>
             </a>
 
@@ -29,7 +30,15 @@
                 <button
                     class="border ml-4 border-slate-900 rounded-lg shadow-lg hover:shadow-none grow h-11 group hover:bg-slate-800"
                     type="button">
-                    <span class="px-5 py-4 font-bold text-slate-900 hover:text-white text-sm">Teacher's login</span>
+                    <span class="px-5 py-4 font-bold text-slate-900 hover:text-white text-sm">Teacher</span>
+                </button>
+            </a>
+
+            <a href="{{ route('guardian.login') }}">
+                <button
+                    class="border ml-4 border-slate-900 rounded-lg shadow-lg hover:shadow-none grow h-11 group hover:bg-slate-800"
+                    type="button">
+                    <span class="px-5 py-4 font-bold text-slate-900 hover:text-white text-sm">Guardian</span>
                 </button>
             </a>
         </div>
