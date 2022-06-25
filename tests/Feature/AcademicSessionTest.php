@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\AcademicSession;
-use App\Models\Period;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -39,7 +38,7 @@ class AcademicSessionTest extends TestCase
         $response = $this->actingAs($user)->patch(route('academic-session.update', ['academicSession' => $academicSession]), [
             'name' => '2024-2025',
             'start_date' => $startDate,
-            'end_date' => $endDate
+            'end_date' => $endDate,
         ]);
 
         $response->assertStatus(302)->assertSessionHas('success')->assertSessionHasNoErrors();
@@ -57,13 +56,13 @@ class AcademicSessionTest extends TestCase
         AcademicSession::factory()->create([
             'name' => '2022-2023',
             'start_date' => $startDate,
-            'end_date' => $endDate
+            'end_date' => $endDate,
         ]);
 
         $response = $this->actingAs($user)->patch(route('academic-session.update', ['academicSession' => $academicSession]), [
             'name' => '2024-2025',
             'start_date' => '2020-01-02',
-            'end_date' =>  '2020-01-03'
+            'end_date' =>  '2020-01-03',
         ]);
 
         $response->assertStatus(302)->assertSessionHas('error');

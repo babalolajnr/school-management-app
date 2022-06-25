@@ -8,7 +8,6 @@ use App\Models\Term;
 use App\Traits\ValidationTrait;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Validation\ValidationException;
 
 class StorePeriodRequest extends FormRequest
@@ -43,7 +42,7 @@ class StorePeriodRequest extends FormRequest
             'term' => ['required', 'string', 'exists:terms,name'],
             'start_date' => ['required', 'date', 'unique:periods,start_date', "after_or_equal:{$academicSession->start_date}"],
             'end_date' => ['required', 'date', 'after:start_date', 'unique:periods,end_date', "before_or_equal:{$academicSession->end_date}"],
-            'no_times_school_opened' => ['numeric', 'nullable']
+            'no_times_school_opened' => ['numeric', 'nullable'],
         ];
     }
 
@@ -56,7 +55,7 @@ class StorePeriodRequest extends FormRequest
     {
         return [
             'start_date.after_or_equal' => 'Start date must be after or equal to the start date of the selected academic session',
-            'end_date.before_or_equal' => 'End date must be before or equal to the end date of the selected academic session'
+            'end_date.before_or_equal' => 'End date must be before or equal to the end date of the selected academic session',
         ];
     }
 
@@ -74,9 +73,7 @@ class StorePeriodRequest extends FormRequest
              * Additional validation for no of times school opened to ensure that
              * it is not above the date range
              */
-
             if ($this->filled('no_times_school_opened')) {
-
                 $startDate = Carbon::createFromFormat('Y-m-d', $this->start_date);
                 $endDate = Carbon::createFromFormat('Y-m-d', $this->end_date);
 
@@ -90,10 +87,10 @@ class StorePeriodRequest extends FormRequest
             //check if date range is unique
             $dateOverlaps = $this->dateOverlaps($this->start_date, $this->end_date, Period::class);
 
-            if ($dateOverlaps) :
+            if ($dateOverlaps) {
                 $validator->errors()->add('start_date', 'Date range overlaps with another period');
                 $validator->errors()->add('end_date', 'Date range overlaps with another period');
-            endif;
+            }
 
             //check if academic session and term exist on the same row
             $academicSession = AcademicSession::where('name', $this->academic_session)->first();

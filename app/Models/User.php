@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Auth\Passwords\CanResetPassword as PasswordsCanResetPassword;
 use Illuminate\Contracts\Auth\CanResetPassword;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,7 +22,7 @@ class User extends Authenticatable implements CanResetPassword
         'last_name',
         'email',
         'password',
-        'last_seen'
+        'last_seen',
     ];
 
     /**
@@ -48,7 +47,7 @@ class User extends Authenticatable implements CanResetPassword
     /**
      * Check if user is an admin
      *
-     * @return boolean
+     * @return bool
      */
     public function isAdmin()
     {
@@ -58,17 +57,17 @@ class User extends Authenticatable implements CanResetPassword
     /**
      * Check if user is a master
      *
-     * @return boolean
+     * @return bool
      */
     public function isMaster()
     {
         return $this->user_type == 'master';
     }
-    
+
     /**
      * Check if user is a developer
      *
-     * @return boolean
+     * @return bool
      */
     public function isDev()
     {
@@ -78,7 +77,7 @@ class User extends Authenticatable implements CanResetPassword
     /**
      * Check if user is active
      *
-     * @return boolean
+     * @return bool
      */
     public function isActive()
     {
@@ -88,7 +87,7 @@ class User extends Authenticatable implements CanResetPassword
     /**
      * Check if user is verified
      *
-     * @return boolean
+     * @return bool
      */
     public function isVerified()
     {
@@ -98,7 +97,7 @@ class User extends Authenticatable implements CanResetPassword
     /**
      * Check if user is the HOS
      *
-     * @return boolean
+     * @return bool
      */
     public function isHos()
     {

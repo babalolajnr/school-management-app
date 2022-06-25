@@ -101,14 +101,13 @@ class Student extends Model
     /**
      * Find student
      *
-     * @param  string $admission_no
+     * @param  string  $admission_no
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public static function findStudent($admission_no)
     {
-
         $student = Student::where('admission_no', $admission_no);
-        if (!$student->exists()) {
+        if (! $student->exists()) {
             abort(404);
         }
 
@@ -118,7 +117,7 @@ class Student extends Model
     /**
      * Check if student is active
      *
-     * @return boolean
+     * @return bool
      */
     public function isActive()
     {
@@ -160,13 +159,12 @@ class Student extends Model
         return Student::whereNotNull('graduated_at')->get();
     }
 
-
     /**
      * Check if student can graduate
      *
      * Only Students in the highest class can graduate
      *
-     * @return boolean
+     * @return bool
      */
     public function canGraduate()
     {
@@ -175,7 +173,6 @@ class Student extends Model
 
         return $classRank == $highestClassRank;
     }
-
 
     /**
      * check if student is an alumni
@@ -186,7 +183,6 @@ class Student extends Model
     {
         return $this->graduated_at !== null;
     }
-
 
     /**
      * Get student's main teacher

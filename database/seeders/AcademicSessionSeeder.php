@@ -21,13 +21,15 @@ class AcademicSessionSeeder extends Seeder
         foreach ($academicSessions as $academicSession) {
             $record = AcademicSession::where('name', $academicSession);
 
-            if ($record->exists()) continue;
-            
+            if ($record->exists()) {
+                continue;
+            }
+
             /**
              * break the string and extract the first part before the '-'
              * then generate a random day and month
              */
-            $eachYear = explode("-", $academicSession);
+            $eachYear = explode('-', $academicSession);
             $startYear = $eachYear[0];
 
             $startDate = Carbon::now();

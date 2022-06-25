@@ -19,7 +19,6 @@ class SubjectSeeder extends Seeder
         $subjects = SubjectFactory::$subjects;
 
         foreach ($subjects as $subject) {
-
             $row = Subject::where('name', $subject);
 
             if ($row->exists()) {
@@ -30,7 +29,7 @@ class SubjectSeeder extends Seeder
             Subject::create(
                 [
                     'name' => $subject,
-                    'slug' => $slug
+                    'slug' => $slug,
                 ]
             );
         }

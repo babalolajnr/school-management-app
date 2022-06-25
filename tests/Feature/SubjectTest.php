@@ -6,8 +6,8 @@ use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class SubjectTest extends TestCase
 {
@@ -28,7 +28,7 @@ class SubjectTest extends TestCase
         $slug = Str::of($name)->slug('-');
         $response = $this->actingAs($user)->post(route('subject.store'), [
             'name' => $name,
-            'slug' => $slug
+            'slug' => $slug,
         ]);
         $response->assertStatus(302)->assertSessionHas('success');
     }
@@ -46,7 +46,7 @@ class SubjectTest extends TestCase
         $user = User::factory()->create();
         $subject = Subject::factory()->create();
         $response = $this->actingAs($user)->patch(route('subject.update', ['subject' => $subject]), [
-            'name' => $this->faker->word
+            'name' => $this->faker->word,
         ]);
         $response->assertStatus(302)->assertSessionHas('success');
     }

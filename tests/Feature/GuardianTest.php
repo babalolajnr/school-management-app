@@ -34,7 +34,7 @@ class GuardianTest extends TestCase
             'email' => 'email@gmail.com',
             'phone' => '09019203939',
             'occupation' => $this->faker->jobTitle(),
-            'address' => $this->faker->address()
+            'address' => $this->faker->address(),
         ]);
 
         $response->assertStatus(302)->assertSessionHas('success')->assertSessionHasNoErrors();
@@ -47,7 +47,7 @@ class GuardianTest extends TestCase
         $guardian = Guardian::factory()->create();
 
         $response = $this->actingAs($user)->post(route('guardian.change', ['student' => $student]), [
-            'guardian' => $guardian->email
+            'guardian' => $guardian->email,
         ]);
 
         $response->assertStatus(302)->assertSessionHas('success');

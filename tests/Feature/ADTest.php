@@ -72,7 +72,7 @@ class ADTest extends TestCase
         }
 
         $response = $this->actingAs($user)->post(route('ad.storeOrUpdate', ['student' => $student, 'periodSlug' => $period->slug]), [
-            'adTypes' => $data
+            'adTypes' => $data,
         ]);
 
         $response->assertStatus(302);
@@ -95,7 +95,7 @@ class ADTest extends TestCase
         }
 
         $response = $this->actingAs($user)->post(route('ad.storeOrUpdate', ['student' => $student]), [
-            'adTypes' => $data
+            'adTypes' => $data,
         ]);
 
         $response->assertStatus(302);

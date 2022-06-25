@@ -112,7 +112,7 @@ class Period extends Model
     /**
      * Checks if period is active
      *
-     * @return boolean
+     * @return bool
      */
     public function isActive()
     {
@@ -146,7 +146,7 @@ class Period extends Model
      */
     public static function activePeriodIsNotSet()
     {
-        return !Period::activePeriodIsSet();
+        return ! Period::activePeriodIsSet();
     }
 
     /**

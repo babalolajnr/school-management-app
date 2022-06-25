@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 
 class FeeController extends Controller
 {
-    
     /**
      * get fees page
      *
@@ -23,10 +22,11 @@ class FeeController extends Controller
 
         return view('fee.index', compact('fees', 'periods', 'classrooms'));
     }
+
     /**
      * store fee
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
@@ -34,7 +34,7 @@ class FeeController extends Controller
         $data = $request->validate([
             'classroom' => ['required', 'string', 'exists:classrooms,name'],
             'amount' => ['required', 'string', 'numeric'],
-            'period' => ['required', 'string', 'exists:periods,slug']
+            'period' => ['required', 'string', 'exists:periods,slug'],
         ]);
 
         $classroom = Classroom::where('name', $data['classroom'])->first();
@@ -59,7 +59,7 @@ class FeeController extends Controller
     /**
      * show edit fee page
      *
-     * @param  Fee $fee
+     * @param  Fee  $fee
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function edit(Fee $fee)
@@ -70,8 +70,8 @@ class FeeController extends Controller
     /**
      * update fee
      *
-     * @param  Request $request
-     * @param  Fee $fee
+     * @param  Request  $request
+     * @param  Fee  $fee
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request, Fee $fee)
@@ -88,7 +88,7 @@ class FeeController extends Controller
     /**
      * destroy fee record
      *
-     * @param  Fee $fee
+     * @param  Fee  $fee
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Fee $fee)
@@ -101,6 +101,7 @@ class FeeController extends Controller
                 return back()->with('error', 'Fee cannot be deleted because some resources are dependent on it!');
             }
         }
+
         return back()->with('success', 'Deleted!');
     }
 }

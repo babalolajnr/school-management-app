@@ -91,17 +91,19 @@ class TeacherPolicy
     {
         //
     }
-    
+
     /**
      * Determine whether the user can store signature
      *
-     * @param  Teacher $teacher
+     * @param  Teacher  $teacher
      * @return bool
      */
     public function storeSignature(Teacher $teacher)
     {
-        if(auth('web')->check()) return false;
-        
+        if (auth('web')->check()) {
+            return false;
+        }
+
         return auth('teacher')->user()->id == $teacher->id;
     }
 

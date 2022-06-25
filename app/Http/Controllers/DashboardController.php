@@ -12,7 +12,6 @@ use Faker\Provider\Color;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache as FacadesCache;
 
-
 class DashboardController extends Controller
 {
     /**
@@ -23,13 +22,10 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-
-
         $dashboardData = FacadesCache::remember('dashboardData', 60, function () {
-
             $students = Student::getActiveStudents();
             $studentsNo = count($students);
-            $alumni =  Student::whereNotNull('graduated_at')->count();
+            $alumni = Student::whereNotNull('graduated_at')->count();
             $teachers = Teacher::count();
             $users = User::count();
             $classrooms = Classroom::count();
@@ -47,22 +43,19 @@ class DashboardController extends Controller
                 'period' => $period,
                 'subjects' => $subjects,
                 'classroomPopulationChartData' => $classroomPopulationChartData,
-                'genderDistributionChartData' => $genderDistributionChartData
+                'genderDistributionChartData' => $genderDistributionChartData,
             ];
 
             return $dashboardData;
         });
 
-
-
-        return view("dashboard", compact(
+        return view('dashboard', compact(
             'dashboardData',
         ));
     }
 
     /** Generates data for the classrooms population chart
      * @return array
-     * 
      */
     private function generateClassroomsPopulationChart()
     {
@@ -84,14 +77,14 @@ class DashboardController extends Controller
         return [
             'classroomNames' => $classroomNames,
             'populations' => $populations,
-            'colors' => $colors
+            'colors' => $colors,
         ];
     }
 
     /**
      * Generates gender distribution chart data
      *
-     * @param  mixed $students
+     * @param  mixed  $students
      * @return array
      */
     private function generateGenderDistributionChart($students)
@@ -106,7 +99,7 @@ class DashboardController extends Controller
 
         return [
             'male' => count($male),
-            'female' => count($female)
+            'female' => count($female),
         ];
     }
 }

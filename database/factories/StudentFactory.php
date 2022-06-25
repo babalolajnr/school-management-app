@@ -7,7 +7,6 @@ use App\Models\Classroom;
 use App\Models\Guardian;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 
@@ -63,7 +62,7 @@ class StudentFactory extends Factory
             'guardian_id' => $guardian->id,
             'is_active' => true,
             'graduated_at' => null,
-            'branch_classroom_id' => $branchClassroom->id
+            'branch_classroom_id' => $branchClassroom->id,
         ];
     }
 }

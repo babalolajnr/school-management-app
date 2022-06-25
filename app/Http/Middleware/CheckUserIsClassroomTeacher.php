@@ -20,11 +20,11 @@ class CheckUserIsClassroomTeacher
         if (Auth::guard('teacher')->check()) {
 
             //check if authenticated teacher is the classteacher of the classroom to be viewed
-            if (!$request->user()->classroom->id == $request->route('classroom')->id) {
+            if (! $request->user()->classroom->id == $request->route('classroom')->id) {
                 abort(403);
             }
         }
-        
+
         return $next($request);
     }
 }

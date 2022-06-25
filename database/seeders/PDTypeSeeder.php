@@ -7,7 +7,6 @@ use Database\Factories\PDTypeFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
-
 class PDTypeSeeder extends Seeder
 {
     /**
@@ -22,13 +21,15 @@ class PDTypeSeeder extends Seeder
         foreach ($pdTypes as $pdType) {
             $record = PDType::where('name', $pdType);
 
-            if ($record->exists()) continue;
+            if ($record->exists()) {
+                continue;
+            }
 
             $slug = Str::of($pdType)->slug('-');
 
             PDType::create([
                 'name' => $pdType,
-                'slug' => $slug
+                'slug' => $slug,
             ]);
         }
     }

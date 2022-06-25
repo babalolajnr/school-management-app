@@ -16,10 +16,9 @@ class BranchSeeder extends Seeder
     {
         $branches = ['A', 'B', 'C', 'D', 'E', 'F'];
 
-        foreach ($branches as $branch)
-        {
+        foreach ($branches as $branch) {
             Branch::create([
-                'name' => $branch
+                'name' => $branch,
             ]);
         }
     }

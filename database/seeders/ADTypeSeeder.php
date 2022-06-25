@@ -21,13 +21,15 @@ class ADTypeSeeder extends Seeder
         foreach ($adTypes as $pdType) {
             $record = ADType::where('name', $pdType);
 
-            if ($record->exists()) continue;
+            if ($record->exists()) {
+                continue;
+            }
 
             $slug = Str::of($pdType)->slug('-');
 
             ADType::create([
                 'name' => $pdType,
-                'slug' => $slug
+                'slug' => $slug,
             ]);
         }
     }

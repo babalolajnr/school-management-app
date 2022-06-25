@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Attendance extends Model
 {
     use HasFactory;
-    
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = ['value', 'period_id'];
-    
+
     /**
      * student relationship
      *
@@ -25,7 +25,7 @@ class Attendance extends Model
     {
         return $this->belongsTo(Student::class);
     }
-    
+
     /**
      * period relationship
      *

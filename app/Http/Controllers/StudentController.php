@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
-
     /**
      * Show students page
      *
@@ -48,6 +47,7 @@ class StudentController extends Controller
     public function getAlumni()
     {
         $students = Student::whereNotNull('graduated_at')->get();
+
         return view('alumni.index', compact('students'));
     }
 
@@ -59,6 +59,7 @@ class StudentController extends Controller
     public function getInactiveStudents()
     {
         $students = Student::getInactiveStudents();
+
         return view('student.inactive', compact('students'));
     }
 
@@ -70,28 +71,29 @@ class StudentController extends Controller
     public function create()
     {
         $classrooms = Classroom::pluck('name')->all();
+
         return view('student.create', compact('classrooms'));
     }
-
 
     /**
      * Store student
      *
-     * @param  StoreStudentRequest $request
-     * @param  StudentService $studentService
+     * @param  StoreStudentRequest  $request
+     * @param  StudentService  $studentService
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function store(StoreStudentRequest $request, StudentService $studentService)
     {
         $studentService->store($request);
+
         return redirect()->route('student.index')->with('success', 'Student Added!');
     }
 
     /**
      * Show student
      *
-     * @param  Student $student
-     * @param  StudentService $studentService
+     * @param  Student  $student
+     * @param  StudentService  $studentService
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function show(Student $student, StudentService $studentService)
@@ -99,11 +101,10 @@ class StudentController extends Controller
         return view('student.show', $studentService->show($student));
     }
 
-
     /**
      * Activate Student
      *
-     * @param  Student $student
+     * @param  Student  $student
      * @return \Illuminate\Http\RedirectResponse
      */
     public function activate(Student $student)
@@ -117,12 +118,11 @@ class StudentController extends Controller
     /**
      * Deactivate student
      *
-     * @param  Student $student
+     * @param  Student  $student
      * @return \Illuminate\Http\RedirectResponse
      */
     public function deactivate(Student $student)
     {
-
         $student->is_active = false;
         $student->save();
 
@@ -132,50 +132,53 @@ class StudentController extends Controller
     /**
      * Edit student
      *
-     * @param  Student $student
+     * @param  Student  $student
      * @return \Illuminate\Contracts\View\View
      */
     public function edit(Student $student)
     {
         $classrooms = Classroom::pluck('name')->all();
+
         return view('student.edit', compact(['student', 'classrooms']));
     }
 
     /**
      * Update student's record
      *
-     * @param  Student $student
-     * @param  UpdateStudentRequest $request
+     * @param  Student  $student
+     * @param  UpdateStudentRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Student $student, UpdateStudentRequest $request)
     {
         $classroom_id = Classroom::where('name', $request->validated()['classroom'])->first()->id;
         $student->update($request->validated() + ['classroom_id' => $classroom_id]);
+
         return redirect(route('student.edit', ['student' => $student]))->with('success', 'Student Updated!');
     }
 
     /**
      * Get student's sessional results
      *
-     * @param  Student $student
-     * @param  mixed $academicSessionName
-     * @param  StudentService $studentService
+     * @param  Student  $student
+     * @param  mixed  $academicSessionName
+     * @param  StudentService  $studentService
      * @return \Illuminate\Contracts\View\View
      */
     public function getSessionalResults(Student $student, $academicSessionName, StudentService $studentService)
     {
         $sessionalResults = $studentService->getSessionalResults($student, $academicSessionName);
+
         return view('student.sessional-results', $sessionalResults);
     }
 
     /**
      * Get student's term results
      *
-     * @param  Student $student
-     * @param  mixed $termSlug
-     * @param  mixed $academicSessionName
-     * @param  StudentService $studentService
+     * @param  Student  $student
+     * @param  mixed  $termSlug
+     * @param  mixed  $academicSessionName
+     * @param  StudentService  $studentService
      * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function getTermResults(Student $student, $termSlug, $academicSessionName, StudentService $studentService)
@@ -192,7 +195,7 @@ class StudentController extends Controller
     /**
      * Soft delete student record
      *
-     * @param  Student $student
+     * @param  Student  $student
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Student $student)
@@ -207,8 +210,8 @@ class StudentController extends Controller
     /**
      * Delete student's record permanently
      *
-     * @param  mixed $id
-     * @param  Student $student
+     * @param  mixed  $id
+     * @param  Student  $student
      * @return \Illuminate\Http\RedirectResponse
      */
     public function forceDelete($id, Student $student)
@@ -220,10 +223,10 @@ class StudentController extends Controller
         $guardianChildren = $guardian->children()->withTrashed()->get();
 
         //delete student image if it exists
-        if (!is_null($student->image)) {
+        if (! is_null($student->image)) {
             $deletePath = $student->image;
             $deletePath = str_replace('storage/', '', $deletePath);
-            $deletePath = 'public/' . $deletePath;
+            $deletePath = 'public/'.$deletePath;
 
             Storage::delete($deletePath);
         }
@@ -244,21 +247,22 @@ class StudentController extends Controller
     /**
      * Upload student's image
      *
-     * @param  Student $student
-     * @param  Request $request
-     * @param  StudentService $studentService
+     * @param  Student  $student
+     * @param  Request  $request
+     * @param  StudentService  $studentService
      * @return \Illuminate\Http\RedirectResponse
      */
     public function uploadImage(Student $student, Request $request, StudentService $studentService)
     {
         $studentService->uploadImage($student, $request);
+
         return back()->with('success', 'Image uploaded successfully');
     }
 
     /**
      * Show Student's settings view
      *
-     * @param  Student $student
+     * @param  Student  $student
      * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function showStudentSettingsView(Student $student)
@@ -278,12 +282,11 @@ class StudentController extends Controller
     /**
      * Promote Student
      *
-     * @param  Student $student
+     * @param  Student  $student
      * @return \Illuminate\Http\RedirectResponse
      */
     public function promote(Student $student)
     {
-
         $classRank = $student->classroom->rank;
         $highestClassRank = Classroom::max('rank');
 
@@ -302,12 +305,11 @@ class StudentController extends Controller
     /**
      * Demote student
      *
-     * @param  Student $student
+     * @param  Student  $student
      * @return \Illuminate\Http\RedirectResponse
      */
     public function demote(Student $student)
     {
-
         $classRank = $student->classroom->rank;
         $lowestClassRank = Classroom::min('rank');
 
@@ -318,7 +320,7 @@ class StudentController extends Controller
             $student->classroom_id = $newClassId;
 
             // if student has graduated, 'ungraduate' the student
-            if (!is_null($student->graduated_at)) {
+            if (! is_null($student->graduated_at)) {
                 $student->graduated_at = null;
             }
 
@@ -345,7 +347,7 @@ class StudentController extends Controller
     /**
      * Restore deleted student
      *
-     * @param  mixed $id
+     * @param  mixed  $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function restore($id)
@@ -359,8 +361,8 @@ class StudentController extends Controller
     /**
      * Store student gradation date
      *
-     * @param  Student $student
-     * @param  Request $request
+     * @param  Student  $student
+     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function graduate(Student $student, Request $request)
@@ -372,7 +374,7 @@ class StudentController extends Controller
         $activePeriod = Period::activePeriod();
 
         $validated = $request->validate([
-            'graduated_at' => ['required', 'date', "before_or_equal:{$activePeriod->academicSession->end_date}"]
+            'graduated_at' => ['required', 'date', "before_or_equal:{$activePeriod->academicSession->end_date}"],
         ]);
 
         $student->graduated_at = $validated['graduated_at'];
@@ -385,8 +387,8 @@ class StudentController extends Controller
     /**
      * Set Classroom branch in which student belongs
      *
-     * @param  Student $student
-     * @param  Branch $branch
+     * @param  Student  $student
+     * @param  Branch  $branch
      * @return \Illuminate\Http\RedirectResponse
      */
     public function setClassroomBranch(Student $student, Branch $branch)

@@ -7,7 +7,6 @@ use App\Models\Fee;
 use App\Models\Period;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class FeeTest extends TestCase
@@ -24,7 +23,7 @@ class FeeTest extends TestCase
         $response = $this->actingAs($user)->post(route('fee.store'), [
             'classroom' => $classroom->name,
             'period' => $period->slug,
-            'amount' => '20000'
+            'amount' => '20000',
         ]);
 
         $response->assertStatus(302)->assertSessionHas('success');
@@ -57,9 +56,9 @@ class FeeTest extends TestCase
         $fee = Fee::factory()->create();
 
         $amount = mt_rand(10000, 100000);
-        
+
         $response = $this->actingAs($user)->patch(route('fee.update', ['fee' => $fee]), [
-            'amount' => "{$amount}"
+            'amount' => "{$amount}",
         ]);
 
         $response->assertStatus(302)->assertSessionHas('success');
@@ -74,7 +73,7 @@ class FeeTest extends TestCase
         $response = $this->actingAs($user)->post(route('fee.store'), [
             'classroom' => $classroom->name,
             'period' => $period->slug,
-            'amount' => '2fdsfs0'
+            'amount' => '2fdsfs0',
         ]);
 
         $response->assertStatus(302)->assertSessionHasErrors('amount');

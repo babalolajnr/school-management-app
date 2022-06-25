@@ -2,10 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\BranchClassroom;
 use App\Models\Teacher;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 
 class TeacherFactory extends Factory
@@ -28,7 +26,7 @@ class TeacherFactory extends Factory
 
         $firstName = $sex == 'M' ? $this->faker->firstNameMale() : $this->faker->firstNameFemale();
         $lastName = $this->faker->lastName();
-        $fullname = $firstName . ' ' . $lastName . ' ' . Str::random(5);
+        $fullname = $firstName.' '.$lastName.' '.Str::random(5);
         $slug = Str::of($fullname)->slug('-');
 
         return [
@@ -43,7 +41,7 @@ class TeacherFactory extends Factory
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
-            'branch_classroom_id' => null
+            'branch_classroom_id' => null,
         ];
     }
 }

@@ -31,8 +31,8 @@ class UserTeacherUpdateRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:30'],
             'email' => ['required', 'string', Rule::unique('teachers')->ignore($teacher), 'email:rfc,dns'],
             'phone' => ['required', 'string', Rule::unique('teachers')->ignore($teacher), 'max:15', 'min:10'],
-            'date_of_birth' => ['required', 'date', 'before:' . now()],
-            'sex' => ['required', 'string']
+            'date_of_birth' => ['required', 'date', 'before:'.now()],
+            'sex' => ['required', 'string'],
         ];
     }
 }

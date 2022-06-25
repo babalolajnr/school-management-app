@@ -5,9 +5,7 @@ namespace Database\Seeders;
 use App\Models\AcademicSession;
 use App\Models\Classroom;
 use App\Models\Subject;
-use Database\Factories\ClassroomFactory;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 
 class ClassroomSubjectSeeder extends Seeder
@@ -19,14 +17,19 @@ class ClassroomSubjectSeeder extends Seeder
      */
     public function run()
     {
-
         $classroom = Classroom::first();
         $subject = Subject::first();
         $academicSession = AcademicSession::first();
 
-        if (!$classroom) Artisan::call('db:seed', ['--class' => 'ClassroomSeeder']);
-        if (!$academicSession) Artisan::call('db:seed', ['--class' => 'AcademicSessionSeeder']);
-        if (!$subject) Artisan::call('db:seed', ['--class' => 'SubjectSeeder']);
+        if (! $classroom) {
+            Artisan::call('db:seed', ['--class' => 'ClassroomSeeder']);
+        }
+        if (! $academicSession) {
+            Artisan::call('db:seed', ['--class' => 'AcademicSessionSeeder']);
+        }
+        if (! $subject) {
+            Artisan::call('db:seed', ['--class' => 'SubjectSeeder']);
+        }
 
         $subjects = Subject::all();
         $classrooms = Classroom::all();
@@ -39,7 +42,7 @@ class ClassroomSubjectSeeder extends Seeder
             foreach ($classrooms as $classroom) {
                 $randomSubjects = $subjects->random(9);
                 foreach ($randomSubjects as $randomSubject) {
-                    /**get a row that has the current academic_session_id and the subject_id that is about to be 
+                    /**get a row that has the current academic_session_id and the subject_id that is about to be
                     attahched
                      */
                     $row = $classroom->subjects()->where('academic_session_id', $academicSession->id)->where('subject_id', $randomSubject->id);
@@ -49,7 +52,7 @@ class ClassroomSubjectSeeder extends Seeder
                      * if the row does not exists and the number of subjects in the classroom is less than 9
                      * then it can be attached to the current classroom
                      */
-                    if (!$row->exists() && $allSubjects->count() < 9) {
+                    if (! $row->exists() && $allSubjects->count() < 9) {
                         $data = [$randomSubject->id => ['academic_session_id' => $academicSession->id]];
                         $classroom->subjects()->attach($data);
                     }

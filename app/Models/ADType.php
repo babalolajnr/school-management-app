@@ -8,23 +8,23 @@ use Illuminate\Database\Eloquent\Model;
 class ADType extends Model
 {
     use HasFactory;
-    
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = ['name', 'slug'];
-    
+
     /**
      * casts
      *
      * @var array
      */
     protected $casts = [
-        'slug' => 'string'
+        'slug' => 'string',
     ];
-    
+
     /**
      * ads relationship
      *

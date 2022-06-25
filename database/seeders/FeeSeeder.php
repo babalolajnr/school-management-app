@@ -23,12 +23,14 @@ class FeeSeeder extends Seeder
             foreach ($data['periods'] as $period) {
                 $record = Fee::where('classroom_id', $classroom->id)->where('period_id', $period->id);
 
-                if ($record->exists()) continue;
+                if ($record->exists()) {
+                    continue;
+                }
 
                 Fee::create([
                     'amount' => mt_rand(10000, 100000),
                     'classroom_id' => $classroom->id,
-                    'period_id' => $period->id
+                    'period_id' => $period->id,
                 ]);
             }
         }
@@ -40,8 +42,12 @@ class FeeSeeder extends Seeder
         $classroom = Classroom::first();
 
         //if any of the required values are empty seed their tables
-        if (!$period) Artisan::call('db:seed', ['--class' => 'PeriodSeeder']);
-        if (!$classroom) Artisan::call('db:seed', ['--class' => 'ClassroomSeeder']);
+        if (! $period) {
+            Artisan::call('db:seed', ['--class' => 'PeriodSeeder']);
+        }
+        if (! $classroom) {
+            Artisan::call('db:seed', ['--class' => 'ClassroomSeeder']);
+        }
 
         $periods = Period::all();
         $classrooms = Classroom::all();

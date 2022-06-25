@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Result extends Model
 {
     use HasFactory;
-    
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = ['total', 'subject_id', 'student_id', 'period_id', 'ca', 'exam', 'classroom_id'];
-    
+
     /**
      * period
      *
@@ -25,7 +25,7 @@ class Result extends Model
     {
         return $this->belongsTo(Period::class);
     }
-    
+
     /**
      * subject
      *
@@ -35,7 +35,7 @@ class Result extends Model
     {
         return $this->belongsTo(Subject::class);
     }
-    
+
     /**
      * student
      *

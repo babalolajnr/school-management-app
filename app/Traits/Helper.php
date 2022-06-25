@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Auth;
 
 trait Helper
 {
-    
     /**
      * Get Authenticated user
      *

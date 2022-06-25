@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-use App\Models\AcademicSession;
 use App\Models\Classroom;
 use App\Models\Period;
 use App\Models\Result;
@@ -10,8 +9,6 @@ use App\Models\Student;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
 class ResultTest extends TestCase
@@ -31,7 +28,7 @@ class ResultTest extends TestCase
         $response = $this->actingAs($user)->post(route('result.store', ['student' => $student]), [
             'ca' => mt_rand(0, 40),
             'exam' => mt_rand(0, 60),
-            'subject' => $subject->name
+            'subject' => $subject->name,
         ]);
 
         $response->assertStatus(302);
@@ -39,7 +36,6 @@ class ResultTest extends TestCase
 
     public function test_user_can_store_results_with_one_assessment()
     {
-
         Period::factory()->create(['active' => true]);
 
         $user = User::factory()->create();
@@ -48,7 +44,7 @@ class ResultTest extends TestCase
 
         $response = $this->actingAs($user)->post(route('result.store', ['student' => $student]), [
             'ca' => mt_rand(0, 40),
-            'subject' => $subject->name
+            'subject' => $subject->name,
         ]);
 
         $response->assertStatus(302);
@@ -112,7 +108,7 @@ class ResultTest extends TestCase
         session(['resultsPage' => route('result.edit', ['result' => $result])]);
         $response = $this->actingAs($user)->patch(route('result.update', ['result' => $result]), [
             'ca' => mt_rand(0, 40),
-            'exam' => mt_rand(0, 60)
+            'exam' => mt_rand(0, 60),
         ]);
 
         $response->assertStatus(302)->assertSessionHas('success');

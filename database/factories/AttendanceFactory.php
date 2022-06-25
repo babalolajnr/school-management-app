@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Period;
 use App\Models\Attendance;
+use App\Models\Period;
 use App\Models\Student;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

@@ -10,14 +10,15 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AD extends Model
 {
-    use HasFactory;    
+    use HasFactory;
+
     /**
      * The attributes that are not mass assignable.
      *
      * @var array
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
-    
+
     /**
      * student
      *
@@ -27,7 +28,7 @@ class AD extends Model
     {
         return $this->belongsTo(Student::class);
     }
-    
+
     /**
      * period
      *
@@ -35,9 +36,9 @@ class AD extends Model
      */
     public function period()
     {
-       return $this->belongsTo(Period::class);
+        return $this->belongsTo(Period::class);
     }
-    
+
     /**
      * adType relationship
      *

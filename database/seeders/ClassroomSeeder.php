@@ -38,11 +38,10 @@ class ClassroomSeeder extends Seeder
 
         foreach ($classrooms as $classroom) {
             foreach ($branches as $branch) {
-
                 $teacher = $teachers[$teacherIndex++];
                 $row = Classroom::where('name', $classroom['name']);
 
-                if (!$row->exists()) {
+                if (! $row->exists()) {
                     $classroom = Classroom::create([
                         'name' => $classroom['name'],
                         'rank' => $classroom['rank'],
@@ -53,7 +52,7 @@ class ClassroomSeeder extends Seeder
                 }
 
                 $classroom->branches()->where('branch_id', $branch)->exists()
-                    ? null :  $classroom->branches()->attach($branch, ['teacher_id' => $teacher->id]);
+                    ? null : $classroom->branches()->attach($branch, ['teacher_id' => $teacher->id]);
 
                 $teacher->update(['branch_classroom_id' => BranchClassroom::where('teacher_id', $teacher->id)->first()->id]);
             }

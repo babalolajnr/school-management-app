@@ -3,8 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
 class AppNotification extends Notification
@@ -32,8 +30,8 @@ class AppNotification extends Notification
      */
     public function __construct($notification)
     {
-        $this->title = $notification["title"];
-        $this->message = $notification["message"];
+        $this->title = $notification['title'];
+        $this->message = $notification['message'];
     }
 
     /**
@@ -46,7 +44,6 @@ class AppNotification extends Notification
     {
         return ['database'];
     }
-
 
     /**
      * Get the array representation of the notification.

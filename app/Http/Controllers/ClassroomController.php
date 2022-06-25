@@ -9,7 +9,6 @@ use App\Models\Classroom;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\Subject;
-use App\Models\Teacher;
 use App\Models\Term;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -20,12 +19,11 @@ class ClassroomController extends Controller
     /**
      * Validate request
      *
-     * @param  mixed $request
+     * @param  mixed  $request
      * @return array
      */
     private function classroomValidation($request)
     {
-
         $messages = [
             'name.unique' => 'Classroom Exists',
         ];
@@ -45,13 +43,14 @@ class ClassroomController extends Controller
     public function index()
     {
         $classrooms = Classroom::all()->sortBy('rank');
+
         return view('classroom.index', compact('classrooms'));
     }
 
     /**
      * Store classroom
      *
-     * @param  Request $request
+     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
@@ -62,13 +61,14 @@ class ClassroomController extends Controller
         $slug = ['slug' => Str::of($validatedData['name'])->slug('-')];
         $data = $rank + $slug + $validatedData;
         Classroom::create($data);
+
         return back()->with('success', 'Classroom Created!');
     }
 
     /**
      * Show edit classroom page
      *
-     * @param  Classroom $classroom
+     * @param  Classroom  $classroom
      * @return \Illuminate\Contracts\View\View
      */
     public function edit(Classroom $classroom)
@@ -79,8 +79,8 @@ class ClassroomController extends Controller
     /**
      * Update classroom
      *
-     * @param  Classroom $classroom
-     * @param  Request $request
+     * @param  Classroom  $classroom
+     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Classroom $classroom, Request $request)
@@ -91,7 +91,7 @@ class ClassroomController extends Controller
 
         $validatedData = $request->validate([
             'name' => ['required', 'string', Rule::unique('classrooms')->ignore($classroom)],
-            'rank' => ['required', 'numeric', 'min:1', 'max:' . $maxRank],
+            'rank' => ['required', 'numeric', 'min:1', 'max:'.$maxRank],
         ]);
 
         /**
@@ -105,7 +105,7 @@ class ClassroomController extends Controller
         $slug = ['slug' => Str::of($validatedData['name'])->slug('-')];
 
         //if row exists
-        if (!is_null($row)) {
+        if (! is_null($row)) {
             $row->rank = 0;
             $row->save();
             $classroom->update($validatedData + $slug);
@@ -121,7 +121,7 @@ class ClassroomController extends Controller
     /**
      * Show classroom
      *
-     * @param  Classroom $classroom
+     * @param  Classroom  $classroom
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Contracts\View\View
      */
     public function show(Classroom $classroom)
@@ -139,13 +139,14 @@ class ClassroomController extends Controller
         }
 
         $subjects = $classroom->subjects()->where('academic_session_id', $currentAcademicSession->id)->get();
+
         return view('classroom.show', compact('students', 'classroom', 'academicSessions', 'terms', 'subjects'));
     }
 
     /**
      * Delete classroom
      *
-     * @param  Classroom $classroom
+     * @param  Classroom  $classroom
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Classroom $classroom)
@@ -179,7 +180,7 @@ class ClassroomController extends Controller
     /**
      * Show set classroom subjects view
      *
-     * @param  Classroom $classroom
+     * @param  Classroom  $classroom
      * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function setSubjects(Classroom $classroom)
@@ -209,8 +210,8 @@ class ClassroomController extends Controller
     /**
      * Update classroom subjects
      *
-     * @param  Classroom $classroom
-     * @param  Request $request
+     * @param  Classroom  $classroom
+     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function updateSubjects(Classroom $classroom, Request $request)
@@ -222,8 +223,9 @@ class ClassroomController extends Controller
         $currentAcademicSession = Period::activePeriod()->academicSession;
 
         //detach all subjects from classroom when no subject is provided
-        if (!$request->has('subjects')) {
+        if (! $request->has('subjects')) {
             $classroom->subjects()->wherePivot('academic_session_id', '=', $currentAcademicSession->id)->sync([]);
+
             return back()->with('success', 'Subjects set successfully');
         }
 
@@ -244,7 +246,7 @@ class ClassroomController extends Controller
     /**
      * Show promoteOrDemoteStudents view
      *
-     * @param  Classroom $classroom
+     * @param  Classroom  $classroom
      * @return \Illuminate\Contracts\View\View
      */
     public function promoteOrDemoteStudents(Classroom $classroom)
@@ -257,15 +259,15 @@ class ClassroomController extends Controller
     /**
      * Promote multiple Students from a classroom
      *
-     * @param  Request $request
-     * @param  Classroom $classroom
+     * @param  Request  $request
+     * @param  Classroom  $classroom
      * @return \Illuminate\Http\RedirectResponse
      */
     public function promoteStudents(Request $request, Classroom $classroom)
     {
 
         // if no student is selected
-        if (!$request->has('students')) {
+        if (! $request->has('students')) {
             return back()->with('error', 'No students selected');
         }
 
@@ -292,14 +294,14 @@ class ClassroomController extends Controller
     /**
      * Demote multiple Students from a classroom
      *
-     * @param  Request $request
-     * @param  Classroom $classroom
+     * @param  Request  $request
+     * @param  Classroom  $classroom
      * @return \Illuminate\Http\RedirectResponse
      */
     public function demoteStudents(Request $request, Classroom $classroom)
     {
         // if no student is selected
-        if (!$request->has('students')) {
+        if (! $request->has('students')) {
             return back()->with('error', 'No students selected');
         }
 
@@ -326,8 +328,8 @@ class ClassroomController extends Controller
     /**
      * Show a classroom branch
      *
-     * @param  Classroom $classroom
-     * @param  Branch $branch
+     * @param  Classroom  $classroom
+     * @param  Branch  $branch
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function showBranch(Classroom $classroom, Branch $branch)
@@ -341,8 +343,8 @@ class ClassroomController extends Controller
     /**
      * Update Branches
      *
-     * @param  Classroom $classroom
-     * @param  Request $request
+     * @param  Classroom  $classroom
+     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function updateBranches(Classroom $classroom, Request $request)
@@ -352,7 +354,7 @@ class ClassroomController extends Controller
         foreach ($branches as $branch) {
 
             // Validate if all the selected branches exist
-            if (!Branch::where('name', $branch)->exists()) {
+            if (! Branch::where('name', $branch)->exists()) {
                 return back()->with('error', "Branch $branch does not exist");
             }
         }
@@ -364,7 +366,6 @@ class ClassroomController extends Controller
         $removedBranches = $classroomBranches->diff($branches);
 
         $removedBranches->map(function ($branch) use ($classroom) {
-
             $branch = Branch::where('name', $branch)->first();
             $branchClassroom = BranchClassroom::where('branch_id', $branch->id)->where('classroom_id', $classroom->id)->first();
 

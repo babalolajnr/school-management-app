@@ -25,14 +25,16 @@ class RedirectIfAuthenticated
             if (Auth::guard($guard)->check()) {
                 if ($guard == 'teacher') {
                     $teachersClassroom = $request->user('teacher')->branchClassroom;
+
                     return redirect(route(
                         'classroom.show.branch',
                         [
                             'classroom' => $teachersClassroom?->classroom,
-                            'branch' => $teachersClassroom?->branch
+                            'branch' => $teachersClassroom?->branch,
                         ]
                     ));
                 }
+
                 return redirect(RouteServiceProvider::HOME);
             }
         }

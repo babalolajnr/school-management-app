@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Subject extends Model
 {
     use HasFactory;
-    
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = ['name', 'slug'];
-    
+
     /**
      * Classroom relationship
      *
@@ -25,7 +25,7 @@ class Subject extends Model
     {
         return $this->belongsToMany(Classroom::class)->withPivot('academic_session_id')->withTimestamps();
     }
-    
+
     /**
      * Result relationship
      *

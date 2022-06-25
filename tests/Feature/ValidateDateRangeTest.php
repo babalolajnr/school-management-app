@@ -20,7 +20,7 @@ class ValidateDateRangeTest extends TestCase
         AcademicSession::create([
             'name' => '2020-2020',
             'start_date' => $startDate,
-            'end_date' => $endDate
+            'end_date' => $endDate,
         ]);
 
         $this->assertTrue($this->dateOverlaps($startDate, $endDate, AcademicSession::class));
@@ -31,7 +31,7 @@ class ValidateDateRangeTest extends TestCase
         $academicSession = AcademicSession::create([
             'name' => '2020-2020',
             'start_date' => '2020-01-01',
-            'end_date' => '2020-01-02'
+            'end_date' => '2020-01-02',
         ]);
 
         $startDate = '2019-01-01';
@@ -40,7 +40,7 @@ class ValidateDateRangeTest extends TestCase
         AcademicSession::create([
             'name' => '2019-2019',
             'start_date' => $startDate,
-            'end_date' => $endDate
+            'end_date' => $endDate,
         ]);
 
         $this->assertTrue($this->dateOverlaps($startDate, $endDate, AcademicSession::class, $academicSession));
@@ -48,15 +48,13 @@ class ValidateDateRangeTest extends TestCase
 
     public function test_overlap_is_ignored_when_model_is_passed_in()
     {
-
-
         $startDate = '2019-01-01';
         $endDate = '2019-01-02';
 
         $academicSession = AcademicSession::create([
             'name' => '2019-2019',
             'start_date' => $startDate,
-            'end_date' => $endDate
+            'end_date' => $endDate,
         ]);
 
         $this->assertFalse($this->dateOverlaps($startDate, $endDate, AcademicSession::class, $academicSession));
@@ -70,7 +68,7 @@ class ValidateDateRangeTest extends TestCase
         AcademicSession::create([
             'name' => '2020-2020',
             'start_date' => $startDate,
-            'end_date' => $endDate
+            'end_date' => $endDate,
         ]);
 
         $this->assertFalse($this->dateOverlaps('2020-01-03', '2020-01-04', AcademicSession::class));
@@ -84,7 +82,7 @@ class ValidateDateRangeTest extends TestCase
         AcademicSession::create([
             'name' => '2020-2020',
             'start_date' => $startDate,
-            'end_date' => $endDate
+            'end_date' => $endDate,
         ]);
 
         $this->assertTrue($this->dateOverlaps('2020-01-01', '2020-01-03', AcademicSession::class));
@@ -98,7 +96,7 @@ class ValidateDateRangeTest extends TestCase
         $academicSession = AcademicSession::create([
             'name' => '2020-2020',
             'start_date' => $startDate,
-            'end_date' => $endDate
+            'end_date' => $endDate,
         ]);
 
         $this->assertFalse($this->dateOverlaps($startDate, $endDate, AcademicSession::class, $academicSession));

@@ -15,17 +15,16 @@ use  Intervention\Image\Facades\Image;
 
 class TeacherController extends Controller
 {
-
     /**
      * Generate full name slug
      *
-     * @param  string $firstName
-     * @param  string $lastName
+     * @param  string  $firstName
+     * @param  string  $lastName
      * @return \Illuminate\Support\Stringable
      */
     private function generateFullNameSlug($firstName, $lastName)
     {
-        $fullname = $firstName . ' ' . $lastName . ' ' . Str::random(5);
+        $fullname = $firstName.' '.$lastName.' '.Str::random(5);
         $slug = Str::of($fullname)->slug('-');
 
         return $slug;
@@ -41,7 +40,6 @@ class TeacherController extends Controller
         $teachers = Teacher::all();
         $teachers->map(function ($teacher) {
             if ($teacher->last_seen) {
-
                 $lastSeen = $teacher->last_seen;
 
                 // convert to carbon instance
@@ -53,6 +51,7 @@ class TeacherController extends Controller
                 $teacher->last_seen = $lastSeen;
             }
         });
+
         return view('teacher.index', compact('teachers'));
     }
 
@@ -69,7 +68,7 @@ class TeacherController extends Controller
     /**
      * Store new teacher
      *
-     * @param StoreTeacherRequest $request
+     * @param  StoreTeacherRequest  $request
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function store(StoreTeacherRequest $request)
@@ -90,7 +89,7 @@ class TeacherController extends Controller
     /**
      * Show teacher
      *
-     * @param  Teacher $teacher
+     * @param  Teacher  $teacher
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function show(Teacher $teacher)
@@ -101,7 +100,7 @@ class TeacherController extends Controller
     /**
      * Show edit teacher view.
      *
-     * @param  Teacher $teacher
+     * @param  Teacher  $teacher
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function edit(Teacher $teacher)
@@ -111,11 +110,11 @@ class TeacherController extends Controller
 
     /**
      * User teacher update
-     * 
+     *
      * Only users authenticated with the web guard can use this method
      *
-     * @param  Teacher $teacher
-     * @param  UserTeacherUpdateRequest $request
+     * @param  Teacher  $teacher
+     * @param  UserTeacherUpdateRequest  $request
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function userTeacherUpdate(Teacher $teacher, UserTeacherUpdateRequest $request)
@@ -138,16 +137,16 @@ class TeacherController extends Controller
     /**
      * Update Teacher
      *
-     * @param  Teacher $teacher
-     * @param  Request $request
+     * @param  Teacher  $teacher
+     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Teacher $teacher, Request $request)
     {
-        $validatedData =  $request->validate([
+        $validatedData = $request->validate([
             'first_name' => ['required', 'string', 'max:30'],
             'last_name' => ['required', 'string', 'max:30'],
-            'sex' => ['required', 'string']
+            'sex' => ['required', 'string'],
         ]);
 
         if ($teacher->first_name != $validatedData['first_name'] || $teacher->last_name != $validatedData['last_name']) {
@@ -165,7 +164,7 @@ class TeacherController extends Controller
     /**
      * Activate teacher
      *
-     * @param  Teacher $teacher
+     * @param  Teacher  $teacher
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function activate(Teacher $teacher)
@@ -179,7 +178,7 @@ class TeacherController extends Controller
     /**
      * Deactivate teacher
      *
-     * @param  Teacher $teacher
+     * @param  Teacher  $teacher
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function deactivate(Teacher $teacher)
@@ -193,20 +192,21 @@ class TeacherController extends Controller
     /**
      * delete teacher
      *
-     * @param  Teacher $teacher
+     * @param  Teacher  $teacher
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function destroy(Teacher $teacher)
     {
         $teacher->delete();
+
         return redirect()->back()->with('success', 'Teacher Deleted!');
     }
 
     /**
      * store teacher Signature
      *
-     * @param  Teacher $teacher
-     * @param  Request $request
+     * @param  Teacher  $teacher
+     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function storeSignature(Teacher $teacher, Request $request)
@@ -214,16 +214,16 @@ class TeacherController extends Controller
         $this->authorize('storeSignature', $teacher);
 
         $request->validate([
-            'signature' => ['required', 'image', 'unique:teachers,signature,except,id', 'mimes:jpg', 'max:1000']
+            'signature' => ['required', 'image', 'unique:teachers,signature,except,id', 'mimes:jpg', 'max:1000'],
         ]);
 
         //create name from first and last name
-        $signatureName = $teacher->first_name . $teacher->last_name . '.' . $request->signature->extension();
+        $signatureName = $teacher->first_name.$teacher->last_name.'.'.$request->signature->extension();
         $path = $request->file('signature')->storeAs('public/teachers/signatures', $signatureName);
-        Image::make($request->signature->getRealPath())->fit(400, 400)->save(storage_path('app/' . $path));
+        Image::make($request->signature->getRealPath())->fit(400, 400)->save(storage_path('app/'.$path));
 
         //update signature in the database
-        $filePath = 'storage/teachers/signatures/' . $signatureName;
+        $filePath = 'storage/teachers/signatures/'.$signatureName;
         $teacher->signature = $filePath;
         $teacher->save();
 
@@ -243,11 +243,11 @@ class TeacherController extends Controller
 
         $data = $request->validate([
             'current_password' => ['required', 'string'],
-            'new_password' => ['required', 'string', 'confirmed', 'min:8']
+            'new_password' => ['required', 'string', 'confirmed', 'min:8'],
         ]);
 
         //if password does not match the current password
-        if (!Hash::check($data['current_password'], $teacher->password)) {
+        if (! Hash::check($data['current_password'], $teacher->password)) {
             throw ValidationException::withMessages(['current_password' => ['Password does not match current password']]);
         }
 
@@ -265,13 +265,14 @@ class TeacherController extends Controller
     public function showTrashed()
     {
         $teachers = Teacher::onlyTrashed()->get();
+
         return view('teacher.trash', compact('teachers'));
     }
 
     /**
      * Restore deleted teacher
      *
-     * @param  mixed $id
+     * @param  mixed  $id
      * @return \Illuminate\Http\RedirectResponse
      */
     public function restore($id)
@@ -285,8 +286,8 @@ class TeacherController extends Controller
     /**
      * Force delete teacher from database
      *
-     * @param  mixed $id
-     * @param  Teacher $teacher
+     * @param  mixed  $id
+     * @param  Teacher  $teacher
      * @return \Illuminate\Http\RedirectResponse
      */
     public function forceDelete($id, Teacher $teacher)
@@ -294,10 +295,10 @@ class TeacherController extends Controller
         $teacher = Teacher::withTrashed()->findOrFail($id);
 
         //delete teacher signature if it exists
-        if (!is_null($teacher->signature)) {
+        if (! is_null($teacher->signature)) {
             $deletePath = $teacher->signature;
             $deletePath = str_replace('storage/', '', $deletePath);
-            $deletePath = 'public/' . $deletePath;
+            $deletePath = 'public/'.$deletePath;
 
             Storage::delete($deletePath);
         }

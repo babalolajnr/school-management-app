@@ -56,7 +56,6 @@ class TeacherAuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
-
         Auth::guard('teacher')->logout();
 
         $request->session()->invalidate();

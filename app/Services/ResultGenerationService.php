@@ -5,13 +5,12 @@ namespace App\Services;
 use App\Models\ADType;
 use App\Models\Classroom;
 use App\Models\Fee;
-use App\Models\HosRemark;
 use App\Models\PDType;
 use App\Models\Period;
-use App\Models\TeacherRemark;
 use App\Models\Result;
 use App\Models\Student;
 use App\Models\Subject;
+use App\Models\TeacherRemark;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -21,7 +20,6 @@ use Illuminate\Support\Facades\DB;
  */
 class ResultGenerationService
 {
-
     private $student;
 
     public function __construct(Student $student)
@@ -32,7 +30,7 @@ class ResultGenerationService
     /**
      * generate Report
      *
-     * @param  mixed $periodSlug
+     * @param  mixed  $periodSlug
      * @return array
      */
     public function generateReport($periodSlug)
@@ -52,16 +50,16 @@ class ResultGenerationService
         $singleResult = $this->student->results()->where('period_id', $period->id)->first();
 
         if ($singleResult == null) {
-            throw new Exception("No results found");
+            throw new Exception('No results found');
         }
-        
+
         $classroomId = $singleResult->classroom_id;
         $classroom = Classroom::find($classroomId)->name;
 
         //Get the subjects for the student's class in the selected period's Academic Session
         $classroom_subjects = DB::table('classroom_subject')
-            ->where('academic_session_id',  $period->academicSession->id)
-            ->where('classroom_id',  $classroomId)
+            ->where('academic_session_id', $period->academicSession->id)
+            ->where('classroom_id', $classroomId)
             ->get();
 
         $subjects = $classroom_subjects->map(function ($subject) {
@@ -94,7 +92,7 @@ class ResultGenerationService
         $totalObtainable = count($subjects) * 100;
         $currentDate = now()->year;
         $yearOfBirth = Carbon::createFromFormat('Y-m-d', $this->student->date_of_birth)->format('Y');
-        $age = $currentDate - (int)$yearOfBirth;
+        $age = $currentDate - (int) $yearOfBirth;
 
         $teacherRemark = TeacherRemark::where('student_id', $this->student->id)->where('period_id', $period->id)->first();
         //Get class score statistics
@@ -159,13 +157,14 @@ class ResultGenerationService
             // 'nextTermFee' => $nextTermDetails['nextTermFee'],
             'teacherRemark' => $teacherRemark,
             'classroom' => $classroom,
-            'no_of_times_present' => $attendance
+            'no_of_times_present' => $attendance,
         ];
     }
+
     /**
      * Get Pychomotor domains for a given period
      *
-     * @param  Period $period
+     * @param  Period  $period
      * @return array
      */
     private function getPds($period)
@@ -199,7 +198,7 @@ class ResultGenerationService
     /**
      * Get Affective domains for given period
      *
-     * @param  Period $period
+     * @param  Period  $period
      * @return array
      */
     private function getAds($period)
@@ -233,17 +232,16 @@ class ResultGenerationService
     /**
      * Get next term details
      *
-     * @param  mixed $period
+     * @param  mixed  $period
      * @return array
      */
     private function getNextTermDetails($period)
     {
-
         $nextPeriod = Period::where('rank', $period->rank + 1)->first();
 
         if (is_null($nextPeriod)) {
             $nextTermBegins = null;
-            // $nextTermFee = null;
+        // $nextTermFee = null;
         } else {
             $nextTermBegins = $nextPeriod->start_date;
             // $nextTermFee = Fee::where('classroom_id', $this->student->classroom->id)

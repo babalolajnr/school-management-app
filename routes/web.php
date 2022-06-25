@@ -46,7 +46,6 @@ Route::get('/deactivated', [DeactivatedController::class, 'index'])->middleware(
 
 // Accessible to every logged in entity
 Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerified'])->group(function () {
-
     Route::get('notifications/read/{notification}', [NotificationController::class, 'read'])->name('notification.read');
     Route::get('notifications/inbox', [NotificationController::class, 'inbox'])->name('notification.inbox');
 
@@ -122,7 +121,6 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
 
     //Routes accessible to both master-users and admins only
     Route::middleware(['auth:web'])->group(function () {
-
         Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
         Route::prefix('notifications')->name('notification.')->group(function () {
@@ -130,61 +128,61 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
         });
 
         Route::controller(BranchController::class)->prefix('branches')->name('branch.')->group(function () {
-            Route::get('/',  'index')->name('index');
-            Route::get('/edit/{branch}',  'edit')->name('edit');
-            Route::get('/assign-main-teacher/{branchClassroom}/{teacher}',  'assignMainTeacher')->name('assign.main.teacher');
-            Route::post('/store',  'store')->name('store');
-            Route::patch('/update/{branch}',  'update')->name('update');
-            Route::patch('/assign-teachers/{branchClassroom}',  'assignTeachers')->name('assign.teachers');
-            Route::delete('/delete/{branch}',  'destroy')->name('destroy');
+            Route::get('/', 'index')->name('index');
+            Route::get('/edit/{branch}', 'edit')->name('edit');
+            Route::get('/assign-main-teacher/{branchClassroom}/{teacher}', 'assignMainTeacher')->name('assign.main.teacher');
+            Route::post('/store', 'store')->name('store');
+            Route::patch('/update/{branch}', 'update')->name('update');
+            Route::patch('/assign-teachers/{branchClassroom}', 'assignTeachers')->name('assign.teachers');
+            Route::delete('/delete/{branch}', 'destroy')->name('destroy');
         });
 
         Route::controller(UserController::class)->prefix('users')->name('user.')->group(function () {
-            Route::get('/',  'index')->name('index');
-            Route::get('/{user:email}',  'show')->name('show');
-            Route::patch('/update/{user}',  'update')->name('update');
-            Route::patch('/store-signature/{user}',  'storeSignature')->name('store.signature');
-            Route::patch('/update-password/{user}',  'updatePassword')->name('update.password');
-            Route::patch('/verify/{user:email}',  'verify')->name('verify');
-            Route::patch('/set-hos/{user}',  'setHos')->name('set-hos');
-            Route::patch('/toggle-status/{user:email}',  'toggleStatus')->name('toggle-status');
-            Route::delete('/delete/{user:email}',  'destroy')->name('destroy');
+            Route::get('/', 'index')->name('index');
+            Route::get('/{user:email}', 'show')->name('show');
+            Route::patch('/update/{user}', 'update')->name('update');
+            Route::patch('/store-signature/{user}', 'storeSignature')->name('store.signature');
+            Route::patch('/update-password/{user}', 'updatePassword')->name('update.password');
+            Route::patch('/verify/{user:email}', 'verify')->name('verify');
+            Route::patch('/set-hos/{user}', 'setHos')->name('set-hos');
+            Route::patch('/toggle-status/{user:email}', 'toggleStatus')->name('toggle-status');
+            Route::delete('/delete/{user:email}', 'destroy')->name('destroy');
         });
 
         Route::controller(TeacherController::class)->prefix('teachers')->name('teacher.')->group(function () {
             //Teacher routes
-            Route::get('/',  'index')->name('index');
-            Route::get('/create',  'create')->name('create');
-            Route::get('/trashed',  'showTrashed')->name('show.trashed');
-            Route::patch('user/update/{teacher}',  'userTeacherUpdate')->name('user.update');
-            Route::post('/store',  'store')->name('store');
-            Route::patch('/activate/{teacher}',  'activate')->name('activate');
-            Route::patch('/restore/{id}',  'restore')->name('restore');
-            Route::patch('/deactivate/{teacher}',  'deactivate')->name('deactivate');
-            Route::delete('/delete/{teacher}',  'destroy')->name('destroy');
-            Route::delete('/force-delete/{id}',  'forceDelete')->name('force.delete');
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::get('/trashed', 'showTrashed')->name('show.trashed');
+            Route::patch('user/update/{teacher}', 'userTeacherUpdate')->name('user.update');
+            Route::post('/store', 'store')->name('store');
+            Route::patch('/activate/{teacher}', 'activate')->name('activate');
+            Route::patch('/restore/{id}', 'restore')->name('restore');
+            Route::patch('/deactivate/{teacher}', 'deactivate')->name('deactivate');
+            Route::delete('/delete/{teacher}', 'destroy')->name('destroy');
+            Route::delete('/force-delete/{id}', 'forceDelete')->name('force.delete');
         });
 
         Route::controller(StudentController::class)->prefix('students')->name('student.')->group(function () {
             //Student Routes
-            Route::get('/',  'index')->name('index');
-            Route::get('/create',  'create')->name('create');
-            Route::get('/edit/{student:admission_no}',  'edit')->name('edit')->where('student', '.*');
-            Route::get('/trashed',  'showTrashed')->name('show.trashed');
-            Route::get('/alumni',  'getAlumni')->name('get.alumni');
-            Route::get('/inactive',  'getInactiveStudents')->name('get.inactive');
-            Route::post('/store/image/{student}',  'uploadImage')->name('upload.image');
-            Route::post('/store',  'store')->name('store');
-            Route::patch('/update/{student}',  'update')->name('update');
-            Route::patch('/activate/{student}',  'activate')->name('activate');
-            Route::patch('/deactivate/{student}',  'deactivate')->name('deactivate');
-            Route::patch('/promote/{student}',  'promote')->name('promote');
-            Route::patch('/demote/{student}',  'demote')->name('demote');
-            Route::patch('/graduate/{student}',  'graduate')->name('graduate');
-            Route::patch('/set-classroom-branch/{student}/{branch}',  'setClassroomBranch')->name('set.classroom.branch');
-            Route::patch('/restore/{id}',  'restore')->name('restore');
-            Route::delete('/delete/{student}',  'destroy')->name('destroy');
-            Route::delete('/force-delete/{id}',  'forceDelete')->name('force.delete');
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::get('/edit/{student:admission_no}', 'edit')->name('edit')->where('student', '.*');
+            Route::get('/trashed', 'showTrashed')->name('show.trashed');
+            Route::get('/alumni', 'getAlumni')->name('get.alumni');
+            Route::get('/inactive', 'getInactiveStudents')->name('get.inactive');
+            Route::post('/store/image/{student}', 'uploadImage')->name('upload.image');
+            Route::post('/store', 'store')->name('store');
+            Route::patch('/update/{student}', 'update')->name('update');
+            Route::patch('/activate/{student}', 'activate')->name('activate');
+            Route::patch('/deactivate/{student}', 'deactivate')->name('deactivate');
+            Route::patch('/promote/{student}', 'promote')->name('promote');
+            Route::patch('/demote/{student}', 'demote')->name('demote');
+            Route::patch('/graduate/{student}', 'graduate')->name('graduate');
+            Route::patch('/set-classroom-branch/{student}/{branch}', 'setClassroomBranch')->name('set.classroom.branch');
+            Route::patch('/restore/{id}', 'restore')->name('restore');
+            Route::delete('/delete/{student}', 'destroy')->name('destroy');
+            Route::delete('/force-delete/{id}', 'forceDelete')->name('force.delete');
         });
 
         Route::controller(ClassroomController::class)->prefix('classrooms')->name('classroom.')->group(function () {
@@ -215,9 +213,9 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             // Subject routes
             Route::get('/', 'index')->name('index');
             Route::get('/edit/{subject:slug}', 'edit')->name('edit');
-            Route::post('/store',  'store')->name('store');
-            Route::patch('/update/{subject:slug}',  'update')->name('update');
-            Route::delete('/delete/{subject:slug}',  'destroy')->name('destroy');
+            Route::post('/store', 'store')->name('store');
+            Route::patch('/update/{subject:slug}', 'update')->name('update');
+            Route::delete('/delete/{subject:slug}', 'destroy')->name('destroy');
         });
 
         Route::prefix('academic-sessions')->name('academic-session.')->group(function () {
@@ -250,32 +248,32 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
 
         Route::controller(ADTypeController::class)->prefix('ad-types')->name('ad-type.')->group(function () {
             //Affective domain type routes
-            Route::get('/',  'index')->name('index');
-            Route::get('/edit/{adType:slug}',  'edit')->name('edit');
-            Route::post('/store',  'store')->name('store');
-            Route::patch('/update/{adType}',  'update')->name('update');
-            Route::delete('/delete/{adType}',  'destroy')->name('destroy');
+            Route::get('/', 'index')->name('index');
+            Route::get('/edit/{adType:slug}', 'edit')->name('edit');
+            Route::post('/store', 'store')->name('store');
+            Route::patch('/update/{adType}', 'update')->name('update');
+            Route::delete('/delete/{adType}', 'destroy')->name('destroy');
         });
 
         Route::controller(PeriodController::class)->prefix('period')->name('period.')->group(function () {
-            Route::get('/',  'index')->name('index');
-            Route::get('/edit/{period:slug}',  'edit')->name('edit');
-            Route::post('/store',  'store')->name('store');
-            Route::patch('/update/{period:slug}',  'update')->name('update');
-            Route::patch('/set-active/{period:slug}',  'setActivePeriod')->name('set-active-period');
-            Route::delete('/delete/{period:slug}',  'destroy')->name('delete');
+            Route::get('/', 'index')->name('index');
+            Route::get('/edit/{period:slug}', 'edit')->name('edit');
+            Route::post('/store', 'store')->name('store');
+            Route::patch('/update/{period:slug}', 'update')->name('update');
+            Route::patch('/set-active/{period:slug}', 'setActivePeriod')->name('set-active-period');
+            Route::delete('/delete/{period:slug}', 'destroy')->name('delete');
         });
 
         Route::controller(FeeController::class)->prefix('fee')->name('fee.')->group(function () {
-            Route::get('/',  'index')->name('index');
-            Route::post('/store',  'store')->name('store');
-            Route::get('/edit/{fee}',  'edit')->name('edit');
-            Route::patch('/update/{fee}',  'update')->name('update');
-            Route::delete('/delete/{fee}',  'destroy')->name('destroy');
+            Route::get('/', 'index')->name('index');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/edit/{fee}', 'edit')->name('edit');
+            Route::patch('/update/{fee}', 'update')->name('update');
+            Route::delete('/delete/{fee}', 'destroy')->name('destroy');
         });
 
         Route::get('email-class-performace-report/{classroom}', [ResultController::class, 'sendClassroomPerformanceReportEmail'])->name('email.class.performace.report');
     });
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

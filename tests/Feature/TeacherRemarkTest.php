@@ -4,10 +4,9 @@ namespace Tests\Feature;
 
 use App\Models\BranchClassroom;
 use App\Models\Period;
-use App\Models\TeacherRemark;
 use App\Models\Student;
 use App\Models\Teacher;
-use App\Models\User;
+use App\Models\TeacherRemark;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -23,9 +22,9 @@ class TeacherRemarkTest extends TestCase
 
         $student = Student::factory()->create();
         $teacher = Teacher::factory()->create(['branch_classroom_id' => $student->branch_classroom_id]);
-        
+
         $student->branchClassroom->update([
-            'teacher_id' => $teacher->id
+            'teacher_id' => $teacher->id,
         ]);
         Period::factory()->create(['active' => true]);
 
@@ -34,7 +33,6 @@ class TeacherRemarkTest extends TestCase
         $response->assertViewIs('teacher.create-remark');
         $response->assertSessionMissing('error');
     }
-
 
     public function test_non_class_teacher_cannot_get_teacher_remark_screen()
     {

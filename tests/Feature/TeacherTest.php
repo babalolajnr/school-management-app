@@ -30,12 +30,12 @@ class TeacherTest extends TestCase
         $response = $this->actingAs($user)->post(route('teacher.store'), [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
-            'email' => "email@gmail.com",
+            'email' => 'email@gmail.com',
             'phone' => '09093485830',
             'date_of_birth' => '1998-05-20',
             'sex' => 'F',
             'date_of_birth' => '1998-05-20',
-            'password' => 'password'
+            'password' => 'password',
         ]);
         $response->assertStatus(302)->assertSessionHas('success');
     }
@@ -57,10 +57,10 @@ class TeacherTest extends TestCase
         $response = $this->actingAs($user)->patch(route('teacher.user.update', ['teacher' => $teacher]), [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
-            'email' => "email@gmail.com",
+            'email' => 'email@gmail.com',
             'phone' => '09093485830',
             'date_of_birth' => '1998-05-20',
-            'sex' => 'F'
+            'sex' => 'F',
         ]);
         $response->assertStatus(302)->assertSessionHas('success');
     }
@@ -72,7 +72,7 @@ class TeacherTest extends TestCase
         $response = $this->actingAs($teacher, 'teacher')->patch(route('teacher.update', ['teacher' => $teacher]), [
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
-            'sex' => 'F'
+            'sex' => 'F',
         ]);
         $response->assertStatus(302)->assertSessionHas('success');
     }
@@ -111,7 +111,7 @@ class TeacherTest extends TestCase
 
         $teacher = Teacher::factory()->create(['is_active' => true]);
         $response = $this->actingAs($teacher, 'teacher')->patch(route('teacher.store.signature', ['teacher' => $teacher]), [
-            'signature' => $file
+            'signature' => $file,
         ]);
 
         $response->assertStatus(302)->assertSessionHas('success');

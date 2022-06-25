@@ -24,9 +24,10 @@ class PDTypeFactory extends Factory
     {
         $pdType = $this->faker->unique()->randomElement(self::$pdTypes);
         $slug = Str::of($pdType)->slug('-');
+
         return [
             'name' => $pdType,
-            'slug' => $slug
+            'slug' => $slug,
         ];
     }
 
@@ -36,6 +37,6 @@ class PDTypeFactory extends Factory
         'Sports',
         'Crafts',
         'Drawing',
-        'Public Speaking'
+        'Public Speaking',
     ];
 }

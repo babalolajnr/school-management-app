@@ -12,16 +12,14 @@ class PDController extends Controller
 {
     /**
      * Get psychomotor domain creation form
-     * 
+     *
      * This method accepts an optional periodSlug parameter
      * if the request does not have periodSlug it defaults to the
      * active period
-     * 
-     * @param Student $student
-     * @param string $periodSlug
-     * 
+     *
+     * @param  Student  $student
+     * @param  string  $periodSlug
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     * 
      */
     public function create(Student $student, $periodSlug = null)
     {
@@ -52,20 +50,18 @@ class PDController extends Controller
 
     /**
      * Store or update PD record
-     * 
+     *
      * If the optional periodSlug parameter is null, it
      * uses the active period to store the pdType else it
      * uses the period from the url
-     * 
-     * @param Student $student
-     * @param Request $request
-     * @param string $periodSlug
-     * 
+     *
+     * @param  Student  $student
+     * @param  Request  $request
+     * @param  string  $periodSlug
      * @return \Illuminate\Http\RedirectResponse
      */
     public function storeOrUpdate(Student $student, Request $request, $periodSlug = null)
     {
-
         $validatedData = $request->validate([
             'pdTypes.*' => ['required', 'numeric', 'min:1', 'max:5'],
         ]);

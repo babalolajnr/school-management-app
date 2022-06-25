@@ -7,6 +7,7 @@ use Illuminate\View\Component;
 class StudentsTable extends Component
 {
     public $students;
+
     /**
      * Create a new component instance.
      *

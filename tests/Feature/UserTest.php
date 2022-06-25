@@ -20,7 +20,7 @@ class UserTest extends TestCase
         $response = $this->actingAs($user)->patch(route('user.update', ['user' => $user]), [
             'first_name' => $this->faker->firstName,
             'last_name' => $user->last_name,
-            'email' => $user->email
+            'email' => $user->email,
         ]);
         $response->assertStatus(302)->assertSessionHas('success');
     }
@@ -34,7 +34,7 @@ class UserTest extends TestCase
         $response = $this->actingAs($user)->patch(route('user.update.password', ['user' => $user]), [
             'current_password' => 'password', //default user factory password(8 ones)
             'new_password' => 'ANewPassword',
-            'new_password_confirmation' => 'ANewPassword'
+            'new_password_confirmation' => 'ANewPassword',
         ]);
 
         $response->assertStatus(302)->assertSessionHas('success');
@@ -58,7 +58,7 @@ class UserTest extends TestCase
 
         $user = User::factory()->create();
         $response = $this->actingAs($user)->patch(route('user.store.signature', ['user' => $user]), [
-            'signature' => $file
+            'signature' => $file,
         ]);
 
         $response->assertStatus(302)->assertSessionHas('success');

@@ -37,7 +37,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\LastUserActivity::class
+            \App\Http\Middleware\LastUserActivity::class,
         ],
 
         'api' => [
@@ -67,6 +67,6 @@ class Kernel extends HttpKernel
         'classTeacherOrUser' => \App\Http\Middleware\CheckUserIsClassroomTeacher::class,
         'studentClassTeacherOrUser' => \App\Http\Middleware\CheckUserIsStudentClassroomTeacherOrUser::class,
         'studentClassTeacher' => \App\Http\Middleware\CheckUserIsStudentClassroomTeacher::class,
-        'valid.signature' => \App\Http\Middleware\EnsureValidSignature::class
+        'valid.signature' => \App\Http\Middleware\EnsureValidSignature::class,
     ];
 }

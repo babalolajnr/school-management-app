@@ -26,7 +26,7 @@ class FeeFactory extends Factory
         return [
             'amount' => mt_rand(10000, 100000),
             'classroom_id' => Classroom::factory()->create()->id,
-            'period_id' => Period::factory()->create()->id
+            'period_id' => Period::factory()->create()->id,
         ];
     }
 }

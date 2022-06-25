@@ -2,10 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\Models\Result;
 use App\Models\Classroom;
 use App\Models\Guardian;
 use App\Models\Period;
+use App\Models\Result;
 use App\Models\Student;
 use App\Models\User;
 use Database\Seeders\ClassroomSeeder;
@@ -14,8 +14,8 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
-use Tests\TestCase;
 use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class StudentTest extends TestCase
 {
@@ -34,6 +34,7 @@ class StudentTest extends TestCase
         } else {
             $classroom = Arr::random($classroom);
         }
+
         return $classroom;
     }
 
@@ -50,7 +51,7 @@ class StudentTest extends TestCase
             'date_of_birth' => '1998-05-01',
             'classroom' => $classroom,
             'blood_group' => $this->faker->randomElement(['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']),
-            'place_of_birth' => $this->faker->address
+            'place_of_birth' => $this->faker->address,
         ];
     }
 
@@ -71,7 +72,7 @@ class StudentTest extends TestCase
             'guardian_email' => $this->faker->email,
             'guardian_phone' => $this->faker->e164PhoneNumber,
             'guardian_occupation' => $this->faker->jobTitle,
-            'guardian_address' => $this->faker->address
+            'guardian_address' => $this->faker->address,
         ];
         $studentInfo = array_merge($studentInfo, $guardianInfo);
         $response = $this->actingAs($user)->post(route('student.store'), $studentInfo);
@@ -94,7 +95,7 @@ class StudentTest extends TestCase
             'guardian_email' => $this->faker->email,
             'guardian_phone' => $guardian->phone,
             'guardian_occupation' => $this->faker->jobTitle,
-            'guardian_address' => $this->faker->address
+            'guardian_address' => $this->faker->address,
         ];
         $studentInfo = array_merge($studentInfo, $guardianInfo);
         $response = $this->actingAs($user)->post(route('student.store'), $studentInfo);
@@ -135,7 +136,6 @@ class StudentTest extends TestCase
 
     public function test_student_can_be_activated()
     {
-
         $user = User::factory()->create();
         $student = Student::factory()->create(['is_active' => false]);
         $response = $this->actingAs($user)->patch(route('student.activate', ['student' => $student]));
@@ -144,7 +144,6 @@ class StudentTest extends TestCase
 
     public function test_student_can_be_deactivated()
     {
-
         $user = User::factory()->create();
         $student = Student::factory()->create(['is_active' => false]);
         $response = $this->actingAs($user)->patch(route('student.deactivate', ['student' => $student]));
@@ -153,7 +152,6 @@ class StudentTest extends TestCase
 
     public function test_student_can_be_updated()
     {
-
         $user = User::factory()->create();
         $student = Student::factory()->create();
         $classroom = $this->generateTestClassroom();
@@ -177,7 +175,6 @@ class StudentTest extends TestCase
 
     public function test_student_can_be_deleted()
     {
-
         $user = User::factory()->create(['user_type' => 'master']);
         $student = Student::factory()->create();
         $response = $this->actingAs($user)->delete(route('student.destroy', ['student' => $student]));
@@ -231,7 +228,7 @@ class StudentTest extends TestCase
         $user = User::factory()->create();
         $student = Student::factory()->create();
         $response = $this->actingAs($user)->post(route('student.upload.image', ['student' => $student]), [
-            'image' => $file
+            'image' => $file,
         ]);
 
         $response->assertStatus(302)->assertSessionHas('success');

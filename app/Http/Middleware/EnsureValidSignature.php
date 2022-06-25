@@ -16,10 +16,10 @@ class EnsureValidSignature
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!$request->hasValidSignature()) {
+        if (! $request->hasValidSignature()) {
             abort(401);
         }
-        
+
         return $next($request);
     }
 }

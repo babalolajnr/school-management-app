@@ -4,10 +4,10 @@ namespace Database\Seeders;
 
 use App\Models\AcademicSession;
 use App\Models\Classroom;
+use App\Models\Period;
 use App\Models\Result;
 use App\Models\Student;
 use App\Models\Subject;
-use App\Models\Period;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -40,16 +40,13 @@ class AlumnusResultSeeder extends Seeder
         $classroomPeriods = collect($classroomPeriods);
 
         $data['students']->map(function ($student) use ($data, $classroomPeriods) {
-
             $data['subjects']->map(function ($subject) use ($student, $classroomPeriods) {
-
                 $classroomPeriods->map(function ($classroomPeriod) use ($student, $subject) {
-
                     $record = Result::where('subject_id', $subject->id)
                         ->where('student_id', $student->id)
                         ->where('period_id', $classroomPeriod['period_id']);
 
-                    if (!$record->exists()) {
+                    if (! $record->exists()) {
                         $ca = mt_rand(0, 40);
                         $exam = mt_rand(0, 60);
                         Result::create([
@@ -59,7 +56,7 @@ class AlumnusResultSeeder extends Seeder
                             'ca' => $ca,
                             'exam' => $exam,
                             'total' => $exam + $ca,
-                            'classroom_id' => $classroomPeriod['classroom_id']
+                            'classroom_id' => $classroomPeriod['classroom_id'],
                         ]);
                     }
                 });
@@ -82,13 +79,24 @@ class AlumnusResultSeeder extends Seeder
         $classroomSubject = DB::table('classroom_subject')->first();
 
         //if any of the required values are empty seed their tables
-        if (!$classroomSubject) Artisan::call('db:seed', ['--class' => 'ClassroomSubjectSeeder']);
-        if (!$student) Artisan::call('db:seed', ['--class' => 'StudentSeeder']);
-        if (!$period) Artisan::call('db:seed', ['--class' => 'PeriodSeeder']);
-        if (!$subject) Artisan::call('db:seed', ['--class' => 'SubjectSeeder']);
-        if (!$classroom) Artisan::call('db:seed', ['--class' => 'ClassroomSeeder']);
-        if (!$academicSession) Artisan::call('db:seed', ['--class' => 'AcademicSessionSeeder']);
-
+        if (! $classroomSubject) {
+            Artisan::call('db:seed', ['--class' => 'ClassroomSubjectSeeder']);
+        }
+        if (! $student) {
+            Artisan::call('db:seed', ['--class' => 'StudentSeeder']);
+        }
+        if (! $period) {
+            Artisan::call('db:seed', ['--class' => 'PeriodSeeder']);
+        }
+        if (! $subject) {
+            Artisan::call('db:seed', ['--class' => 'SubjectSeeder']);
+        }
+        if (! $classroom) {
+            Artisan::call('db:seed', ['--class' => 'ClassroomSeeder']);
+        }
+        if (! $academicSession) {
+            Artisan::call('db:seed', ['--class' => 'AcademicSessionSeeder']);
+        }
 
         $classrooms = Classroom::all();
         $students = Student::where('graduated_at', '!=', null)->get();
@@ -101,7 +109,7 @@ class AlumnusResultSeeder extends Seeder
             'subjects' => $subjects,
             'classrooms' => $classrooms,
             'academicSessions' => $academicSessions,
-            'periods' => $periods
+            'periods' => $periods,
         ];
     }
 }
