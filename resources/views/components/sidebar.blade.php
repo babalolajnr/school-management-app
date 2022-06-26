@@ -26,7 +26,7 @@
                        </a>
                    @endauth
                    @auth('guardian')
-                       <a href="{{ route('guardian.show', ['guardian' => Auth::user('guardian')]) }}"
+                       <a href="{{ route('guardian.edit', ['guardian' => Auth::user('guardian')]) }}"
                            class="d-block lowercase">
                            {{ Auth::user('guardian')->first_name . ' ' . Auth::user('guardian')->last_name }}
                        </a>
