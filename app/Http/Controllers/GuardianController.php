@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Guardian;
 use App\Models\Student;
+use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class GuardianController extends Controller
 {
@@ -166,5 +168,30 @@ class GuardianController extends Controller
         $wards = $user->children()->get();
 
         return view('guardian.wards', compact('wards'));
+    }
+
+    /**
+     * Update password.
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updatePassword(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $data = $request->validate([
+            'current_password' => ['required', 'string'],
+            'new_password' => ['required', 'string', 'confirmed', 'min:8'],
+        ]);
+
+        //if password does not match the current password
+        if (!Hash::check($data['current_password'], auth('guardian')->user()->password)) {
+            throw ValidationException::withMessages(['current_password' => ['Current password is incorrect']]);
+        }
+
+        auth('guardian')->user()->update([
+            'password' => bcrypt($data['new_password'])
+        ]);
+
+        return redirect()->back()->with('success', 'Password updated!');
     }
 }
