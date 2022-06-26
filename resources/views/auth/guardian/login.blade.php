@@ -9,7 +9,7 @@
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="{{ asset('images/radiant_logo-removebg-preview.png') }}" type="image/x-icon">
-    <title>Teacher's Login</title>
+    <title>Guardian's Login</title>
 </head>
 
 <body class="md:bg-gradient-to-r md:from-violet-500 md:to-fuchsia-500 w-screen h-screen sans-pro">
@@ -33,7 +33,7 @@
                         <div class="text-red-500 text-sm">{{ session('error') }}</div>
                     @endif
                 </div>
-                <form action="{{ route('teacher.login') }}" method="POST">
+                <form action="{{ route('guardian.login') }}" method="POST">
                     @csrf
                     <div class="mt-7">
                         <div>
@@ -63,8 +63,8 @@
                             <label for="Remember Me" class="text-sm font-bold pl-1 rounded-md">Remember Me</label>
                         </div>
                         <div>
-                            @if (Route::has('teacher.password.request'))
-                                <a href="{{ route('teacher.password.request') }}">
+                            @if (Route::has('guardian.password.request'))
+                                <a href="{{ route('guardian.password.request') }}">
                                     <span
                                         class="text-sm font-bold hover:bg-gradient-to-r hover:from-violet-500 hover:to-fuchsia-500 hover:bg-clip-text hover:text-transparent">Forgot
                                         Password?</span>
@@ -80,7 +80,7 @@
                         </button>
                     </div>
                 </form>
-                <div class="pt-2">
+                {{-- <div class="pt-2">
                     <a href="{{ route('login') }}" class="flex justify-center">
                         <button
                             class="border border-slate-900 rounded-lg shadow-lg hover:shadow-none grow h-11 group hover:bg-gradient-to-r hover:from-violet-500 hover:to-fuchsia-500"
@@ -88,7 +88,7 @@
                             <span class="px-5 py-4 font-bold text-slate-900 text-sm">Go to User's login</span>
                         </button>
                     </a>
-                </div>
+                </div> --}}
                 <div class="pt-5">
                     <span class="text-slate-500 text-sm text-center">Don't have an account? Contact an
                         administrator</span>
