@@ -26,7 +26,7 @@ class GuardianController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(): \Illuminate\Contracts\View\Factory|\Illuminate\View\View
     {
         return view('guardian.create');
     }
@@ -34,9 +34,9 @@ class GuardianController extends Controller
     /**
      * Create new guardian.
      *
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
     {
         $this->validate($request, [
             'title' => 'required',
@@ -82,7 +82,7 @@ class GuardianController extends Controller
      * @param  Request  $request
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function update(Guardian $guardian, Request $request)
+    public function update(Guardian $guardian, Request $request): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
     {
         $data = $request->validate([
             'title' => ['required', 'max:30', 'string'],
@@ -108,7 +108,7 @@ class GuardianController extends Controller
      * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function changeGuardian(Student $student, Request $request)
+    public function changeGuardian(Student $student, Request $request): \Illuminate\Http\RedirectResponse
     {
         $data = $request->validate([
             'guardian' => ['required', 'string'],
@@ -132,7 +132,13 @@ class GuardianController extends Controller
         return back()->with('success', 'Guardian changed!');
     }
 
-    public function destroy(Guardian $guardian)
+    /**
+     * Delete Guardian
+     *
+     * @param Guardian $guardian
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Guardian $guardian): \Illuminate\Http\RedirectResponse
     {
         try {
             $guardian->delete();
@@ -144,5 +150,21 @@ class GuardianController extends Controller
         }
 
         return redirect()->route('guardian.index')->with('success', 'Guardian deleted!');
+    }
+
+    /**
+     * Get Guardian wards view
+     *
+     * This is strictly for logged in Guardians
+     *
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function wards(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+    {
+        $user = auth('guardian')->user();
+
+        $wards = $user->children()->get();
+
+        return view('guardian.wards', compact('wards'));
     }
 }
