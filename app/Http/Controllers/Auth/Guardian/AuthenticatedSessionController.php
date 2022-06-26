@@ -31,8 +31,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // return redirect(route('classroom.show.branch', ['classroom' => $teachersClassroom?->classroom, 'branch' => $teachersClassroom?->branch]))->with('success', "Welcome {$request->user('teacher')->first_name} {$request->user('teacher')->last_name}");
-        return redirect(route('wards'))->with('success', "Welcome {$request->user('guardian')->first_name} {$request->user('guardian')->last_name}");
+        return redirect(route('guardian.wards'))->with('success', "Welcome {$request->user('guardian')->first_name} {$request->user('guardian')->last_name}");
     }
 
     /**
