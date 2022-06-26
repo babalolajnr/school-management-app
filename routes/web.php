@@ -51,7 +51,10 @@ Route::get('/deactivated', [DeactivatedController::class, 'index'])->middleware(
  */
 Route::middleware('auth:guardian')->prefix('guardian')->name('guardian.')->group(function () {
     Route::get('/wards', [GuardianController::class, 'wards'])->name('wards');
+    Route::patch('/update-password', [GuardianController::class, 'updatePassword'])->name('update.password');
 });
+
+Route::get('guardians/edit/{guardian:phone}', [GuardianController::class, 'edit'])->middleware(['auth:web,guardian'])->name('guardian.edit');
 
 /**
  *
@@ -171,7 +174,6 @@ Route::middleware(['auth:web', 'verified:web', 'activeAndVerified'])->group(func
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::get('/show/{guardian:phone}', 'show')->name('show');
-        Route::get('/edit/{guardian:phone}', 'edit')->name('edit');
         Route::patch('/update/{guardian:phone}', 'update')->name('update');
         Route::post('/change-guardian/{student}', 'changeGuardian')->name('change');
         Route::post('/store', 'store')->name('store');
