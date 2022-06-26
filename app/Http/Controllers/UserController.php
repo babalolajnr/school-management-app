@@ -22,7 +22,6 @@ class UserController extends Controller
         $users = User::all();
         $users->map(function ($user) {
             if ($user->last_seen) {
-
                 $lastSeen = $user->last_seen;
 
                 // convert to carbon instance
@@ -34,13 +33,14 @@ class UserController extends Controller
                 $user->last_seen = $lastSeen;
             }
         });
+
         return view('user.index', compact('users'));
     }
 
     /**
      * Verify a new user.
      *
-     * @param User $user
+     * @param  User  $user
      * @return \Illuminate\Http\RedirectResponse
      */
     public function verify(User $user)
@@ -79,7 +79,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return back()->with('success', 'User ' . $action . '!');
+        return back()->with('success', 'User '.$action.'!');
     }
 
     /**
@@ -91,6 +91,7 @@ class UserController extends Controller
     public function show(User $user)
     {
         $this->authorize('view', $user);
+
         return view('user.show', compact('user'));
     }
 
@@ -108,7 +109,7 @@ class UserController extends Controller
         $data = $request->validate([
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user)]
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user)],
         ]);
 
         $user->update($data);
@@ -129,11 +130,11 @@ class UserController extends Controller
 
         $data = $request->validate([
             'current_password' => ['required', 'string'],
-            'new_password' => ['required', 'string', 'confirmed', 'min:8']
+            'new_password' => ['required', 'string', 'confirmed', 'min:8'],
         ]);
 
         //if password does not match the current password
-        if (!Hash::check($data['current_password'], $user->password)) {
+        if (! Hash::check($data['current_password'], $user->password)) {
             throw ValidationException::withMessages(['current_password' => ['Password does not match current password']]);
         }
 
@@ -146,8 +147,8 @@ class UserController extends Controller
     /**
      * store user Signature
      *
-     * @param  User $user
-     * @param  Request $request
+     * @param  User  $user
+     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function storeSignature(User $user, Request $request)
@@ -155,16 +156,16 @@ class UserController extends Controller
         $this->authorize('storeSignature', $user);
 
         $request->validate([
-            'signature' => ['required', 'image', 'unique:users,signature,except,id', 'mimes:jpg', 'max:1000']
+            'signature' => ['required', 'image', 'unique:users,signature,except,id', 'mimes:jpg', 'max:1000'],
         ]);
 
         //create name from first and last name
-        $signatureName = $user->first_name . $user->last_name . '.' . $request->signature->extension();
+        $signatureName = $user->first_name.$user->last_name.'.'.$request->signature->extension();
         $path = $request->file('signature')->storeAs('public/users/signatures', $signatureName);
-        Image::make($request->signature->getRealPath())->fit(400, 400)->save(storage_path('app/' . $path));
+        Image::make($request->signature->getRealPath())->fit(400, 400)->save(storage_path('app/'.$path));
 
         //update signature in the database
-        $filePath = 'storage/users/signatures/' . $signatureName;
+        $filePath = 'storage/users/signatures/'.$signatureName;
         $user->signature = $filePath;
         $user->save();
 
@@ -193,14 +194,14 @@ class UserController extends Controller
      */
     public function setHos(User $user)
     {
-        if (!$user->isActive()) {
-            return redirect()->back()->with('error', "User is not active");
+        if (! $user->isActive()) {
+            return redirect()->back()->with('error', 'User is not active');
         }
 
         $currentHOSs = User::where('is_hos', true)->get();
 
         foreach ($currentHOSs as $currentHOS) {
-            if (!is_null($currentHOS)) {
+            if (! is_null($currentHOS)) {
                 $currentHOS->is_hos = false;
                 $currentHOS->save();
             }

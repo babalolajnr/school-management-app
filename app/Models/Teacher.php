@@ -9,14 +9,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 
 class Teacher extends Authenticatable implements CanResetPassword
 {
     use HasFactory, SoftDeletes, Notifiable, PasswordsCanResetPassword;
 
     protected $guard = 'teacher';
+
     /**
      * The attributes that are not mass assignable.
      *
@@ -42,7 +41,7 @@ class Teacher extends Authenticatable implements CanResetPassword
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
+
     /**
      * BranchClassroom relationship
      *
@@ -76,7 +75,7 @@ class Teacher extends Authenticatable implements CanResetPassword
     /**
      * Send Password reset notification
      *
-     * @param  mixed $token
+     * @param  mixed  $token
      * @return void
      */
     public function sendPasswordResetNotification($token)
@@ -85,5 +84,4 @@ class Teacher extends Authenticatable implements CanResetPassword
 
         $this->notify($notification);
     }
-
 }

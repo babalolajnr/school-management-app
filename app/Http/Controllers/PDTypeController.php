@@ -4,22 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\PDType;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class PDTypeController extends Controller
 {
     private function validatePDType($request, $pdType = null)
     {
         $validatedData = $request->validate([
-            'name' => ['required', 'string', Rule::unique('p_d_types', 'name')->ignore($pdType)]
+            'name' => ['required', 'string', Rule::unique('p_d_types', 'name')->ignore($pdType)],
         ]);
 
         return $validatedData;
     }
+
     public function index()
     {
         $pdTypes = PDType::all();
+
         return view('pd-type.index', compact('pdTypes'));
     }
 
@@ -32,6 +34,7 @@ class PDTypeController extends Controller
         $data = array_merge($validatedData, $slug);
 
         PDType::create($data);
+
         return back()->with('success', 'Pyschomotor Domain created!');
     }
 
@@ -48,12 +51,12 @@ class PDTypeController extends Controller
         $data = array_merge($validatedData, $slug);
 
         $pdType->update($data);
+
         return redirect()->route('pd-type.index')->with('success', 'Pychomotor domain type updated');
     }
 
     public function destroy(PDType $pdType)
     {
-        
         try {
             $pdType->delete();
         } catch (\Illuminate\Database\QueryException $e) {
@@ -62,6 +65,7 @@ class PDTypeController extends Controller
                 return back()->with('error', 'Pychodomain Type can not be deleted because some resources are dependent on it!');
             }
         }
+
         return back()->with('success', 'Deleted!');
     }
 }

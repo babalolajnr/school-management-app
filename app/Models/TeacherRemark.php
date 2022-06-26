@@ -42,7 +42,7 @@ class TeacherRemark extends Model
     {
         return $this->belongsTo(Period::class);
     }
-    
+
     /**
      * teacher relationship
      *

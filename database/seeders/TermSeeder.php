@@ -19,7 +19,6 @@ class TermSeeder extends Seeder
         $terms = TermFactory::$terms;
 
         foreach ($terms as $term) {
-
             $row = Term::where('name', $term);
 
             if ($row->exists()) {
@@ -31,7 +30,7 @@ class TermSeeder extends Seeder
             Term::create(
                 [
                     'name' => $term,
-                    'slug' => $slug
+                    'slug' => $slug,
                 ]
             );
         }

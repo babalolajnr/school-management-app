@@ -72,7 +72,7 @@ class PeriodSeeder extends Seeder
                     'end_date' => $endDate,
                     'slug' => $slug,
                     'rank' => ++$rank,
-                    'no_times_school_opened' => mt_rand(100, 120)
+                    'no_times_school_opened' => mt_rand(100, 120),
                 ]);
             }
         }

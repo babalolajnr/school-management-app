@@ -7,31 +7,31 @@ use Illuminate\Database\Eloquent\Model;
 
 class PDType extends Model
 {
-    use HasFactory;    
+    use HasFactory;
 
     /**
      * Table associated with PDType model
      *
      * @var string
      */
-    protected $table = 'p_d_types'; 
-       
+    protected $table = 'p_d_types';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = ['name', 'slug'];
-    
+
     /**
      * casts
      *
      * @var array
      */
     protected $casts = [
-        'slug' => 'string'
+        'slug' => 'string',
     ];
-    
+
     /**
      * pds relationship
      *

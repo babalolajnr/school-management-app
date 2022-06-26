@@ -24,9 +24,10 @@ class TermFactory extends Factory
     {
         $name = $this->faker->unique()->randomElement(self::$terms);
         $slug = Str::of($name)->slug('-');
+
         return [
             'name' => $name,
-            'slug' => $slug
+            'slug' => $slug,
         ];
     }
 

@@ -5,8 +5,7 @@
         <link rel="stylesheet" href="{{ asset('TAssets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
         <link rel="stylesheet"
             href="{{ asset('TAssets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-        <link rel="stylesheet"
-            href="{{ asset('TAssets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('TAssets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     </x-slot>
 
     <div class="content-wrapper">
@@ -49,33 +48,38 @@
                                                 class="btn btn-outline-secondary btn-sm btn-flat"
                                                 title="Email Performance Report">Email to Guardian</button>
                                         @endauth
-                                        @if ($period->isActive())
-                                            <a href="{{ route('pd.create', ['student' => $student]) }}">
-                                                <button type="button" class="btn btn-outline-secondary btn-sm btn-flat"
-                                                    title="Create or update Pychomotor domain for the result's academic session and term">Create/Update
-                                                    PD</button>
-                                            </a>
-                                            <a href="{{ route('ad.create', ['student' => $student]) }}">
-                                                <button type="button" class="btn btn-outline-secondary btn-sm btn-flat"
-                                                    title="Create or update Affective domain for the result's academic session and term">Create/Update
-                                                    AD</button>
-                                            </a>
-                                            <a href="{{ route('attendance.create', ['student' => $student]) }}">
-                                                <button type="button" class="btn btn-outline-secondary btn-sm btn-flat"
-                                                    title="Create or update attendance record">Create/Update
-                                                    Attendance</button>
-                                            </a>
-                                            @auth('teacher')
-                                                @if ($student->mainTeacher()->id == auth('teacher')->id())
-                                                    <a
-                                                        href="{{ route('remark.teacher.create', ['student' => $student]) }}">
-                                                        <button type="button"
-                                                            class="btn btn-outline-secondary btn-sm btn-flat"
-                                                            title="Create or update teacher's remark">Create/Update
-                                                            Teacher's Remark</button>
-                                                    </a>
-                                                @endif
-                                            @endauth
+                                        @if (auth('web')->user() || auth('teacher')->user())
+                                            @if ($period->isActive())
+                                                <a href="{{ route('pd.create', ['student' => $student]) }}">
+                                                    <button type="button"
+                                                        class="btn btn-outline-secondary btn-sm btn-flat"
+                                                        title="Create or update Pychomotor domain for the result's academic session and term">Create/Update
+                                                        PD</button>
+                                                </a>
+                                                <a href="{{ route('ad.create', ['student' => $student]) }}">
+                                                    <button type="button"
+                                                        class="btn btn-outline-secondary btn-sm btn-flat"
+                                                        title="Create or update Affective domain for the result's academic session and term">Create/Update
+                                                        AD</button>
+                                                </a>
+                                                <a href="{{ route('attendance.create', ['student' => $student]) }}">
+                                                    <button type="button"
+                                                        class="btn btn-outline-secondary btn-sm btn-flat"
+                                                        title="Create or update attendance record">Create/Update
+                                                        Attendance</button>
+                                                </a>
+                                                @auth('teacher')
+                                                    @if ($student->mainTeacher()->id == auth('teacher')->id())
+                                                        <a
+                                                            href="{{ route('remark.teacher.create', ['student' => $student]) }}">
+                                                            <button type="button"
+                                                                class="btn btn-outline-secondary btn-sm btn-flat"
+                                                                title="Create or update teacher's remark">Create/Update
+                                                                Teacher's Remark</button>
+                                                        </a>
+                                                    @endif
+                                                @endauth
+                                            @endif
                                         @endif
                                     </div>
                                 </div>
@@ -113,16 +117,18 @@
                                                     <td>
                                                         @if (round($result->total) <= 39)
                                                             F
-                                                        @elseif(round($result->total) > 39 && round($result->total)
-                                                        <= 49) D @elseif(round($result->total) > 49 &&
-                                                            round($result->total) <= 59) C @elseif(round($result->
-                                                                    total) > 59 && round($result->total) <= 69) B
-                                                                    @elseif(round($result->total) > 69 &&
-                                                                    round($result->total) <= 100) A @else
-                                                                            @endif
+                                                        @elseif(round($result->total) > 39 && round($result->total) <= 49)
+                                                            D
+                                                        @elseif(round($result->total) > 49 && round($result->total) <= 59)
+                                                            C
+                                                        @elseif(round($result->total) > 59 && round($result->total) <= 69)
+                                                            B
+                                                        @elseif(round($result->total) > 69 && round($result->total) <= 100)
+                                                            A
+                                                        @else
+                                                        @endif
                                                     </td>
                                                     @if ($period->isActive())
-
                                                         <td>
 
                                                             <div class="btn-group">
@@ -224,27 +230,18 @@
     <x-slot name="scripts">
 
         <!-- DataTables  & Plugins -->
-        <script src="{{ asset('TAssets/plugins/datatables/jquery.dataTables.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}">
-        </script>
+        <script src="{{ asset('TAssets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('TAssets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('TAssets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('TAssets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
         <script src="{{ asset('TAssets/plugins/jszip/jszip.min.js') }}"></script>
         <script src="{{ asset('TAssets/plugins/pdfmake/pdfmake.min.js') }}"></script>
         <script src="{{ asset('TAssets/plugins/pdfmake/vfs_fonts.js') }}"></script>
-        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.html5.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.print.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}">
-        </script>
+        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
         <!-- AdminLTE App -->
         <script>
             function deleteConfirmationModal(url, name) {

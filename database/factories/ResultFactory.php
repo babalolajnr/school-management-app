@@ -24,10 +24,10 @@ class ResultFactory extends Factory
      */
     public function definition()
     {
-        
         $ca = mt_rand(0, 40);
         $exam = mt_rand(0, 60);
         $student = Student::factory()->create();
+
         return [
             'subject_id' => Subject::factory()->create()->id,
             'student_id' => $student->id,
@@ -35,8 +35,7 @@ class ResultFactory extends Factory
             'exam' => $exam,
             'total' => $exam + $ca,
             'period_id' => Period::factory()->create()->id,
-            'classroom_id' => $student->classroom->id
+            'classroom_id' => $student->classroom->id,
         ];
     }
-
 }

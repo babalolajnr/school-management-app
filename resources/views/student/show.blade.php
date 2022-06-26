@@ -4,8 +4,7 @@
         <!-- DataTables -->
         <link rel="stylesheet"
             href="{{ asset('TAssets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-        <link rel="stylesheet"
-            href="{{ asset('TAssets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('TAssets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
     </x-slot>
 
     <div class="content-wrapper">
@@ -36,11 +35,12 @@
                             <div class="card card-primary card-outline">
                                 <div class="card-body box-profile">
                                     <div class="text-center">
-                                        <img class="profile-user-img img-fluid img-circle" src="
-                                                            @if ($student->image)
-                                    {{ asset($student->image) }} @else
-                                        {{ asset('images/user1.svg') }} @endif"
-                                        alt="student image">
+                                        <img class="profile-user-img img-fluid img-circle" {{-- @if ($student->image) --}}
+                                            src="{{ asset($student->image) ?? 'https://img.icons8.com/external-smashingstocks-hand-drawn-black-smashing-stocks/99/000000/external-student-education-smashingstocks-hand-drawn-black-smashing-stocks.png' }}
+                                            {{-- @else --}}
+                                                {{-- src="https://img.icons8.com/external-smashingstocks-hand-drawn-black-smashing-stocks/99/000000/external-student-education-smashingstocks-hand-drawn-black-smashing-stocks.png" @endif --}}
+                                            alt="student
+                                            image">
                                     </div>
 
                                     <h3 class="profile-username text-center">
@@ -80,12 +80,18 @@
                                         <div class="active tab-pane" id="about">
                                             <strong>Class</strong>
 
-                                            <a
-                                                href="{{ route('classroom.show', ['classroom' => $student->classroom]) }}">
-                                                <p class="text-info" id="classroom">
+                                            @if (auth('web')->user() || auth('teacher')->user())
+                                                <a
+                                                    href="{{ route('classroom.show', ['classroom' => $student->classroom]) }}">
+                                                    <p class="text-info" id="classroom">
+                                                        {{ $student->classroom->name }}
+                                                    </p>
+                                                </a>
+                                            @else
+                                                <p id="classroom">
                                                     {{ $student->classroom->name }}
                                                 </p>
-                                            </a>
+                                            @endif
 
                                             <hr>
 
@@ -163,30 +169,30 @@
                                             <strong>Address</strong>
                                             <p class="text-muted" id="gAddress">{{ $student->guardian->address }}
                                             </p>
-
-                                            <hr>
-                                            <strong>Change guardian</strong>
-                                            <p>
-                                            <form
-                                                action="{{ route('guardian.change', ['student' => $student]) }}"
-                                                method="post">
-                                                @csrf
-                                                <div class="row">
-                                                    <select class="form-control col-lg-9" name="guardian"
-                                                        id="change-guardian">
-                                                        @foreach ($guardians as $guardian)
-                                                            <option value="{{ $guardian->email }}"
-                                                                @if ($guardian->id == $student->guardian->id) selected @endif>
-                                                                {{ "$guardian->title $guardian->first_name $guardian->last_name ($guardian->email)" }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    <span class="ml-2">
-                                                        <button class="btn btn-primary" type="submit">Change</button>
-                                                    </span>
-                                                </div>
-                                            </form>
-                                            </p>
+                                            @auth('web')
+                                                <hr>
+                                                <strong>Change guardian</strong>
+                                                <p>
+                                                <form action="{{ route('guardian.change', ['student' => $student]) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    <div class="row">
+                                                        <select class="form-control col-lg-9" name="guardian"
+                                                            id="change-guardian">
+                                                            @foreach ($guardians as $guardian)
+                                                                <option value="{{ $guardian->email }}"
+                                                                    @if ($guardian->id == $student->guardian->id) selected @endif>
+                                                                    {{ "$guardian->title $guardian->first_name $guardian->last_name ($guardian->email)" }}
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        <span class="ml-2">
+                                                            <button class="btn btn-primary" type="submit">Change</button>
+                                                        </span>
+                                                    </div>
+                                                </form>
+                                                </p>
+                                            @endauth
                                         </div>
                                         <!-- /.tab-pane -->
 
@@ -200,12 +206,15 @@
                                                     <button type="button" class="btn btn-warning" data-toggle="modal"
                                                         data-target="#termResultModal">Term</button>
                                                 </div>
-                                                <span class="ml-3" title="Add new result">
-                                                    <a href="{{ route('result.create', ['student' => $student]) }}">
-                                                        <button type="button" id="addNewResultButton"
-                                                            class="btn btn-success">Create Result</button>
-                                                    </a>
-                                                </span>
+                                                @if (auth('web')->user() || auth('teacher')->user())
+                                                    <span class="ml-3" title="Add new result">
+                                                        <a
+                                                            href="{{ route('result.create', ['student' => $student]) }}">
+                                                            <button type="button" id="addNewResultButton"
+                                                                class="btn btn-success">Create Result</button>
+                                                        </a>
+                                                    </span>
+                                                @endif
                                             </div>
 
                                         </div>
@@ -219,8 +228,9 @@
                                                     <label for="imageUpload">File input</label>
                                                     <div class="input-group">
                                                         <div class="custom-file">
-                                                            <input type="file" name="image" @error('image') is-invalid
-                                                                @enderror class="custom-file-input">
+                                                            <input type="file" name="image"
+                                                                @error('image') is-invalid @enderror
+                                                                class="custom-file-input">
                                                             <label class="custom-file-label" for="imageUpload">Choose
                                                                 file</label>
                                                         </div>
@@ -269,7 +279,8 @@
                                             value="{{ route('student.get.sessional.results', ['student' => $student, 'academicSessionName' => $academicSession->name]) }}"
                                             @if (old('academicSession') == $academicSession) SELECTED @endif>
                                             {{ $academicSession->name }} @if ($activePeriod->academicSession->id == $academicSession->id)
-                                                * @endif
+                                                *
+                                            @endif
                                         </option>
                                     @endforeach
                                 </select>

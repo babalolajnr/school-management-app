@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 class NotificationController extends Controller
 {
     /**
@@ -24,7 +23,8 @@ class NotificationController extends Controller
     {
         $user = auth()->user();
         $notification = $user->notifications->where('id', $notification)->markAsRead();
-        return response()->json("Success");
+
+        return response()->json('Success');
     }
 
     public function inbox()

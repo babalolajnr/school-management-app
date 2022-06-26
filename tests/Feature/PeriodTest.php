@@ -10,8 +10,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
 use Illuminate\Support\Str;
+use Tests\TestCase;
 
 class PeriodTest extends TestCase
 {
@@ -31,7 +31,7 @@ class PeriodTest extends TestCase
                 'term' => Term::factory()->create()->name,
                 'start_date' => $academicSession->start_date->addDays(mt_rand(1, 10))->toDateString(),
                 'end_date' => $academicSession->end_date->subDays(mt_rand(1, 10))->toDateString(),
-                'no_times_school_opened' => ''
+                'no_times_school_opened' => '',
 
             ]
         );
@@ -71,7 +71,7 @@ class PeriodTest extends TestCase
                 'term' => Term::factory()->create()->name,
                 'start_date' => $academicSession->start_date->addDays(mt_rand(1, 10))->toDateString(),
                 'end_date' => $academicSession->end_date->subDays(mt_rand(1, 10))->toDateString(),
-                'no_times_school_opened' => '500'
+                'no_times_school_opened' => '500',
 
             ]
         );
@@ -81,7 +81,6 @@ class PeriodTest extends TestCase
 
     public function test_period_can_be_stored_when_there_are_other_period_records()
     {
-        
         $user = User::factory()->create(['user_type' => 'master']);
 
         Period::factory()->create();
@@ -95,7 +94,7 @@ class PeriodTest extends TestCase
                 'term' => Term::factory()->create()->name,
                 'start_date' => $academicSession->start_date->addDays(mt_rand(10, 20))->toDateString(),
                 'end_date' => $academicSession->end_date->subDays(mt_rand(1, 10))->toDateString(),
-                'no_times_school_opened' => '50'
+                'no_times_school_opened' => '50',
             ]
         );
 
@@ -104,14 +103,13 @@ class PeriodTest extends TestCase
 
     public function test_period_with_date_range_that_overlaps_another_period_cannot_be_stored()
     {
-
         $user = User::factory()->create(['user_type' => 'master']);
 
         $academicSession = AcademicSession::factory()->create();
 
         $periodStartDate = $academicSession->start_date->addDays(mt_rand(0, 1));
 
-        $periodEndDate =  $academicSession->end_date->subDays(mt_rand(0, 1));
+        $periodEndDate = $academicSession->end_date->subDays(mt_rand(0, 1));
 
         Period::factory()->create(['start_date' => $periodStartDate, 'end_date' => $periodEndDate]);
 
@@ -121,7 +119,7 @@ class PeriodTest extends TestCase
                 'academic_session' => $academicSession->name,
                 'term' => Term::factory()->create()->name,
                 'start_date' => $periodStartDate->addDays(mt_rand(1, 5))->toDateString(),
-                'end_date' => $periodEndDate->subDays(mt_rand(1, 1))->toDateString()
+                'end_date' => $periodEndDate->subDays(mt_rand(1, 1))->toDateString(),
             ]
         );
 
@@ -144,11 +142,11 @@ class PeriodTest extends TestCase
             'name' => '2022-2023',
             'start_date' => $periodStartDate,
             'end_date' => $periodEndDate,
-            'rank' => mt_rand(20, 40)
+            'rank' => mt_rand(20, 40),
         ]);
 
         $termName = 'Fifth term';
-        $term =  Term::create(['name' => $termName, 'slug' => Str::of($termName)->slug('-')])->name;
+        $term = Term::create(['name' => $termName, 'slug' => Str::of($termName)->slug('-')])->name;
 
         $response = $this->actingAs($user)->post(
             route('period.store'),
@@ -156,7 +154,7 @@ class PeriodTest extends TestCase
                 'academic_session' => $academicSession->name,
                 'term' => $term,
                 'start_date' => $academicSession->start_date->addDays(mt_rand(0, 10))->toDateString(),
-                'end_date' => $academicSession->end_date->subDays(mt_rand(0, 1))->toDateString()
+                'end_date' => $academicSession->end_date->subDays(mt_rand(0, 1))->toDateString(),
             ]
         );
 
@@ -183,7 +181,7 @@ class PeriodTest extends TestCase
         $response = $this->actingAs($user)->patch(route('period.update', ['period' => $period]), [
             'start_date' => $period->start_date->addDays(mt_rand(1, 10))->toDateString(),
             'end_date' => $period->end_date->subDays(mt_rand(1, 10))->toDateString(),
-            'no_times_school_opened' => '50'
+            'no_times_school_opened' => '50',
         ]);
 
         $response->assertStatus(302)->assertSessionHas('success')->assertSessionHasNoErrors();
@@ -234,7 +232,7 @@ class PeriodTest extends TestCase
 
         $periodStartDate = $academicSession->start_date->subDays(mt_rand(0, 10));
 
-        $periodEndDate =  $academicSession->end_date->subDays(mt_rand(0, 1));
+        $periodEndDate = $academicSession->end_date->subDays(mt_rand(0, 1));
 
         Period::factory()->create(['start_date' => $periodStartDate, 'end_date' => $periodEndDate]);
 
@@ -244,7 +242,7 @@ class PeriodTest extends TestCase
                 'academic_session' => $academicSession->name,
                 'term' => Term::factory()->create()->name,
                 'start_date' => $periodStartDate->toDateString(),
-                'end_date' => $periodEndDate->subDays(mt_rand(1, 1))->toDateString()
+                'end_date' => $periodEndDate->subDays(mt_rand(1, 1))->toDateString(),
             ]
         );
 
@@ -259,7 +257,7 @@ class PeriodTest extends TestCase
 
         $periodStartDate = $academicSession->start_date->addDays(mt_rand(0, 10));
 
-        $periodEndDate =  $academicSession->end_date->addDays(mt_rand(1, 10));
+        $periodEndDate = $academicSession->end_date->addDays(mt_rand(1, 10));
 
         Period::factory()->create(['start_date' => $periodStartDate, 'end_date' => $periodEndDate]);
 
@@ -269,11 +267,10 @@ class PeriodTest extends TestCase
                 'academic_session' => $academicSession->name,
                 'term' => Term::factory()->create()->name,
                 'start_date' => $periodStartDate->toDateString(),
-                'end_date' => $periodEndDate->toDateString()
+                'end_date' => $periodEndDate->toDateString(),
             ]
         );
 
         $response->assertStatus(302)->assertSessionHasErrors('end_date');
     }
-
 }

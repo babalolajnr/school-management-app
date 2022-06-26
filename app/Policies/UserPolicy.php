@@ -66,7 +66,6 @@ class UserPolicy
         return $user->isMaster();
     }
 
-
     public function verify(User $user)
     {
         return $user->isMaster();
@@ -89,16 +88,18 @@ class UserPolicy
         //
     }
 
-     /**
+    /**
      * Determine whether the user can store signature
      *
-     * @param  User $user
+     * @param  User  $user
      * @return bool
      */
     public function storeSignature(User $user)
     {
-        if(auth('teacher')->check()) return false;
-        
+        if (auth('teacher')->check()) {
+            return false;
+        }
+
         return auth('web')->user()->id == $user->id;
     }
 }

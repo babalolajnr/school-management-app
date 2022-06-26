@@ -12,11 +12,11 @@ class SubjectController extends Controller
     private function validateSubject($request, $subject = null)
     {
         $messages = [
-            'name.unique' => 'Subject Exists'
+            'name.unique' => 'Subject Exists',
         ];
 
-        $validatedData =  $request->validate([
-            'name' => ['required', 'string', Rule::unique('subjects')->ignore($subject)]
+        $validatedData = $request->validate([
+            'name' => ['required', 'string', Rule::unique('subjects')->ignore($subject)],
         ], $messages);
 
         return $validatedData;
@@ -25,17 +25,18 @@ class SubjectController extends Controller
     public function index()
     {
         $subjects = Subject::all();
+
         return view('subject.index', compact('subjects'));
     }
 
     public function store(Request $request)
     {
-
         $validatedData = $this->validateSubject($request);
         $slug = Str::of($validatedData['name'])->slug('-');
         $slug = ['slug' => $slug];
         $data = $validatedData + $slug;
         Subject::create($data);
+
         return back()->with('success', 'Subject Added!');
     }
 
@@ -52,6 +53,7 @@ class SubjectController extends Controller
         $data = $validatedData + $slug;
 
         $subject->update($data);
+
         return redirect()->route('subject.index')->with('success', 'Subject Updated!');
     }
 
@@ -65,6 +67,7 @@ class SubjectController extends Controller
                 return back()->with('error', 'Subject can not be deleted because some resources are dependent on it!');
             }
         }
+
         return back()->with('success', 'Subject deleted!');
     }
 }

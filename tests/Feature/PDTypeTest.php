@@ -20,7 +20,7 @@ class PDTypeTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->actingAs($user)->post(route('pd-type.store'), [
-            'name' => $pdType
+            'name' => $pdType,
         ]);
 
         $response->assertStatus(302)->assertSessionHas('success')->assertSessionHasNoErrors();
@@ -32,7 +32,7 @@ class PDTypeTest extends TestCase
         $user = User::factory()->create();
         $pdType = PDType::factory()->create();
         $response = $this->actingAs($user)->patch(route('pd-type.update', ['pdType' => $pdType]), [
-            'name' => $this->faker->word
+            'name' => $this->faker->word,
         ]);
         $response->assertStatus(302)->assertSessionHas('success')->assertSessionHasNoErrors();
     }

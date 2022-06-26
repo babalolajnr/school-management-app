@@ -17,14 +17,14 @@ class ADController extends Controller
      * if the request does not have periodSlug it defaults to the
      * active period
      *
-     * @param Student $student
-     *
+     * @param  Student  $student
      * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
-     *
      */
     public function create(Student $student)
     {
-        if (Period::activePeriodIsNotSet()) return redirect()->back()->with('error', 'Active period is not set!');
+        if (Period::activePeriodIsNotSet()) {
+            return redirect()->back()->with('error', 'Active period is not set!');
+        }
 
         $period = Period::activePeriod();
         $adTypes = ADType::all();
@@ -34,16 +34,15 @@ class ADController extends Controller
 
         $adTypesValues = null;
 
-        if ($studentADs->count() > 1) :
+        if ($studentADs->count() > 1) {
             $adTypesValues = [];
-
 
             //create an associative array of pdtypeid and value from the pd model
             foreach ($studentADs as $studentAD) {
                 $adTypeValue = [$studentAD->a_d_type_id => $studentAD->value];
                 $adTypesValues += $adTypeValue;
             }
-        endif;
+        }
 
         // // Log activity
         // \activity()->causedBy(auth()->user())->log("Requested $student->first_name $student->last_name's affective domain form");
@@ -58,15 +57,13 @@ class ADController extends Controller
      * uses the active period to store the adType else it
      * uses the period from the url
      *
-     * @param Student $student
-     * @param Request $request
-     * @param string $periodSlug
-     *
+     * @param  Student  $student
+     * @param  Request  $request
+     * @param  string  $periodSlug
      * @return \Illuminate\Http\RedirectResponse
      */
     public function storeOrUpdate(Student $student, Request $request, $periodSlug = null)
     {
-
         $validatedData = $request->validate([
             'adTypes.*' => ['required', 'numeric', 'min:1', 'max:5'],
         ]);

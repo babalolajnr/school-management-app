@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Guardian;
 use App\Models\Student;
+use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class GuardianController extends Controller
 {
-
     /**
      * Show guardian page.
      *
@@ -18,6 +19,7 @@ class GuardianController extends Controller
     public function index()
     {
         $guardians = Guardian::all();
+
         return view('guardian.index', compact('guardians'));
     }
 
@@ -26,7 +28,7 @@ class GuardianController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(): \Illuminate\Contracts\View\Factory|\Illuminate\View\View
     {
         return view('guardian.create');
     }
@@ -34,9 +36,9 @@ class GuardianController extends Controller
     /**
      * Create new guardian.
      *
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
     {
         $this->validate($request, [
             'title' => 'required',
@@ -52,10 +54,11 @@ class GuardianController extends Controller
 
         return redirect(route('guardian.index'))->with('success', 'Guardian added successfully');
     }
+
     /**
      * Show edit guardian page
      *
-     * @param  Guardian $guardian
+     * @param  Guardian  $guardian
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function edit(Guardian $guardian)
@@ -66,7 +69,7 @@ class GuardianController extends Controller
     /**
      * Show guardian
      *
-     * @param  Guardian $guardian
+     * @param  Guardian  $guardian
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function show(Guardian $guardian)
@@ -77,13 +80,12 @@ class GuardianController extends Controller
     /**
      * Update guardian
      *
-     * @param  Guardian $guardian
-     * @param  Request $request
+     * @param  Guardian  $guardian
+     * @param  Request  $request
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function update(Guardian $guardian, Request $request)
+    public function update(Guardian $guardian, Request $request): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
     {
-
         $data = $request->validate([
             'title' => ['required', 'max:30', 'string'],
             'first_name' => ['required', 'max:30', 'string'],
@@ -91,7 +93,7 @@ class GuardianController extends Controller
             'email' => ['required', 'string', 'email:rfc,dns', Rule::unique('guardians')->ignore($guardian)],
             'phone' => ['required', 'string', 'between:10,15', Rule::unique('guardians')->ignore($guardian)],
             'occupation' => ['required', 'string'],
-            'address' => ['required']
+            'address' => ['required'],
         ]);
 
         $guardian = $guardian->update($data);
@@ -104,31 +106,41 @@ class GuardianController extends Controller
     /**
      * Change student's guardian
      *
-     * @param  Student $student
-     * @param  Request $request
+     * @param  Student  $student
+     * @param  Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function changeGuardian(Student $student, Request $request)
+    public function changeGuardian(Student $student, Request $request): \Illuminate\Http\RedirectResponse
     {
         $data = $request->validate([
-            'guardian' => ['required', 'string']
+            'guardian' => ['required', 'string'],
         ]);
 
         $currentGuardian = $student->guardian;
         $newGuardian = Guardian::where('email', $data['guardian'])->first();
 
-        if ($currentGuardian->id == $newGuardian->id) return back()->with('error', "The selected guardian is already the student's guardian");
+        if ($currentGuardian->id == $newGuardian->id) {
+            return back()->with('error', "The selected guardian is already the student's guardian");
+        }
 
         $student->guardian_id = $newGuardian->id;
         $student->save();
 
         // Delete current guardian if it no longer has any children
-        if (count($currentGuardian->children) < 1) $currentGuardian->delete();
+        if (count($currentGuardian->children) < 1) {
+            $currentGuardian->delete();
+        }
 
-        return back()->with('success', "Guardian changed!");
+        return back()->with('success', 'Guardian changed!');
     }
 
-    public function destroy(Guardian $guardian)
+    /**
+     * Delete Guardian
+     *
+     * @param Guardian $guardian
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy(Guardian $guardian): \Illuminate\Http\RedirectResponse
     {
         try {
             $guardian->delete();
@@ -140,5 +152,46 @@ class GuardianController extends Controller
         }
 
         return redirect()->route('guardian.index')->with('success', 'Guardian deleted!');
+    }
+
+    /**
+     * Get Guardian wards view
+     *
+     * This is strictly for logged in Guardians
+     *
+     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+     */
+    public function wards(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
+    {
+        $user = auth('guardian')->user();
+
+        $wards = $user->children()->get();
+
+        return view('guardian.wards', compact('wards'));
+    }
+
+    /**
+     * Update password.
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updatePassword(Request $request): \Illuminate\Http\RedirectResponse
+    {
+        $data = $request->validate([
+            'current_password' => ['required', 'string'],
+            'new_password' => ['required', 'string', 'confirmed', 'min:8'],
+        ]);
+
+        //if password does not match the current password
+        if (!Hash::check($data['current_password'], auth('guardian')->user()->password)) {
+            throw ValidationException::withMessages(['current_password' => ['Current password is incorrect']]);
+        }
+
+        auth('guardian')->user()->update([
+            'password' => bcrypt($data['new_password'])
+        ]);
+
+        return redirect()->back()->with('success', 'Password updated!');
     }
 }

@@ -24,7 +24,7 @@ class BranchFactory extends Factory
         $branches = ['A', 'B', 'C', 'D', 'E', 'F'];
 
         return [
-            'name' => $this->faker->randomElement($branches)
+            'name' => $this->faker->randomElement($branches),
         ];
     }
 }

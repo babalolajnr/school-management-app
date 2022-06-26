@@ -1,8 +1,8 @@
 <?php
 
 use App\Models\User;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class DeleteUnverifiedUsersWeekly extends TestCase
 {
@@ -20,7 +20,7 @@ class DeleteUnverifiedUsersWeekly extends TestCase
         $this->withoutExceptionHandling();
         User::factory()->create([
             'is_verified' => false,
-            'created_at' => today()->subWeek()
+            'created_at' => today()->subWeek(),
         ]);
 
         $this->artisan('delete-weekly:unverified-users')
@@ -33,11 +33,11 @@ class DeleteUnverifiedUsersWeekly extends TestCase
         $this->withoutExceptionHandling();
         User::factory()->create([
             'is_verified' => false,
-            'created_at' => today()->subWeek()
+            'created_at' => today()->subWeek(),
         ]);
 
         $this->artisan('delete-weekly:unverified-users')
             ->expectsConfirmation('Are you sure you want to delete all users fetched?', 'yes')
-            ->expectsOutput("Deleted all Unverified users");
+            ->expectsOutput('Deleted all Unverified users');
     }
 }

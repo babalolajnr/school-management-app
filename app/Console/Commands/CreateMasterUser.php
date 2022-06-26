@@ -46,7 +46,8 @@ class CreateMasterUser extends Command
 
         //check if passwords do not match
         if ($password != $password2) {
-            $this->error("Passwords do not match!");
+            $this->error('Passwords do not match!');
+
             return 1;
         }
 
@@ -54,7 +55,8 @@ class CreateMasterUser extends Command
         $row = User::where('email', $email);
 
         if ($row->exists()) {
-            $this->error("Email exists! Try again.");
+            $this->error('Email exists! Try again.');
+
             return 1;
         }
 
@@ -63,7 +65,7 @@ class CreateMasterUser extends Command
                 'first_name' => $firstName,
                 'last_name' => $lastName,
                 'email' => $email,
-                'password' => bcrypt($password)
+                'password' => bcrypt($password),
             ];
 
             $user = User::create($userData);

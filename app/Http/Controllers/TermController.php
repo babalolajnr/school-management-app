@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Term;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class TermController extends Controller
 {
     public function index()
     {
         $terms = Term::all();
+
         return view('term.index', compact('terms'));
     }
 
@@ -20,6 +21,7 @@ class TermController extends Controller
         $validatedData = $this->validateTerm($request);
         $slug = ['slug' =>  Str::of($validatedData['name'])->slug('-')];
         Term::create($validatedData + $slug);
+
         return redirect()->back()->with('success', 'Term created!');
     }
 
@@ -33,6 +35,7 @@ class TermController extends Controller
         $validatedData = $this->validateTerm($request, $term);
         $slug = ['slug' =>  Str::of($validatedData['name'])->slug('-')];
         $term->update($validatedData + $slug);
+
         return redirect()->route('term.index')->with('success', 'Term updated!');
     }
 
@@ -53,11 +56,11 @@ class TermController extends Controller
     private function validateTerm($request, $term = null)
     {
         $messages = [
-            'name.unique' => 'Term Exists'
+            'name.unique' => 'Term Exists',
         ];
 
         $validatedData = $request->validate([
-            'name' => ['required', 'string', Rule::unique('terms')->ignore($term)]
+            'name' => ['required', 'string', Rule::unique('terms')->ignore($term)],
         ], $messages);
 
         return $validatedData;

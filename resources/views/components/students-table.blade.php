@@ -79,12 +79,13 @@
                                 @endcannot
                             @endauth
 
-                            <a href="{{ route('student.show.student.settingsView', ['student' => $student]) }}">
-                                <button type="button" class="btn btn-default btn-flat">
-                                    <i class="fas fa-cogs"></i>
-                                </button>
-                            </a>
-
+                            @if (auth('web')->user() || auth('teacher')->user())
+                                <a href="{{ route('student.show.student.settingsView', ['student' => $student]) }}">
+                                    <button type="button" class="btn btn-default btn-flat">
+                                        <i class="fas fa-cogs"></i>
+                                    </button>
+                                </a>
+                            @endif
                         </div>
                     </td>
                 </tr>

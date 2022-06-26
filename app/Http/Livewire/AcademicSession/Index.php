@@ -12,9 +12,13 @@ class Index extends Component
     use ValidationTrait;
 
     public $academicSessions;
+
     public $startDate;
+
     public $endDate;
+
     public $name;
+
     public $deleteItem;
 
     protected $listeners = ['delete'];
@@ -22,15 +26,14 @@ class Index extends Component
     protected $rules = [
         'name' => ['required', 'string', 'unique:academic_sessions', 'regex:/^\d{4}[-]{1}\d{4}$/m'],
         'startDate' => ['required', 'date', 'unique:academic_sessions,start_date'],
-        'endDate' => ['required', 'date', 'unique:academic_sessions,end_date', 'after:startDate']
+        'endDate' => ['required', 'date', 'unique:academic_sessions,end_date', 'after:startDate'],
     ];
 
     protected $messages = [
         'name.required' => 'This field is required',
         'name.unique' => 'Record exists',
-        'name.regex' => 'Academic session format is invalid'
+        'name.regex' => 'Academic session format is invalid',
     ];
-
 
     public function render()
     {
@@ -43,7 +46,7 @@ class Index extends Component
 
         // Log activity
         \activity()->causedBy(auth()->user())
-            ->log("Requested Academic Sessions view");
+            ->log('Requested Academic Sessions view');
     }
 
     public function updated($propertyName)
@@ -53,7 +56,6 @@ class Index extends Component
 
     public function submit()
     {
-
         $this->validate();
 
         //check if date range is unique
@@ -62,7 +64,7 @@ class Index extends Component
         //if date range is not unique throw validation exception
         $validateDateRange ? null : throw ValidationException::withMessages([
             'startDate' => ['Date range overlaps with another period'],
-            'endDate' => ['Date range overlaps with another period']
+            'endDate' => ['Date range overlaps with another period'],
         ]);
 
         $newAcademicSession = AcademicSession::create([
@@ -74,7 +76,7 @@ class Index extends Component
         // Log activity
         \activity()->causedBy(auth()->user())
         ->on($newAcademicSession)
-        ->log("Created Academic Session");
+        ->log('Created Academic Session');
 
         $this->emit('success', 'Academic Session Created!');
         $this->reset();
@@ -98,7 +100,7 @@ class Index extends Component
         \activity()->causedBy(auth()->user())
             ->on($academicSession)
             ->withProperties(['academic_session_name' => $academicSession->name])
-            ->log("Deleted Academic Session");
+            ->log('Deleted Academic Session');
 
         $this->emit('success', 'Academic session deleted!');
         $this->academicSessions = AcademicSession::all();

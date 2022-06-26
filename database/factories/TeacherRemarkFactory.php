@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Period;
-use App\Models\TeacherRemark;
 use App\Models\Student;
+use App\Models\TeacherRemark;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class TeacherRemarkFactory extends Factory

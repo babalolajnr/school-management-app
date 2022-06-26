@@ -34,7 +34,7 @@ class AttendanceTest extends TestCase
                 ['student' => $student, 'periodSlug' => $period->slug]
             ),
             [
-                'value' => mt_rand(1, 100)
+                'value' => mt_rand(1, 100),
             ]
         );
 

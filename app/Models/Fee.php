@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Fee extends Model
 {
     use HasFactory;
-    
+
     /**
      * The attributes that are not mass assignable.
      *
      * @var array
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
-    
+
     /**
      * Period relationship
      *
@@ -25,7 +25,7 @@ class Fee extends Model
     {
         return $this->belongsTo(Period::class);
     }
-    
+
     /**
      * Classroom relationship
      *
@@ -35,5 +35,4 @@ class Fee extends Model
     {
         return $this->belongsTo(Classroom::class);
     }
-
 }

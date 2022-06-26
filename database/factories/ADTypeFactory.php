@@ -3,8 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\ADType;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class ADTypeFactory extends Factory
 {
@@ -24,10 +24,10 @@ class ADTypeFactory extends Factory
     {
         $adType = $this->faker->unique()->randomElement(self::$adTypes);
         $slug = Str::of($adType)->slug('-');
-        
+
         return [
             'name' => $adType,
-            'slug' => $slug
+            'slug' => $slug,
         ];
     }
 

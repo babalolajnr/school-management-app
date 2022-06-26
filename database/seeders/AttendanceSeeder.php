@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Period;
 use App\Models\Attendance;
+use App\Models\Period;
 use App\Models\Student;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
@@ -20,12 +20,12 @@ class AttendanceSeeder extends Seeder
         $data = $this->allRecords();
 
         foreach ($data['students'] as $student) {
-
             foreach ($data['periods'] as $period) {
-
                 $record = Attendance::where('student_id', $student->id)->where('period_id', $period->id);
 
-                if ($record->exists()) continue;
+                if ($record->exists()) {
+                    continue;
+                }
 
                 Attendance::create([
                     'period_id' => $period->id,
@@ -41,12 +41,15 @@ class AttendanceSeeder extends Seeder
         $period = Period::first();
         $student = Student::first();
 
-
         //if any of the required values are empty seed their tables
 
-        if (!$period) Artisan::call('db:seed', ['--class' => 'PeriodSeeder']);
+        if (! $period) {
+            Artisan::call('db:seed', ['--class' => 'PeriodSeeder']);
+        }
 
-        if (!$student) Artisan::call('db:seed', ['--class' => 'StudentSeeder']);
+        if (! $student) {
+            Artisan::call('db:seed', ['--class' => 'StudentSeeder']);
+        }
 
         $periods = Period::all();
         $students = Student::all();

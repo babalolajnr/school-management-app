@@ -1,29 +1,36 @@
    <!-- Well begun is half done. - Aristotle -->
    <aside class="main-sidebar main-sidebar-custom elevation-4" id="sidebar">
        <!-- Brand Logo -->
-       <a href="/dashboard" class="brand-link d-flex justify-content-center" id="brand-link">
-           <img src="{{ asset('images/radiant_logo-removebg-preview.png') }}" alt="Logo"
-               class="brand-image img-circle elevation-3" style="opacity: .8"><span
-               class="brand-text font-weight-light">Radiant Minds School</span>
+       <a href="{{ route('dashboard') }}" class="brand-link">
+           <img src="{{ asset('images/radiant_logo-removebg-preview.png') }}" alt="logo"
+               class="brand-image img-circle elevation-3" style="opacity: .8">
+           <span class="brand-text font-weight-light">RMS</span>
        </a>
-
        <!-- Sidebar -->
        <div class="sidebar">
-           <!-- Sidebar user (optional) -->
            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                <div class="image">
                    <img src="https://img.icons8.com/plumpy/192/000000/user.png" class="img-circle elevation-2"
                        alt="User Image">
                </div>
                <div class="info">
-                   @if (Auth::guard('web')->user())
-                       <a href="{{ route('user.show', ['user' => Auth::user()]) }}" class="d-block">
-                           {{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</a>
-                   @else
-                       <a href="{{ route('teacher.show', ['teacher' => Auth::guard('teacher')->user()]) }}"
-                           class="d-block">{{ Auth::guard('teacher')->user()->first_name }}
-                           {{ Auth::guard('teacher')->user()->last_name }}</a>
-                   @endif
+                   @auth('web')
+                       <a href="{{ route('user.show', ['user' => Auth::user()]) }}" class="d-block lowercase">
+                           {{ Auth::user()->first_name . ' ' . Auth::user()->last_name }}
+                       </a>
+                   @endauth
+                   @auth('teacher')
+                       <a href="{{ route('teacher.show', ['teacher' => Auth::user('teacher')]) }}"
+                           class="d-block lowercase">
+                           {{ Auth::user('teacher')->first_name . ' ' . Auth::user('teacher')->last_name }}
+                       </a>
+                   @endauth
+                   @auth('guardian')
+                       <a href="{{ route('guardian.edit', ['guardian' => Auth::user('guardian')]) }}"
+                           class="d-block lowercase">
+                           {{ Auth::user('guardian')->first_name . ' ' . Auth::user('guardian')->last_name }}
+                       </a>
+                   @endauth
                </div>
            </div>
 
@@ -46,7 +53,7 @@
                    data-accordion="false">
                    <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                   @if (Auth::guard('web')->user())
+                   @auth('web')
                        <li class="nav-item">
                            <a href="{{ route('dashboard') }}" class="nav-link" id="dashboard">
                                <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -65,8 +72,7 @@
                            </a>
                            <ul class="nav nav-treeview" style="display: block;">
                                <li class="nav-item">
-                                   <a href="{{ route('academic-session.index') }}" class="nav-link"
-                                       id="academic-session">
+                                   <a href="{{ route('academic-session.index') }}" class="nav-link" id="academic-session">
                                        <i class="nav-icon fas fa-calendar"></i>
                                        <p>Academic Sessions</p>
                                    </a>
@@ -132,8 +138,7 @@
                                    </a>
                                </li>
                                <li class="nav-item">
-                                   <a href="{{ route('student.create') }}" class="nav-link"
-                                       id="student-create">
+                                   <a href="{{ route('student.create') }}" class="nav-link" id="student-create">
                                        <i class="fas fa-user-plus"></i>
                                        <p>New Student</p>
                                    </a>
@@ -146,8 +151,7 @@
                                    </a>
                                </li>
                                <li class="nav-item">
-                                   <a href="{{ route('guardian.index') }}" class="nav-link"
-                                       id="guardian-index">
+                                   <a href="{{ route('guardian.index') }}" class="nav-link" id="guardian-index">
                                        <span class="nav-icon"><i class="fas fa-user"></i></span>
                                        <p>Guardians</p>
                                    </a>
@@ -174,39 +178,41 @@
 
                            </ul>
                        </li>
-                       @masteruser (Auth::user())
-                       <li class="nav-item menu-is-opening menu-open">
-                           <a href="#" class="nav-link" id="app-management">
-                               <i class="nav-icon fas fa-cog"></i>
-                               <p>
-                                   App Management
-                                   <i class="fas fa-angle-left right"></i>
-                               </p>
-                           </a>
-                           <ul class="nav nav-treeview" style="display: block;">
-                               <li class="nav-item">
-                                   <a href="{{ route('user.index') }}" class="nav-link" id="user">
-                                       <i class="nav-icon fas fa-users"></i>
-                                       <p>Users</p>
-                                   </a>
-                               </li>
-                               @if (auth()->user()->isDev())
+                       @masteruser(Auth::user())
+                           <li class="nav-item menu-is-opening menu-open">
+                               <a href="#" class="nav-link" id="app-management">
+                                   <i class="nav-icon fas fa-cog"></i>
+                                   <p>
+                                       App Management
+                                       <i class="fas fa-angle-left right"></i>
+                                   </p>
+                               </a>
+                               <ul class="nav nav-treeview" style="display: block;">
                                    <li class="nav-item">
-                                       <a href="{{ route('notification.index') }}" class="nav-link"
-                                           id="notification">
-                                           <i class="nav-icon fas fa-bell"></i>
-                                           <p>Notifications</p>
+                                       <a href="{{ route('user.index') }}" class="nav-link" id="user">
+                                           <i class="nav-icon fas fa-users"></i>
+                                           <p>Users</p>
                                        </a>
                                    </li>
-                               @endif
-                           </ul>
-                       </li>
+                                   @if (auth()->user()->isDev())
+                                       <li class="nav-item">
+                                           <a href="{{ route('notification.index') }}" class="nav-link" id="notification">
+                                               <i class="nav-icon fas fa-bell"></i>
+                                               <p>Notifications</p>
+                                           </a>
+                                       </li>
+                                   @endif
+                               </ul>
+                           </li>
                        @endmasteruser
 
-                   @endif
+                   @endauth
                    @auth('teacher')
                        <li class="nav-item">
-                           <a href="{{ route('classroom.show.branch', ['classroom' => auth('teacher')->user()?->branchClassroom?->classroom, 'branch' => auth('teacher')->user()?->branchClassroom?->branch]) }}"
+                           <a href="{{ route('classroom.show.branch', [
+                               'classroom' => auth('teacher')->user()?->branchClassroom?->classroom,
+                               'branch' => auth('teacher')->user()?->branchClassroom?->branch,
+                           ]) }}"
                                class="nav-link">
                                <i class="nav-icon fas fa-chalkboard"></i>
                                <p>Classroom</p>
@@ -220,13 +226,15 @@
        <!-- /.sidebar -->
 
        <div class="sidebar-custom d-flex">
-           <form @auth('web') action="{{ route('logout') }}" @endauth @auth('teacher')
-           action="{{ route('teacher.logout') }}" @endauth method="post">
-           @csrf
-           <button type="submit" class="btn btn-link" title="Logout"><i
-                   class="fas fa-sign-out-alt text-danger"></i></button>
-       </form>
-       <a href="#" class="btn btn-secondary hide-on-collapse pos-right">Help</a>
-   </div>
-   <!-- /.sidebar-custom -->
-</aside>
+           <form @auth('web') action="{{ route('logout') }}" @endauth
+               @auth('teacher') action="{{ route('teacher.logout') }}" @endauth
+               @auth('guardian') action="{{ route('guardian.logout') }}" @endauth method="post">
+               @csrf
+               <button type="submit" class="btn btn-link" title="Logout">
+                   <i class="fas fa-sign-out-alt text-danger"></i>
+               </button>
+           </form>
+           {{-- <a href="#" class="btn btn-secondary hide-on-collapse pos-right">Help</a> --}}
+       </div>
+       <!-- /.sidebar-custom -->
+   </aside>

@@ -25,7 +25,7 @@ class TermTest extends TestCase
         $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $response = $this->actingAs($user)->post(route('term.store'), [
-            'name' => $this->faker->word
+            'name' => $this->faker->word,
         ]);
         $response->assertStatus(302)->assertSessionHas('success');
     }
@@ -44,7 +44,7 @@ class TermTest extends TestCase
         $user = User::factory()->create();
         $term = Term::factory()->create();
         $response = $this->actingAs($user)->patch(route('term.update', ['term' => $term]), [
-            'name' => $this->faker->word
+            'name' => $this->faker->word,
         ]);
         $response->assertStatus(302)->assertSessionHas('success');
     }
@@ -56,5 +56,4 @@ class TermTest extends TestCase
         $response = $this->actingAs($user)->delete(route('term.destroy', ['term' => $term]));
         $response->assertStatus(302)->assertSessionHas('success');
     }
-
 }

@@ -46,6 +46,11 @@ return [
             'provider' => 'teachers',
         ],
 
+        'guardian' => [
+            'driver' => 'session',
+            'provider' => 'guardians',
+        ],
+
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
@@ -80,6 +85,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Teacher::class,
         ],
+
+        'guardians' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Guardian::class,
+        ],
     ],
 
     /*
@@ -107,6 +117,13 @@ return [
 
         'teachers' => [
             'provider' => 'teachers',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'guardians' => [
+            'provider' => 'guardians',
             'table' => 'password_resets',
             'expire' => 60,
             'throttle' => 60,

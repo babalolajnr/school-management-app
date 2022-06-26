@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Artisan;
 
 class BranchClassroomSeeder extends Seeder
 {
-
     /**
      * Run database seeds
      *
@@ -30,6 +29,5 @@ class BranchClassroomSeeder extends Seeder
             $classroom->branches()->sync($branches);
             $classroom->touch();
         });
-
     }
 }

@@ -26,7 +26,7 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create([
             'is_verified' => true,
-            'is_active' => true
+            'is_active' => true,
         ]);
 
         $response = $this->post('/login', [

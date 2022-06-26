@@ -43,20 +43,21 @@ class DeleteUnverifiedUsersWeekly extends Command
                 $query->whereDate('created_at', today()->subWeek());
             });
 
-        if (!$users->count()) {
-            $this->error("No User found!");
+        if (! $users->count()) {
+            $this->error('No User found!');
+
             return 1;
         }
 
         $this->info("{$users->count()} unverified user(s) fetched");
 
-        if ($this->confirm("Are you sure you want to delete all users fetched?")) {
+        if ($this->confirm('Are you sure you want to delete all users fetched?')) {
             foreach ($users->cursor() as $user) {
                 $this->info("Deleting all {$users->count()} users...");
 
                 $user->delete();
 
-                $this->info("Deleted all Unverified users");
+                $this->info('Deleted all Unverified users');
             }
         }
 

@@ -28,7 +28,7 @@ class StoreTeacherRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:30'],
             'email' => ['required', 'string', 'unique:teachers', 'email:rfc,dns'],
             'phone' => ['required', 'string', 'unique:teachers', 'max:15', 'min:10'],
-            'date_of_birth' => ['required', 'date', 'before:' . now()],
+            'date_of_birth' => ['required', 'date', 'before:'.now()],
             'sex' => ['required', 'string'],
         ];
     }

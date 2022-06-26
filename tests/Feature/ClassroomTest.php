@@ -6,7 +6,6 @@ use App\Models\Classroom;
 use App\Models\Period;
 use App\Models\Student;
 use App\Models\Subject;
-use App\Models\Teacher;
 use App\Models\User;
 use Database\Seeders\SubjectSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -31,7 +30,7 @@ class ClassroomTest extends TestCase
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)->post(route('classroom.store'), [
-            'name' => $this->faker->word
+            'name' => $this->faker->word,
         ]);
         $response->assertStatus(302)->assertSessionHas('success')->assertSessionHasNoErrors();
     }
@@ -57,7 +56,7 @@ class ClassroomTest extends TestCase
         $rank = mt_rand($minRank, $maxRank);
         $response = $this->actingAs($user)->patch(route('classroom.update', ['classroom' => $classroom]), [
             'name' => $this->faker->word,
-            'rank' => $rank
+            'rank' => $rank,
         ]);
         $response->assertStatus(302)->assertSessionHas('success')->assertSessionHasNoErrors();
     }
@@ -87,7 +86,7 @@ class ClassroomTest extends TestCase
 
         Period::factory()->create(['active' => true]);
         $response = $this->actingAs($user)->post(route('classroom.update.subjects', ['classroom' => $classroom]), [
-            'subjects' => $subjects
+            'subjects' => $subjects,
         ]);
 
         $response->assertStatus(302)->assertSessionHas('success');
@@ -137,12 +136,13 @@ class ClassroomTest extends TestCase
         $subjects = Subject::pluck('name')->all();
 
         //if subject table is empty run subjectSeeder
-        if (sizeof($subjects) < 1) {
+        if (count($subjects) < 1) {
             $this->seed(SubjectSeeder::class);
             $subjects = Subject::pluck('name')->all();
         }
 
         $selectedSubjects = Arr::random($subjects, 5);
+
         return $selectedSubjects;
     }
 }

@@ -22,9 +22,9 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-
         $firstName = $this->faker->firstName;
         $lastName = $this->faker->lastName;
+
         return [
             'first_name' => $firstName,
             'last_name' => $lastName,
@@ -35,7 +35,7 @@ class UserFactory extends Factory
             'is_active' => true,
             'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
-            'is_hos' => false
+            'is_hos' => false,
         ];
     }
 }

@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Period;
 use App\Models\Attendance;
+use App\Models\Period;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
-
-
     /**
      * Show the form for creating a new resource.
      *
@@ -18,8 +16,9 @@ class AttendanceController extends Controller
      */
     public function create(Student $student)
     {
-
-        if (Period::activePeriodIsNotSet()) return redirect()->back()->with('error', 'Active period is not set!');
+        if (Period::activePeriodIsNotSet()) {
+            return redirect()->back()->with('error', 'Active period is not set!');
+        }
 
         $period = Period::activePeriod();
 
@@ -27,6 +26,7 @@ class AttendanceController extends Controller
 
         if ($attendance->exists()) {
             $attendance = $attendance->first();
+
             return view('attendance.create', compact('attendance', 'period', 'student'));
         }
 
@@ -41,9 +41,8 @@ class AttendanceController extends Controller
      */
     public function storeOrUpdate(Request $request, Student $student, $periodSlug = null)
     {
-
-        if (!is_null($periodSlug)) {
-            $period =  Period::where('slug', $periodSlug)->firstOrFail();
+        if (! is_null($periodSlug)) {
+            $period = Period::where('slug', $periodSlug)->firstOrFail();
         } else {
             $period = Period::activePeriod();
         }
@@ -53,7 +52,7 @@ class AttendanceController extends Controller
         }
 
         $data = $request->validate([
-            'value' => ['required', 'numeric', "max:{$period->no_times_school_opened}"]
+            'value' => ['required', 'numeric', "max:{$period->no_times_school_opened}"],
         ]);
 
         $student->attendances()->updateOrCreate([

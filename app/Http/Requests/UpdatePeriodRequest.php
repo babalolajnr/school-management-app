@@ -34,7 +34,7 @@ class UpdatePeriodRequest extends FormRequest
         return [
             'start_date' => ['required', 'date', Rule::unique('periods')->ignore($period), "after_or_equal:{$period->academicSession->start_date}"],
             'end_date' => ['required', 'date', 'after:start_date', Rule::unique('periods')->ignore($period), "before_or_equal:{$period->academicSession->end_date}"],
-            'no_times_school_opened' => ['numeric', 'nullable']
+            'no_times_school_opened' => ['numeric', 'nullable'],
         ];
     }
 
@@ -53,7 +53,6 @@ class UpdatePeriodRequest extends FormRequest
              * it is not above the date range
              */
             if ($this->filled('no_times_school_opened')) {
-
                 $startDate = Carbon::createFromFormat('Y-m-d', $this->start_date);
                 $endDate = Carbon::createFromFormat('Y-m-d', $this->end_date);
 
@@ -67,11 +66,10 @@ class UpdatePeriodRequest extends FormRequest
             //check if date overlaps
             $dateOverlaps = $this->dateOverlaps($this->start_date, $this->end_date, Period::class, $this->route('period'));
 
-            if ($dateOverlaps) :
+            if ($dateOverlaps) {
                 $validator->errors()->add('start_date', 'Date range overlaps with another period');
                 $validator->errors()->add('end_date', 'Date range overlaps with another period');
-            endif;
-
+            }
         });
     }
 
@@ -84,7 +82,7 @@ class UpdatePeriodRequest extends FormRequest
     {
         return [
             'start_date.after_or_equal' => 'Start date must be after or equal to the start date of the selected academic session',
-            'end_date.before_or_equal' => 'End date must be before or equal to the end date of the selected academic session'
+            'end_date.before_or_equal' => 'End date must be before or equal to the end date of the selected academic session',
         ];
     }
 }

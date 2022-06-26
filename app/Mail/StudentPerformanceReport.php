@@ -4,7 +4,6 @@ namespace App\Mail;
 
 use App\Models\Period;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\URL;
@@ -14,6 +13,7 @@ class StudentPerformanceReport extends Mailable
     use Queueable, SerializesModels;
 
     private $student;
+
     private $periodSlug;
 
     /**
@@ -43,7 +43,7 @@ class StudentPerformanceReport extends Mailable
             'student' => $this->student,
             'guardian' => $this->student->guardian,
             'term' => $term,
-            'academicSession' => $academicSession
+            'academicSession' => $academicSession,
         ];
 
         return $this->markdown('emails.performance-report')

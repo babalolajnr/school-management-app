@@ -16,11 +16,10 @@ use Illuminate\Support\Facades\Mail;
 
 class ResultController extends Controller
 {
-
     /**
      * Get Result creation page
      *
-     * @param  Student $student
+     * @param  Student  $student
      * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function create(Student $student)
@@ -31,7 +30,7 @@ class ResultController extends Controller
             return back()->with('error', 'Active period is not set');
         }
 
-        $classroomSubjects = $student->classroom->subjects()->where('academic_session_id',  $activePeriod->academicSession->id)->get();
+        $classroomSubjects = $student->classroom->subjects()->where('academic_session_id', $activePeriod->academicSession->id)->get();
 
         $recordedSubjects = Result::where('student_id', $student->id)
             ->where('period_id', $activePeriod->id)
@@ -39,7 +38,7 @@ class ResultController extends Controller
 
         //filter subjects that have a result out
         $subjects = $classroomSubjects->map(function ($subject) use ($recordedSubjects) {
-            if (!$recordedSubjects->contains($subject->id)) {
+            if (! $recordedSubjects->contains($subject->id)) {
                 return $subject;
             }
         });
@@ -50,13 +49,12 @@ class ResultController extends Controller
     /**
      * Store student result for active period
      *
-     * @param  Request $request
-     * @param  Student $student
+     * @param  Request  $request
+     * @param  Student  $student
      * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request, Student $student)
     {
-
         $messages = [
             'between.ca' => 'The score must be between 0 and 40',
             'between.exam' => 'The score must be between 0 and 60',
@@ -65,7 +63,7 @@ class ResultController extends Controller
         $validatedData = $request->validate([
             'ca' => ['required', 'numeric', 'between:0,40'],
             'exam' => ['nullable', 'numeric', 'between:0,60'],
-            'subject' => ['string', 'required', 'exists:subjects,name']
+            'subject' => ['string', 'required', 'exists:subjects,name'],
         ], $messages);
 
         $subject = Subject::where('name', $validatedData['subject'])->first();
@@ -95,7 +93,7 @@ class ResultController extends Controller
             'subject_id' => $subject->id,
             'student_id' => $student->id,
             'total' => $exam + $ca,
-            'classroom_id' => $student->classroom->id
+            'classroom_id' => $student->classroom->id,
         ]);
 
         return back()->with('success', 'Result added!');
@@ -104,8 +102,8 @@ class ResultController extends Controller
     /**
      * Get student performance report
      *
-     * @param  Student $student
-     * @param  string $periodSlug
+     * @param  Student  $student
+     * @param  string  $periodSlug
      * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
     public function showPerformanceReport(Student $student, $periodSlug)
@@ -117,31 +115,33 @@ class ResultController extends Controller
         } catch (Exception $e) {
             if ($e->getMessage() == "Student's class does not have subjects") {
                 return redirect()->route('classroom.show', ['classroom' => $student->classroom])->with('error', 'The student\'s class does not have subjects set for the selected academic session');
-            } elseif ($e->getMessage() == "No results found") {
+            } elseif ($e->getMessage() == 'No results found') {
                 abort(404);
             }
         }
+
         return view('performance-report', $data);
     }
 
     /**
      * Get Edit Result Page
      *
-     * @param  Result $result
+     * @param  Result  $result
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
     public function edit(Result $result)
     {
         //store previous url in session to be used for redirect after update
         session(['resultsPage' => url()->previous()]);
+
         return view('result.edit', compact('result'));
     }
 
     /**
      * Update result
      *
-     * @param  Result $result
-     * @param  Request $request
+     * @param  Result  $result
+     * @param  Request  $request
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function update(Result $result, Request $request)
@@ -163,20 +163,21 @@ class ResultController extends Controller
     /**
      * Destroy result
      *
-     * @param  Result $result
+     * @param  Result  $result
      * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy(Result $result)
     {
         $result->delete();
+
         return back()->with('success', 'Result Deleted');
     }
 
     /**
      * Mail StudentPerformanceReport to guardian
      *
-     * @param  \App\Models\Student $student
-     * @param  mixed $periodSlug
+     * @param  \App\Models\Student  $student
+     * @param  mixed  $periodSlug
      * @return \Illuminate\Http\RedirectResponse
      */
     public function mailStudentPerformanceReport(Student $student, $periodSlug)
@@ -186,19 +187,20 @@ class ResultController extends Controller
         }
 
         Mail::to($student->guardian->email)->send(new StudentPerformanceReport($student, $periodSlug));
+
         return back()->with('success', 'Email sent successfully');
     }
-
 
     /**
      * Email the entire classroom performance reports
      *
-     * @param  \App\Models\Classroom $classroom
+     * @param  \App\Models\Classroom  $classroom
      * @return \Illuminate\Http\RedirectResponse
      */
     public function sendClassroomPerformanceReportEmail(Classroom $classroom)
     {
         SendClassroomPerformanceReportEmail::dispatch($classroom);
+
         return back()->with('success', 'Emails sent successfully');
     }
 }

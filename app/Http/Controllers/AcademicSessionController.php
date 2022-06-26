@@ -14,8 +14,8 @@ class AcademicSessionController extends Controller
     /**
      * validate Academic Session
      *
-     * @param  mixed $request
-     * @param  mixed $academicSession
+     * @param  mixed  $request
+     * @param  mixed  $academicSession
      * @return array
      */
     private function validateAcademicSession($request, $academicSession = null): array
@@ -23,32 +23,32 @@ class AcademicSessionController extends Controller
         $messages = [
             'name.required' => 'This field is required',
             'name.unique' => 'Record exists',
-            'name.regex' => 'Academic session format is invalid'
+            'name.regex' => 'Academic session format is invalid',
         ];
 
         return $request->validate([
             'name' => [
                 'required', 'string',
                 Rule::unique('academic_sessions')->ignore($academicSession),
-                'regex:/^\d{4}[-]{1}\d{4}$/m'
+                'regex:/^\d{4}[-]{1}\d{4}$/m',
             ],
             'start_date' => [
                 'required',
                 'date',
-                Rule::unique('academic_sessions')->ignore($academicSession)
+                Rule::unique('academic_sessions')->ignore($academicSession),
             ],
             'end_date' => [
                 'required',
                 'date',
-                Rule::unique('academic_sessions')->ignore($academicSession), 'after:start_date'
-            ]
+                Rule::unique('academic_sessions')->ignore($academicSession), 'after:start_date',
+            ],
         ], $messages);
     }
 
     /**
      * Display a edit view of the resource.
      *
-     * @param  AcademicSession $academicSession
+     * @param  AcademicSession  $academicSession
      * @return Illuminate\Contracts\View\View
      */
     public function edit(AcademicSession $academicSession): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
@@ -64,8 +64,8 @@ class AcademicSessionController extends Controller
     /**
      * update Academic Session
      *
-     * @param  AcademicSession $academicSession
-     * @param  Request $request
+     * @param  AcademicSession  $academicSession
+     * @param  Request  $request
      * @return Illuminate\Routing\Redirector
      */
     public function update(AcademicSession $academicSession, Request $request): \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
@@ -80,7 +80,9 @@ class AcademicSessionController extends Controller
             $academicSession
         );
 
-        if ($dateOverlaps) return back()->with('error', 'Date range overlaps with another Academic session');
+        if ($dateOverlaps) {
+            return back()->with('error', 'Date range overlaps with another Academic session');
+        }
 
         $academicSession->update($data);
 

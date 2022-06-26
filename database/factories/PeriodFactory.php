@@ -33,7 +33,6 @@ class PeriodFactory extends Factory
         $startDate = Carbon::createFromFormat('Y-m-d', $academicSession->start_date->toDateString());
         $startDate = $startDate->addDays(mt_rand(1, 20));
 
-       
         do {
             $rank = mt_rand(1, 100);
             $period = Period::where('rank', $rank)->first();
@@ -47,7 +46,7 @@ class PeriodFactory extends Factory
             'end_date' => $academicSession->end_date,
             'active' => null,
             'rank' => $rank,
-            'no_times_school_opened' => mt_rand(100, 120)
+            'no_times_school_opened' => mt_rand(100, 120),
         ];
     }
 }

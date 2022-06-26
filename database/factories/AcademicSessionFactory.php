@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\AcademicSession;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
 
 class AcademicSessionFactory extends Factory
 {
@@ -23,15 +22,13 @@ class AcademicSessionFactory extends Factory
      */
     public function definition()
     {
-
-
         $name = $this->faker->unique()->randomElement(self::$academicSessions);
 
         /**
          * break the string and extract the first part before the '-'
          * then generate a random day and month
          */
-        $eachYear = explode("-", $name);
+        $eachYear = explode('-', $name);
         $startYear = $eachYear[0];
 
         $startDate = Carbon::now();
@@ -56,6 +53,6 @@ class AcademicSessionFactory extends Factory
         '2014-2015',
         '2015-2016',
         '2016-2017',
-        '2017-2018'
+        '2017-2018',
     ];
 }

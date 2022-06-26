@@ -11,8 +11,11 @@ use Livewire\Component;
 class CreateNotification extends Component
 {
     public $title;
+
     public $content;
+
     public $notificationType;
+
     public $to;
 
     protected $rules = [
@@ -40,7 +43,7 @@ class CreateNotification extends Component
     {
         $this->validate();
 
-        $notification = ["title" => $this->title, "message" => $this->content];
+        $notification = ['title' => $this->title, 'message' => $this->content];
 
         switch ($this->notificationType) {
             case 'App Notification':
@@ -74,7 +77,7 @@ class CreateNotification extends Component
                 break;
 
             default:
-                # code...
+                // code...
                 break;
         }
 

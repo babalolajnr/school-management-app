@@ -27,7 +27,6 @@ class CreateMasterUserTest extends TestCase
 
     public function test_master_user_cannot_be_created_if_the_passwords_do_not_match()
     {
-
         $this->artisan('make:master-user')
             ->expectsQuestion('Enter first name', $this->faker->firstName)
             ->expectsQuestion('Enter last name', $this->faker->lastName)

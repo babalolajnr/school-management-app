@@ -12,7 +12,7 @@ class BranchClassroom extends Pivot
      * @var bool
      */
     public $incrementing = true;
-    
+
     /**
      * Student relationship
      *
@@ -22,7 +22,7 @@ class BranchClassroom extends Pivot
     {
         return $this->hasMany(Student::class, 'branch_classroom_id');
     }
-    
+
     /**
      * Teachers relationship
      *
@@ -32,7 +32,7 @@ class BranchClassroom extends Pivot
     {
         return $this->hasMany(Teacher::class, 'branch_classroom_id');
     }
-    
+
     /**
      * Classroom relationship
      *
@@ -42,7 +42,7 @@ class BranchClassroom extends Pivot
     {
         return $this->belongsTo(Classroom::class);
     }
-    
+
     /**
      * Branch relationship
      *
@@ -52,7 +52,7 @@ class BranchClassroom extends Pivot
     {
         return $this->belongsTo(Branch::class);
     }
-    
+
     /**
      * Get Main Teacher
      *

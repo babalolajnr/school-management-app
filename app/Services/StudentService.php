@@ -23,7 +23,7 @@ class StudentService
      * making sure it's all filled out. Then it checks if the guardian's phone number is present
      * in the database. If it is then it gets the guardian's id and inserts it into the student's guardian id column
      *
-     * @param  StoreStudentRequest $storeStudentRequest
+     * @param  StoreStudentRequest  $storeStudentRequest
      * @return void
      */
     public function store(StoreStudentRequest $storeStudentRequest)
@@ -34,10 +34,12 @@ class StudentService
         $guardian = Guardian::where('phone', $validatedData['guardian_phone'])->first();
 
         //if guardian does not exist create new guardian
-        if (!$guardian) {
+        if (! $guardian) {
             //Check if the email matches an existing email
             $matchedEmail = Guardian::whereEmail($validatedData['guardian_email'])->first();
-            if ($matchedEmail) throw ValidationException::withMessages(['guardian_email' => 'Guardian email already exists']);
+            if ($matchedEmail) {
+                throw ValidationException::withMessages(['guardian_email' => 'Guardian email already exists']);
+            }
 
             $guardian = Guardian::create([
                 'title' => $validatedData['guardian_title'],
@@ -57,15 +59,15 @@ class StudentService
     }
 
     /**
-     * @return array
-     * @param mixed $validatedData
+     * @param  mixed  $validatedData
      *
      * returns student info after it been extracted from
      * the validated data
+     * @return array
      */
     private function studentInfo($validatedData): array
     {
-        $classroom =  Classroom::where('name', $validatedData['classroom'])->first();
+        $classroom = Classroom::where('name', $validatedData['classroom'])->first();
 
         return [
             'first_name' => $validatedData['first_name'],
@@ -86,15 +88,13 @@ class StudentService
      * Get student term results
      *
      *
-     * @param  mixed $student
-     * @param  mixed $termSlug
-     * @param  mixed $academicSessionName
-     *
+     * @param  mixed  $student
+     * @param  mixed  $termSlug
+     * @param  mixed  $academicSessionName
      * @return array
      */
     public function getTermResults($student, $termSlug, $academicSessionName)
     {
-
         $academicSession = AcademicSession::where('name', $academicSessionName)->firstOrFail();
         $term = Term::where('slug', $termSlug)->firstOrFail();
         $period = Period::where('academic_session_id', $academicSession->id)->where('term_id', $term->id)->first();
@@ -116,7 +116,6 @@ class StudentService
 
         //Get each subject highest and lowest scores
         foreach ($results as $result) {
-
             $scoresQuery = Result::where('period_id', $period->id)
                 ->where('subject_id', $result->subject->id)->where('classroom_id', $classroomId);
 
@@ -145,7 +144,7 @@ class StudentService
     /**
      * show student
      *
-     * @param  mixed $student
+     * @param  mixed  $student
      * @return array
      */
     public function show($student)
@@ -181,21 +180,20 @@ class StudentService
 
     public function getSessionalResults($student, $academicSessionName)
     {
-
         $academicSession = AcademicSession::where('name', $academicSessionName)->firstOrFail();
         $periods = Period::where('academic_session_id', $academicSession->id)->get();
 
         $periods = $periods->filter(function ($period) use ($student) {
             $result = $student->results->where('period_id', $period->id)->first();
-            if (!is_null($result)) return $period;
+            if (! is_null($result)) {
+                return $period;
+            }
         });
 
         $results = [];
         $maxScores = [];
         $minScores = [];
         $averageScores = [];
-
-
 
         //loop through all the terms and create an associative array based on terms and results
         foreach ($periods as $period) {
@@ -207,26 +205,25 @@ class StudentService
 
             //Get each subject highest and lowest scores
             foreach ($resultItem as $item) {
-
                 $scoresQuery = Result::where('period_id', $period->id)->where('subject_id', $item->subject->id)->where('classroom_id', $classroomId);
 
                 //highest scores
                 $maxScore = $scoresQuery->max('total');
 
-                $maxScore = [$item->subject->name . '-' . $period->term->name => $maxScore];
+                $maxScore = [$item->subject->name.'-'.$period->term->name => $maxScore];
                 $maxScores = array_merge($maxScores, $maxScore);
 
                 //Lowest scores
                 $minScore = $scoresQuery->min('total');
 
-                $minScore = [$item->subject->name . '-' . $period->term->name => $minScore];
+                $minScore = [$item->subject->name.'-'.$period->term->name => $minScore];
                 $minScores = array_merge($minScores, $minScore);
 
                 //Average Scores
                 $averageScore = $scoresQuery->pluck('total');
 
                 $averageScore = collect($averageScore)->avg();
-                $averageScore = [$item->subject->name . '-' . $period->term->name => $averageScore];
+                $averageScore = [$item->subject->name.'-'.$period->term->name => $averageScore];
                 $averageScores = array_merge($averageScores, $averageScore);
             }
 
@@ -240,16 +237,16 @@ class StudentService
     public function uploadImage($student, $request)
     {
         $request->validate([
-            'image' => ['required', 'image', 'unique:students,image,except,id', 'mimes:jpg', 'max:1000']
+            'image' => ['required', 'image', 'unique:students,image,except,id', 'mimes:jpg', 'max:1000'],
         ]);
 
         //create name from first and last name
-        $imageName = $student->first_name . $student->last_name . '.' . $request->image->extension();
+        $imageName = $student->first_name.$student->last_name.'.'.$request->image->extension();
         $path = $request->file('image')->storeAs('public/students', $imageName);
-        Image::make($request->image->getRealPath())->fit(400, 400)->save(storage_path('app/' . $path));
+        Image::make($request->image->getRealPath())->fit(400, 400)->save(storage_path('app/'.$path));
 
         //update image in the database
-        $filePath = 'storage/students/' . $imageName;
+        $filePath = 'storage/students/'.$imageName;
         $student->image = $filePath;
         $student->save();
     }

@@ -7,7 +7,6 @@ use App\Mail\StudentPerformanceReport;
 use App\Models\Classroom;
 use App\Models\Period;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -28,7 +27,7 @@ class SendClassroomPerformanceReportEmail implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Classroom $classroom
+     * @param  Classroom  $classroom
      * @return void
      */
     public function __construct(Classroom $classroom)
@@ -45,7 +44,6 @@ class SendClassroomPerformanceReportEmail implements ShouldQueue
     {
         $students = $this->classroom->students()->where('is_active', true)->get();
         foreach ($students as $student) {
-
             if ($student->guardian->email == null) {
                 continue;
             }

@@ -12,7 +12,7 @@ class PeriodService
     /**
      * store period
      *
-     * @param  mixed $request
+     * @param  mixed  $request
      * @return void
      */
     public function store($request): void
@@ -42,7 +42,7 @@ class PeriodService
             'end_date' => $validatedData['end_date'],
             'slug' => $slug,
             'rank' => $highestRank,
-            'no_times_school_opened' => $validatedData['no_times_school_opened'] ?? null
+            'no_times_school_opened' => $validatedData['no_times_school_opened'] ?? null,
         ]);
     }
 }

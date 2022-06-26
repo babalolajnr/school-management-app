@@ -15,11 +15,7 @@ class StoreStudentRequest extends FormRequest
      */
     public function authorize()
     {
-        if (Auth::guard('web')->check()) {
-            return true;
-        }
-
-        return false;
+        return Auth::guard('web')->check() ? true : false;
     }
 
     /**
@@ -37,7 +33,7 @@ class StoreStudentRequest extends FormRequest
             'lg' => ['required', 'string'],
             'state' => ['required', 'string'],
             'blood_group' => ['required', 'string'],
-            'date_of_birth' => ['required', 'date', 'before:' . now()],
+            'date_of_birth' => ['required', 'date', 'before:'.now()],
             'place_of_birth' => ['required'],
             'classroom' => ['required', 'string'],
             'guardian_title' => ['required', 'max:30', 'string'],
@@ -46,7 +42,7 @@ class StoreStudentRequest extends FormRequest
             'guardian_email' => ['required', 'string', 'email:rfc,dns'],
             'guardian_phone' => ['required', 'string', 'between:10,15'],
             'guardian_occupation' => ['required', 'string'],
-            'guardian_address' => ['required']
+            'guardian_address' => ['required'],
         ];
     }
 }

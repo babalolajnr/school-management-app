@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Classroom;
-use App\Models\Teacher;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
@@ -25,6 +24,7 @@ class ClassroomFactory extends Factory
     {
         $class = $this->faker->unique()->randomElement(self::$classes);
         $slug = Str::of($class['name'])->slug('-');
+
         return [
             'name' => $class['name'],
             'rank' => $class['rank'],
@@ -40,6 +40,6 @@ class ClassroomFactory extends Factory
         ['name' => 'Grade 2', 'rank' => 5],
         ['name' => 'Grade 3', 'rank' => 6],
         ['name' => 'Grade 4', 'rank' => 7],
-        ['name' => 'Grade 5', 'rank' => 8]
+        ['name' => 'Grade 5', 'rank' => 8],
     ];
 }

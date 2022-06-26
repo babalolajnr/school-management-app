@@ -22,13 +22,12 @@ class SubjectFactory extends Factory
      */
     public function definition()
     {
-
         $subject = $this->faker->unique()->randomElement(self::$subjects);
         $slug = Str::of($subject)->slug('-');
 
         return [
             'name' => $subject,
-            'slug' => $slug
+            'slug' => $slug,
         ];
     }
 
@@ -45,6 +44,6 @@ class SubjectFactory extends Factory
         'Swimming',
         'Physical education',
         'Spanish',
-        'Statistics'
+        'Statistics',
     ];
 }

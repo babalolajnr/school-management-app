@@ -20,13 +20,15 @@ class CheckUserIsActiveAndVerified
     public function handle(Request $request, Closure $next)
     {
         if (auth('web')->check()) {
-            if (!$request->user('web')->isActive() || !$request->user('web')->isVerified()) {
+            if (! $request->user('web')->isActive() || ! $request->user('web')->isVerified()) {
                 auth()->logout();
+
                 return redirect('deactivated');
             }
         } elseif (auth('teacher')->check()) {
-            if (!$request->user('teacher')->isActive()) {
+            if (! $request->user('teacher')->isActive()) {
                 auth()->logout();
+
                 return redirect('deactivated');
             }
         }

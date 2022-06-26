@@ -14,11 +14,15 @@ class DeactivatedController extends Controller
     public function index(Request $request)
     {
         if (auth('web')->check()) {
-            if ($request->user()->isVerified() && $request->user()->isActive()) return redirect(route('dashboard'));
+            if ($request->user()->isVerified() && $request->user()->isActive()) {
+                return redirect(route('dashboard'));
+            }
 
             return view('deactivated');
         } else {
-            if ($request->user('teacher')->isActive()) return redirect(route('dashboard'));
+            if ($request->user('teacher')->isActive()) {
+                return redirect(route('dashboard'));
+            }
 
             return view('deactivated');
         }

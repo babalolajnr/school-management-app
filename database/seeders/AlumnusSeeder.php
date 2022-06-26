@@ -5,11 +5,10 @@ namespace Database\Seeders;
 use App\Models\Classroom;
 use App\Models\Guardian;
 use App\Models\Student;
+use Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
-use Faker;
-
 
 class AlumnusSeeder extends Seeder
 {
@@ -30,7 +29,6 @@ class AlumnusSeeder extends Seeder
         $faker = Faker\Factory::create();
 
         for ($i = 0; $i < 10; $i++) {
-
             $guardian = Guardian::factory()->create();
             $sex = $faker->randomElement(['M', 'F']);
             $firstName = $sex == 'M' ? $faker->firstNameMale : $faker->firstNameFemale;
@@ -49,7 +47,7 @@ class AlumnusSeeder extends Seeder
                 'place_of_birth' => $faker->address,
                 'guardian_id' => $guardian->id,
                 'is_active' => false,
-                'graduated_at' => $faker->dateTimeBetween('-3 years')
+                'graduated_at' => $faker->dateTimeBetween('-3 years'),
             ]);
         }
     }
