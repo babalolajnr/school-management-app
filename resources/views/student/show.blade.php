@@ -70,8 +70,10 @@
                                                 data-toggle="tab">Guardian</a></li>
                                         <li class="nav-item"><a class="nav-link" href="#results"
                                                 data-toggle="tab">Results</a></li>
-                                        <li class="nav-item"><a class="nav-link" href="#imageUpload"
-                                                data-toggle="tab">Image Upload</a></li>
+                                        @auth('web')
+                                            <li class="nav-item"><a class="nav-link" href="#imageUpload"
+                                                    data-toggle="tab">Image Upload</a></li>
+                                        @endauth
                                     </ul>
 
                                 </div><!-- /.card-header -->
@@ -218,33 +220,35 @@
                                             </div>
 
                                         </div>
-                                        <!-- /.tab-pane -->
-                                        <div class="tab-pane" id="imageUpload">
-                                            <form
-                                                action="{{ route('student.upload.image', ['student' => $student]) }}"
-                                                method="post" id="imageUploadForm" enctype="multipart/form-data">
-                                                @csrf
-                                                <div class="form-group">
-                                                    <label for="imageUpload">File input</label>
-                                                    <div class="input-group">
-                                                        <div class="custom-file">
-                                                            <input type="file" name="image"
-                                                                @error('image') is-invalid @enderror
-                                                                class="custom-file-input">
-                                                            <label class="custom-file-label" for="imageUpload">Choose
-                                                                file</label>
+                                        @auth('web')
+                                            <div class="tab-pane" id="imageUpload">
+                                                <form
+                                                    action="{{ route('student.upload.image', ['student' => $student]) }}"
+                                                    method="post" id="imageUploadForm" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <div class="form-group">
+                                                        <label for="imageUpload">File input</label>
+                                                        <div class="input-group">
+                                                            <div class="custom-file">
+                                                                <input type="file" name="image"
+                                                                    @error('image') is-invalid @enderror
+                                                                    class="custom-file-input">
+                                                                <label class="custom-file-label" for="imageUpload">Choose
+                                                                    file</label>
+                                                            </div>
+                                                            <div class="input-group-append">
+                                                                <button type="submit">
+                                                                    <span class="input-group-text">Upload</span></button>
+                                                            </div>
                                                         </div>
-                                                        <div class="input-group-append">
-                                                            <button type="submit">
-                                                                <span class="input-group-text">Upload</span></button>
-                                                        </div>
+                                                        @error('image')
+                                                            <div class="text-danger">{{ $message }}</div>
+                                                        @enderror
                                                     </div>
-                                                    @error('image')
-                                                        <div class="text-danger">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                            </form>
-                                        </div>
+                                                </form>
+                                            </div>
+                                        @endauth
+                                        <!-- /.tab-pane -->
                                     </div>
                                     <!-- /.tab-content -->
                                 </div><!-- /.card-body -->
