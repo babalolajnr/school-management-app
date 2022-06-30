@@ -96,8 +96,10 @@
                                             <th>Lowest Score</th>
                                             <th>Class Average</th>
                                             <th>Grade</th>
-                                            @if ($period->isActive())
-                                                <th>Action</th>
+                                            @if (auth('web')->user() || auth('teacher')->user())
+                                                @if ($period->isActive())
+                                                    <th>Action</th>
+                                                @endif
                                             @endif
                                         </tr>
                                     </thead>
@@ -128,25 +130,28 @@
                                                         @else
                                                         @endif
                                                     </td>
-                                                    @if ($period->isActive())
-                                                        <td>
+                                                    @if (auth('web')->user() || auth('teacher')->user())
+                                                        @if ($period->isActive())
+                                                            <td>
 
-                                                            <div class="btn-group">
-                                                                <a
-                                                                    href="{{ route('result.edit', ['result' => $result]) }}">
-                                                                    <button type="button" id=""
-                                                                        class="btn btn-default btn-flat" title="Edit">
-                                                                        <i class="fas fa-edit"></i>
+                                                                <div class="btn-group">
+                                                                    <a
+                                                                        href="{{ route('result.edit', ['result' => $result]) }}">
+                                                                        <button type="button" id=""
+                                                                            class="btn btn-default btn-flat"
+                                                                            title="Edit">
+                                                                            <i class="fas fa-edit"></i>
+                                                                        </button>
+                                                                    </a>
+                                                                    <button type="submit"
+                                                                        class="btn btn-default btn-flat" title="Delete"
+                                                                        onclick="deleteConfirmationModal('{{ route('result.destroy', ['result' => $result]) }}', '{{ $result->subject->name }}')">
+                                                                        <i class="fas fa-trash"></i>
                                                                     </button>
-                                                                </a>
-                                                                <button type="submit" class="btn btn-default btn-flat"
-                                                                    title="Delete"
-                                                                    onclick="deleteConfirmationModal('{{ route('result.destroy', ['result' => $result]) }}', '{{ $result->subject->name }}')">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
 
-                                                            </div>
-                                                        </td>
+                                                                </div>
+                                                            </td>
+                                                        @endif
                                                     @endif
                                                 </tr>
                                             @endforeach
@@ -164,8 +169,10 @@
                                             <th>Lowest Score</th>
                                             <th>Class Average</th>
                                             <th>Grade</th>
-                                            @if ($period->isActive())
-                                                <th>Action</th>
+                                            @if (auth('web')->user() || auth('teacher')->user())
+                                                @if ($period->isActive())
+                                                    <th>Action</th>
+                                                @endif
                                             @endif
                                         </tr>
                                     </tfoot>
