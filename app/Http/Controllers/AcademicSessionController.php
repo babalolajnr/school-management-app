@@ -24,7 +24,7 @@ class AcademicSessionController extends Controller
             'name.required' => 'This field is required',
             'name.unique' => 'Record exists',
             'name.regex' => 'Academic session format is invalid',
-        ];
+		];
 
         return $request->validate([
             'name' => [

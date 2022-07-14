@@ -36,11 +36,10 @@
                                 <div class="card-body box-profile">
                                     <div class="text-center">
                                         <img class="profile-user-img img-fluid img-circle" {{-- @if ($student->image) --}}
-                                            src="{{ asset($student->image) ?? 'https://img.icons8.com/external-smashingstocks-hand-drawn-black-smashing-stocks/99/000000/external-student-education-smashingstocks-hand-drawn-black-smashing-stocks.png' }}
+                                            src="{{ asset($student->image) ?? 'https://img.icons8.com/external-smashingstocks-hand-drawn-black-smashing-stocks/99/000000/external-student-education-smashingstocks-hand-drawn-black-smashing-stocks.png' }}"
                                             {{-- @else --}}
                                                 {{-- src="https://img.icons8.com/external-smashingstocks-hand-drawn-black-smashing-stocks/99/000000/external-student-education-smashingstocks-hand-drawn-black-smashing-stocks.png" @endif --}}
-                                            alt="student
-                                            image">
+                                            alt="student image">
                                     </div>
 
                                     <h3 class="profile-username text-center">
