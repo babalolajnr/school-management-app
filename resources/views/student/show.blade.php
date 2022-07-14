@@ -35,10 +35,8 @@
                             <div class="card card-primary card-outline">
                                 <div class="card-body box-profile">
                                     <div class="text-center">
-                                        <img class="profile-user-img img-fluid img-circle" {{-- @if ($student->image) --}}
+                                        <img class="profile-user-img img-fluid img-circle"
                                             src="{{ asset($student->image) ?? 'https://img.icons8.com/external-smashingstocks-hand-drawn-black-smashing-stocks/99/000000/external-student-education-smashingstocks-hand-drawn-black-smashing-stocks.png' }}"
-                                            {{-- @else --}}
-                                                {{-- src="https://img.icons8.com/external-smashingstocks-hand-drawn-black-smashing-stocks/99/000000/external-student-education-smashingstocks-hand-drawn-black-smashing-stocks.png" @endif --}}
                                             alt="student image">
                                     </div>
 
@@ -204,7 +202,8 @@
                                                     <button type="button" id="showSessionalResultButton"
                                                         class="btn btn-info" data-toggle="modal"
                                                         data-target="#sessionalResultModal">Sessional</button>
-                                                    <button type="button" class="btn btn-warning" data-toggle="modal"
+                                                    <button type="button" class="btn btn-warning"
+                                                        data-toggle="modal"
                                                         data-target="#termResultModal">Term</button>
                                                 </div>
                                                 @if (auth('web')->user() || auth('teacher')->user())
