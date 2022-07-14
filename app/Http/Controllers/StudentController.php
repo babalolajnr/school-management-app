@@ -79,12 +79,11 @@ class StudentController extends Controller
      * Store student
      *
      * @param  StoreStudentRequest  $request
-     * @param  StudentService  $studentService
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function store(StoreStudentRequest $request, StudentService $studentService)
+    public function store(StoreStudentRequest $request)
     {
-        $studentService->store($request);
+        StudentService::store($request);
 
         return redirect()->route('student.index')->with('success', 'Student Added!');
     }
@@ -93,12 +92,11 @@ class StudentController extends Controller
      * Show student
      *
      * @param  Student  $student
-     * @param  StudentService  $studentService
      * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
      */
-    public function show(Student $student, StudentService $studentService)
+    public function show(Student $student)
     {
-        return view('student.show', $studentService->show($student));
+        return view('student.show', StudentService::show($student));
     }
 
     /**
@@ -162,12 +160,11 @@ class StudentController extends Controller
      *
      * @param  Student  $student
      * @param  mixed  $academicSessionName
-     * @param  StudentService  $studentService
      * @return \Illuminate\Contracts\View\View
      */
-    public function getSessionalResults(Student $student, $academicSessionName, StudentService $studentService)
+    public function getSessionalResults(Student $student, $academicSessionName)
     {
-        $sessionalResults = $studentService->getSessionalResults($student, $academicSessionName);
+        $sessionalResults = StudentService::getSessionalResults($student, $academicSessionName);
 
         return view('student.sessional-results', $sessionalResults);
     }
@@ -178,13 +175,12 @@ class StudentController extends Controller
      * @param  Student  $student
      * @param  mixed  $termSlug
      * @param  mixed  $academicSessionName
-     * @param  StudentService  $studentService
      * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function getTermResults(Student $student, $termSlug, $academicSessionName, StudentService $studentService)
+    public function getTermResults(Student $student, $termSlug, $academicSessionName)
     {
         try {
-            $termResults = $studentService->getTermResults($student, $termSlug, $academicSessionName);
+            $termResults = StudentService::getTermResults($student, $termSlug, $academicSessionName);
         } catch (Exception $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -249,12 +245,11 @@ class StudentController extends Controller
      *
      * @param  Student  $student
      * @param  Request  $request
-     * @param  StudentService  $studentService
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function uploadImage(Student $student, Request $request, StudentService $studentService)
+    public function uploadImage(Student $student, Request $request)
     {
-        $studentService->uploadImage($student, $request);
+        StudentService::uploadImage($student, $request);
 
         return back()->with('success', 'Image uploaded successfully');
     }
