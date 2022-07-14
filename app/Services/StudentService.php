@@ -26,7 +26,7 @@ class StudentService
      * @param  StoreStudentRequest  $storeStudentRequest
      * @return void
      */
-    public function store(StoreStudentRequest $storeStudentRequest)
+    public static function store(StoreStudentRequest $storeStudentRequest)
     {
         //merge guardian and student validation rules
         $validatedData = $storeStudentRequest->validated();
@@ -53,7 +53,7 @@ class StudentService
         }
 
         //merge guardian id with student info
-        $studentInfo = array_merge($this->studentInfo($validatedData), ['guardian_id' => $guardian->id]);
+        $studentInfo = array_merge(Self::studentInfo($validatedData), ['guardian_id' => $guardian->id]);
 
         Student::create($studentInfo);
     }
@@ -65,7 +65,7 @@ class StudentService
      * the validated data
      * @return array
      */
-    private function studentInfo($validatedData): array
+    private static function studentInfo($validatedData): array
     {
         $classroom = Classroom::where('name', $validatedData['classroom'])->first();
 
@@ -93,7 +93,7 @@ class StudentService
      * @param  mixed  $academicSessionName
      * @return array
      */
-    public function getTermResults($student, $termSlug, $academicSessionName)
+    public static function getTermResults($student, $termSlug, $academicSessionName)
     {
         $academicSession = AcademicSession::where('name', $academicSessionName)->firstOrFail();
         $term = Term::where('slug', $termSlug)->firstOrFail();
@@ -147,7 +147,7 @@ class StudentService
      * @param  mixed  $student
      * @return array
      */
-    public function show($student)
+    public static function show($student)
     {
         //get results that have unique academic sessions
         $results = Result::where('student_id', $student->id)->get();
@@ -178,7 +178,7 @@ class StudentService
         return compact('student', 'academicSessions', 'terms', 'activePeriod', 'guardians');
     }
 
-    public function getSessionalResults($student, $academicSessionName)
+    public static function getSessionalResults($student, $academicSessionName)
     {
         $academicSession = AcademicSession::where('name', $academicSessionName)->firstOrFail();
         $periods = Period::where('academic_session_id', $academicSession->id)->get();
@@ -234,7 +234,7 @@ class StudentService
         return compact('results', 'maxScores', 'minScores', 'averageScores', 'academicSession');
     }
 
-    public function uploadImage($student, $request)
+    public static function uploadImage($student, $request)
     {
         $request->validate([
             'image' => ['required', 'image', 'unique:students,image,except,id', 'mimes:jpg', 'max:1000'],
