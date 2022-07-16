@@ -11,6 +11,7 @@ use App\Models\Result;
 use App\Models\Student;
 use App\Models\Term;
 use Exception;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use  Intervention\Image\Facades\Image;
 
@@ -34,7 +35,7 @@ class StudentService
         $guardian = Guardian::where('phone', $validatedData['guardian_phone'])->first();
 
         //if guardian does not exist create new guardian
-        if (! $guardian) {
+        if (!$guardian) {
             //Check if the email matches an existing email
             $matchedEmail = Guardian::whereEmail($validatedData['guardian_email'])->first();
             if ($matchedEmail) {
@@ -185,7 +186,7 @@ class StudentService
 
         $periods = $periods->filter(function ($period) use ($student) {
             $result = $student->results->where('period_id', $period->id)->first();
-            if (! is_null($result)) {
+            if (!is_null($result)) {
                 return $period;
             }
         });
@@ -210,20 +211,20 @@ class StudentService
                 //highest scores
                 $maxScore = $scoresQuery->max('total');
 
-                $maxScore = [$item->subject->name.'-'.$period->term->name => $maxScore];
+                $maxScore = [$item->subject->name . '-' . $period->term->name => $maxScore];
                 $maxScores = array_merge($maxScores, $maxScore);
 
                 //Lowest scores
                 $minScore = $scoresQuery->min('total');
 
-                $minScore = [$item->subject->name.'-'.$period->term->name => $minScore];
+                $minScore = [$item->subject->name . '-' . $period->term->name => $minScore];
                 $minScores = array_merge($minScores, $minScore);
 
                 //Average Scores
                 $averageScore = $scoresQuery->pluck('total');
 
                 $averageScore = collect($averageScore)->avg();
-                $averageScore = [$item->subject->name.'-'.$period->term->name => $averageScore];
+                $averageScore = [$item->subject->name . '-' . $period->term->name => $averageScore];
                 $averageScores = array_merge($averageScores, $averageScore);
             }
 
@@ -240,13 +241,16 @@ class StudentService
             'image' => ['required', 'image', 'unique:students,image,except,id', 'mimes:jpg', 'max:1000'],
         ]);
 
-        //create name from first and last name
-        $imageName = $student->first_name.$student->last_name.'.'.$request->image->extension();
+        $uuid = Str::uuid();
+        $imageName = "$uuid.{$request->image->extension()}";
+
         $path = $request->file('image')->storeAs('public/students', $imageName);
-        Image::make($request->image->getRealPath())->fit(400, 400)->save(storage_path('app/'.$path));
+
+        // Resize Image
+        Image::make($request->image->getRealPath())->fit(400, 400)->save(storage_path('app/' . $path));
 
         //update image in the database
-        $filePath = 'storage/students/'.$imageName;
+        $filePath = 'storage/students/' . $imageName;
         $student->image = $filePath;
         $student->save();
     }
