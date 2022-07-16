@@ -217,13 +217,15 @@ class TeacherController extends Controller
             'signature' => ['required', 'image', 'unique:teachers,signature,except,id', 'mimes:jpg', 'max:1000'],
         ]);
 
-        //create name from first and last name
-        $signatureName = $teacher->first_name.$teacher->last_name.'.'.$request->signature->extension();
-        $path = $request->file('signature')->storeAs('public/teachers/signatures', $signatureName);
+
+        $uuid = Str::uuid();
+        $imageName = "$uuid.{$request->signature->extension()}";
+
+        $path = $request->file('signature')->storeAs('public/teachers/signatures', $imageName);
         Image::make($request->signature->getRealPath())->fit(400, 400)->save(storage_path('app/'.$path));
 
         //update signature in the database
-        $filePath = 'storage/teachers/signatures/'.$signatureName;
+        $filePath = 'storage/teachers/signatures/'.$imageName;
         $teacher->signature = $filePath;
         $teacher->save();
 
