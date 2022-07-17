@@ -24,7 +24,9 @@ class TeacherController extends Controller
      */
     private function generateFullNameSlug($firstName, $lastName)
     {
-        $fullname = $firstName.' '.$lastName.' '.Str::random(5);
+        $randomString = Str::random(5);
+        $fullname = "$firstName $lastName $randomString";
+        
         $slug = Str::of($fullname)->slug('-');
 
         return $slug;
@@ -222,10 +224,10 @@ class TeacherController extends Controller
         $imageName = "$uuid.{$request->signature->extension()}";
 
         $path = $request->file('signature')->storeAs('public/teachers/signatures', $imageName);
-        Image::make($request->signature->getRealPath())->fit(400, 400)->save(storage_path('app/'.$path));
+        Image::make($request->signature->getRealPath())->fit(400, 400)->save(storage_path('app/' . $path));
 
         //update signature in the database
-        $filePath = 'storage/teachers/signatures/'.$imageName;
+        $filePath = 'storage/teachers/signatures/' . $imageName;
         $teacher->signature = $filePath;
         $teacher->save();
 
@@ -249,7 +251,7 @@ class TeacherController extends Controller
         ]);
 
         //if password does not match the current password
-        if (! Hash::check($data['current_password'], $teacher->password)) {
+        if (!Hash::check($data['current_password'], $teacher->password)) {
             throw ValidationException::withMessages(['current_password' => ['Password does not match current password']]);
         }
 
@@ -296,16 +298,21 @@ class TeacherController extends Controller
     {
         $teacher = Teacher::withTrashed()->findOrFail($id);
 
-        //delete teacher signature if it exists
-        if (! is_null($teacher->signature)) {
-            $deletePath = $teacher->signature;
-            $deletePath = str_replace('storage/', '', $deletePath);
-            $deletePath = 'public/'.$deletePath;
+        try {
+            $teacher->forceDelete();
 
-            Storage::delete($deletePath);
+            //delete teacher signature if it exists
+            if ($teacher->signature) {
+                $deletePath = $teacher->signature;
+                $deletePath = str_replace('storage/', '', $deletePath);
+                $deletePath = 'public/' . $deletePath;
+
+                Storage::delete($deletePath);
+            }
+        } catch (\Throwable $th) {
+            return back()->with('error', "An error occured during the request. Please try again, Error code: {$th->getCode()}");
         }
 
-        $teacher->forceDelete();
 
         return back()->with('success', 'Teacher deleted permanently');
     }
