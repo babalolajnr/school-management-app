@@ -27,7 +27,7 @@ class StudentService
      * @param  StoreStudentRequest  $storeStudentRequest
      * @return void
      */
-    public static function store(StoreStudentRequest $storeStudentRequest)
+    public static function store(StoreStudentRequest $storeStudentRequest): void
     {
         //merge guardian and student validation rules
         $validatedData = $storeStudentRequest->validated();
@@ -94,7 +94,7 @@ class StudentService
      * @param  mixed  $academicSessionName
      * @return array
      */
-    public static function getTermResults($student, $termSlug, $academicSessionName)
+    public static function getTermResults($student, $termSlug, $academicSessionName): array
     {
         $academicSession = AcademicSession::where('name', $academicSessionName)->firstOrFail();
         $term = Term::where('slug', $termSlug)->firstOrFail();
@@ -148,7 +148,7 @@ class StudentService
      * @param  mixed  $student
      * @return array
      */
-    public static function show($student)
+    public static function show($student): array
     {
         //get results that have unique academic sessions
         $results = Result::where('student_id', $student->id)->get();
@@ -179,7 +179,7 @@ class StudentService
         return compact('student', 'academicSessions', 'terms', 'activePeriod', 'guardians');
     }
 
-    public static function getSessionalResults($student, $academicSessionName)
+    public static function getSessionalResults($student, $academicSessionName): array
     {
         $academicSession = AcademicSession::where('name', $academicSessionName)->firstOrFail();
         $periods = Period::where('academic_session_id', $academicSession->id)->get();
@@ -235,7 +235,7 @@ class StudentService
         return compact('results', 'maxScores', 'minScores', 'averageScores', 'academicSession');
     }
 
-    public static function uploadImage($student, $request)
+    public static function uploadImage($student, $request): void
     {
         $request->validate([
             'image' => ['required', 'image', 'unique:students,image,except,id', 'mimes:jpg', 'max:1000'],
@@ -250,7 +250,7 @@ class StudentService
         Image::make($request->image->getRealPath())->fit(400, 400)->save(storage_path('app/' . $path));
 
         //update image in the database
-        $filePath = 'storage/students/' . $imageName;
+        $filePath = "storage/students/$imageName";
         $student->image = $filePath;
         $student->save();
     }

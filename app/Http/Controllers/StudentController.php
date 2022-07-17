@@ -218,23 +218,29 @@ class StudentController extends Controller
         $guardian = $student->guardian;
         $guardianChildren = $guardian->children()->withTrashed()->get();
 
-        //delete student image if it exists
-        if (! is_null($student->image)) {
-            $deletePath = $student->image;
-            $deletePath = str_replace('storage/', '', $deletePath);
-            $deletePath = 'public/'.$deletePath;
+        try {
 
-            Storage::delete($deletePath);
-        }
+            /**
+             * if guardian has more than one child delete only the student's
+             * data else delete the student and the guardian's data
+             */
+            if (count($guardianChildren) > 1) {
+                $student->forceDelete();
+            } else {
+                $student->forceDelete();
+                $guardian->delete();
+            }
 
-        /**if guardian has more than one child delete only the student's
-         * data else delete the student and the guargian's data
-         */
-        if (count($guardianChildren) > 1) {
-            $student->forceDelete();
-        } else {
-            $student->forceDelete();
-            $guardian->delete();
+            //delete student image if it exists
+            if ($student->image) {
+                $deletePath = $student->image;
+                $deletePath = str_replace('storage/', '', $deletePath);
+                $deletePath = 'public/' . $deletePath;
+
+                Storage::delete($deletePath);
+            }
+        } catch (\Throwable $th) {
+            return back()->with('error', "An error occured during the request. Please try again, Error code: {$th->getCode()}");
         }
 
         return back()->with('success', 'Student deleted permanently');
@@ -315,7 +321,7 @@ class StudentController extends Controller
             $student->classroom_id = $newClassId;
 
             // if student has graduated, 'ungraduate' the student
-            if (! is_null($student->graduated_at)) {
+            if (!is_null($student->graduated_at)) {
                 $student->graduated_at = null;
             }
 
