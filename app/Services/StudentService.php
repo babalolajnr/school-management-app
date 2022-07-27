@@ -251,7 +251,10 @@ class StudentService
 
         //update image in the database
         $filePath = "storage/students/$imageName";
-        $student->image = $filePath;
-        $student->save();
+        // $student->image = $filePath;
+        // $student->save();
+        $student->update([
+            'image' => $filePath
+        ]);
     }
 }
