@@ -59,10 +59,10 @@ class Index extends Component
         $this->validate();
 
         //check if date range is unique
-        $validateDateRange = $this->validateDateRange($this->startDate, $this->endDate, AcademicSession::class);
+        $validateDateRange = $this->dateOverlaps($this->startDate, $this->endDate, AcademicSession::class);
 
         //if date range is not unique throw validation exception
-        $validateDateRange ? null : throw ValidationException::withMessages([
+        ! $validateDateRange ? null : throw ValidationException::withMessages([
             'startDate' => ['Date range overlaps with another period'],
             'endDate' => ['Date range overlaps with another period'],
         ]);
@@ -75,8 +75,8 @@ class Index extends Component
 
         // Log activity
         \activity()->causedBy(auth()->user())
-        ->on($newAcademicSession)
-        ->log('Created Academic Session');
+            ->on($newAcademicSession)
+            ->log('Created Academic Session');
 
         $this->emit('success', 'Academic Session Created!');
         $this->reset();
