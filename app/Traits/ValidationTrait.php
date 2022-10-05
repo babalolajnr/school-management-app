@@ -7,7 +7,7 @@ use Carbon\Carbon;
 trait ValidationTrait
 {
     /**
-     * Validate input date overlaps does not
+     * Validate input date does not
      * overlap other date ranges
      *
      * For Two Date ranges A and B

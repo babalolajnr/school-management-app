@@ -35,7 +35,7 @@ class StudentService
         $guardian = Guardian::where('phone', $validatedData['guardian_phone'])->first();
 
         //if guardian does not exist create new guardian
-        if (!$guardian) {
+        if (! $guardian) {
             //Check if the email matches an existing email
             $matchedEmail = Guardian::whereEmail($validatedData['guardian_email'])->first();
             if ($matchedEmail) {
@@ -54,7 +54,7 @@ class StudentService
         }
 
         //merge guardian id with student info
-        $studentInfo = array_merge(Self::studentInfo($validatedData), ['guardian_id' => $guardian->id]);
+        $studentInfo = array_merge(self::studentInfo($validatedData), ['guardian_id' => $guardian->id]);
 
         Student::create($studentInfo);
     }
@@ -186,7 +186,7 @@ class StudentService
 
         $periods = $periods->filter(function ($period) use ($student) {
             $result = $student->results->where('period_id', $period->id)->first();
-            if (!is_null($result)) {
+            if (! is_null($result)) {
                 return $period;
             }
         });
@@ -211,20 +211,20 @@ class StudentService
                 //highest scores
                 $maxScore = $scoresQuery->max('total');
 
-                $maxScore = [$item->subject->name . '-' . $period->term->name => $maxScore];
+                $maxScore = [$item->subject->name.'-'.$period->term->name => $maxScore];
                 $maxScores = array_merge($maxScores, $maxScore);
 
                 //Lowest scores
                 $minScore = $scoresQuery->min('total');
 
-                $minScore = [$item->subject->name . '-' . $period->term->name => $minScore];
+                $minScore = [$item->subject->name.'-'.$period->term->name => $minScore];
                 $minScores = array_merge($minScores, $minScore);
 
                 //Average Scores
                 $averageScore = $scoresQuery->pluck('total');
 
                 $averageScore = collect($averageScore)->avg();
-                $averageScore = [$item->subject->name . '-' . $period->term->name => $averageScore];
+                $averageScore = [$item->subject->name.'-'.$period->term->name => $averageScore];
                 $averageScores = array_merge($averageScores, $averageScore);
             }
 
@@ -247,14 +247,14 @@ class StudentService
         $path = $request->file('image')->storeAs('public/students', $imageName);
 
         // Resize Image
-        Image::make($request->image->getRealPath())->fit(400, 400)->save(storage_path('app/' . $path));
+        Image::make($request->image->getRealPath())->fit(400, 400)->save(storage_path('app/'.$path));
 
         //update image in the database
         $filePath = "storage/students/$imageName";
         // $student->image = $filePath;
         // $student->save();
         $student->update([
-            'image' => $filePath
+            'image' => $filePath,
         ]);
     }
 }

@@ -49,7 +49,7 @@ class AcademicSessionController extends Controller
      * Display a edit view of the resource.
      *
      * @param  AcademicSession  $academicSession
-     * @return Illuminate\Contracts\View\View
+     * @return \Illuminate\Contracts\View\View
      */
     public function edit(AcademicSession $academicSession): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
     {
