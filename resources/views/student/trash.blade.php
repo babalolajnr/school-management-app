@@ -76,7 +76,7 @@
                                                                 @method('PATCH')
                                                                 <button type="submit" class="btn btn-default btn-flat"
                                                                     title="Restore">
-                                                                    <i class="fas fa-trash-restore"></i>
+                                                                    <i class="fas fa-recycle"></i>
                                                                 </button>
                                                             </form>
 
