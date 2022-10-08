@@ -235,7 +235,7 @@ class StudentController extends Controller
             if ($student->image) {
                 $deletePath = $student->image;
                 $deletePath = str_replace('storage/', '', $deletePath);
-                $deletePath = 'public/' . $deletePath;
+                $deletePath = 'public/'.$deletePath;
 
                 Storage::delete($deletePath);
             }
@@ -295,6 +295,10 @@ class StudentController extends Controller
             $newClassRank = $classRank + 1;
             $newClassId = Classroom::where('rank', $newClassRank)->first()->id;
             $student->classroom_id = $newClassId;
+
+            // Set branch classroom to null
+            $student->branch_classroom_id = null;
+
             $student->save();
 
             return back()->with('success', 'Student Promoted!');
@@ -321,7 +325,7 @@ class StudentController extends Controller
             $student->classroom_id = $newClassId;
 
             // if student has graduated, 'ungraduate' the student
-            if (!is_null($student->graduated_at)) {
+            if (! is_null($student->graduated_at)) {
                 $student->graduated_at = null;
             }
 
@@ -392,8 +396,11 @@ class StudentController extends Controller
      * @param  Branch  $branch
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setClassroomBranch(Student $student, Branch $branch)
+    public function setClassroomBranch($student_id, $branch_id)
     {
+        $student = Student::findOrFail($student_id);
+        $branch = Branch::findOrFail($branch_id);
+
         $classroom = $student->classroom;
         $classroomBranch = BranchClassroom::where('classroom_id', $classroom->id)->where('branch_id', $branch->id)->first();
 
