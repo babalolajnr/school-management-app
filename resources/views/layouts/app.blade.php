@@ -35,7 +35,6 @@
         * {
             font-family: 'Nunito', sans-serif;
         }
-
     </style>
     @livewireStyles
 </head>
@@ -136,12 +135,28 @@
             }
         }
 
-        // const Toast = Swal.mixin({
-        //     // toast: true,
-        //     // position: 'top-end',
-        //     showConfirmButton: false,
-        //     timer: 5000
-        // });
+        function changeBranchModal(student, branches) {
+            const buttons = [];
+
+            // Delete all previously appended branches
+            $('#changeBranchModal .modal-body').empty().append("<div class='btn-group'></div>");
+
+            const buttonGroup = $('#changeBranchModal .modal-body .btn-group');
+            console.log(student.branch_classroom_id)
+
+            for (const branch of branches) {
+                const buttonHTML = `<a href='/students/set-classroom-branch/${student.id}/${branch.id}'>` +
+                    "<button type='button' id='' class='btn btn-default btn-flat'" +
+                    `title='Change to ${branch.name}'>` +
+                    `${branch.name}` +
+                    "</button>" +
+                    "</a>";
+
+                buttonGroup.append(buttonHTML);
+            }
+
+            $('#changeBranchModal').modal('show');
+        }
 
         Livewire.on('success', message => {
             Toast.fire({
