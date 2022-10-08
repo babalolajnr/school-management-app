@@ -71,6 +71,13 @@
                                     </button>
                                 @endcan
 
+                                @can('changeBranch', $student)
+                                    <button type="submit" class="btn btn-default btn-flat" title="Change Branch"
+                                        onclick="changeBranchModal({{ $student }}, {{ $student->classroom->branches }})">
+                                        <i class="fas fa-code-branch"></i>
+                                    </button>
+                                @endcan
+
                                 {{-- render if user is not authorized to delete --}}
                                 @cannot('delete', $student)
                                     <button type="submit" class="btn btn-default btn-flat" title="Delete" disabled>
@@ -109,4 +116,23 @@
             </tr>
         </tfoot>
     </table>
+
+    {{-- Change branch modal --}}
+    <div class="modal fade" id="changeBranchModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Select Branch</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {{-- Branches go here --}}
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 </div>
