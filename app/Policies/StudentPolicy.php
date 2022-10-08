@@ -91,4 +91,9 @@ class StudentPolicy
     {
         return $user->isAdmin() || $user->isMaster();
     }
+
+    public function changeBranch(User $user, Student $student)
+    {
+        return $user->isAdmin() || $user->isMaster();
+    }
 }

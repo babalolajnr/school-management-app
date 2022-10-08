@@ -45,9 +45,7 @@ Route::get('guardian/performance-report/{student:admission_no}/{periodSlug}', [R
 Route::get('/deactivated', [DeactivatedController::class, 'index'])->middleware(['auth:teacher,web'])->name('deactivated');
 
 /**
- *
- * Acessible to guardians only
- *
+ * Accessible to guardians only
  */
 Route::middleware('auth:guardian')->prefix('guardian')->name('guardian.')->group(function () {
     Route::get('/wards', [GuardianController::class, 'wards'])->name('wards');
@@ -57,9 +55,7 @@ Route::middleware('auth:guardian')->prefix('guardian')->name('guardian.')->group
 Route::get('guardians/edit/{guardian:phone}', [GuardianController::class, 'edit'])->middleware(['auth:web,guardian'])->name('guardian.edit');
 
 /**
- *
  *  Accessible to master-users and admins only
- *
  */
 Route::middleware(['auth:web', 'verified:web', 'activeAndVerified'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
@@ -115,6 +111,7 @@ Route::middleware(['auth:web', 'verified:web', 'activeAndVerified'])->group(func
         Route::get('/trashed', 'showTrashed')->name('show.trashed');
         Route::get('/alumni', 'getAlumni')->name('get.alumni');
         Route::get('/inactive', 'getInactiveStudents')->name('get.inactive');
+        Route::get('/set-classroom-branch/{student_id}/{branch_id}', 'setClassroomBranch')->name('set.classroom.branch');
         Route::post('/store/image/{student}', 'uploadImage')->name('upload.image');
         Route::post('/store', 'store')->name('store');
         Route::patch('/update/{student}', 'update')->name('update');
@@ -123,7 +120,6 @@ Route::middleware(['auth:web', 'verified:web', 'activeAndVerified'])->group(func
         Route::patch('/promote/{student}', 'promote')->name('promote');
         Route::patch('/demote/{student}', 'demote')->name('demote');
         Route::patch('/graduate/{student}', 'graduate')->name('graduate');
-        Route::patch('/set-classroom-branch/{student}/{branch}', 'setClassroomBranch')->name('set.classroom.branch');
         Route::patch('/restore/{id}', 'restore')->name('restore');
         Route::delete('/delete/{student}', 'destroy')->name('destroy');
         Route::delete('/force-delete/{id}', 'forceDelete')->name('force.delete');
@@ -180,7 +176,7 @@ Route::middleware(['auth:web', 'verified:web', 'activeAndVerified'])->group(func
         Route::delete('/delete/{guardian}', 'destroy')->name('destroy');
     });
 
-    //Pychomotor domain type routes
+    //Psychomotor domain type routes
     Route::controller(PDTypeController::class)->prefix('pd-types')->name('pd-type.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/edit/{pdType:slug}', 'edit')->name('edit');
@@ -221,25 +217,18 @@ Route::middleware(['auth:web', 'verified:web', 'activeAndVerified'])->group(func
 });
 
 /**
- *
  * Accessible to teachers only
- *
  */
 Route::prefix('teachers')->name('teacher.')->middleware(['auth:teacher', 'verified:web', 'activeAndVerified'])->group(function () {
-
     Route::patch('update/{teacher}', [TeacherController::class, 'update'])->name('update');
     Route::patch('/store-signature/{teacher:slug}', [TeacherController::class, 'storeSignature'])->name('store.signature');
     Route::patch('/update-password/{teacher}', [TeacherController::class, 'updatePassword'])->name('update.password');
 });
 
-
 /**
- *
  * Accessible to teachers and admins only
- *
  */
 Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerified'])->group(function () {
-
     Route::get('notifications/read/{notification}', [NotificationController::class, 'read'])->name('notification.read');
 
     Route::get('notifications/inbox', [NotificationController::class, 'inbox'])->name('notification.inbox');
@@ -259,22 +248,16 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
         Route::delete('/delete/{result}', [ResultController::class, 'destroy'])->name('destroy');
     });
 
-
     /**
-     *
      *  Accessile to only Student's current classroom teacher can access this routes
-     *
      */
     Route::prefix('teacher-remarks')->name('remark.teacher.')->middleware('studentClassTeacher')->group(function () {
-
         Route::get('/create/{student:admission_no}', [TeacherRemarkController::class, 'create'])->name('create')->where('student', '.*');
         Route::post('/store/{student}', [TeacherRemarkController::class, 'storeOrUpdate'])->name('storeOrUpdate');
     });
 
     /**
-     *
      * Accessible to Class teachers, master-users and admins only
-     *
      */
     Route::middleware('studentClassTeacherOrUser')->group(function () {
 
@@ -311,13 +294,10 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
 });
 
 /**
- *
  * Accessible to teachers, admins and guardians
  */
 Route::middleware(['auth:teacher,web,guardian'])->group(function () {
-
     Route::prefix('students')->name('student.')->group(function () {
-
         Route::get('/results/term/{student:admission_no}/{termSlug}/{academicSessionName}', [StudentController::class, 'getTermResults'])->name('get.term.results')->where('academicSessionName', '.*')->where('student', '.*');
         Route::get('/view/{student:admission_no}', [StudentController::class, 'show'])->name('show')->where('student', '.*');
         Route::get('/results/sessional/{student:admission_no}/{academicSessionName}', [StudentController::class, 'getSessionalResults'])->name('get.sessional.results')->where('academicSessionName', '.*')->where('student', '.*');
@@ -326,6 +306,4 @@ Route::middleware(['auth:teacher,web,guardian'])->group(function () {
     Route::get('results/performance-report/{student:admission_no}/{periodSlug}', [ResultController::class, 'showPerformanceReport'])->name('result.show.performance')->where('student', '.*');
 });
 
-
-
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
