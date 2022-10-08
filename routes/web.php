@@ -111,7 +111,7 @@ Route::middleware(['auth:web', 'verified:web', 'activeAndVerified'])->group(func
         Route::get('/trashed', 'showTrashed')->name('show.trashed');
         Route::get('/alumni', 'getAlumni')->name('get.alumni');
         Route::get('/inactive', 'getInactiveStudents')->name('get.inactive');
-        Route::get('/set-classroom-branch/{student_id}/{branch_id}', 'setClassroomBranch')->name('set.classroom.branch');
+        Route::get('/set-classroom-branch/{student}/{branch}', 'setClassroomBranch')->name('set.classroom.branch');
         Route::post('/store/image/{student}', 'uploadImage')->name('upload.image');
         Route::post('/store', 'store')->name('store');
         Route::patch('/update/{student}', 'update')->name('update');

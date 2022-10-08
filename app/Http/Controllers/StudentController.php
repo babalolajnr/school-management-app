@@ -396,11 +396,8 @@ class StudentController extends Controller
      * @param  Branch  $branch
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setClassroomBranch($student_id, $branch_id)
+    public function setClassroomBranch(Student $student, Branch $branch)
     {
-        $student = Student::findOrFail($student_id);
-        $branch = Branch::findOrFail($branch_id);
-
         $classroom = $student->classroom;
         $classroomBranch = BranchClassroom::where('classroom_id', $classroom->id)->where('branch_id', $branch->id)->first();
 
