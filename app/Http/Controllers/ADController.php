@@ -11,11 +11,7 @@ use Illuminate\Http\Request;
 class ADController extends Controller
 {
     /**
-     * Get affective domain creation form
-     *
-     * This method accepts an optional periodSlug parameter
-     * if the request does not have periodSlug it defaults to the
-     * active period
+     * Get affective domain form
      *
      * @param  Student  $student
      * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
@@ -89,6 +85,6 @@ class ADController extends Controller
         //     ->withProperties(['period_id' => $period->id])
         //     ->log("Stored Or Updated $student->first_name $student->last_name's affective domain record");
 
-        return redirect(route('result.show.performance', ['student' => $student, 'periodSlug' =>  Period::activePeriod()->slug]));
+        return redirect(route('result.show.performance', ['student' => $student, 'periodSlug' => Period::activePeriod()->slug]));
     }
 }
