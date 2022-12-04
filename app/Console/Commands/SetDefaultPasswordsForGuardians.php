@@ -31,8 +31,10 @@ class SetDefaultPasswordsForGuardians extends Command
         $guardians = Guardian::all();
 
         $guardians->map(function ($guardian) {
-            $guardian->password = bcrypt('password');
-            $guardian->save();
+            if (!$guardian->password) {
+                $guardian->password = bcrypt('password');
+                $guardian->save();
+            }
         });
 
         return 0;

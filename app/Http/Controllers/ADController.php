@@ -33,7 +33,7 @@ class ADController extends Controller
         if ($studentADs->count() > 1) {
             $adTypesValues = [];
 
-            //create an associative array of pdtypeid and value from the pd model
+            //create an associative array of ad_type ids and value from the ad model
             foreach ($studentADs as $studentAD) {
                 $adTypeValue = [$studentAD->a_d_type_id => $studentAD->value];
                 $adTypesValues += $adTypeValue;

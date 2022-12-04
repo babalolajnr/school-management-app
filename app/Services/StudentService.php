@@ -50,6 +50,7 @@ class StudentService
                 'phone' => $validatedData['guardian_phone'],
                 'occupation' => $validatedData['guardian_occupation'],
                 'address' => $validatedData['guardian_address'],
+                'password' => bcrypt('password')
             ]);
         }
 
