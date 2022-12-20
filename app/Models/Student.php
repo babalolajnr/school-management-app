@@ -107,7 +107,7 @@ class Student extends Model
     public static function findStudent($admission_no)
     {
         $student = Student::where('admission_no', $admission_no);
-        if (! $student->exists()) {
+        if (!$student->exists()) {
             abort(404);
         }
 
@@ -129,14 +129,14 @@ class Student extends Model
      *
      * @return mixed $students
      */
-    public static function getActiveStudents()
+    public static function activeStudents()
     {
         return Student::whereNull('graduated_at')->where('is_active', true)->get();
     }
 
     public static function countActiveStudents()
     {
-        return count(self::getActiveStudents());
+        return count(self::activeStudents());
     }
 
     /**
@@ -144,7 +144,7 @@ class Student extends Model
      *
      * @return mixed $students
      */
-    public static function getInactiveStudents()
+    public static function inactiveStudents()
     {
         return Student::where('is_active', false)->get();
     }
