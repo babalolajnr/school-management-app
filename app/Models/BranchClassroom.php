@@ -62,4 +62,14 @@ class BranchClassroom extends Pivot
     {
         return Teacher::where('id', $this->teacher_id)->first();
     }
+
+      /**
+     * Get Active Students of a classroom
+     *
+     * @return mixed
+     */
+    public function activeStudents()
+    {
+        return $this->students->whereNull('graduated_at')->where('is_active', true)->all();
+    }
 }

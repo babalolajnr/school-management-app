@@ -23,7 +23,7 @@ class DashboardController extends Controller
     public function __invoke(Request $request)
     {
         $dashboardData = FacadesCache::remember('dashboardData', 60, function () {
-            $students = Student::getActiveStudents();
+            $students = Student::activeStudents();
             $studentsNo = count($students);
             $alumni = Student::whereNotNull('graduated_at')->count();
             $teachers = Teacher::count();
@@ -51,7 +51,8 @@ class DashboardController extends Controller
 
         return view('dashboard', compact(
             'dashboardData',
-        ));
+        )
+        );
     }
 
     /** Generates data for the classrooms population chart

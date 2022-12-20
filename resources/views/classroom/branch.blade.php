@@ -47,7 +47,7 @@
                                 @endauth
                             </div>
                             <div class="card-body">
-                                <x-students-table :students="$branchClassroom->students" />
+                                <x-students-table :students="$branchClassroom->activeStudents()" />
                             </div>
                         </div>
                         @auth('web')

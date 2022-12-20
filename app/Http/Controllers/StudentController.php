@@ -58,7 +58,7 @@ class StudentController extends Controller
      */
     public function getInactiveStudents()
     {
-        $students = Student::getInactiveStudents();
+        $students = Student::inactiveStudents();
 
         return view('student.inactive', compact('students'));
     }
@@ -235,7 +235,7 @@ class StudentController extends Controller
             if ($student->image) {
                 $deletePath = $student->image;
                 $deletePath = str_replace('storage/', '', $deletePath);
-                $deletePath = 'public/'.$deletePath;
+                $deletePath = 'public/' . $deletePath;
 
                 Storage::delete($deletePath);
             }
@@ -325,7 +325,7 @@ class StudentController extends Controller
             $student->classroom_id = $newClassId;
 
             // if student has graduated, 'ungraduate' the student
-            if (! is_null($student->graduated_at)) {
+            if (!is_null($student->graduated_at)) {
                 $student->graduated_at = null;
             }
 
