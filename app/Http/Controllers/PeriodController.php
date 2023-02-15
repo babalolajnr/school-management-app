@@ -8,15 +8,13 @@ use App\Models\AcademicSession;
 use App\Models\Period;
 use App\Models\Term;
 use App\Services\PeriodService;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class PeriodController extends Controller
 {
-    /**
-     * get periods page
-     *
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function index()
+    public function index(): View|Factory
     {
         $periods = Period::with(['term', 'academicSession'])->get();
         $academicSessions = AcademicSession::all();
@@ -25,13 +23,7 @@ class PeriodController extends Controller
         return view('period.index', compact('periods', 'academicSessions', 'terms'));
     }
 
-    /**
-     * store period.
-     *
-     * @param  StorePeriodRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(StorePeriodRequest $request)
+    public function store(StorePeriodRequest $request): RedirectResponse
     {
         $periodService = new PeriodService();
 
@@ -40,38 +32,20 @@ class PeriodController extends Controller
         return back()->with('success', 'Record Created!');
     }
 
-    /**
-     * edit period
-     *
-     * @param  Period  $period
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function edit(Period $period)
+    public function edit(Period $period): View|Factory
     {
         return view('period.edit', compact('period'));
     }
 
-    /**
-     * update period
-     *
-     * @param  UpdatePeriodRequest  $request
-     * @param  Period  $period
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(UpdatePeriodRequest $request, Period $period)
+ 
+    public function update(UpdatePeriodRequest $request, Period $period): RedirectResponse
     {
         $period->update($request->validated());
 
         return back()->with('success', 'Period updated successfully');
     }
 
-    /**
-     * Set active period
-     *
-     * @param  \App\Models\Period  $period
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function setActivePeriod(Period $period)
+    public function setActivePeriod(Period $period): RedirectResponse
     {
         $activePeriod = Period::where('active', true)->first();
 
@@ -84,13 +58,8 @@ class PeriodController extends Controller
         return back()->with('success', "{$period->academicSession->name} {$period->term->name} is now active");
     }
 
-    /**
-     * destroy period
-     *
-     * @param  \App\Models\Period  $period
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function destroy(Period $period)
+    
+    public function destroy(Period $period): RedirectResponse
     {
         try {
             $period->delete();
@@ -102,5 +71,19 @@ class PeriodController extends Controller
         }
 
         return back()->with('success', 'Deleted!');
+    }
+
+    /**
+     * When results of a period is published guardians can view the result of their wards from their portals
+     */
+    public function togglePublishResults(Period $period): RedirectResponse
+    {
+        if (!$period->results_published_at) {
+            $period->update(['results_published_at' => now()]);
+            return back()->with('success', 'Results published!');
+        }
+        
+        $period->update(['results_published_at' => null]);
+        return back()->with('success', 'Results unpublished!');
     }
 }

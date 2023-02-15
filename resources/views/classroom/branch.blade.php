@@ -41,7 +41,7 @@
                                 @auth('web')
                                     <span class="col-6 d-flex justify-content-end"><button
                                             class="btn btn-sm btn-flat btn-outline-secondary"
-                                            onclick="emailClassPerformanceReportConfirmationModal('{{ route('email.class.performace.report', ['classroom' => $classroom]) }}')">Email
+                                            onclick="emailClassPerformanceReportConfirmationModal('{{ route('email.class.performance.report', ['classroom' => $classroom]) }}')">Email
                                             Class Performance
                                             Report</button></span>
                                 @endauth

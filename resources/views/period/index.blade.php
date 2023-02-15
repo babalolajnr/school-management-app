@@ -5,8 +5,7 @@
         <link rel="stylesheet" href="{{ asset('TAssets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
         <link rel="stylesheet"
             href="{{ asset('TAssets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-        <link rel="stylesheet"
-            href="{{ asset('TAssets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('TAssets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
         <!-- Tempusdominus Bootstrap 4 -->
         <link rel="stylesheet"
@@ -49,7 +48,8 @@
                                         <select class="form-control select2" name="academic_session"
                                             style="width: 100%;">
                                             @foreach ($academicSessions as $academicSession)
-                                                <option @if (old('academic_session') == $academicSession->name) SELECTED @endif value="{{ $academicSession->name }}">
+                                                <option @if (old('academic_session') == $academicSession->name) SELECTED @endif
+                                                    value="{{ $academicSession->name }}">
                                                     {{ $academicSession->name }}
                                                     ({{ $academicSession->start_date }} to
                                                     {{ $academicSession->end_date }})
@@ -64,7 +64,8 @@
                                         <label for="Term">Term</label>
                                         <select class="form-control select2" name="term" style="width: 100%;">
                                             @foreach ($terms as $term)
-                                                <option @if (old('term') == $term) SELECTED @endif>{{ $term->name }}
+                                                <option @if (old('term') == $term) SELECTED @endif>
+                                                    {{ $term->name }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -93,8 +94,7 @@
                                         <div class="input-group date" id="endDate" data-target-input="nearest">
                                             <input type="text"
                                                 class="form-control @error('end_date') is-invalid @enderror datetimepicker-input"
-                                                data-target="#endDate" value="{{ old('end_date') }}"
-                                                name="end_date" />
+                                                data-target="#endDate" value="{{ old('end_date') }}" name="end_date" />
                                             <div class="input-group-append" data-target="#endDate"
                                                 data-toggle="datetimepicker">
                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
@@ -107,8 +107,7 @@
                                     <div class="form-group">
                                         <label for="No of times school opened">No of times school opened</label>
                                         <input type="number" class="form-control"
-                                            value="{{ old('no_times_school_opened') }}"
-                                            name="no_times_school_opened">
+                                            value="{{ old('no_times_school_opened') }}" name="no_times_school_opened">
                                         @error('no_times_school_opened')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -142,8 +141,8 @@
                                                 <td>{{ $period->rank }}</td>
                                                 <td>
                                                     {{ $period->term->name }} {{ $period->academicSession->name }}
-                                                    @if ($period->isActive()) <span
-                                                            class="pl-3" title="Current Period"><i
+                                                    @if ($period->isActive())
+                                                        <span class="pl-3" title="Current Period"><i
                                                                 class="fas fa-check text-green-600"></i></span>
                                                     @endif
                                                 </td>
@@ -163,7 +162,7 @@
                                                         </a>
                                                         <button type="button" class="btn btn-danger btn-flat"
                                                             title="Delete"
-                                                            onclick="deleteConfirmationModal('{{ route('period.delete', ['period' => $period]) }}', '{{ $period->name }}')">
+                                                            onclick="deleteConfirmationModal('{{ route('period.delete', ['period' => $period]) }}', '{{ $period->slug }}')">
                                                             <i class="fas fa-trash"></i>
                                                         </button>
 
@@ -178,13 +177,29 @@
                                                                 method="POST">
                                                                 @csrf
                                                                 @method('PATCH')
-                                                                <button type="submit" class="btn btn-default btn-flat"
+                                                                <button type="submit"
+                                                                    class="btn btn-default btn-flat"
                                                                     title="Set as active period">
                                                                     <i class="fas fa-toggle-off text-red-500"></i>
                                                                 </button>
                                                             </form>
                                                         @endif
 
+                                                        @php
+                                                            $publishResultsRoute = route('period.toggle-publish-results', ['period' => $period]);
+                                                            $action = $period->resultsPublished() ? 'unpublish' : 'publish';
+                                                        @endphp
+                                                        <button type="button"
+                                                            class="btn @if ($period->resultsPublished()) btn-danger @else btn-success @endif btn-flat"
+                                                            title="@if ($period->resultsPublished()) Unpublish Results @else Publish Results @endif"
+                                                            onclick="togglePublishResultsConfirmationModal('{{ $publishResultsRoute }}', '{{ $period->slug }}', '{{ $action }}')">
+
+                                                            @if ($period->resultsPublished())
+                                                                <i class="fa fa-times"></i>
+                                                            @else
+                                                                <i class="fa fa-check"></i>
+                                                            @endif
+                                                        </button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -232,35 +247,51 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+    <div class="modal fade" id="toggle-publish-results-confirmation-modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirmation</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to <span id="action"></span> results for <span id="item-name"
+                        class="font-bold"></span>?
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <form action="" method="POST" id="toggle-form">
+                        @method('PATCH')
+                        @csrf
+                        <button type="submit" class="btn btn-danger">Yes</button>
+                    </form>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
 
     <x-slot name="scripts">
 
         <!-- DataTables  & Plugins -->
-        <script src="{{ asset('TAssets/plugins/datatables/jquery.dataTables.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}">
-        </script>
+        <script src="{{ asset('TAssets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('TAssets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('TAssets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('TAssets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
         <script src="{{ asset('TAssets/plugins/jszip/jszip.min.js') }}"></script>
         <script src="{{ asset('TAssets/plugins/pdfmake/pdfmake.min.js') }}"></script>
         <script src="{{ asset('TAssets/plugins/pdfmake/vfs_fonts.js') }}"></script>
-        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.html5.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.print.min.js') }}">
-        </script>
-        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}">
-        </script>
+        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+        <script src="{{ asset('TAssets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
         <script src="{{ asset('TAssets/plugins/moment/moment.min.js') }}"></script>
         <!-- Tempusdominus Bootstrap 4 -->
-        <script src="{{ asset('TAssets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}">
-        </script>
+        <script src="{{ asset('TAssets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 
         <!-- AdminLTE App -->
         <script>
@@ -277,6 +308,13 @@
                 $('#yesDeleteConfirmation').attr("action", url)
                 $('#deleteItemName').html(name)
                 $('#deleteConfirmationModal').modal('show')
+            }
+
+            function togglePublishResultsConfirmationModal(url, name, action) {
+                $('#toggle-publish-results-confirmation-modal #toggle-form').attr("action", url)
+                $('#toggle-publish-results-confirmation-modal #item-name').html(name.replace(/-/g, ' '))
+                $('#toggle-publish-results-confirmation-modal #action').html(action)
+                $('#toggle-publish-results-confirmation-modal').modal('show')
             }
 
             $(function() {
