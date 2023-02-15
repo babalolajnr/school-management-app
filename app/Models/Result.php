@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Result extends Model
 {
@@ -16,33 +17,23 @@ class Result extends Model
      */
     protected $fillable = ['total', 'subject_id', 'student_id', 'period_id', 'ca', 'exam', 'classroom_id'];
 
-    /**
-     * period
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function period()
+    public function period(): BelongsTo
     {
         return $this->belongsTo(Period::class);
     }
 
-    /**
-     * subject
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function subject()
+    public function subject(): BelongsTo
     {
         return $this->belongsTo(Subject::class);
     }
 
-    /**
-     * student
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function student()
+    public function student(): BelongsTo
     {
         return $this->belongsTo(Student::class);
+    }
+
+    public function classroom(): BelongsTo
+    {
+        return $this->belongsTo(Classroom::class);
     }
 }
