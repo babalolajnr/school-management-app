@@ -14,24 +14,21 @@ use App\Models\Student;
 use App\Models\Term;
 use App\Services\StudentService;
 use Exception;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
     /**
      * Show students page
-     *
-     * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(): View
     {
-        $students = Student::with('guardian')->whereNull('graduated_at')->get();
-
-        // Filter out inactive students
-        $students = $students->filter(function ($student) {
-            return $student->isActive();
-        });
+        $students = Student::with(['guardian', 'classroom.branches'])->whereNull('graduated_at')->whereIsActive(true)->get();
 
         $academicSessions = AcademicSession::all()->sortByDesc('created_at');
         $terms = Term::all()->sortByDesc('created_at');
@@ -39,73 +36,43 @@ class StudentController extends Controller
         return view('student.index', compact('students', 'academicSessions', 'terms'));
     }
 
-    /**
-     * Get Alumni
-     *
-     * @return \Illuminate\View\View
-     */
-    public function getAlumni()
+    public function getAlumni(): View
     {
         $students = Student::whereNotNull('graduated_at')->get();
 
         return view('alumni.index', compact('students'));
     }
 
-    /**
-     * Get Inactive Students
-     *
-     * @return \Illuminate\View\View
-     */
-    public function getInactiveStudents()
+    public function getInactiveStudents(): View
     {
         $students = Student::inactiveStudents();
 
         return view('student.inactive', compact('students'));
     }
 
-    /**
-     * Show create student view
-     *
-     * @return \Illuminate\View\View
-     */
-    public function create()
+    public function create(): View
     {
         $classrooms = Classroom::pluck('name')->all();
 
         return view('student.create', compact('classrooms'));
     }
 
-    /**
-     * Store student
-     *
-     * @param  StoreStudentRequest  $request
-     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
-     */
-    public function store(StoreStudentRequest $request)
+    public function store(StoreStudentRequest $request): Redirector|RedirectResponse
     {
         StudentService::store($request);
 
         return redirect()->route('student.index')->with('success', 'Student Added!');
     }
 
-    /**
-     * Show student
-     *
-     * @param  Student  $student
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
-     */
-    public function show(Student $student)
+    public function show(Student $student): View|Factory
     {
         return view('student.show', StudentService::show($student));
     }
 
     /**
      * Activate Student
-     *
-     * @param  Student  $student
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function activate(Student $student)
+    public function activate(Student $student): RedirectResponse
     {
         $student->is_active = true;
         $student->save();
@@ -115,11 +82,8 @@ class StudentController extends Controller
 
     /**
      * Deactivate student
-     *
-     * @param  Student  $student
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function deactivate(Student $student)
+    public function deactivate(Student $student): RedirectResponse
     {
         $student->is_active = false;
         $student->save();
@@ -129,11 +93,8 @@ class StudentController extends Controller
 
     /**
      * Edit student
-     *
-     * @param  Student  $student
-     * @return \Illuminate\Contracts\View\View
      */
-    public function edit(Student $student)
+    public function edit(Student $student): View
     {
         $classrooms = Classroom::pluck('name')->all();
 
@@ -143,11 +104,8 @@ class StudentController extends Controller
     /**
      * Update student's record
      *
-     * @param  Student  $student
-     * @param  UpdateStudentRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Student $student, UpdateStudentRequest $request)
+    public function update(Student $student, UpdateStudentRequest $request): RedirectResponse
     {
         $classroom_id = Classroom::where('name', $request->validated()['classroom'])->first()->id;
         $student->update($request->validated() + ['classroom_id' => $classroom_id]);
@@ -157,12 +115,8 @@ class StudentController extends Controller
 
     /**
      * Get student's sessional results
-     *
-     * @param  Student  $student
-     * @param  mixed  $academicSessionName
-     * @return \Illuminate\Contracts\View\View
      */
-    public function getSessionalResults(Student $student, $academicSessionName)
+    public function getSessionalResults(Student $student, string $academicSessionName): View
     {
         $sessionalResults = StudentService::getSessionalResults($student, $academicSessionName);
 
@@ -171,13 +125,8 @@ class StudentController extends Controller
 
     /**
      * Get student's term results
-     *
-     * @param  Student  $student
-     * @param  mixed  $termSlug
-     * @param  mixed  $academicSessionName
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function getTermResults(Student $student, $termSlug, $academicSessionName)
+    public function getTermResults(Student $student, string $termSlug, string $academicSessionName): View|RedirectResponse
     {
         try {
             $termResults = StudentService::getTermResults($student, $termSlug, $academicSessionName);
@@ -190,11 +139,8 @@ class StudentController extends Controller
 
     /**
      * Soft delete student record
-     *
-     * @param  Student  $student
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Student $student)
+    public function destroy(Student $student): RedirectResponse
     {
         $this->authorize('delete', $student);
 
@@ -205,12 +151,8 @@ class StudentController extends Controller
 
     /**
      * Delete student's record permanently
-     *
-     * @param  mixed  $id
-     * @param  Student  $student
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function forceDelete($id, Student $student)
+    public function forceDelete(string $id, Student $student): RedirectResponse
     {
         $this->authorize('delete', $student);
 
@@ -240,7 +182,7 @@ class StudentController extends Controller
                 Storage::delete($deletePath);
             }
         } catch (\Throwable $th) {
-            return back()->with('error', "An error occured during the request. Please try again, Error code: {$th->getCode()}");
+            return back()->with('error', "An error occurred during the request. Please try again, Error code: {$th->getCode()}");
         }
 
         return back()->with('success', 'Student deleted permanently');
@@ -248,12 +190,8 @@ class StudentController extends Controller
 
     /**
      * Upload student's image
-     *
-     * @param  Student  $student
-     * @param  Request  $request
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function uploadImage(Student $student, Request $request)
+    public function uploadImage(Student $student, Request $request):RedirectResponse
     {
         StudentService::uploadImage($student, $request);
 
@@ -262,11 +200,8 @@ class StudentController extends Controller
 
     /**
      * Show Student's settings view
-     *
-     * @param  Student  $student
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function showStudentSettingsView(Student $student)
+    public function showStudentSettingsView(Student $student): RedirectResponse|View
     {
         $currentAcademicSession = Period::activePeriod()->academicSession;
 
@@ -282,11 +217,8 @@ class StudentController extends Controller
 
     /**
      * Promote Student
-     *
-     * @param  Student  $student
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function promote(Student $student)
+    public function promote(Student $student): RedirectResponse
     {
         $classRank = $student->classroom->rank;
         $highestClassRank = Classroom::max('rank');
@@ -309,11 +241,8 @@ class StudentController extends Controller
 
     /**
      * Demote student
-     *
-     * @param  Student  $student
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function demote(Student $student)
+    public function demote(Student $student): RedirectResponse
     {
         $classRank = $student->classroom->rank;
         $lowestClassRank = Classroom::min('rank');
@@ -339,10 +268,8 @@ class StudentController extends Controller
 
     /**
      * Show trashed students
-     *
-     * @return \Illuminate\Contracts\View\View
      */
-    public function showTrashed()
+    public function showTrashed(): View
     {
         $students = Student::onlyTrashed()->get();
 
@@ -352,10 +279,8 @@ class StudentController extends Controller
     /**
      * Restore deleted student
      *
-     * @param  mixed  $id
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function restore($id)
+    public function restore(string $id): RedirectResponse
     {
         $student = Student::withTrashed()->findOrFail($id);
         $student->restore();
@@ -365,12 +290,8 @@ class StudentController extends Controller
 
     /**
      * Store student gradation date
-     *
-     * @param  Student  $student
-     * @param  Request  $request
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function graduate(Student $student, Request $request)
+    public function graduate(Student $student, Request $request): RedirectResponse
     {
         if (Period::activePeriodIsNotSet()) {
             return back()->with('error', 'Active Period is not set');
@@ -391,12 +312,8 @@ class StudentController extends Controller
 
     /**
      * Set Classroom branch in which student belongs
-     *
-     * @param  Student  $student
-     * @param  Branch  $branch
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function setClassroomBranch(Student $student, Branch $branch)
+    public function setClassroomBranch(Student $student, Branch $branch): RedirectResponse
     {
         $classroom = $student->classroom;
         $classroomBranch = BranchClassroom::where('classroom_id', $classroom->id)->where('branch_id', $branch->id)->first();

@@ -153,6 +153,6 @@ class Period extends Model
 
     public static function publishedResultsPeriods(): Collection
     {
-        return Period::whereNotNull('results_published_at')->get();
+        return Period::with(['academicSession', 'term'])->whereNotNull('results_published_at')->get();
     }
 }

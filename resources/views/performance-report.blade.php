@@ -61,7 +61,7 @@
             <div class="flex w-full mt-2 space-x-3">
                 <div class="flex grow space-x-1">
                     <label for="" class="font-bold">Class</label>
-                    <input type="text" disabled value="{{ $classroom }}"
+                    <input type="text" disabled value="{{ $classroom->name }}"
                         class="bg-transparent border-b border-black grow text-center">
                 </div>
                 <div class="flex grow space-x-1">

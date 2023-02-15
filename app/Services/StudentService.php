@@ -152,7 +152,7 @@ class StudentService
     public static function show($student): array
     {
         //get results that have unique academic sessions
-        $results = Result::where('student_id', $student->id)->get();
+        $results = Result::with(['period.academicSession'])->where('student_id', $student->id)->get();
         $periods = [];
 
         foreach ($results as $result) {

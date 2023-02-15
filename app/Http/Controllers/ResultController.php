@@ -11,8 +11,10 @@ use App\Models\Student;
 use App\Models\Subject;
 use App\Services\ResultGenerationService;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\View\View;
 
 class ResultController extends Controller
 {
@@ -101,17 +103,13 @@ class ResultController extends Controller
 
     /**
      * Get student performance report
-     *
-     * @param  Student  $student
-     * @param  string  $periodSlug
-     * @return \Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function showPerformanceReport(Student $student, $periodSlug)
+    public function showPerformanceReport(Student $student, string $periodSlug): RedirectResponse|View
     {
-        $resultService = new ResultGenerationService($student);
-
+        $period = Period::where('slug', $periodSlug)->firstOrFail();
+        $resultService = new ResultGenerationService($student, $period);
         try {
-            $data = $resultService->generateReport($periodSlug);
+            $data = $resultService->generateReport();
         } catch (Exception $e) {
             if ($e->getMessage() == "Student's class does not have subjects") {
                 return redirect()->route('classroom.show', ['classroom' => $student->classroom])->with('error', 'The student\'s class does not have subjects set for the selected academic session');

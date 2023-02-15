@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -192,5 +193,12 @@ class Student extends Model
     public function mainTeacher()
     {
         return $this->branchClassroom->mainTeacher();
+    }
+
+    public function age(): int
+    {
+        $currentDate = now()->year;
+        $yearOfBirth = Carbon::createFromFormat('Y-m-d', $this->date_of_birth)->format('Y');
+        return $currentDate - (int) $yearOfBirth;
     }
 }
