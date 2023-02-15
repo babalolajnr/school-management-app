@@ -200,6 +200,7 @@ Route::middleware(['auth:web', 'verified:web', 'activeAndVerified'])->group(func
         Route::get('/edit/{period:slug}', 'edit')->name('edit');
         Route::post('/store', 'store')->name('store');
         Route::patch('/update/{period:slug}', 'update')->name('update');
+        Route::patch('/toggle-publish-results/{period}', 'togglePublishResults')->name('toggle-publish-results');
         Route::patch('/set-active/{period:slug}', 'setActivePeriod')->name('set-active-period');
         Route::delete('/delete/{period:slug}', 'destroy')->name('delete');
     });
@@ -213,7 +214,7 @@ Route::middleware(['auth:web', 'verified:web', 'activeAndVerified'])->group(func
         Route::delete('/delete/{fee}', 'destroy')->name('destroy');
     });
 
-    Route::get('email-class-performace-report/{classroom}', [ResultController::class, 'sendClassroomPerformanceReportEmail'])->name('email.class.performace.report');
+    Route::get('email-class-performance-report/{classroom}', [ResultController::class, 'sendClassroomPerformanceReportEmail'])->name('email.class.performance.report');
 });
 
 /**
@@ -249,16 +250,14 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
     });
 
     /**
-     *  Accessile to only Student's current classroom teacher can access this routes
+     *  Accessible to only Student's current classroom teacher can access this routes
      */
     Route::prefix('teacher-remarks')->name('remark.teacher.')->middleware('studentClassTeacher')->group(function () {
         Route::get('/create/{student:admission_no}', [TeacherRemarkController::class, 'create'])->name('create')->where('student', '.*');
         Route::post('/store/{student}', [TeacherRemarkController::class, 'storeOrUpdate'])->name('storeOrUpdate');
     });
 
-    /**
-     * Accessible to Class teachers, master-users and admins only
-     */
+    // Accessible to Class teachers, master-users and admins only
     Route::middleware('studentClassTeacherOrUser')->group(function () {
 
         // student routes
@@ -279,7 +278,7 @@ Route::middleware(['auth:teacher,web', 'verified:teacher,web', 'activeAndVerifie
             Route::post('/store/{student}/{periodSlug?}', [AttendanceController::class, 'storeOrUpdate'])->name('store');
         });
 
-        //Pychomotor Domain Routes
+        //Psychomotor Domain Routes
         Route::prefix('pds')->name('pd.')->group(function () {
             Route::get('/create/{student:admission_no}', [PDController::class, 'create'])->name('create')->where('student', '.*');
             Route::post('/store/{student}/{periodSlug?}', [PDController::class, 'storeOrUpdate'])->name('storeOrUpdate');

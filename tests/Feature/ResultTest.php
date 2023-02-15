@@ -138,7 +138,7 @@ class ResultTest extends TestCase
     //             ]);
     //         }
     //     );
-    //     $response = $this->actingAs($user)->get(route('email.class.performace.report', ['classroom' => $classroom->id]));
+    //     $response = $this->actingAs($user)->get(route('email.class.performance.report', ['classroom' => $classroom->id]));
     //     $response->assertStatus(302);
     // }
 }

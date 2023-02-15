@@ -2,8 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Period extends Model
 {
@@ -41,131 +44,115 @@ class Period extends Model
 
     /**
      * Fee relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function fee()
+    public function fee(): HasMany
     {
         return $this->hasMany(Fee::class);
     }
 
     /**
      * Attendance relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function attendance()
+    public function attendance(): HasMany
     {
         return $this->hasMany(Attendance::class);
     }
 
     /**
      * Term relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function term()
+    public function term(): BelongsTo
     {
         return $this->belongsTo(Term::class);
     }
 
     /**
      * AcademicSession relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function academicSession()
+    public function academicSession(): BelongsTo
     {
         return $this->belongsTo(AcademicSession::class);
     }
 
     /**
      * Results relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function results()
+    public function results(): HasMany
     {
         return $this->hasMany(Result::class);
     }
 
     /**
      * Pds relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function pds()
+    public function pds(): HasMany
     {
         return $this->hasMany(PD::class);
     }
 
     /**
      * Teacher Remarks relationship
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function teacherRemarks()
+    public function teacherRemarks(): HasMany
     {
         return $this->hasMany(TeacherRemark::class);
     }
 
     /**
      * Checks if period is active
-     *
-     * @return bool
      */
-    public function isActive()
+    public function isActive(): bool
     {
         return $this->active == true;
     }
 
     /**
      * Get active period
-     *
-     * @return Period $activePeriod
      */
-    public static function activePeriod()
+    public static function activePeriod(): Period
     {
         return Period::whereActive(true)->first();
     }
 
     /**
      * check if active period is set
-     *
-     * @return bool
      */
-    public static function activePeriodIsSet()
+    public static function activePeriodIsSet(): bool
     {
         return Period::activePeriod() ? true : false;
     }
 
     /**
      * check if active period is not set
-     *
-     * @return bool
      */
-    public static function activePeriodIsNotSet()
+    public static function activePeriodIsNotSet(): bool
     {
-        return ! Period::activePeriodIsSet();
+        return !Period::activePeriodIsSet();
     }
 
     /**
      * Get current academic session
      *
-     * @return AcademicSession|null
      */
-    public static function currentAcademicSession()
+    public static function currentAcademicSession(): AcademicSession|null
     {
         return Period::activePeriod()?->academicSession;
     }
 
     /**
      * Get current term
-     *
-     * @return Term|null
      */
-    public static function currentTerm()
+    public static function currentTerm(): Term|null
     {
         return Period::activePeriod()?->term;
+    }
+
+    public function resultsPublished(): bool {
+        return $this->results_published_at != null;
+    }
+
+    public static function publishedResultsPeriods(): Collection
+    {
+        return Period::whereNotNull('results_published_at')->get();
     }
 }
