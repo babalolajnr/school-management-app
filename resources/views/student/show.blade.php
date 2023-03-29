@@ -340,6 +340,25 @@
                                         @endforeach
                                     @endauth
 
+                                    @auth('teacher')
+                                        <option
+                                            value="{{ route('student.get.term.results', ['student' => $student, 'academicSessionName' => $activePeriod->academicSession->name, 'termSlug' => $activePeriod->term->slug]) }}">
+                                            {{ $activePeriod->academicSession->name }} {{ $activePeriod->term->name }}
+                                            (Current Term)
+                                        </option>
+                                        @foreach ($academicSessions as $academicSession)
+                                            @foreach ($terms as $term)
+                                                @if ($activePeriod->academicSession->id == $academicSession->id && $activePeriod->term->id == $term->id)
+                                                    @continue
+                                                @endif
+                                                <option
+                                                    value="{{ route('student.get.term.results', ['student' => $student, 'academicSessionName' => $academicSession->name, 'termSlug' => $term->slug]) }}">
+                                                    {{ $academicSession->name }} {{ $term->name }}
+                                                </option>
+                                            @endforeach
+                                        @endforeach
+                                    @endauth
+
                                     {{-- If the current user is a guardian show only published results --}}
                                     @auth('guardian')
                                         @foreach (App\Models\Period::publishedResultsPeriods() as $period)

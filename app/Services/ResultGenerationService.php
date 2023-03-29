@@ -33,7 +33,6 @@ class ResultGenerationService
     {
         $classroom = $this->getClassroom();
         
-        //Get the subjects for the student's class in the selected period Academic Session
         $subjects = $this->getPeriodSubjects($classroom);
         $attendance = $this->student->attendances()->where('period_id', $this->period->id)->first();
 
@@ -226,9 +225,11 @@ class ResultGenerationService
         ];
     }
 
+    /**
+     * Get the subjects for the student's class in the selected period's Academic Session
+     */
     private function getPeriodSubjects(Classroom $classroom): Collection
     {
-        //Get the subjects for the student's class in the selected period's Academic Session
         $classroom_subjects = DB::table('classroom_subject')
             ->where('academic_session_id', $this->period->academicSession->id)
             ->where('classroom_id', $classroom->id)
