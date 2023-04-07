@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Auth\Guardian;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\GuardianLoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthenticatedSessionController extends Controller
+class GuardianAuthenticatedSessionController extends Controller
 {
     /**
      * Display the login view.
