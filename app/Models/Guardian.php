@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\GuardianResetPassword;
 use Illuminate\Auth\Passwords\CanResetPassword as PasswordsCanResetPassword;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -37,5 +38,18 @@ class Guardian extends Authenticatable implements CanResetPassword
     public function children()
     {
         return $this->hasMany(Student::class);
+    }
+
+    /**
+     * Send Password reset notification
+     *
+     * @param  mixed  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $notification = new GuardianResetPassword($token);
+
+        $this->notify($notification);
     }
 }

@@ -49,9 +49,11 @@ class DashboardController extends Controller
             return $dashboardData;
         });
 
-        return view('dashboard', compact(
-            'dashboardData',
-        )
+        return view(
+            'dashboard',
+            compact(
+                'dashboardData',
+            )
         );
     }
 

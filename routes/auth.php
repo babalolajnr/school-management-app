@@ -4,9 +4,9 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
-use App\Http\Controllers\Auth\Guardian\AuthenticatedSessionController as GuardianAuthenticatedSessionController;
-use App\Http\Controllers\Auth\Guardian\NewPasswordController as GuardianNewPasswordController;
-use App\Http\Controllers\Auth\Guardian\PasswordResetLinkController as GuardianPasswordResetLinkController;
+use App\Http\Controllers\Auth\GuardianAuthenticatedSessionController;
+use App\Http\Controllers\Auth\GuardianNewPasswordController;
+use App\Http\Controllers\Auth\GuardianPasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -98,9 +98,7 @@ Route::prefix('teachers')->name('teacher.')->group(function () {
 
 
 Route::prefix('guardians')->name('guardian.')->group(function () {
-
     Route::middleware('guest:guardian,web,teacher')->group(function () {
-
         Route::controller(GuardianNewPasswordController::class)->group(function () {
             Route::get('/reset-password/{token}',  'create')->name('password.reset');
             Route::post('/reset-password',  'store')->name('password.update');
