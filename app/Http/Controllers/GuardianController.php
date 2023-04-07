@@ -163,6 +163,9 @@ class GuardianController extends Controller
      */
     public function wards(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory
     {
+        /**
+         * @var Guardian $user
+         */
         $user = auth('guardian')->user();
 
         $wards = $user->children()->get();
