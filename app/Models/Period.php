@@ -109,7 +109,7 @@ class Period extends Model
     /**
      * Get active period
      */
-    public static function activePeriod(): Period
+    public static function activePeriod(): Period|null
     {
         return Period::whereActive(true)->first();
     }
@@ -147,7 +147,8 @@ class Period extends Model
         return Period::activePeriod()?->term;
     }
 
-    public function resultsPublished(): bool {
+    public function resultsPublished(): bool
+    {
         return $this->results_published_at != null;
     }
 
