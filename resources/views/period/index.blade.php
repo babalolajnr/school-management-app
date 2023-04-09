@@ -187,7 +187,7 @@
 
                                                         @php
                                                             $publishResultsRoute = route('period.toggle-publish-results', ['period' => $period]);
-                                                            $action = $period->resultsPublished() ? 'unpublish' : 'publish';
+                                                            $action = $period->resultsPublished() ? 'Published' : 'Not Published';
                                                         @endphp
                                                         <button type="button"
                                                             class="btn @if ($period->resultsPublished()) btn-danger @else btn-success @endif btn-flat"
@@ -195,9 +195,9 @@
                                                             onclick="togglePublishResultsConfirmationModal('{{ $publishResultsRoute }}', '{{ $period->slug }}', '{{ $action }}')">
 
                                                             @if ($period->resultsPublished())
-                                                                <i class="fa fa-times"></i>
-                                                            @else
                                                                 <i class="fa fa-check"></i>
+                                                                @else
+                                                                <i class="fa fa-times"></i>
                                                             @endif
                                                         </button>
                                                     </div>
