@@ -1,0 +1,20 @@
+# Exclude files and directories generated during the build process
+!.env
+.env.example
+.env.*.local
+.phpunit.result.cache
+vendor/
+composer.lock
+npm-debug.log
+yarn-error.log
+yarn.lock
+/public/js
+/public/css
+/public/mix-manifest.json
+/public/storage
+/public/hot
+/storage/*.key
+/storage/logs/*.log
+bootstrap/cache/*.php
+/.idea
+/.vscode

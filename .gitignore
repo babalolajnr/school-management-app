@@ -20,3 +20,4 @@ radiant_minds_school.sql
 _ide_helper.php
 _ide_helper_models.php
 .env.testing
+/mysql-data
